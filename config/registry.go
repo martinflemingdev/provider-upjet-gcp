@@ -19,7 +19,7 @@ import (
 	"github.com/crossplane/upjet/pkg/types/name"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-provider-google/google/provider"
+	provider "github.com/hashicorp/terraform-provider-google-beta/google-beta/provider"
 	"github.com/pkg/errors"
 
 	"github.com/upbound/provider-gcp/hack"
