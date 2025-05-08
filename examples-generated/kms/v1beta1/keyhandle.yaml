@@ -1,0 +1,14 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyHandle
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1beta1/keyhandle
+  labels:
+    testing.upbound.io/example-name: example-keyhandle
+  name: example-keyhandle
+spec:
+  forProvider:
+    location: global
+    project: ${google_project.resource_project.project_id}
+    provider: ${google-beta}
+    resourceTypeSelector: storage.googleapis.com/Bucket
