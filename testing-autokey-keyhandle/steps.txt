@@ -1,0 +1,52 @@
+MAKE A CLEAN BRANCH
+
+0) go clean -cache -modcache
+
+1) switch to google-beta in:
+
+	config/registry.go
+		import (provider "github.com/hashicorp/terraform-provider-google-beta/google-beta/provider")
+
+	go.mod
+		go get github.com/hashicorp/terraform-provider-google-beta@d6b73f5ceea399fa956b8b4485c9a3039cf59775
+		require (github.com/hashicorp/terraform-provider-google-beta v1.20.1-0.20250506155311-d6b73f5ceea3)
+	MAKEFILE
+		export TERRAFORM_PROVIDER_SOURCE := hashicorp/google-beta
+		export TERRAFORM_PROVIDER_NAME := terraform-provider-google-beta
+		export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/$(TERRAFORM_PROVIDER_NAME)	
+
+2) remove all generated files
+
+	rm -fr apis/ EXCEPT v1alpha1/ and v1beta1/ and kms/
+	rm -fr cmd/provider/ AND recreate an empty one
+	rm -fr internal/controller/ EXCEPT providerconfig/ AND recreate an empty one
+	rm -f config/schema.json
+
+3) add this to config/externalname.go:
+
+	// terraform import google_kms_key_handle.default "projects/{{project}}/locations/{{location}}/keyHandles/{{name}}"
+	"google_kms_key_handle": config.TemplatedStringAsIdentifier("name", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/keyHandles/{{ .external_name }}"),
+
+make submodules
+make generate
+
+4) make build-provider.kms
+
+docker load -i /home/martinfleming/src/github.com/martinflemingdev/provider-upjet-gcp/_output/xpkg/linux_amd64/provider-gcp-kms-v0.0.0-1341.gc536533c.xpkg
+
+docker tag sha256:ea486569703fe53f9533ff9a3b14de090a901d7731d52e0d77a1706b706648bd martinflemingdev/provider-gcp-kms:forkit
+
+docker push martinflemingdev/provider-gcp-kms:forkit
+
+k apply -f provider-kms
+
+kubectl create clusterrole provider-gcp-config-manager \
+  --verb=get,list,watch \
+  --resource=providerconfigs,providerconfigusages \
+  --api-group=gcp.upbound.io
+
+
+kubectl create clusterrolebinding provider-gcp-kms-config \
+  --clusterrole=provider-gcp-config-manager \
+  --serviceaccount=crossplane-system:provider-gcp-kms-5c286b82365f
+
