@@ -26,17 +26,6 @@ type CryptoKeyInitParameters struct {
 	// Whether this key may contain imported versions only.
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
 
-	// The policy used for Key Access Justifications Policy Enforcement. If this
-	// field is present and this key is enrolled in Key Access Justifications
-	// Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and
-	// sign operations, and the operation will fail if rejected by the policy. The
-	// policy is defined by specifying zero or more allowed justification codes.
-	// https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes
-	// By default, this field is absent, and all justification codes are allowed.
-	// This field is currently in beta and is subject to change.
-	// Structure is documented below.
-	KeyAccessJustificationsPolicy *KeyAccessJustificationsPolicyInitParameters `json:"keyAccessJustificationsPolicy,omitempty" tf:"key_access_justifications_policy,omitempty"`
-
 	// Labels with user-defined metadata to apply to this resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
@@ -82,17 +71,6 @@ type CryptoKeyObservation struct {
 
 	// Whether this key may contain imported versions only.
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
-
-	// The policy used for Key Access Justifications Policy Enforcement. If this
-	// field is present and this key is enrolled in Key Access Justifications
-	// Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and
-	// sign operations, and the operation will fail if rejected by the policy. The
-	// policy is defined by specifying zero or more allowed justification codes.
-	// https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes
-	// By default, this field is absent, and all justification codes are allowed.
-	// This field is currently in beta and is subject to change.
-	// Structure is documented below.
-	KeyAccessJustificationsPolicy *KeyAccessJustificationsPolicyObservation `json:"keyAccessJustificationsPolicy,omitempty" tf:"key_access_justifications_policy,omitempty"`
 
 	// The KeyRing that this key belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
@@ -150,18 +128,6 @@ type CryptoKeyParameters struct {
 	// +kubebuilder:validation:Optional
 	ImportOnly *bool `json:"importOnly,omitempty" tf:"import_only,omitempty"`
 
-	// The policy used for Key Access Justifications Policy Enforcement. If this
-	// field is present and this key is enrolled in Key Access Justifications
-	// Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and
-	// sign operations, and the operation will fail if rejected by the policy. The
-	// policy is defined by specifying zero or more allowed justification codes.
-	// https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes
-	// By default, this field is absent, and all justification codes are allowed.
-	// This field is currently in beta and is subject to change.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	KeyAccessJustificationsPolicy *KeyAccessJustificationsPolicyParameters `json:"keyAccessJustificationsPolicy,omitempty" tf:"key_access_justifications_policy,omitempty"`
-
 	// The KeyRing that this key belongs to.
 	// Format: 'projects/{{project}}/locations/{{location}}/keyRings/{{keyRing}}'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/kms/v1beta1.KeyRing
@@ -206,31 +172,6 @@ type CryptoKeyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	VersionTemplate *VersionTemplateParameters `json:"versionTemplate,omitempty" tf:"version_template,omitempty"`
-}
-
-type KeyAccessJustificationsPolicyInitParameters struct {
-
-	// The list of allowed reasons for access to this CryptoKey. Zero allowed
-	// access reasons means all encrypt, decrypt, and sign operations for
-	// this CryptoKey will fail.
-	AllowedAccessReasons []*string `json:"allowedAccessReasons,omitempty" tf:"allowed_access_reasons,omitempty"`
-}
-
-type KeyAccessJustificationsPolicyObservation struct {
-
-	// The list of allowed reasons for access to this CryptoKey. Zero allowed
-	// access reasons means all encrypt, decrypt, and sign operations for
-	// this CryptoKey will fail.
-	AllowedAccessReasons []*string `json:"allowedAccessReasons,omitempty" tf:"allowed_access_reasons,omitempty"`
-}
-
-type KeyAccessJustificationsPolicyParameters struct {
-
-	// The list of allowed reasons for access to this CryptoKey. Zero allowed
-	// access reasons means all encrypt, decrypt, and sign operations for
-	// this CryptoKey will fail.
-	// +kubebuilder:validation:Optional
-	AllowedAccessReasons []*string `json:"allowedAccessReasons,omitempty" tf:"allowed_access_reasons,omitempty"`
 }
 
 type PrimaryInitParameters struct {
