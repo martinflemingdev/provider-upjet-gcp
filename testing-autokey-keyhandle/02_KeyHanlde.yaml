@@ -1,0 +1,61 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyHandle
+metadata:
+  name: useast1-storage-autokey
+spec:
+  forProvider:
+    location: us-east1
+    project: autokey-consumer-project1 
+    resourceTypeSelector: storage.googleapis.com/Bucket
+  providerConfigRef:
+    name: gcp-cdmc
+---
+# APPLIED TO CLUSTER WITH SUCCESS STATUS:
+
+# apiVersion: kms.gcp.upbound.io/v1beta1
+# kind: KeyHandle
+# metadata:
+#   annotations:
+#     crossplane.io/external-create-pending: "2025-05-08T01:28:44Z"
+#     crossplane.io/external-create-succeeded: "2025-05-08T01:28:44Z"
+#     crossplane.io/external-name: useast1-storage-autokey
+#     kubectl.kubernetes.io/last-applied-configuration: |
+#       {"apiVersion":"kms.gcp.upbound.io/v1beta1","kind":"KeyHandle","metadata":{"annotations":{},"name":"useast1-storage-autokey"},"spec":{"forProvider":{"location":"us-east1","project":"autokey-consumer-project1","resourceTypeSelector":"storage.googleapis.com/Bucket"},"providerConfigRef":{"name":"gcp-cdmc"}}}
+#   creationTimestamp: "2025-05-08T01:28:43Z"
+#   finalizers:
+#   - finalizer.managedresource.crossplane.io
+#   generation: 2
+#   name: useast1-storage-autokey
+#   resourceVersion: "7385463"
+#   uid: c3e6b976-e46b-48a8-870c-fa3ba3e1b06d
+# spec:
+#   deletionPolicy: Delete
+#   forProvider:
+#     location: us-east1
+#     project: autokey-consumer-project1
+#     resourceTypeSelector: storage.googleapis.com/Bucket
+#   initProvider: {}
+#   managementPolicies:
+#   - '*'
+#   providerConfigRef:
+#     name: gcp-cdmc
+# status:
+#   atProvider:
+#     id: projects/autokey-consumer-project1/locations/us-east1/keyHandles/useast1-storage-autokey
+#     kmsKey: projects/autokey-458617/locations/us-east1/keyRings/autokey/cryptoKeys/291042791675-storage-bucket-5f245dc11c083939
+#     location: us-east1
+#     project: autokey-consumer-project1
+#     resourceTypeSelector: storage.googleapis.com/Bucket
+#   conditions:
+#   - lastTransitionTime: "2025-05-08T01:28:55Z"
+#     reason: Available
+#     status: "True"
+#     type: Ready
+#   - lastTransitionTime: "2025-05-08T01:28:44Z"
+#     reason: ReconcileSuccess
+#     status: "True"
+#     type: Synced
+#   - lastTransitionTime: "2025-05-08T01:28:55Z"
+#     reason: Success
+#     status: "True"
+#     type: LastAsyncOperation
