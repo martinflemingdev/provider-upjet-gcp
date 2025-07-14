@@ -11,6 +11,7 @@ MAKE A CLEAN BRANCH
 		go get github.com/hashicorp/terraform-provider-google-beta@d6b73f5ceea399fa956b8b4485c9a3039cf59775
 		require (github.com/hashicorp/terraform-provider-google-beta v1.20.1-0.20250506155311-d6b73f5ceea3)
 	MAKEFILE
+		export TERRAFORM_PROVIDER_VERSION := 6.34.0
 		export TERRAFORM_PROVIDER_SOURCE := hashicorp/google-beta
 		export TERRAFORM_PROVIDER_NAME := terraform-provider-google-beta
 		export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/$(TERRAFORM_PROVIDER_NAME)	
@@ -21,7 +22,7 @@ MAKE A CLEAN BRANCH
 
 	rm -fr apis/ EXCEPT v1alpha1/ and v1beta1/ and kms/
 	rm -fr cmd/provider/ AND recreate an empty one
-	rm -fr internal/controller/ EXCEPT providerconfig/ AND recreate an empty one
+	rm -fr internal/controller/ EXCEPT providerconfig/
 	rm -f config/schema.json
 
 3) add this to config/externalname.go:
@@ -30,6 +31,9 @@ MAKE A CLEAN BRANCH
 	"google_kms_key_handle": config.TemplatedStringAsIdentifier("name", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/keyHandles/{{ .external_name }}"),
 
 	and comment out all other provider families besides kms
+
+	config/registy.go 
+	add "beta" to import line: provider "github.com/hashicorp/terraform-provider-google-beta/google-beta/provider"
 
 	make submodules
 	make generate

@@ -2,9 +2,9 @@
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: provider-gcp-kms
+  name: provider-gcp-kms-beta
 spec:
-  package: docker.io/martinflemingdev/provider-gcp-kms:forkitagain
+  package: docker.io/martinflemingdev/provider-gcp-kms:v1.13.0-beta-autokey-only
 ---
 # ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -24,10 +24,32 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  name: provider-gcp-kms-beta-config
+subjects:
+  - kind: ServiceAccount
+    name: provider-gcp-kms-beta-6a0f98b2cd09   # replace this with kms service account
+    namespace: crossplane-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: provider-gcp-config-manager
+---
+# Provider
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-gcp-kms
+spec:
+  package: xpkg.upbound.io/upbound/provider-gcp-kms:v1.13.0
+---
+# Binding to KMS Pod SA
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
   name: provider-gcp-kms-config
 subjects:
   - kind: ServiceAccount
-    name: provider-gcp-kms-5c286b82365f   # replace this with kms service account
+    name: provider-gcp-kms-a4380182ef78   # replace this with kms service account
     namespace: crossplane-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io

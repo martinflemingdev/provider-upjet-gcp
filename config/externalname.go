@@ -579,19 +579,19 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// kms
 	//
 	// projects/{{project}}/locations/{{location}}/keyRings/{{name}}
-	"google_kms_key_ring": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyRings/{{ .external_name }}"),
-	// {{key_ring}}/cryptoKeys/{{name}}
-	"google_kms_crypto_key": config.TemplatedStringAsIdentifier("name", "{{ .parameters.key_ring }}/cryptoKeys/{{ .external_name }}"),
-	// {{name}}
-	"google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .external_name }}"),
-	// terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
-	"google_kms_key_ring_iam_member": config.IdentifierFromProvider,
-	// terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
-	"google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
-	// This resource does not support import.
-	"google_kms_secret_ciphertext": config.IdentifierFromProvider,
-	// Imported by using the following {{name}}
-	"google_kms_crypto_key_version": config.IdentifierFromProvider,
+	// "google_kms_key_ring": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/keyRings/{{ .external_name }}"),
+	// // {{key_ring}}/cryptoKeys/{{name}}
+	// "google_kms_crypto_key": config.TemplatedStringAsIdentifier("name", "{{ .parameters.key_ring }}/cryptoKeys/{{ .external_name }}"),
+	// // {{name}}
+	// "google_kms_key_ring_import_job": config.TemplatedStringAsIdentifier("import_job_id", "{{ .parameters.key_ring }}/importJobs/{{ .external_name }}"),
+	// // terraform import google_kms_key_ring_iam_member.key_ring_iam "your-project-id/location-name/key-ring-name roles/viewer user:foo@example.com"
+	// "google_kms_key_ring_iam_member": config.IdentifierFromProvider,
+	// // terraform import google_kms_crypto_key_iam_member.crypto_key "your-project-id/location-name/key-ring-name/key-name roles/viewer user:foo@example.com"
+	// "google_kms_crypto_key_iam_member": config.IdentifierFromProvider,
+	// // This resource does not support import.
+	// "google_kms_secret_ciphertext": config.IdentifierFromProvider,
+	// // Imported by using the following {{name}}
+	// "google_kms_crypto_key_version": config.IdentifierFromProvider,
 	// terraform import google_kms_key_handle.default "projects/{{project}}/locations/{{location}}/keyHandles/{{name}}"
 	"google_kms_key_handle": config.TemplatedStringAsIdentifier("name", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/keyHandles/{{ .external_name }}"),
 

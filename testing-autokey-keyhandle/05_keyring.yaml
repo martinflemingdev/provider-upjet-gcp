@@ -1,0 +1,9 @@
+apiVersion: kms.gcp.upbound.io/v1beta1
+kind: KeyRing
+metadata:
+  name: keyring-crypto-key-ga-provider
+spec:
+  forProvider:
+    location: global
+  providerConfigRef:
+    name: gcp-cdmc

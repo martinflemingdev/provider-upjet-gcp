@@ -1,7 +1,7 @@
 apiVersion: kms.gcp.upbound.io/v1beta1
 kind: KeyHandle
 metadata:
-  name: useast1-storage-autokey
+  name: useast1-storage-autokey-autokey-only-pkg-with-ga
 spec:
   forProvider:
     location: us-east1
