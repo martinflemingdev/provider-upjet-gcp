@@ -18,7 +18,9 @@ MAKE A CLEAN BRANCH
 		export TERRAFORM_PROVIDER_NAME := terraform-provider-google-beta
 		export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/$(TERRAFORM_PROVIDER_NAME)	
 
-	and comment out markdown reference down at the bottom
+	and comment out lines 206-207
+	@# workaround for being unable override raw registry data. To be tracked in upjet.
+    @mv .work/terraform-provider-google/website/docs/r/network_management_connectivity_test_resource.html.markdown .work/terraform-provider-google/website/docs/r/network_management_connectivity_test.html.markdown
 
 2) remove all generated files
 

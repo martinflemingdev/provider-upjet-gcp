@@ -1,0 +1,6 @@
+Makefile
+
+pull-docs: 
+    comment out:
+206     @# workaround for being unable override raw registry data. To be tracked in upjet.
+207 	@mv .work/terraform-provider-google/website/docs/r/network_management_connectivity_test_resource.html.markdown .work/terraform-provider-google/website/docs/r/network_management_connectivity_test.html.markdown
