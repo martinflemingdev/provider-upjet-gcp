@@ -11,6 +11,8 @@ MAKE A CLEAN BRANCH
 		go get github.com/hashicorp/terraform-provider-google-beta@d6b73f5ceea399fa956b8b4485c9a3039cf59775
 		require (github.com/hashicorp/terraform-provider-google-beta v1.20.1-0.20250506155311-d6b73f5ceea3)
 	MAKEFILE
+		SHELL := /bin/bash (add to the very top)
+
 		export TERRAFORM_PROVIDER_VERSION := 6.34.0
 		export TERRAFORM_PROVIDER_SOURCE := hashicorp/google-beta
 		export TERRAFORM_PROVIDER_NAME := terraform-provider-google-beta
