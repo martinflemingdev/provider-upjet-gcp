@@ -278,7 +278,8 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// bigqueryanalyticshub
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}} roles/viewer user:jane@example.com
-	"google_bigquery_analytics_hub_listing_iam_member": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Enabled in externalname.go, commenting out below config
+	// "google_bigquery_analytics_hub_listing_iam_member": config.TemplatedStringAsIdentifier("listing_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/dataExchanges/{{ .parameters.data_exchange_id }}/listings/{{ .external_name }} {{ .parameters.role }} {{ .parameters.member }}"),
 
 	// bigqueryconnection
 	//
