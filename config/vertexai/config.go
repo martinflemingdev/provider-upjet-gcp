@@ -17,4 +17,14 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_vertex_ai_tensorboard", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
+	p.AddResourceConfigurator("google_vertex_ai_endpoint_iam_member", func(r *config.Resource) {
+		r.References["endpoint"] = config.Reference{
+			TerraformName: "google_vertex_ai_endpoint",
+		}
+	})
+	p.AddResourceConfigurator("google_workbench_instance_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			TerraformName: "google_workbench_instance",
+		}
+	})
 }

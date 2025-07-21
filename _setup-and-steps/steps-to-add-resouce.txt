@@ -16,7 +16,7 @@ Action:
 If your resource appears here, comment it out or remove it.
 This allows Upjet to include and generate it.
 
-3. Handle Warnings and Mutually Exclusive Fields (If Needed)
+3. Handle Warnings and Mutually Exclusive Fields (If Needed) and all IAM resources
 Where:
 Check the “Warning”/“Note” boxes on the Terraform Registry page for your resource.
 
@@ -31,6 +31,15 @@ p.AddResourceConfigurator("resource_name", func(r *config.Resource) {
 })
 
 Also add Crossplane references (using r.References) if the resource has fields referring to other managed resources.
+
+check here for the schema: https://github.com/hashicorp/terraform-provider-google/tree/main/google/services
+example:
+
+p.AddResourceConfigurator("google_vertex_ai_endpoint_iam_member", func(r *config.Resource) {
+	r.References["endpoint"] = config.Reference{
+			TerraformName: "google_vertex_ai_endpoint",
+	}
+})
 
 4. Run Code Generation and Build
 Terminal commands:

@@ -984,6 +984,15 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
 	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+	"google_vertex_ai_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+	"google_vertex_ai_endpoint_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_workbench_instance": config.TemplatedStringAsIdentifier("name","projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_workbench_instance_iam_member": config.IdentifierFromProvider,
+
 
 	// documentai
 	//
