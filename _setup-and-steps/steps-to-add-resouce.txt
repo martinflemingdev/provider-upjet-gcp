@@ -1,0 +1,52 @@
+Steps to Add a New Resource to an Upjet-based Crossplane Provider
+
+1. Add External Name Configuration
+Edit: config/externalname.go
+
+Action:
+Add an entry for your resource with either config.IdentifierFromProvider or config.TemplatedStringAsIdentifier, based on the import format described in the Terraform docs.
+
+Reference:
+Use the “Import” section from the Terraform Registry for the exact import path template.
+
+2. Remove or Comment Out in Not-Tested File
+Edit: config/externalnamenottested.go
+
+Action:
+If your resource appears here, comment it out or remove it.
+This allows Upjet to include and generate it.
+
+3. Handle Warnings and Mutually Exclusive Fields (If Needed)
+Where:
+Check the “Warning”/“Note” boxes on the Terraform Registry page for your resource.
+
+Edit: config/<service>/config.go (e.g., config/bigquery/config.go, config/vertexai/config.go)
+
+Action:
+
+If a field in the resource should NOT be managed directly (e.g., because there’s a separate CRD for it), move that field to status:
+
+p.AddResourceConfigurator("resource_name", func(r *config.Resource) {
+  config.MoveToStatus(r.TerraformResource, "field_name")
+})
+
+Also add Crossplane references (using r.References) if the resource has fields referring to other managed resources.
+
+4. Run Code Generation and Build
+Terminal commands:
+
+make submodules
+make generate
+make build-provider-<service>
+This regenerates the CRDs and builds the new provider binary.
+
+
+5. Validate
+Check generated files:
+Validate the new CRD(s) appear in the cluster/crds/ directory.
+Valudate _output/xpkg files and locate *.xpkg file to docker load
+
+6. Deploy and Test:
+docker load -i /home/martinfleming/src/github.com/martinflemingdev/provider-upjet-gcp/_output/xpkg/linux_amd64/provider-gcp-bigquery-v0.0.0-1357.g5381bec1.dirty.xpkg
+docker tag sha256:6636c90cd5a8eab8f3e6a08c049bacf1313b0a1e4dff8936a7b6c17a5b4bd0b3 martinflemingdev/provider-gcp-bigquery:tf-v6.43.0
+docker push martinflemingdev/provider-gcp-bigquery:tf-v6.43.0
