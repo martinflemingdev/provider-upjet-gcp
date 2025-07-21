@@ -12,6 +12,8 @@ import (
 	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublisting"
+	analyticshublistingiammember "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublistingiammember"
+	analyticshublistingsubscription "github.com/upbound/provider-gcp/internal/controller/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/internal/controller/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/bigquery/datasetaccess"
@@ -36,6 +38,8 @@ func Setup_bigquery(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
+		analyticshublistingiammember.Setup,
+		analyticshublistingsubscription.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
