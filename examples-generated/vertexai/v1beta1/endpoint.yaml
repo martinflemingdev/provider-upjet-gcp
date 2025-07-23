@@ -1,0 +1,96 @@
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: Endpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpoint
+  labels:
+    testing.upbound.io/example-name: endpoint
+  name: endpoint
+spec:
+  forProvider:
+    description: A sample vertex endpoint
+    displayName: sample-endpoint
+    encryptionSpec:
+    - kmsKeyName: kms-name
+    labels:
+      label-one: value-one
+    location: us-central1
+    network: projects/${data.google_project.project.number}/global/networks/${google_compute_network.vertex_network.name}
+    predictRequestResponseLoggingConfig:
+    - bigqueryDestination:
+      - outputUri: bq://${data.google_project.project.project_id}.${google_bigquery_dataset.bq_dataset.dataset_id}.request_response_logging
+      enabled: true
+      samplingRate: 0.1
+    region: us-central1
+    trafficSplit: |-
+      ${jsonencode({
+          "12345" = 100
+        })}
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpoint
+  labels:
+    testing.upbound.io/example-name: bq_dataset
+  name: bq-dataset
+spec:
+  forProvider:
+    deleteContentsOnDestroy: true
+    description: This is a dataset that requests are logged to
+    friendlyName: logging dataset
+    location: US
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpoint
+  labels:
+    testing.upbound.io/example-name: vertex_range
+  name: vertex-range
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vertex_network
+    prefixLength: 24
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpoint
+  labels:
+    testing.upbound.io/example-name: vertex_network
+  name: vertex-network
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpoint
+  labels:
+    testing.upbound.io/example-name: vertex_vpc_connection
+  name: vertex-vpc-connection
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vertex_network
+    reservedPeeringRangesRefs:
+    - name: vertex_range
+    service: servicenetworking.googleapis.com

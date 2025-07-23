@@ -378,10 +378,14 @@ import (
 	tagvalue "github.com/upbound/provider-gcp/internal/controller/tags/tagvalue"
 	node "github.com/upbound/provider-gcp/internal/controller/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
+	endpoint "github.com/upbound/provider-gcp/internal/controller/vertexai/endpoint"
+	endpointiammember "github.com/upbound/provider-gcp/internal/controller/vertexai/endpointiammember"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/vertexai/tensorboard"
 	connector "github.com/upbound/provider-gcp/internal/controller/vpcaccess/connector"
+	instanceworkbench "github.com/upbound/provider-gcp/internal/controller/workbench/instance"
+	instanceiammemberworkbench "github.com/upbound/provider-gcp/internal/controller/workbench/instanceiammember"
 	workflow "github.com/upbound/provider-gcp/internal/controller/workflows/workflow"
 )
 
@@ -758,10 +762,14 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagvalue.Setup,
 		node.Setup,
 		datasetvertexai.Setup,
+		endpoint.Setup,
+		endpointiammember.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
 		tensorboard.Setup,
 		connector.Setup,
+		instanceworkbench.Setup,
+		instanceiammemberworkbench.Setup,
 		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

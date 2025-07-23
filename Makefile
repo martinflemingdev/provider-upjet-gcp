@@ -207,7 +207,8 @@ pull-docs:
 # 	@mv .work/terraform-provider-google/website/docs/r/network_management_connectivity_test_resource.html.markdown .work/terraform-provider-google/website/docs/r/network_management_connectivity_test.html.markdown
 	rm -f $(WORK_DIR)/$(notdir $(TERRAFORM_PROVIDER_REPO))/website/docs/r/model_armor_template.html.markdown
 	
-generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+# generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+generate.init: pull-docs
 
 .PHONY: pull-docs
 

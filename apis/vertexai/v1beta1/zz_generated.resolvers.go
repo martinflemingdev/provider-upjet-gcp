@@ -16,8 +16,58 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of this FeaturestoreEntitytype.
+func (mg *EndpointIAMMember) ResolveReferences( // ResolveReferences of this EndpointIAMMember.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "Endpoint", "EndpointList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Endpoint),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.ForProvider.EndpointRef,
+			Selector:     mg.Spec.ForProvider.EndpointSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Endpoint")
+	}
+	mg.Spec.ForProvider.Endpoint = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.EndpointRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "Endpoint", "EndpointList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Endpoint),
+			Extract:      reference.ExternalName(),
+			Reference:    mg.Spec.InitProvider.EndpointRef,
+			Selector:     mg.Spec.InitProvider.EndpointSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Endpoint")
+	}
+	mg.Spec.InitProvider.Endpoint = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.EndpointRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FeaturestoreEntitytype.
+func (mg *FeaturestoreEntitytype) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

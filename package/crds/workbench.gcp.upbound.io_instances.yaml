@@ -1,0 +1,1712 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.14.0
+  name: instances.workbench.gcp.upbound.io
+spec:
+  group: workbench.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. A Workbench instance.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  desiredState:
+                    description: Desired state of the Workbench Instance. Set this
+                      field to ACTIVE to start the Instance, and STOPPED to stop the
+                      Instance.
+                    type: string
+                  disableProxyAccess:
+                    description: Optional. If true, the workbench instance will not
+                      register with the proxy.
+                    type: boolean
+                  enableThirdPartyIdentity:
+                    description: |-
+                      Flag that specifies that a notebook can be accessed with third party
+                      identity provider.
+                    type: boolean
+                  gceSetup:
+                    description: |-
+                      The definition of how to configure a VM instance outside of Resources and Identity.
+                      Structure is documented below.
+                    properties:
+                      acceleratorConfigs:
+                        description: |-
+                          The hardware accelerators used on this instance. If you use accelerators, make sure that your configuration has
+                          enough vCPUs and memory to support the .
+                          Currently supports only one accelerator configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            coreCount:
+                              description: Optional. Count of cores of this accelerator.
+                              type: string
+                            type:
+                              description: |-
+                                Optional. Type of this accelerator.
+                                Possible values are: NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS.
+                              type: string
+                          type: object
+                        type: array
+                      bootDisk:
+                        description: |-
+                          The definition of a boot disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      confidentialInstanceConfig:
+                        description: |-
+                          Confidential instance configuration.
+                          Structure is documented below.
+                        properties:
+                          confidentialInstanceType:
+                            description: |-
+                              Defines the type of technology used by the confidential instance.
+                              Possible values are: SEV.
+                            type: string
+                        type: object
+                      containerImage:
+                        description: |-
+                          Use a container image to start the workbench instance.
+                          Structure is documented below.
+                        properties:
+                          repository:
+                            description: |-
+                              The path to the container image repository.
+                              For example: gcr.io/{project_id}/{imageName}
+                            type: string
+                          tag:
+                            description: The tag of the container image. If not specified,
+                              this defaults to the latest tag.
+                            type: string
+                        type: object
+                      dataDisks:
+                        description: |-
+                          Data disks attached to the VM instance. Currently supports only one data disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      disablePublicIp:
+                        description: Optional. If true, no external IP will be assigned
+                          to this VM instance.
+                        type: boolean
+                      enableIpForwarding:
+                        description: |-
+                          Optional. Flag to enable ip forwarding or not, default false/off.
+                          https://cloud.google.com/vpc/docs/using-routes#canipforward
+                        type: boolean
+                      machineType:
+                        description: Optional. The machine type of the VM instance.
+                          https://cloud.google.com/compute/docs/machine-resource
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: Optional. Custom metadata to apply to this instance.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      networkInterfaces:
+                        description: |-
+                          The network interfaces for the VM. Supports only one interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessConfigs:
+                              description: |-
+                                Optional. An array of configurations for this interface. Currently, only one access
+                                config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the
+                                instance will have an external internet access through an ephemeral
+                                external IP address.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  externalIp:
+                                    description: |-
+                                      An external IP address associated with this instance. Specify an unused
+                                      static external IP address available to the project or leave this field
+                                      undefined to use an IP from a shared ephemeral IP address pool. If you
+                                      specify a static external IP address, it must live in the same region as
+                                      the zone of the instance.
+                                    type: string
+                                  externalIpRef:
+                                    description: Reference to a Address in compute
+                                      to populate externalIp.
+                                    properties:
+                                      name:
+                                        description: Name of the referenced object.
+                                        type: string
+                                      policy:
+                                        description: Policies for referencing.
+                                        properties:
+                                          resolution:
+                                            default: Required
+                                            description: |-
+                                              Resolution specifies whether resolution of this reference is required.
+                                              The default is 'Required', which means the reconcile will fail if the
+                                              reference cannot be resolved. 'Optional' means this reference will be
+                                              a no-op if it cannot be resolved.
+                                            enum:
+                                            - Required
+                                            - Optional
+                                            type: string
+                                          resolve:
+                                            description: |-
+                                              Resolve specifies when this reference should be resolved. The default
+                                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                                              the corresponding field is not present. Use 'Always' to resolve the
+                                              reference on every reconcile.
+                                            enum:
+                                            - Always
+                                            - IfNotPresent
+                                            type: string
+                                        type: object
+                                    required:
+                                    - name
+                                    type: object
+                                  externalIpSelector:
+                                    description: Selector for a Address in compute
+                                      to populate externalIp.
+                                    properties:
+                                      matchControllerRef:
+                                        description: |-
+                                          MatchControllerRef ensures an object with the same controller reference
+                                          as the selecting object is selected.
+                                        type: boolean
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        description: MatchLabels ensures an object
+                                          with matching labels is selected.
+                                        type: object
+                                      policy:
+                                        description: Policies for selection.
+                                        properties:
+                                          resolution:
+                                            default: Required
+                                            description: |-
+                                              Resolution specifies whether resolution of this reference is required.
+                                              The default is 'Required', which means the reconcile will fail if the
+                                              reference cannot be resolved. 'Optional' means this reference will be
+                                              a no-op if it cannot be resolved.
+                                            enum:
+                                            - Required
+                                            - Optional
+                                            type: string
+                                          resolve:
+                                            description: |-
+                                              Resolve specifies when this reference should be resolved. The default
+                                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                                              the corresponding field is not present. Use 'Always' to resolve the
+                                              reference on every reconcile.
+                                            enum:
+                                            - Always
+                                            - IfNotPresent
+                                            type: string
+                                        type: object
+                                    type: object
+                                type: object
+                              type: array
+                            network:
+                              description: Optional. The name of the VPC that this
+                                VM instance is in.
+                              type: string
+                            networkRef:
+                              description: Reference to a Network in compute to populate
+                                network.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            networkSelector:
+                              description: Selector for a Network in compute to populate
+                                network.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                            nicType:
+                              description: |-
+                                Optional. The type of vNIC to be used on this interface. This
+                                may be gVNIC or VirtioNet.
+                                Possible values are: VIRTIO_NET, GVNIC.
+                              type: string
+                            subnet:
+                              description: Optional. The name of the subnet that this
+                                VM instance is in.
+                              type: string
+                            subnetRef:
+                              description: Reference to a Subnetwork in compute to
+                                populate subnet.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            subnetSelector:
+                              description: Selector for a Subnetwork in compute to
+                                populate subnet.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                      serviceAccounts:
+                        description: |-
+                          The service account that serves as an identity for the VM instance. Currently supports only one service account.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            email:
+                              description: Optional. Email address of the service
+                                account.
+                              type: string
+                          type: object
+                        type: array
+                      shieldedInstanceConfig:
+                        description: |-
+                          A set of Shielded Instance options. See Images using supported Shielded
+                          VM features.
+                          Not all combinations are valid.
+                          Structure is documented below.
+                        properties:
+                          enableIntegrityMonitoring:
+                            description: |-
+                              Optional. Defines whether the VM instance has integrity monitoring
+                              enabled. Enables monitoring and attestation of the boot integrity of the VM
+                              instance. The attestation is performed against the integrity policy baseline.
+                              This baseline is initially derived from the implicitly trusted boot image
+                              when the VM instance is created. Enabled by default.
+                            type: boolean
+                          enableSecureBoot:
+                            description: |-
+                              Optional. Defines whether the VM instance has Secure Boot enabled.
+                              Secure Boot helps ensure that the system only runs authentic software by verifying
+                              the digital signature of all boot components, and halting the boot process
+                              if signature verification fails. Disabled by default.
+                            type: boolean
+                          enableVtpm:
+                            description: |-
+                              Optional. Defines whether the VM instance has the vTPM enabled.
+                              Enabled by default.
+                            type: boolean
+                        type: object
+                      tags:
+                        description: |-
+                          Optional. The Compute Engine tags to add to instance (see Tagging
+                          instances).
+                        items:
+                          type: string
+                        type: array
+                      vmImage:
+                        description: |-
+                          Definition of a custom Compute Engine virtual machine image for starting
+                          a workbench instance with the environment installed directly on the VM.
+                          Structure is documented below.
+                        properties:
+                          family:
+                            description: |-
+                              Optional. Use this VM image family to find the image; the newest
+                              image in this family will be used.
+                            type: string
+                          name:
+                            description: Optional. Use VM image name to find the image.
+                            type: string
+                          project:
+                            description: |-
+                              The name of the Google Cloud project that this VM image belongs to.
+                              Format: {project_id}
+                            type: string
+                        type: object
+                    type: object
+                  instanceId:
+                    description: Required. User-defined unique ID of this instance.
+                    type: string
+                  instanceOwners:
+                    description: |-
+                      'Optional. Input only. The owner of this instance after creation. Format:
+                      alias@example.com Currently supports one owner only. If not specified, all of
+                      the service account users of your VM instance''s service account can use the instance.
+                      If specified, sets the access mode to Single user. For more details, see
+                      https://cloud.google.com/vertex-ai/docs/workbench/instances/manage-access-jupyterlab'
+                    items:
+                      type: string
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to apply to this instance. These can be later modified
+                      by the UpdateInstance method.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: Part of parent. See documentation of projectsId.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  desiredState:
+                    description: Desired state of the Workbench Instance. Set this
+                      field to ACTIVE to start the Instance, and STOPPED to stop the
+                      Instance.
+                    type: string
+                  disableProxyAccess:
+                    description: Optional. If true, the workbench instance will not
+                      register with the proxy.
+                    type: boolean
+                  enableThirdPartyIdentity:
+                    description: |-
+                      Flag that specifies that a notebook can be accessed with third party
+                      identity provider.
+                    type: boolean
+                  gceSetup:
+                    description: |-
+                      The definition of how to configure a VM instance outside of Resources and Identity.
+                      Structure is documented below.
+                    properties:
+                      acceleratorConfigs:
+                        description: |-
+                          The hardware accelerators used on this instance. If you use accelerators, make sure that your configuration has
+                          enough vCPUs and memory to support the .
+                          Currently supports only one accelerator configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            coreCount:
+                              description: Optional. Count of cores of this accelerator.
+                              type: string
+                            type:
+                              description: |-
+                                Optional. Type of this accelerator.
+                                Possible values are: NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS.
+                              type: string
+                          type: object
+                        type: array
+                      bootDisk:
+                        description: |-
+                          The definition of a boot disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      confidentialInstanceConfig:
+                        description: |-
+                          Confidential instance configuration.
+                          Structure is documented below.
+                        properties:
+                          confidentialInstanceType:
+                            description: |-
+                              Defines the type of technology used by the confidential instance.
+                              Possible values are: SEV.
+                            type: string
+                        type: object
+                      containerImage:
+                        description: |-
+                          Use a container image to start the workbench instance.
+                          Structure is documented below.
+                        properties:
+                          repository:
+                            description: |-
+                              The path to the container image repository.
+                              For example: gcr.io/{project_id}/{imageName}
+                            type: string
+                          tag:
+                            description: The tag of the container image. If not specified,
+                              this defaults to the latest tag.
+                            type: string
+                        type: object
+                      dataDisks:
+                        description: |-
+                          Data disks attached to the VM instance. Currently supports only one data disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      disablePublicIp:
+                        description: Optional. If true, no external IP will be assigned
+                          to this VM instance.
+                        type: boolean
+                      enableIpForwarding:
+                        description: |-
+                          Optional. Flag to enable ip forwarding or not, default false/off.
+                          https://cloud.google.com/vpc/docs/using-routes#canipforward
+                        type: boolean
+                      machineType:
+                        description: Optional. The machine type of the VM instance.
+                          https://cloud.google.com/compute/docs/machine-resource
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: Optional. Custom metadata to apply to this instance.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      networkInterfaces:
+                        description: |-
+                          The network interfaces for the VM. Supports only one interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessConfigs:
+                              description: |-
+                                Optional. An array of configurations for this interface. Currently, only one access
+                                config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the
+                                instance will have an external internet access through an ephemeral
+                                external IP address.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  externalIp:
+                                    description: |-
+                                      An external IP address associated with this instance. Specify an unused
+                                      static external IP address available to the project or leave this field
+                                      undefined to use an IP from a shared ephemeral IP address pool. If you
+                                      specify a static external IP address, it must live in the same region as
+                                      the zone of the instance.
+                                    type: string
+                                  externalIpRef:
+                                    description: Reference to a Address in compute
+                                      to populate externalIp.
+                                    properties:
+                                      name:
+                                        description: Name of the referenced object.
+                                        type: string
+                                      policy:
+                                        description: Policies for referencing.
+                                        properties:
+                                          resolution:
+                                            default: Required
+                                            description: |-
+                                              Resolution specifies whether resolution of this reference is required.
+                                              The default is 'Required', which means the reconcile will fail if the
+                                              reference cannot be resolved. 'Optional' means this reference will be
+                                              a no-op if it cannot be resolved.
+                                            enum:
+                                            - Required
+                                            - Optional
+                                            type: string
+                                          resolve:
+                                            description: |-
+                                              Resolve specifies when this reference should be resolved. The default
+                                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                                              the corresponding field is not present. Use 'Always' to resolve the
+                                              reference on every reconcile.
+                                            enum:
+                                            - Always
+                                            - IfNotPresent
+                                            type: string
+                                        type: object
+                                    required:
+                                    - name
+                                    type: object
+                                  externalIpSelector:
+                                    description: Selector for a Address in compute
+                                      to populate externalIp.
+                                    properties:
+                                      matchControllerRef:
+                                        description: |-
+                                          MatchControllerRef ensures an object with the same controller reference
+                                          as the selecting object is selected.
+                                        type: boolean
+                                      matchLabels:
+                                        additionalProperties:
+                                          type: string
+                                        description: MatchLabels ensures an object
+                                          with matching labels is selected.
+                                        type: object
+                                      policy:
+                                        description: Policies for selection.
+                                        properties:
+                                          resolution:
+                                            default: Required
+                                            description: |-
+                                              Resolution specifies whether resolution of this reference is required.
+                                              The default is 'Required', which means the reconcile will fail if the
+                                              reference cannot be resolved. 'Optional' means this reference will be
+                                              a no-op if it cannot be resolved.
+                                            enum:
+                                            - Required
+                                            - Optional
+                                            type: string
+                                          resolve:
+                                            description: |-
+                                              Resolve specifies when this reference should be resolved. The default
+                                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                                              the corresponding field is not present. Use 'Always' to resolve the
+                                              reference on every reconcile.
+                                            enum:
+                                            - Always
+                                            - IfNotPresent
+                                            type: string
+                                        type: object
+                                    type: object
+                                type: object
+                              type: array
+                            network:
+                              description: Optional. The name of the VPC that this
+                                VM instance is in.
+                              type: string
+                            networkRef:
+                              description: Reference to a Network in compute to populate
+                                network.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            networkSelector:
+                              description: Selector for a Network in compute to populate
+                                network.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                            nicType:
+                              description: |-
+                                Optional. The type of vNIC to be used on this interface. This
+                                may be gVNIC or VirtioNet.
+                                Possible values are: VIRTIO_NET, GVNIC.
+                              type: string
+                            subnet:
+                              description: Optional. The name of the subnet that this
+                                VM instance is in.
+                              type: string
+                            subnetRef:
+                              description: Reference to a Subnetwork in compute to
+                                populate subnet.
+                              properties:
+                                name:
+                                  description: Name of the referenced object.
+                                  type: string
+                                policy:
+                                  description: Policies for referencing.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              required:
+                              - name
+                              type: object
+                            subnetSelector:
+                              description: Selector for a Subnetwork in compute to
+                                populate subnet.
+                              properties:
+                                matchControllerRef:
+                                  description: |-
+                                    MatchControllerRef ensures an object with the same controller reference
+                                    as the selecting object is selected.
+                                  type: boolean
+                                matchLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: MatchLabels ensures an object with
+                                    matching labels is selected.
+                                  type: object
+                                policy:
+                                  description: Policies for selection.
+                                  properties:
+                                    resolution:
+                                      default: Required
+                                      description: |-
+                                        Resolution specifies whether resolution of this reference is required.
+                                        The default is 'Required', which means the reconcile will fail if the
+                                        reference cannot be resolved. 'Optional' means this reference will be
+                                        a no-op if it cannot be resolved.
+                                      enum:
+                                      - Required
+                                      - Optional
+                                      type: string
+                                    resolve:
+                                      description: |-
+                                        Resolve specifies when this reference should be resolved. The default
+                                        is 'IfNotPresent', which will attempt to resolve the reference only when
+                                        the corresponding field is not present. Use 'Always' to resolve the
+                                        reference on every reconcile.
+                                      enum:
+                                      - Always
+                                      - IfNotPresent
+                                      type: string
+                                  type: object
+                              type: object
+                          type: object
+                        type: array
+                      serviceAccounts:
+                        description: |-
+                          The service account that serves as an identity for the VM instance. Currently supports only one service account.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            email:
+                              description: Optional. Email address of the service
+                                account.
+                              type: string
+                          type: object
+                        type: array
+                      shieldedInstanceConfig:
+                        description: |-
+                          A set of Shielded Instance options. See Images using supported Shielded
+                          VM features.
+                          Not all combinations are valid.
+                          Structure is documented below.
+                        properties:
+                          enableIntegrityMonitoring:
+                            description: |-
+                              Optional. Defines whether the VM instance has integrity monitoring
+                              enabled. Enables monitoring and attestation of the boot integrity of the VM
+                              instance. The attestation is performed against the integrity policy baseline.
+                              This baseline is initially derived from the implicitly trusted boot image
+                              when the VM instance is created. Enabled by default.
+                            type: boolean
+                          enableSecureBoot:
+                            description: |-
+                              Optional. Defines whether the VM instance has Secure Boot enabled.
+                              Secure Boot helps ensure that the system only runs authentic software by verifying
+                              the digital signature of all boot components, and halting the boot process
+                              if signature verification fails. Disabled by default.
+                            type: boolean
+                          enableVtpm:
+                            description: |-
+                              Optional. Defines whether the VM instance has the vTPM enabled.
+                              Enabled by default.
+                            type: boolean
+                        type: object
+                      tags:
+                        description: |-
+                          Optional. The Compute Engine tags to add to instance (see Tagging
+                          instances).
+                        items:
+                          type: string
+                        type: array
+                      vmImage:
+                        description: |-
+                          Definition of a custom Compute Engine virtual machine image for starting
+                          a workbench instance with the environment installed directly on the VM.
+                          Structure is documented below.
+                        properties:
+                          family:
+                            description: |-
+                              Optional. Use this VM image family to find the image; the newest
+                              image in this family will be used.
+                            type: string
+                          name:
+                            description: Optional. Use VM image name to find the image.
+                            type: string
+                          project:
+                            description: |-
+                              The name of the Google Cloud project that this VM image belongs to.
+                              Format: {project_id}
+                            type: string
+                        type: object
+                    type: object
+                  instanceId:
+                    description: Required. User-defined unique ID of this instance.
+                    type: string
+                  instanceOwners:
+                    description: |-
+                      'Optional. Input only. The owner of this instance after creation. Format:
+                      alias@example.com Currently supports one owner only. If not specified, all of
+                      the service account users of your VM instance''s service account can use the instance.
+                      If specified, sets the access mode to Single user. For more details, see
+                      https://cloud.google.com/vertex-ai/docs/workbench/instances/manage-access-jupyterlab'
+                    items:
+                      type: string
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to apply to this instance. These can be later modified
+                      by the UpdateInstance method.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              publishConnectionDetailsTo:
+                description: |-
+                  PublishConnectionDetailsTo specifies the connection secret config which
+                  contains a name, metadata and a reference to secret store config to
+                  which any connection details for this managed resource should be written.
+                  Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  configRef:
+                    default:
+                      name: default
+                    description: |-
+                      SecretStoreConfigRef specifies which secret store config should be used
+                      for this ConnectionSecret.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  metadata:
+                    description: Metadata is the metadata for connection secret.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Annotations are the annotations to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.annotations".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      labels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Labels are the labels/tags to be added to connection secret.
+                          - For Kubernetes secrets, this will be used as "metadata.labels".
+                          - It is up to Secret Store implementation for others store types.
+                        type: object
+                      type:
+                        description: |-
+                          Type is the SecretType for the connection secret.
+                          - Only valid for Kubernetes Secret Stores.
+                        type: string
+                    type: object
+                  name:
+                    description: Name is the name of the connection secret.
+                    type: string
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                  This field is planned to be replaced in a future release in favor of
+                  PublishConnectionDetailsTo. Currently, both could be set independently
+                  and connection details would be published to both without affecting
+                  each other.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  createTime:
+                    description: |-
+                      An RFC3339 timestamp in UTC time. This in the format of yyyy-MM-ddTHH:mm:ss.SSSZ.
+                      The milliseconds portion (".SSS") is optional.
+                    type: string
+                  creator:
+                    description: Output only. Email address of entity that sent original
+                      CreateInstance request.
+                    type: string
+                  desiredState:
+                    description: Desired state of the Workbench Instance. Set this
+                      field to ACTIVE to start the Instance, and STOPPED to stop the
+                      Instance.
+                    type: string
+                  disableProxyAccess:
+                    description: Optional. If true, the workbench instance will not
+                      register with the proxy.
+                    type: boolean
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  enableThirdPartyIdentity:
+                    description: |-
+                      Flag that specifies that a notebook can be accessed with third party
+                      identity provider.
+                    type: boolean
+                  gceSetup:
+                    description: |-
+                      The definition of how to configure a VM instance outside of Resources and Identity.
+                      Structure is documented below.
+                    properties:
+                      acceleratorConfigs:
+                        description: |-
+                          The hardware accelerators used on this instance. If you use accelerators, make sure that your configuration has
+                          enough vCPUs and memory to support the .
+                          Currently supports only one accelerator configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            coreCount:
+                              description: Optional. Count of cores of this accelerator.
+                              type: string
+                            type:
+                              description: |-
+                                Optional. Type of this accelerator.
+                                Possible values are: NVIDIA_TESLA_P100, NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB, NVIDIA_L4, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS.
+                              type: string
+                          type: object
+                        type: array
+                      bootDisk:
+                        description: |-
+                          The definition of a boot disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      confidentialInstanceConfig:
+                        description: |-
+                          Confidential instance configuration.
+                          Structure is documented below.
+                        properties:
+                          confidentialInstanceType:
+                            description: |-
+                              Defines the type of technology used by the confidential instance.
+                              Possible values are: SEV.
+                            type: string
+                        type: object
+                      containerImage:
+                        description: |-
+                          Use a container image to start the workbench instance.
+                          Structure is documented below.
+                        properties:
+                          repository:
+                            description: |-
+                              The path to the container image repository.
+                              For example: gcr.io/{project_id}/{imageName}
+                            type: string
+                          tag:
+                            description: The tag of the container image. If not specified,
+                              this defaults to the latest tag.
+                            type: string
+                        type: object
+                      dataDisks:
+                        description: |-
+                          Data disks attached to the VM instance. Currently supports only one data disk.
+                          Structure is documented below.
+                        properties:
+                          diskEncryption:
+                            description: |-
+                              Optional. Input only. Disk encryption method used on the boot
+                              and data disks, defaults to GMEK.
+                              Possible values are: GMEK, CMEK.
+                            type: string
+                          diskSizeGb:
+                            description: |-
+                              Optional. The size of the disk in GB attached to this VM instance,
+                              up to a maximum of 64000 GB (64 TB). If not specified, this defaults to
+                              100.
+                            type: string
+                          diskType:
+                            description: |-
+                              Optional. Input only. Indicates the type of the disk.
+                              Possible values are: PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+                            type: string
+                          kmsKey:
+                            description: |-
+                              'Optional. The KMS key used to encrypt the disks,
+                              only applicable if disk_encryption is CMEK. Format: projects/{project_id}/locations/{location}/keyRings/{key_ring_id}/cryptoKeys/{key_id}
+                              Learn more about using your own encryption keys.'
+                            type: string
+                        type: object
+                      disablePublicIp:
+                        description: Optional. If true, no external IP will be assigned
+                          to this VM instance.
+                        type: boolean
+                      enableIpForwarding:
+                        description: |-
+                          Optional. Flag to enable ip forwarding or not, default false/off.
+                          https://cloud.google.com/vpc/docs/using-routes#canipforward
+                        type: boolean
+                      machineType:
+                        description: Optional. The machine type of the VM instance.
+                          https://cloud.google.com/compute/docs/machine-resource
+                        type: string
+                      metadata:
+                        additionalProperties:
+                          type: string
+                        description: Optional. Custom metadata to apply to this instance.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      networkInterfaces:
+                        description: |-
+                          The network interfaces for the VM. Supports only one interface.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            accessConfigs:
+                              description: |-
+                                Optional. An array of configurations for this interface. Currently, only one access
+                                config, ONE_TO_ONE_NAT, is supported. If no accessConfigs specified, the
+                                instance will have an external internet access through an ephemeral
+                                external IP address.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  externalIp:
+                                    description: |-
+                                      An external IP address associated with this instance. Specify an unused
+                                      static external IP address available to the project or leave this field
+                                      undefined to use an IP from a shared ephemeral IP address pool. If you
+                                      specify a static external IP address, it must live in the same region as
+                                      the zone of the instance.
+                                    type: string
+                                type: object
+                              type: array
+                            network:
+                              description: Optional. The name of the VPC that this
+                                VM instance is in.
+                              type: string
+                            nicType:
+                              description: |-
+                                Optional. The type of vNIC to be used on this interface. This
+                                may be gVNIC or VirtioNet.
+                                Possible values are: VIRTIO_NET, GVNIC.
+                              type: string
+                            subnet:
+                              description: Optional. The name of the subnet that this
+                                VM instance is in.
+                              type: string
+                          type: object
+                        type: array
+                      serviceAccounts:
+                        description: |-
+                          The service account that serves as an identity for the VM instance. Currently supports only one service account.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            email:
+                              description: Optional. Email address of the service
+                                account.
+                              type: string
+                            scopes:
+                              description: |-
+                                (Output)
+                                Output only. The list of scopes to be made available for this
+                                service account. Set by the CLH to https://www.googleapis.com/auth/cloud-platform
+                              items:
+                                type: string
+                              type: array
+                          type: object
+                        type: array
+                      shieldedInstanceConfig:
+                        description: |-
+                          A set of Shielded Instance options. See Images using supported Shielded
+                          VM features.
+                          Not all combinations are valid.
+                          Structure is documented below.
+                        properties:
+                          enableIntegrityMonitoring:
+                            description: |-
+                              Optional. Defines whether the VM instance has integrity monitoring
+                              enabled. Enables monitoring and attestation of the boot integrity of the VM
+                              instance. The attestation is performed against the integrity policy baseline.
+                              This baseline is initially derived from the implicitly trusted boot image
+                              when the VM instance is created. Enabled by default.
+                            type: boolean
+                          enableSecureBoot:
+                            description: |-
+                              Optional. Defines whether the VM instance has Secure Boot enabled.
+                              Secure Boot helps ensure that the system only runs authentic software by verifying
+                              the digital signature of all boot components, and halting the boot process
+                              if signature verification fails. Disabled by default.
+                            type: boolean
+                          enableVtpm:
+                            description: |-
+                              Optional. Defines whether the VM instance has the vTPM enabled.
+                              Enabled by default.
+                            type: boolean
+                        type: object
+                      tags:
+                        description: |-
+                          Optional. The Compute Engine tags to add to instance (see Tagging
+                          instances).
+                        items:
+                          type: string
+                        type: array
+                      vmImage:
+                        description: |-
+                          Definition of a custom Compute Engine virtual machine image for starting
+                          a workbench instance with the environment installed directly on the VM.
+                          Structure is documented below.
+                        properties:
+                          family:
+                            description: |-
+                              Optional. Use this VM image family to find the image; the newest
+                              image in this family will be used.
+                            type: string
+                          name:
+                            description: Optional. Use VM image name to find the image.
+                            type: string
+                          project:
+                            description: |-
+                              The name of the Google Cloud project that this VM image belongs to.
+                              Format: {project_id}
+                            type: string
+                        type: object
+                    type: object
+                  healthInfo:
+                    description: |-
+                      'Output only. Additional information about instance health. Example:
+                      healthInfo": { "docker_proxy_agent_status": "1", "docker_status": "1", "jupyterlab_api_status":
+                      "-1", "jupyterlab_status": "-1", "updated": "2020-10-18 09:40:03.573409" }'
+                    items:
+                      type: object
+                    type: array
+                  healthState:
+                    description: Output only. Instance health_state.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/instances/{{name}}
+                    type: string
+                  instanceId:
+                    description: Required. User-defined unique ID of this instance.
+                    type: string
+                  instanceOwners:
+                    description: |-
+                      'Optional. Input only. The owner of this instance after creation. Format:
+                      alias@example.com Currently supports one owner only. If not specified, all of
+                      the service account users of your VM instance''s service account can use the instance.
+                      If specified, sets the access mode to Single user. For more details, see
+                      https://cloud.google.com/vertex-ai/docs/workbench/instances/manage-access-jupyterlab'
+                    items:
+                      type: string
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Optional. Labels to apply to this instance. These can be later modified
+                      by the UpdateInstance method.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: Part of parent. See documentation of projectsId.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  proxyUri:
+                    description: Output only. The proxy endpoint that is used to access
+                      the Jupyter notebook.
+                    type: string
+                  state:
+                    description: Output only. The state of this instance.
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  updateTime:
+                    description: |-
+                      An RFC3339 timestamp in UTC time. This in the format of yyyy-MM-ddTHH:mm:ss.SSSZ.
+                      The milliseconds portion (".SSS") is optional.
+                    type: string
+                  upgradeHistory:
+                    description: |-
+                      Output only. The upgrade history of this instance.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        action:
+                          description: Optional. Action. Rolloback or Upgrade.
+                          type: string
+                        containerImage:
+                          description: Optional. The container image before this instance
+                            upgrade.
+                          type: string
+                        createTime:
+                          description: |-
+                            An RFC3339 timestamp in UTC time. This in the format of yyyy-MM-ddTHH:mm:ss.SSSZ.
+                            The milliseconds portion (".SSS") is optional.
+                          type: string
+                        framework:
+                          description: Optional. The framework of this workbench instance.
+                          type: string
+                        snapshot:
+                          description: Optional. The snapshot of the boot disk of
+                            this workbench instance before upgrade.
+                          type: string
+                        state:
+                          description: |-
+                            (Output)
+                            Output only. The state of this instance upgrade history entry.
+                          type: string
+                        targetVersion:
+                          description: Optional. Target VM Version, like m63.
+                          type: string
+                        version:
+                          description: Optional. The version of the workbench instance
+                            before this upgrade.
+                          type: string
+                        vmImage:
+                          description: Optional. The VM image before this instance
+                            upgrade.
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

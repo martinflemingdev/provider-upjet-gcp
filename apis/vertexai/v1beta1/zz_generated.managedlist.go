@@ -16,6 +16,24 @@ func (l *DatasetList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this EndpointIAMMemberList.
+func (l *EndpointIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this EndpointList.
+func (l *EndpointList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this FeaturestoreEntitytypeList.
 func (l *FeaturestoreEntitytypeList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

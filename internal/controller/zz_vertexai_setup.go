@@ -10,6 +10,8 @@ import (
 	"github.com/crossplane/upjet/pkg/controller"
 
 	dataset "github.com/upbound/provider-gcp/internal/controller/vertexai/dataset"
+	endpoint "github.com/upbound/provider-gcp/internal/controller/vertexai/endpoint"
+	endpointiammember "github.com/upbound/provider-gcp/internal/controller/vertexai/endpointiammember"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/vertexai/featurestoreentitytype"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/vertexai/tensorboard"
@@ -20,6 +22,8 @@ import (
 func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		dataset.Setup,
+		endpoint.Setup,
+		endpointiammember.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
 		tensorboard.Setup,

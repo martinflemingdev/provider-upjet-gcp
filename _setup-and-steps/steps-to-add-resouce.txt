@@ -41,18 +41,102 @@ p.AddResourceConfigurator("google_vertex_ai_endpoint_iam_member", func(r *config
 	}
 })
 
-4. Run Code Generation and Build
+4. Run Code Generation
 Terminal commands:
 
 make submodules
 make generate
-make build-provider-<service>
-This regenerates the CRDs and builds the new provider binary.
 
+This regenerates the CRDs and controller code
 
-5. Validate
+**Newer services like VertexAI may not automatically generate the IAM resources that have been "fixed-in" for older services like GCS and BigQuery.
+Check config/schema.json to see if the schema was generated, otherwise add it yourself.
+
+example:
+
+"google_vertex_ai_endpoint_iam_member": {
+  "version": 0,
+  "block": {
+    "attributes": {
+      "endpoint": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "etag": {
+        "type": "string",
+        "description_kind": "plain",
+        "computed": true
+      },
+      "id": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true,
+        "computed": true
+      },
+      "location": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "member": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      },
+      "project": {
+        "type": "string",
+        "description_kind": "plain",
+        "optional": true,
+        "computed": true
+      },
+      "role": {
+        "type": "string",
+        "description_kind": "plain",
+        "required": true
+      }
+    },
+    "block_types": {
+      "condition": {
+        "nesting_mode": "list",
+        "block": {
+          "attributes": {
+            "description": {
+              "type": "string",
+              "description_kind": "plain",
+              "optional": true
+            },
+            "expression": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            },
+            "title": {
+              "type": "string",
+              "description_kind": "plain",
+              "required": true
+            }
+          },
+          "description_kind": "plain"
+        },
+        "max_items": 1
+      }
+    },
+    "description_kind": "plain"
+  }
+}
+
+**YOU MUST COMMENT OUT THE SCHEMA GENERATION in the Makefile at line 210 to not overwrite the schema, but to use it to generate the CRD/controller code.
+# generate.init: $(TERRAFORM_PROVIDER_SCHEMA) pull-docs
+
+5. Validate and build provider
 Check generated files:
-Validate the new CRD(s) appear in the cluster/crds/ directory.
+Validate the new CRD(s) appear in the package/crds/ directory.
+
+make build-provider.<service>
+
+example: make build-provider.vertexai
+
 Valudate _output/xpkg files and locate *.xpkg file to docker load
 
 6. Deploy and Test:
