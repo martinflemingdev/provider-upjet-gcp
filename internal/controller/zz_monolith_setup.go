@@ -285,6 +285,7 @@ import (
 	cryptokey "github.com/upbound/provider-gcp/internal/controller/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/provider-gcp/internal/controller/kms/cryptokeyiammember"
 	cryptokeyversion "github.com/upbound/provider-gcp/internal/controller/kms/cryptokeyversion"
+	keyhandle "github.com/upbound/provider-gcp/internal/controller/kms/keyhandle"
 	keyring "github.com/upbound/provider-gcp/internal/controller/kms/keyring"
 	keyringiammember "github.com/upbound/provider-gcp/internal/controller/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/internal/controller/kms/keyringimportjob"
@@ -665,6 +666,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
 		cryptokeyversion.Setup,
+		keyhandle.Setup,
 		keyring.Setup,
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
