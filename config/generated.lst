@@ -33,6 +33,8 @@
   "google_bigquery_analytics_hub_data_exchange",
   "google_bigquery_analytics_hub_data_exchange_iam_member",
   "google_bigquery_analytics_hub_listing",
+  "google_bigquery_analytics_hub_listing_iam_member",
+  "google_bigquery_analytics_hub_listing_subscription",
   "google_bigquery_connection",
   "google_bigquery_data_transfer_config",
   "google_bigquery_dataset",

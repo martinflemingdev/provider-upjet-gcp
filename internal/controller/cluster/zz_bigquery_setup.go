@@ -12,6 +12,8 @@ import (
 	analyticshubdataexchange "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/analyticshublisting"
+	analyticshublistingiammember "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/analyticshublistingiammember"
+	analyticshublistingsubscription "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/cluster/bigquery/datasetaccess"
@@ -36,6 +38,8 @@ func Setup_bigquery(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
+		analyticshublistingiammember.Setup,
+		analyticshublistingsubscription.Setup,
 		connection.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
@@ -66,6 +70,8 @@ func SetupGated_bigquery(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.SetupGated,
 		analyticshubdataexchangeiammember.SetupGated,
 		analyticshublisting.SetupGated,
+		analyticshublistingiammember.SetupGated,
+		analyticshublistingsubscription.SetupGated,
 		connection.SetupGated,
 		dataset.SetupGated,
 		datasetaccess.SetupGated,
