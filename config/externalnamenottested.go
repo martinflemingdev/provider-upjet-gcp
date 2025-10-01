@@ -405,19 +405,25 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// vertexai
 	//
 	// No Import
-	"google_vertex_ai_dataset": config.IdentifierFromProvider,
+	// Already in externalname.go - duplicate removed 2025-10-01
+	// "google_vertex_ai_dataset": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
-	"google_vertex_ai_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .external_name }}"),
+	// Moved to externalname.go - 2025-10-01
+	// "google_vertex_ai_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{region}}/featurestores/{{name}}
-	"google_vertex_ai_featurestore": config.IdentifierFromProvider,
+	// Already in externalname.go - duplicate removed 2025-10-01
+	// "google_vertex_ai_featurestore": config.IdentifierFromProvider,
 	// Imported by using the following {{featurestore}}/entityTypes/{{name}}
-	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
+	// Already in externalname.go - duplicate removed 2025-10-01
+	// "google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
 	// Imported by using the following {{entitytype}}/features/{{name}}
 	"google_vertex_ai_featurestore_entitytype_feature": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/indexes/{{name}}
-	"google_vertex_ai_index": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{.parameters.region }}/indexes/{{ .external_name }}"),
+	// Moved to externalname.go - 2025-10-01
+	// "google_vertex_ai_index": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{.parameters.region }}/indexes/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
-	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
+	// Already in externalname.go - duplicate removed 2025-10-01
+	// "google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
 
 	// cloudplatform
 	//
