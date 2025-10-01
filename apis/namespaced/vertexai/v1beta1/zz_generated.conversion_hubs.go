@@ -19,6 +19,18 @@ func (tr *Endpoint) Hub() {}
 func (tr *EndpointWithModelGardenDeployment) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *FeatureGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureGroupFeature) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureOnlineStore) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureOnlineStoreFeatureview) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Featurestore) Hub() {}
 
 // Hub marks this type as a conversion hub.

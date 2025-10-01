@@ -1,0 +1,19 @@
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: FeatureOnlineStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featureonlinestore
+  labels:
+    testing.upbound.io/example-name: feature_online_store
+  name: feature-online-store
+  namespace: upbound-system
+spec:
+  forProvider:
+    bigtable:
+    - autoScaling:
+      - cpuUtilizationTarget: 50
+        maxNodeCount: 3
+        minNodeCount: 1
+    labels:
+      foo: bar
+    region: us-central1

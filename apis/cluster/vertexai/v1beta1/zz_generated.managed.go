@@ -207,6 +207,206 @@ func (mg *EndpointWithModelGardenDeployment) SetWriteConnectionSecretToReference
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this FeatureGroup.
+func (mg *FeatureGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this FeatureGroup.
+func (mg *FeatureGroup) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this FeatureGroup.
+func (mg *FeatureGroup) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this FeatureGroup.
+func (mg *FeatureGroup) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this FeatureGroup.
+func (mg *FeatureGroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FeatureGroup.
+func (mg *FeatureGroup) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this FeatureGroup.
+func (mg *FeatureGroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this FeatureGroup.
+func (mg *FeatureGroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this FeatureGroup.
+func (mg *FeatureGroup) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this FeatureGroup.
+func (mg *FeatureGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this FeatureGroupFeature.
+func (mg *FeatureGroupFeature) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this FeatureOnlineStore.
+func (mg *FeatureOnlineStore) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this Featurestore.
 func (mg *Featurestore) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

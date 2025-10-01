@@ -13,6 +13,10 @@ import (
 	deploymentresourcepool "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/deploymentresourcepool"
 	endpoint "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/endpoint"
 	endpointwithmodelgardendeployment "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/endpointwithmodelgardendeployment"
+	featuregroup "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featuregroup"
+	featuregroupfeature "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featuregroupfeature"
+	featureonlinestore "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featureonlinestore"
+	featureonlinestorefeatureview "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featureonlinestorefeatureview"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestoreentitytype"
 	index "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/index"
@@ -30,6 +34,10 @@ func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		deploymentresourcepool.Setup,
 		endpoint.Setup,
 		endpointwithmodelgardendeployment.Setup,
+		featuregroup.Setup,
+		featuregroupfeature.Setup,
+		featureonlinestore.Setup,
+		featureonlinestorefeatureview.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
 		index.Setup,
@@ -53,6 +61,10 @@ func SetupGated_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		deploymentresourcepool.SetupGated,
 		endpoint.SetupGated,
 		endpointwithmodelgardendeployment.SetupGated,
+		featuregroup.SetupGated,
+		featuregroupfeature.SetupGated,
+		featureonlinestore.SetupGated,
+		featureonlinestorefeatureview.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
 		index.SetupGated,

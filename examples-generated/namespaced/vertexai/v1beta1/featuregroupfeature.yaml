@@ -1,0 +1,94 @@
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: FeatureGroupFeature
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroupfeature
+  labels:
+    testing.upbound.io/example-name: feature_group_feature
+  name: feature-group-feature
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample feature
+    featureGroupSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sample_feature_group
+    labels:
+      label-one: value-one
+    region: us-central1
+
+---
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroupfeature
+  labels:
+    testing.upbound.io/example-name: sample_dataset
+  name: sample-dataset
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: This is a test description
+    friendlyName: test
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroupfeature
+  labels:
+    testing.upbound.io/example-name: sample_table
+  name: sample-table
+  namespace: upbound-system
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    deletionProtection: false
+    schema: |
+      [
+          {
+              "name": "feature_id",
+              "type": "STRING",
+              "mode": "NULLABLE"
+          },
+          {
+              "name": "example_feature",
+              "type": "STRING",
+              "mode": "NULLABLE"
+          },
+          {
+              "name": "feature_timestamp",
+              "type": "TIMESTAMP",
+              "mode": "NULLABLE"
+          }
+      ]
+
+---
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: FeatureGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroupfeature
+  labels:
+    testing.upbound.io/example-name: sample_feature_group
+  name: sample-feature-group
+  namespace: upbound-system
+spec:
+  forProvider:
+    bigQuery:
+    - bigQuerySource:
+      - inputUri: bq://${google_bigquery_table.sample_table.project}.${google_bigquery_table.sample_table.dataset_id}.${google_bigquery_table.sample_table.table_id}
+      entityIdColumns:
+      - feature_id
+    description: A sample feature group
+    labels:
+      label-one: value-one
+    region: us-central1

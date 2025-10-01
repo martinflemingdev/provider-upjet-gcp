@@ -16,8 +16,209 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of this FeaturestoreEntitytype.
+func (mg *FeatureGroupFeature) ResolveReferences( // ResolveReferences of this FeatureGroupFeature.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureGroup", "FeatureGroupList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FeatureGroup),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.FeatureGroupRef,
+			Selector:     mg.Spec.ForProvider.FeatureGroupSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FeatureGroup")
+	}
+	mg.Spec.ForProvider.FeatureGroup = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FeatureGroupRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FeatureOnlineStoreFeatureview.
+func (mg *FeatureOnlineStoreFeatureview) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var mrsp reference.MultiNamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureOnlineStore", "FeatureOnlineStoreList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FeatureOnlineStore),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.FeatureOnlineStoreRef,
+			Selector:     mg.Spec.ForProvider.FeatureOnlineStoreSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.FeatureOnlineStore")
+	}
+	mg.Spec.ForProvider.FeatureOnlineStore = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.FeatureOnlineStoreRef = rsp.ResolvedReference
+
+	if mg.Spec.ForProvider.FeatureRegistrySource != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureGroup", "FeatureGroupList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDRef,
+					Selector:     mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID")
+			}
+			mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.FeatureRegistrySource != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureGroupFeature", "FeatureGroupFeatureList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds),
+					Extract:       reference.ExternalName(),
+					Namespace:     mg.GetNamespace(),
+					References:    mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsRefs,
+					Selector:      mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds")
+			}
+			mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.ForProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsRefs = mrsp.ResolvedReferences
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Project),
+			Extract:      resource.ExtractParamPath("project_id", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ProjectRef,
+			Selector:     mg.Spec.ForProvider.ProjectSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Project")
+	}
+	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.FeatureRegistrySource != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureGroup", "FeatureGroupList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID),
+					Extract:      reference.ExternalName(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDRef,
+					Selector:     mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID")
+			}
+			mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupID = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureGroupIDRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.FeatureRegistrySource != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("vertexai.gcp.m.upbound.io", "v1beta1", "FeatureGroupFeature", "FeatureGroupFeatureList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+					CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds),
+					Extract:       reference.ExternalName(),
+					Namespace:     mg.GetNamespace(),
+					References:    mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsRefs,
+					Selector:      mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsSelector,
+					To:            reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds")
+			}
+			mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIds = reference.ToPtrValues(mrsp.ResolvedValues)
+			mg.Spec.InitProvider.FeatureRegistrySource.FeatureGroups[i4].FeatureIdsRefs = mrsp.ResolvedReferences
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.m.upbound.io", "v1beta1", "Project", "ProjectList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Project),
+			Extract:      resource.ExtractParamPath("project_id", false),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ProjectRef,
+			Selector:     mg.Spec.InitProvider.ProjectSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Project")
+	}
+	mg.Spec.InitProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ProjectRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this FeaturestoreEntitytype.
+func (mg *FeaturestoreEntitytype) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)
