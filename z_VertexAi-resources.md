@@ -18,13 +18,13 @@
 
 | Resource | externalname.go | externalnamenottested.go | AddResourceConfigurator | Notes |
 |----------|----------------|-------------------------|------------------------|-------|
-| `google_vertex_ai_feature_group` | ⬜ | ⬜ | ⬜ | |
-| `google_vertex_ai_feature_group_feature` | ⬜ | ⬜ | ⬜ | |
-| `google_vertex_ai_feature_group_iam` | ⬜ | ⬜ | ⬜ | IAM resource |
-| `google_vertex_ai_feature_online_store` | ⬜ | ⬜ | ⬜ | |
-| `google_vertex_ai_feature_online_store_featureview` | ⬜ | ⬜ | ⬜ | |
-| `google_vertex_ai_feature_online_store_featureview_iam` | ⬜ | ⬜ | ⬜ | IAM resource |
-| `google_vertex_ai_feature_online_store_iam` | ⬜ | ⬜ | ⬜ | IAM resource |
+| `google_vertex_ai_feature_group` | ✅ | ✅ (not present) | ✅ | TemplatedStringAsIdentifier, region required |
+| `google_vertex_ai_feature_group_feature` | ✅ | ✅ (not present) | ✅ | TemplatedStringAsIdentifier, refs feature_group, region required |
+| `google_vertex_ai_feature_group_iam_member` | ✅ | ✅ (not present) | ✅ | IdentifierFromProvider (IAM), refs feature_group |
+| `google_vertex_ai_feature_online_store` | ✅ | ✅ (not present) | ✅ | TemplatedStringAsIdentifier, region required |
+| `google_vertex_ai_feature_online_store_featureview` | ✅ | ✅ (not present) | ✅ | TemplatedStringAsIdentifier, refs feature_online_store, region required |
+| `google_vertex_ai_feature_online_store_featureview_iam_member` | ✅ | ✅ (not present) | ✅ | IdentifierFromProvider (IAM), refs feature_online_store+feature_view |
+| `google_vertex_ai_feature_online_store_iam_member` | ✅ | ✅ (not present) | ✅ | IdentifierFromProvider (IAM), refs feature_online_store |
 
 ## Included in current Provider
 

@@ -997,6 +997,20 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_metadata_store": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/metadataStores/{{ .external_name }}"),
 	// Imported by using the following projects/{{project}}/locations/{{region}}/ragEngineConfig
 	"google_vertex_ai_rag_engine_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/ragEngineConfig"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{name}}
+	"google_vertex_ai_feature_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureGroups/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{feature_group}}/features/{{name}}
+	"google_vertex_ai_feature_group_feature": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureGroups/{{ .parameters.feature_group }}/features/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{feature_group}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_group_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{name}}
+	"google_vertex_ai_feature_online_store": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureOnlineStores/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}}/featureViews/{{name}}
+	"google_vertex_ai_feature_online_store_featureview": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureOnlineStores/{{ .parameters.feature_online_store }}/featureViews/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}}/featureViews/{{featureview}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_online_store_featureview_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_online_store_iam_member": config.IdentifierFromProvider,
 
 	// documentai
 	//

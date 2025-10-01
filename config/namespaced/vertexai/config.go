@@ -58,4 +58,47 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_vertex_ai_tensorboard", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_group", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_group_feature", func(r *config.Resource) {
+		r.References["feature_group"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_group",
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_group_iam_member", func(r *config.Resource) {
+		r.References["feature_group"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_group",
+		}
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_online_store", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_online_store_featureview", func(r *config.Resource) {
+		r.References["feature_online_store"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_online_store",
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_online_store_featureview_iam_member", func(r *config.Resource) {
+		r.References["feature_online_store"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_online_store",
+		}
+		r.References["feature_view"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_online_store_featureview",
+		}
+	})
+
+	p.AddResourceConfigurator("google_vertex_ai_feature_online_store_iam_member", func(r *config.Resource) {
+		r.References["feature_online_store"] = config.Reference{
+			TerraformName: "google_vertex_ai_feature_online_store",
+		}
+	})
 }
