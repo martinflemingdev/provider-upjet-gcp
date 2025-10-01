@@ -1,0 +1,15 @@
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: EndpointWithModelGardenDeployment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/endpointwithmodelgardendeployment
+  labels:
+    testing.upbound.io/example-name: deploy
+  name: deploy
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    modelConfig:
+    - acceptEula: true
+    publisherModelName: publishers/google/models/paligemma@paligemma-224-float32

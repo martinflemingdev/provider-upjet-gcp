@@ -1,0 +1,807 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: endpoints.vertexai.gcp.upbound.io
+spec:
+  group: vertexai.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Endpoint
+    listKind: EndpointList
+    plural: endpoints
+    singular: endpoint
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Endpoint is the Schema for the Endpoints API. Models are deployed
+          into it, and afterwards Endpoint is called to obtain predictions and explanations.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: EndpointSpec defines the desired state of Endpoint
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  dedicatedEndpointEnabled:
+                    description: 'If true, the endpoint will be exposed through a
+                      dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request
+                      to the dedicated DNS will be isolated from other users'' traffic
+                      and will have better performance and reliability. Note: Once
+                      you enabled dedicated endpoint, you won''t be able to send request
+                      to the shared DNS {region}-aiplatform.googleapis.com. The limitation
+                      will be removed soon.'
+                    type: boolean
+                  description:
+                    description: The description of the Endpoint.
+                    type: string
+                  displayName:
+                    description: Required. The display name of the Endpoint. The name
+                      can be up to 128 characters long and can consist of any UTF-8
+                      characters.
+                    type: string
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an Endpoint. If set, this Endpoint and all sub-resources of this Endpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels with user-defined metadata to organize your Endpoints. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for more information and examples of labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The location for the resource
+                    type: string
+                  network:
+                    description: 'The full name of the Google Compute Engine network
+                      to which the Endpoint should be peered. Private services access
+                      must already be configured for the network. If left unspecified,
+                      the Endpoint is not peered with any network. Only one of the
+                      fields, network or enable_private_service_connect, can be set.
+                      Format: projects/{project}/global/networks/{network}. Where
+                      {project} is a project number, as in 12345, and {network} is
+                      network name. Only one of the fields, network or privateServiceConnectConfig,
+                      can be set.'
+                    type: string
+                  predictRequestResponseLoggingConfig:
+                    description: |-
+                      Configures the request-response logging for online prediction.
+                      Structure is documented below.
+                    properties:
+                      bigqueryDestination:
+                        description: |-
+                          BigQuery table for logging. If only given a project, a new dataset will be created with name logging_<endpoint-display-name>_<endpoint-id> where will be made BigQuery-dataset-name compatible (e.g. most special characters will become underscores). If no table name is given, a new table will be created with name request_response_logging
+                          Structure is documented below.
+                        properties:
+                          outputUri:
+                            description: 'BigQuery URI to a project or table, up to
+                              2000 characters long. When only the project is specified,
+                              the Dataset and Table is created. When the full table
+                              reference is specified, the Dataset must exist and table
+                              must not exist. Accepted forms: - BigQuery path. For
+                              example: bq://projectId or bq://projectId.bqDatasetId
+                              or bq://projectId.bqDatasetId.bqTableId.'
+                            type: string
+                        type: object
+                      enabled:
+                        description: If logging is enabled or not.
+                        type: boolean
+                      samplingRate:
+                        description: Percentage of requests to be logged, expressed
+                          as a fraction in range(0,1]
+                        type: number
+                    type: object
+                  privateServiceConnectConfig:
+                    description: |-
+                      Configuration for private service connect. network and privateServiceConnectConfig are mutually exclusive.
+                      Structure is documented below.
+                    properties:
+                      enablePrivateServiceConnect:
+                        description: Required. If true, expose the IndexEndpoint via
+                          private service connect.
+                        type: boolean
+                      enableSecurePrivateServiceConnect:
+                        description: If set to true, enable secure private service
+                          connect with IAM authorization. Otherwise, private service
+                          connect will be done without authorization. Note latency
+                          will be slightly increased if authorization is enabled.
+                        type: boolean
+                      projectAllowlist:
+                        description: A list of Projects from which the forwarding
+                          rule will target the service attachment.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region for the resource
+                    type: string
+                  trafficSplit:
+                    description: |-
+                      A map from a DeployedModel's id to the percentage of this Endpoint's traffic that should be forwarded to that DeployedModel.
+                      If a DeployedModel's id is not listed in this map, then it receives no traffic.
+                      The traffic percentage values must add up to 100, or map must be empty if the Endpoint is to not accept any traffic at a moment. See
+                      the deployModel example and
+                      documentation for more information.
+                      ~> Note: To set the map to empty, set "{}", apply, and then remove the field from your config.
+                    type: string
+                required:
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  dedicatedEndpointEnabled:
+                    description: 'If true, the endpoint will be exposed through a
+                      dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request
+                      to the dedicated DNS will be isolated from other users'' traffic
+                      and will have better performance and reliability. Note: Once
+                      you enabled dedicated endpoint, you won''t be able to send request
+                      to the shared DNS {region}-aiplatform.googleapis.com. The limitation
+                      will be removed soon.'
+                    type: boolean
+                  description:
+                    description: The description of the Endpoint.
+                    type: string
+                  displayName:
+                    description: Required. The display name of the Endpoint. The name
+                      can be up to 128 characters long and can consist of any UTF-8
+                      characters.
+                    type: string
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an Endpoint. If set, this Endpoint and all sub-resources of this Endpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels with user-defined metadata to organize your Endpoints. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for more information and examples of labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  network:
+                    description: 'The full name of the Google Compute Engine network
+                      to which the Endpoint should be peered. Private services access
+                      must already be configured for the network. If left unspecified,
+                      the Endpoint is not peered with any network. Only one of the
+                      fields, network or enable_private_service_connect, can be set.
+                      Format: projects/{project}/global/networks/{network}. Where
+                      {project} is a project number, as in 12345, and {network} is
+                      network name. Only one of the fields, network or privateServiceConnectConfig,
+                      can be set.'
+                    type: string
+                  predictRequestResponseLoggingConfig:
+                    description: |-
+                      Configures the request-response logging for online prediction.
+                      Structure is documented below.
+                    properties:
+                      bigqueryDestination:
+                        description: |-
+                          BigQuery table for logging. If only given a project, a new dataset will be created with name logging_<endpoint-display-name>_<endpoint-id> where will be made BigQuery-dataset-name compatible (e.g. most special characters will become underscores). If no table name is given, a new table will be created with name request_response_logging
+                          Structure is documented below.
+                        properties:
+                          outputUri:
+                            description: 'BigQuery URI to a project or table, up to
+                              2000 characters long. When only the project is specified,
+                              the Dataset and Table is created. When the full table
+                              reference is specified, the Dataset must exist and table
+                              must not exist. Accepted forms: - BigQuery path. For
+                              example: bq://projectId or bq://projectId.bqDatasetId
+                              or bq://projectId.bqDatasetId.bqTableId.'
+                            type: string
+                        type: object
+                      enabled:
+                        description: If logging is enabled or not.
+                        type: boolean
+                      samplingRate:
+                        description: Percentage of requests to be logged, expressed
+                          as a fraction in range(0,1]
+                        type: number
+                    type: object
+                  privateServiceConnectConfig:
+                    description: |-
+                      Configuration for private service connect. network and privateServiceConnectConfig are mutually exclusive.
+                      Structure is documented below.
+                    properties:
+                      enablePrivateServiceConnect:
+                        description: Required. If true, expose the IndexEndpoint via
+                          private service connect.
+                        type: boolean
+                      enableSecurePrivateServiceConnect:
+                        description: If set to true, enable secure private service
+                          connect with IAM authorization. Otherwise, private service
+                          connect will be done without authorization. Note latency
+                          will be slightly increased if authorization is enabled.
+                        type: boolean
+                      projectAllowlist:
+                        description: A list of Projects from which the forwarding
+                          rule will target the service attachment.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region for the resource
+                    type: string
+                  trafficSplit:
+                    description: |-
+                      A map from a DeployedModel's id to the percentage of this Endpoint's traffic that should be forwarded to that DeployedModel.
+                      If a DeployedModel's id is not listed in this map, then it receives no traffic.
+                      The traffic percentage values must add up to 100, or map must be empty if the Endpoint is to not accept any traffic at a moment. See
+                      the deployModel example and
+                      documentation for more information.
+                      ~> Note: To set the map to empty, set "{}", apply, and then remove the field from your config.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+          status:
+            description: EndpointStatus defines the observed state of Endpoint.
+            properties:
+              atProvider:
+                properties:
+                  createTime:
+                    description: Output only. Timestamp when this Endpoint was created.
+                    type: string
+                  dedicatedEndpointDns:
+                    description: 'Output only. DNS of the dedicated endpoint. Will
+                      only be populated if dedicatedEndpointEnabled is true. Format:
+                      https://{endpointId}.{region}-{projectNumber}.prediction.vertexai.goog.'
+                    type: string
+                  dedicatedEndpointEnabled:
+                    description: 'If true, the endpoint will be exposed through a
+                      dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request
+                      to the dedicated DNS will be isolated from other users'' traffic
+                      and will have better performance and reliability. Note: Once
+                      you enabled dedicated endpoint, you won''t be able to send request
+                      to the shared DNS {region}-aiplatform.googleapis.com. The limitation
+                      will be removed soon.'
+                    type: boolean
+                  deployedModels:
+                    description: |-
+                      Output only. The models deployed in this Endpoint. To add or remove DeployedModels use EndpointService.DeployModel and EndpointService.UndeployModel respectively. Models can also be deployed and undeployed using the Cloud Console.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        automaticResources:
+                          description: |-
+                            (Output)
+                            A description of resources that to large degree are decided by Vertex AI, and require only a modest additional configuration.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              maxReplicaCount:
+                                description: |-
+                                  (Output)
+                                  The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, will use min_replica_count as the default value. The value of this field impacts the charge against Vertex CPU and GPU quotas. Specifically, you will be charged for max_replica_count * number of cores in the selected machine type) and (max_replica_count * number of GPUs per replica in the selected machine type).
+                                type: number
+                              minReplicaCount:
+                                description: |-
+                                  (Output)
+                                  The minimum number of machine replicas this DeployedModel will be always deployed on. This value must be greater than or equal to 1. If traffic against the DeployedModel increases, it may dynamically be deployed onto more replicas, and as traffic decreases, some of these extra replicas may be freed.
+                                type: number
+                            type: object
+                          type: array
+                        createTime:
+                          description: |-
+                            (Output)
+                            Output only. Timestamp when the DeployedModel was created.
+                          type: string
+                        dedicatedResources:
+                          description: |-
+                            (Output)
+                            A description of resources that are dedicated to the DeployedModel, and that need a higher degree of manual configuration.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              autoscalingMetricSpecs:
+                                description: |-
+                                  (Output)
+                                  The metric specifications that overrides a resource utilization metric (CPU utilization, accelerator's duty cycle, and so on) target value (default to 60 if not set). At most one entry is allowed per metric. If machine_spec.accelerator_count is above 0, the autoscaling will be based on both CPU utilization and accelerator's duty cycle metrics and scale up when either metrics exceeds its target value while scale down if both metrics are under their target value. The default target value is 60 for both metrics. If machine_spec.accelerator_count is 0, the autoscaling will be based on CPU utilization metric only with default target value 60 if not explicitly set. For example, in the case of Online Prediction, if you want to override target CPU utilization to 80, you should set autoscaling_metric_specs.metric_name to aiplatform.googleapis.com/prediction/online/cpu/utilization and autoscaling_metric_specs.target to 80.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    metricName:
+                                      description: |-
+                                        (Output)
+                                        The resource metric name. Supported metrics: * For Online Prediction: * aiplatform.googleapis.com/prediction/online/accelerator/duty_cycle * aiplatform.googleapis.com/prediction/online/cpu/utilization
+                                      type: string
+                                    target:
+                                      description: |-
+                                        (Output)
+                                        The target resource utilization in percentage (1% - 100%) for the given metric; once the real usage deviates from the target by a certain percentage, the machine replicas change. The default value is 60 (representing 60%) if not provided.
+                                      type: number
+                                  type: object
+                                type: array
+                              machineSpec:
+                                description: |-
+                                  (Output)
+                                  The specification of a single machine used by the prediction.
+                                  Structure is documented below.
+                                items:
+                                  properties:
+                                    acceleratorCount:
+                                      description: |-
+                                        (Output)
+                                        The number of accelerators to attach to the machine.
+                                      type: number
+                                    acceleratorType:
+                                      description: |-
+                                        (Output)
+                                        The type of accelerator(s) that may be attached to the machine as per accelerator_count. See possible values here.
+                                      type: string
+                                    machineType:
+                                      description: |-
+                                        (Output)
+                                        The type of the machine. See the list of machine types supported for prediction See the list of machine types supported for custom training. For DeployedModel this field is optional, and the default value is n1-standard-2. For BatchPredictionJob or as part of WorkerPoolSpec this field is required. TODO: Try to better unify the required vs optional.
+                                      type: string
+                                  type: object
+                                type: array
+                              maxReplicaCount:
+                                description: |-
+                                  (Output)
+                                  The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, will use min_replica_count as the default value. The value of this field impacts the charge against Vertex CPU and GPU quotas. Specifically, you will be charged for max_replica_count * number of cores in the selected machine type) and (max_replica_count * number of GPUs per replica in the selected machine type).
+                                type: number
+                              minReplicaCount:
+                                description: |-
+                                  (Output)
+                                  The minimum number of machine replicas this DeployedModel will be always deployed on. This value must be greater than or equal to 1. If traffic against the DeployedModel increases, it may dynamically be deployed onto more replicas, and as traffic decreases, some of these extra replicas may be freed.
+                                type: number
+                            type: object
+                          type: array
+                        displayName:
+                          description: |-
+                            (Output)
+                            The display name of the DeployedModel. If not provided upon creation, the Model's display_name is used.
+                          type: string
+                        enableAccessLogging:
+                          description: |-
+                            (Output)
+                            These logs are like standard server access logs, containing information like timestamp and latency for each prediction request. Note that Stackdriver logs may incur a cost, especially if your project receives prediction requests at a high queries per second rate (QPS). Estimate your costs before enabling this option.
+                          type: boolean
+                        enableContainerLogging:
+                          description: |-
+                            (Output)
+                            If true, the container of the DeployedModel instances will send stderr and stdout streams to Stackdriver Logging. Only supported for custom-trained Models and AutoML Tabular Models.
+                          type: boolean
+                        id:
+                          description: |-
+                            (Output)
+                            The ID of the DeployedModel. If not provided upon deployment, Vertex AI will generate a value for this ID. This value should be 1-10 characters, and valid characters are /[0-9]/.
+                          type: string
+                        model:
+                          description: |-
+                            (Output)
+                            The name of the Model that this is the deployment of. Note that the Model may be in a different location than the DeployedModel's Endpoint.
+                          type: string
+                        modelVersionId:
+                          description: |-
+                            (Output)
+                            Output only. The version ID of the model that is deployed.
+                          type: string
+                        privateEndpoints:
+                          description: |-
+                            (Output)
+                            Output only. Provide paths for users to send predict/explain/health requests directly to the deployed model services running on Cloud via private services access. This field is populated if network is configured.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              explainHttpUri:
+                                description: |-
+                                  (Output)
+                                  Output only. Http(s) path to send explain requests.
+                                type: string
+                              healthHttpUri:
+                                description: |-
+                                  (Output)
+                                  Output only. Http(s) path to send health check requests.
+                                type: string
+                              predictHttpUri:
+                                description: |-
+                                  (Output)
+                                  Output only. Http(s) path to send prediction requests.
+                                type: string
+                              serviceAttachment:
+                                description: |-
+                                  (Output)
+                                  Output only. The name of the service attachment resource. Populated if private service connect is enabled.
+                                type: string
+                            type: object
+                          type: array
+                        serviceAccount:
+                          description: |-
+                            (Output)
+                            The service account that the DeployedModel's container runs as. Specify the email address of the service account. If this service account is not specified, the container runs as a service account that doesn't have access to the resource project. Users deploying the Model must have the iam.serviceAccounts.actAs permission on this service account.
+                          type: string
+                        sharedResources:
+                          description: |-
+                            (Output)
+                            The resource name of the shared DeploymentResourcePool to deploy on. Format: projects/{project}/locations/{location}/deploymentResourcePools/{deployment_resource_pool}
+                          type: string
+                      type: object
+                    type: array
+                  description:
+                    description: The description of the Endpoint.
+                    type: string
+                  displayName:
+                    description: Required. The display name of the Endpoint. The name
+                      can be up to 128 characters long and can consist of any UTF-8
+                      characters.
+                    type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an Endpoint. If set, this Endpoint and all sub-resources of this Endpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
+                  etag:
+                    description: Used to perform consistent read-modify-write updates.
+                      If not set, a blind "overwrite" update happens.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+                    type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels with user-defined metadata to organize your Endpoints. Label keys and values can be no longer than 64 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. See https://goo.gl/xmQnxf for more information and examples of labels.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  location:
+                    description: The location for the resource
+                    type: string
+                  modelDeploymentMonitoringJob:
+                    description: 'Output only. Resource name of the Model Monitoring
+                      job associated with this Endpoint if monitoring is enabled by
+                      CreateModelDeploymentMonitoringJob. Format: projects/{project}/locations/{location}/modelDeploymentMonitoringJobs/{model_deployment_monitoring_job}'
+                    type: string
+                  network:
+                    description: 'The full name of the Google Compute Engine network
+                      to which the Endpoint should be peered. Private services access
+                      must already be configured for the network. If left unspecified,
+                      the Endpoint is not peered with any network. Only one of the
+                      fields, network or enable_private_service_connect, can be set.
+                      Format: projects/{project}/global/networks/{network}. Where
+                      {project} is a project number, as in 12345, and {network} is
+                      network name. Only one of the fields, network or privateServiceConnectConfig,
+                      can be set.'
+                    type: string
+                  predictRequestResponseLoggingConfig:
+                    description: |-
+                      Configures the request-response logging for online prediction.
+                      Structure is documented below.
+                    properties:
+                      bigqueryDestination:
+                        description: |-
+                          BigQuery table for logging. If only given a project, a new dataset will be created with name logging_<endpoint-display-name>_<endpoint-id> where will be made BigQuery-dataset-name compatible (e.g. most special characters will become underscores). If no table name is given, a new table will be created with name request_response_logging
+                          Structure is documented below.
+                        properties:
+                          outputUri:
+                            description: 'BigQuery URI to a project or table, up to
+                              2000 characters long. When only the project is specified,
+                              the Dataset and Table is created. When the full table
+                              reference is specified, the Dataset must exist and table
+                              must not exist. Accepted forms: - BigQuery path. For
+                              example: bq://projectId or bq://projectId.bqDatasetId
+                              or bq://projectId.bqDatasetId.bqTableId.'
+                            type: string
+                        type: object
+                      enabled:
+                        description: If logging is enabled or not.
+                        type: boolean
+                      samplingRate:
+                        description: Percentage of requests to be logged, expressed
+                          as a fraction in range(0,1]
+                        type: number
+                    type: object
+                  privateServiceConnectConfig:
+                    description: |-
+                      Configuration for private service connect. network and privateServiceConnectConfig are mutually exclusive.
+                      Structure is documented below.
+                    properties:
+                      enablePrivateServiceConnect:
+                        description: Required. If true, expose the IndexEndpoint via
+                          private service connect.
+                        type: boolean
+                      enableSecurePrivateServiceConnect:
+                        description: If set to true, enable secure private service
+                          connect with IAM authorization. Otherwise, private service
+                          connect will be done without authorization. Note latency
+                          will be slightly increased if authorization is enabled.
+                        type: boolean
+                      projectAllowlist:
+                        description: A list of Projects from which the forwarding
+                          rule will target the service attachment.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  region:
+                    description: The region for the resource
+                    type: string
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  trafficSplit:
+                    description: |-
+                      A map from a DeployedModel's id to the percentage of this Endpoint's traffic that should be forwarded to that DeployedModel.
+                      If a DeployedModel's id is not listed in this map, then it receives no traffic.
+                      The traffic percentage values must add up to 100, or map must be empty if the Endpoint is to not accept any traffic at a moment. See
+                      the deployModel example and
+                      documentation for more information.
+                      ~> Note: To set the map to empty, set "{}", apply, and then remove the field from your config.
+                    type: string
+                  updateTime:
+                    description: Output only. Timestamp when this Endpoint was last
+                      updated.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

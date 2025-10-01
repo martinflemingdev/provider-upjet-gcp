@@ -379,8 +379,15 @@ import (
 	tagvalue "github.com/upbound/provider-gcp/internal/controller/cluster/tags/tagvalue"
 	node "github.com/upbound/provider-gcp/internal/controller/cluster/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/dataset"
+	deploymentresourcepool "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/deploymentresourcepool"
+	endpoint "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/endpoint"
+	endpointwithmodelgardendeployment "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/endpointwithmodelgardendeployment"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/featurestoreentitytype"
+	index "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/index"
+	indexendpoint "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/indexendpoint"
+	indexendpointdeployedindex "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/indexendpointdeployedindex"
+	ragengineconfig "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/ragengineconfig"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/cluster/vertexai/tensorboard"
 	connector "github.com/upbound/provider-gcp/internal/controller/cluster/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/internal/controller/cluster/workflows/workflow"
@@ -760,8 +767,15 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagvalue.Setup,
 		node.Setup,
 		datasetvertexai.Setup,
+		deploymentresourcepool.Setup,
+		endpoint.Setup,
+		endpointwithmodelgardendeployment.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		index.Setup,
+		indexendpoint.Setup,
+		indexendpointdeployedindex.Setup,
+		ragengineconfig.Setup,
 		tensorboard.Setup,
 		connector.Setup,
 		workflow.Setup,
@@ -1147,8 +1161,15 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagvalue.SetupGated,
 		node.SetupGated,
 		datasetvertexai.SetupGated,
+		deploymentresourcepool.SetupGated,
+		endpoint.SetupGated,
+		endpointwithmodelgardendeployment.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		index.SetupGated,
+		indexendpoint.SetupGated,
+		indexendpointdeployedindex.SetupGated,
+		ragengineconfig.SetupGated,
 		tensorboard.SetupGated,
 		connector.SetupGated,
 		workflow.SetupGated,

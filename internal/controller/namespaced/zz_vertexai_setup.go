@@ -10,8 +10,15 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	dataset "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/dataset"
+	deploymentresourcepool "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/deploymentresourcepool"
+	endpoint "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/endpoint"
+	endpointwithmodelgardendeployment "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/endpointwithmodelgardendeployment"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featurestoreentitytype"
+	index "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/index"
+	indexendpoint "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/indexendpoint"
+	indexendpointdeployedindex "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/indexendpointdeployedindex"
+	ragengineconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/ragengineconfig"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/tensorboard"
 )
 
@@ -20,8 +27,15 @@ import (
 func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		dataset.Setup,
+		deploymentresourcepool.Setup,
+		endpoint.Setup,
+		endpointwithmodelgardendeployment.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		index.Setup,
+		indexendpoint.Setup,
+		indexendpointdeployedindex.Setup,
+		ragengineconfig.Setup,
 		tensorboard.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -36,8 +50,15 @@ func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_vertexai(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		dataset.SetupGated,
+		deploymentresourcepool.SetupGated,
+		endpoint.SetupGated,
+		endpointwithmodelgardendeployment.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		index.SetupGated,
+		indexendpoint.SetupGated,
+		indexendpointdeployedindex.SetupGated,
+		ragengineconfig.SetupGated,
 		tensorboard.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

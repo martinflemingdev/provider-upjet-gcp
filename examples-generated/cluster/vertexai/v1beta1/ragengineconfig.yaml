@@ -1,0 +1,14 @@
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: RagEngineConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/ragengineconfig
+  labels:
+    testing.upbound.io/example-name: ""
+  name: ""
+spec:
+  forProvider:
+    ragManagedDbConfig:
+    - basic:
+      - {}
+    region: us-central1

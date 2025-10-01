@@ -51,6 +51,10 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 
 type AnalyticsHubListingSubscriptionObservation struct {
 
+	// Commercial info metadata for this subscription. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing.
+	// Structure is documented below.
+	CommercialInfo []CommercialInfoObservation `json:"commercialInfo,omitempty" tf:"commercial_info,omitempty"`
+
 	// Timestamp when the subscription was created.
 	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
 
@@ -150,6 +154,33 @@ type AnalyticsHubListingSubscriptionParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type CloudMarketplaceInitParameters struct {
+}
+
+type CloudMarketplaceObservation struct {
+
+	// (Output)
+	// Resource name of the Marketplace Order.
+	Order *string `json:"order,omitempty" tf:"order,omitempty"`
+}
+
+type CloudMarketplaceParameters struct {
+}
+
+type CommercialInfoInitParameters struct {
+}
+
+type CommercialInfoObservation struct {
+
+	// (Output)
+	// Cloud Marketplace commercial metadata for this subscription.
+	// Structure is documented below.
+	CloudMarketplace []CloudMarketplaceObservation `json:"cloudMarketplace,omitempty" tf:"cloud_marketplace,omitempty"`
+}
+
+type CommercialInfoParameters struct {
 }
 
 type DatasetReferenceInitParameters struct {

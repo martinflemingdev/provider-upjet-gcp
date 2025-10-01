@@ -1,0 +1,22 @@
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: DeploymentResourcePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/deploymentresourcepool
+  labels:
+    testing.upbound.io/example-name: deployment_resource_pool
+  name: deployment-resource-pool
+  namespace: upbound-system
+spec:
+  forProvider:
+    dedicatedResources:
+    - autoscalingMetricSpecs:
+      - metricName: aiplatform.googleapis.com/prediction/online/accelerator/duty_cycle
+        target: 60
+      machineSpec:
+      - acceleratorCount: 1
+        acceleratorType: NVIDIA_TESLA_P4
+        machineType: n1-standard-4
+      maxReplicaCount: 2
+      minReplicaCount: 1
+    region: us-central1

@@ -67,3 +67,75 @@ func (mg *FeaturestoreEntitytype) ResolveReferences( // ResolveReferences of thi
 
 	return nil
 }
+
+// ResolveReferences of this IndexEndpointDeployedIndex.
+func (mg *IndexEndpointDeployedIndex) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "Index", "IndexList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Index),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IndexRef,
+			Selector:     mg.Spec.ForProvider.IndexSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Index")
+	}
+	mg.Spec.ForProvider.Index = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IndexRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "IndexEndpoint", "IndexEndpointList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.IndexEndpoint),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.IndexEndpointRef,
+			Selector:     mg.Spec.ForProvider.IndexEndpointSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.IndexEndpoint")
+	}
+	mg.Spec.ForProvider.IndexEndpoint = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.IndexEndpointRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "Index", "IndexList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Index),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.IndexRef,
+			Selector:     mg.Spec.InitProvider.IndexSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Index")
+	}
+	mg.Spec.InitProvider.Index = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.IndexRef = rsp.ResolvedReference
+
+	return nil
+}

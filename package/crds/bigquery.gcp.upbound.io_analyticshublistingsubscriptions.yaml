@@ -755,6 +755,28 @@ spec:
             properties:
               atProvider:
                 properties:
+                  commercialInfo:
+                    description: |-
+                      Commercial info metadata for this subscription. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        cloudMarketplace:
+                          description: |-
+                            (Output)
+                            Cloud Marketplace commercial metadata for this subscription.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              order:
+                                description: |-
+                                  (Output)
+                                  Resource name of the Marketplace Order.
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
                   creationTime:
                     description: Timestamp when the subscription was created.
                     type: string

@@ -14,6 +14,20 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type AnalyticsHubListingSubscriptionCommercialInfoInitParameters struct {
+}
+
+type AnalyticsHubListingSubscriptionCommercialInfoObservation struct {
+
+	// (Output)
+	// Cloud Marketplace commercial metadata for this subscription.
+	// Structure is documented below.
+	CloudMarketplace []CommercialInfoCloudMarketplaceObservation `json:"cloudMarketplace,omitempty" tf:"cloud_marketplace,omitempty"`
+}
+
+type AnalyticsHubListingSubscriptionCommercialInfoParameters struct {
+}
+
 type AnalyticsHubListingSubscriptionInitParameters struct {
 
 	// The ID of the data exchange. Must contain only Unicode letters, numbers (0-9), underscores (_). Should not use characters that require URL-escaping, or characters outside of ASCII, spaces.
@@ -51,6 +65,10 @@ type AnalyticsHubListingSubscriptionInitParameters struct {
 }
 
 type AnalyticsHubListingSubscriptionObservation struct {
+
+	// Commercial info metadata for this subscription. This is set if this is a commercial subscription i.e. if this subscription was created from subscribing to a commercial listing.
+	// Structure is documented below.
+	CommercialInfo []AnalyticsHubListingSubscriptionCommercialInfoObservation `json:"commercialInfo,omitempty" tf:"commercial_info,omitempty"`
 
 	// Timestamp when the subscription was created.
 	CreationTime *string `json:"creationTime,omitempty" tf:"creation_time,omitempty"`
@@ -151,6 +169,19 @@ type AnalyticsHubListingSubscriptionParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+}
+
+type CommercialInfoCloudMarketplaceInitParameters struct {
+}
+
+type CommercialInfoCloudMarketplaceObservation struct {
+
+	// (Output)
+	// Resource name of the Marketplace Order.
+	Order *string `json:"order,omitempty" tf:"order,omitempty"`
+}
+
+type CommercialInfoCloudMarketplaceParameters struct {
 }
 
 type DatasetReferenceInitParameters struct {

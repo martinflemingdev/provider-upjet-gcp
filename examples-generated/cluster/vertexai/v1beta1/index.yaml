@@ -1,0 +1,62 @@
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/index
+  labels:
+    testing.upbound.io/example-name: index
+  name: index
+spec:
+  forProvider:
+    description: index for test
+    displayName: test-index
+    indexUpdateMethod: BATCH_UPDATE
+    labels:
+      foo: bar
+    metadata:
+    - config:
+      - algorithmConfig:
+        - treeAhConfig:
+          - leafNodeEmbeddingCount: 500
+            leafNodesToSearchPercent: 7
+        approximateNeighborsCount: 150
+        dimensions: 2
+        distanceMeasureType: DOT_PRODUCT_DISTANCE
+        shardSize: SHARD_SIZE_SMALL
+      contentsDeltaUri: gs://${google_storage_bucket.bucket.name}/contents
+    region: us-central1
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/index
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+spec:
+  forProvider:
+    location: us-central1
+    uniformBucketLevelAccess: true
+
+---
+
+apiVersion: storage.gcp.upbound.io/v1beta2
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/index
+  labels:
+    testing.upbound.io/example-name: data
+  name: data
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    content: |
+      {"id": "42", "embedding": [0.5, 1.0], "restricts": [{"namespace": "class", "allow": ["cat", "pet"]},{"namespace": "category", "allow": ["feline"]}]}
+      {"id": "43", "embedding": [0.6, 1.0], "restricts": [{"namespace": "class", "allow": ["dog", "pet"]},{"namespace": "category", "allow": ["canine"]}]}
+    name: contents/data.json

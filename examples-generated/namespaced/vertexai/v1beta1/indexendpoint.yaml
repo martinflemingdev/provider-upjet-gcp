@@ -1,0 +1,71 @@
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: IndexEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpoint
+  labels:
+    testing.upbound.io/example-name: index_endpoint
+  name: index-endpoint
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample vertex endpoint
+    displayName: sample-endpoint
+    labels:
+      label-one: value-one
+    network: projects/${data.google_project.project.number}/global/networks/${google_compute_network.vertex_network.name}
+    region: us-central1
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: GlobalAddress
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpoint
+  labels:
+    testing.upbound.io/example-name: vertex_range
+  name: vertex-range
+  namespace: upbound-system
+spec:
+  forProvider:
+    addressType: INTERNAL
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vertex_network
+    prefixLength: 24
+    purpose: VPC_PEERING
+
+---
+
+apiVersion: compute.gcp.m.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpoint
+  labels:
+    testing.upbound.io/example-name: vertex_network
+  name: vertex-network
+  namespace: upbound-system
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: servicenetworking.gcp.m.upbound.io/v1beta1
+kind: Connection
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpoint
+  labels:
+    testing.upbound.io/example-name: vertex_vpc_connection
+  name: vertex-vpc-connection
+  namespace: upbound-system
+spec:
+  forProvider:
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vertex_network
+    reservedPeeringRangesRefs:
+    - name: vertex_range
+    service: servicenetworking.googleapis.com

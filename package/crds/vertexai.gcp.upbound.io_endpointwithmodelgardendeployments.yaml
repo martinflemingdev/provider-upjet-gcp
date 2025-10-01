@@ -1,0 +1,2684 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: endpointwithmodelgardendeployments.vertexai.gcp.upbound.io
+spec:
+  group: vertexai.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: EndpointWithModelGardenDeployment
+    listKind: EndpointWithModelGardenDeploymentList
+    plural: endpointwithmodelgardendeployments
+    singular: endpointwithmodelgardendeployment
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: EndpointWithModelGardenDeployment is the Schema for the EndpointWithModelGardenDeployments
+          API. Create an Endpoint and deploy a Model Garden model to it.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: EndpointWithModelGardenDeploymentSpec defines the desired
+              state of EndpointWithModelGardenDeployment
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  deployConfig:
+                    description: |-
+                      The deploy config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedResources:
+                        description: |-
+                          A description of resources that are dedicated to a DeployedModel or
+                          DeployedIndex, and that need a higher degree of manual configuration.
+                          Structure is documented below.
+                        properties:
+                          autoscalingMetricSpecs:
+                            description: |-
+                              The metric specifications that overrides a resource
+                              utilization metric (CPU utilization, accelerator's duty cycle, and so on)
+                              target value (default to 60 if not set). At most one entry is allowed per
+                              metric.
+                              If machine_spec.accelerator_count is
+                              above 0, the autoscaling will be based on both CPU utilization and
+                              accelerator's duty cycle metrics and scale up when either metrics exceeds
+                              its target value while scale down if both metrics are under their target
+                              value. The default target value is 60 for both metrics.
+                              If machine_spec.accelerator_count is
+                              0, the autoscaling will be based on CPU utilization metric only with
+                              default target value 60 if not explicitly set.
+                              For example, in the case of Online Prediction, if you want to override
+                              target CPU utilization to 80, you should set
+                              autoscaling_metric_specs.metric_name
+                              to aiplatform.googleapis.com/prediction/online/cpu/utilization and
+                              autoscaling_metric_specs.target to 80.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                metricName:
+                                  description: |-
+                                    The resource metric name.
+                                    Supported metrics:
+                                  type: string
+                                target:
+                                  description: |-
+                                    The target resource utilization in percentage (1% - 100%) for the given
+                                    metric; once the real usage deviates from the target by a certain
+                                    percentage, the machine replicas change. The default value is 60
+                                    (representing 60%) if not provided.
+                                  type: number
+                              type: object
+                            type: array
+                          machineSpec:
+                            description: |-
+                              Specification of a single machine.
+                              Structure is documented below.
+                            properties:
+                              acceleratorCount:
+                                description: The number of accelerators to attach
+                                  to the machine.
+                                type: number
+                              acceleratorType:
+                                description: |-
+                                  Possible values:
+                                  ACCELERATOR_TYPE_UNSPECIFIED
+                                  NVIDIA_TESLA_K80
+                                  NVIDIA_TESLA_P100
+                                  NVIDIA_TESLA_V100
+                                  NVIDIA_TESLA_P4
+                                  NVIDIA_TESLA_T4
+                                  NVIDIA_TESLA_A100
+                                  NVIDIA_A100_80GB
+                                  NVIDIA_L4
+                                  NVIDIA_H100_80GB
+                                  NVIDIA_H100_MEGA_80GB
+                                  NVIDIA_H200_141GB
+                                  NVIDIA_B200
+                                  TPU_V2
+                                  TPU_V3
+                                  TPU_V4_POD
+                                  TPU_V5_LITEPOD
+                                type: string
+                              machineType:
+                                description: |-
+                                  The type of the machine.
+                                  See the list of machine types supported for
+                                  prediction
+                                  See the list of machine types supported for custom
+                                  training.
+                                  For DeployedModel this field is optional, and the default
+                                  value is n1-standard-2. For BatchPredictionJob or as part of
+                                  WorkerPoolSpec this field is required.
+                                type: string
+                              multihostGpuNodeCount:
+                                description: The number of nodes per replica for multihost
+                                  GPU deployments.
+                                type: number
+                              reservationAffinity:
+                                description: |-
+                                  A ReservationAffinity can be used to configure a Vertex AI resource (e.g., a
+                                  DeployedModel) to draw its Compute Engine resources from a Shared
+                                  Reservation, or exclusively from on-demand capacity.
+                                  Structure is documented below.
+                                properties:
+                                  key:
+                                    description: |-
+                                      Corresponds to the label key of a reservation resource. To target a
+                                      SPECIFIC_RESERVATION by name, use compute.googleapis.com/reservation-name
+                                      as the key and specify the name of your reservation as its value.
+                                    type: string
+                                  reservationAffinityType:
+                                    description: |-
+                                      Specifies the reservation affinity type.
+                                      Possible values:
+                                      TYPE_UNSPECIFIED
+                                      NO_RESERVATION
+                                      ANY_RESERVATION
+                                      SPECIFIC_RESERVATION
+                                    type: string
+                                  values:
+                                    description: |-
+                                      Corresponds to the label values of a reservation resource. This must be the
+                                      full resource name of the reservation or reservation block.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              tpuTopology:
+                                description: |-
+                                  The topology of the TPUs. Corresponds to the TPU topologies available from
+                                  GKE. (Example: tpu_topology: "2x2x1").
+                                type: string
+                            type: object
+                          maxReplicaCount:
+                            description: |-
+                              The maximum number of replicas that may be deployed on when the traffic
+                              against it increases. If the requested value is too large, the deployment
+                              will error, but if deployment succeeds then the ability to scale to that
+                              many replicas is guaranteed (barring service outages). If traffic increases
+                              beyond what its replicas at maximum may handle, a portion of the traffic
+                              will be dropped. If this value is not provided, will use
+                              min_replica_count as the default value.
+                              The value of this field impacts the charge against Vertex CPU and GPU
+                              quotas. Specifically, you will be charged for (max_replica_count *
+                              number of cores in the selected machine type) and (max_replica_count *
+                              number of GPUs per replica in the selected machine type).
+                            type: number
+                          minReplicaCount:
+                            description: |-
+                              The minimum number of machine replicas that will be always deployed on.
+                              This value must be greater than or equal to 1.
+                              If traffic increases, it may dynamically be deployed onto more replicas,
+                              and as traffic decreases, some of these extra replicas may be freed.
+                            type: number
+                          requiredReplicaCount:
+                            description: |-
+                              Number of required available replicas for the deployment to succeed.
+                              This field is only needed when partial deployment/mutation is
+                              desired. If set, the deploy/mutate operation will succeed once
+                              available_replica_count reaches required_replica_count, and the rest of
+                              the replicas will be retried. If not set, the default
+                              required_replica_count will be min_replica_count.
+                            type: number
+                          spot:
+                            description: |-
+                              If true, schedule the deployment workload on spot
+                              VMs.
+                            type: boolean
+                        type: object
+                      fastTryoutEnabled:
+                        description: If true, enable the QMT fast tryout feature for
+                          this model if possible.
+                        type: boolean
+                      systemLabels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          System labels for Model Garden deployments.
+                          These labels are managed by Google and for tracking purposes only.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  endpointConfig:
+                    description: |-
+                      The endpoint config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedEndpointEnabled:
+                        description: |-
+                          If true, the endpoint will be exposed through a dedicated
+                          DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS
+                          will be isolated from other users' traffic and will have better
+                          performance and reliability. Note: Once you enabled dedicated endpoint,
+                          you won't be able to send request to the shared DNS
+                          {region}-aiplatform.googleapis.com. The limitations will be removed soon.
+                        type: boolean
+                      endpointDisplayName:
+                        description: |-
+                          The user-specified display name of the endpoint. If not set, a
+                          default name will be used.
+                        type: string
+                    type: object
+                  huggingFaceModelId:
+                    description: |-
+                      The Hugging Face model to deploy.
+                      Format: Hugging Face model ID like google/gemma-2-2b-it.
+                    type: string
+                  location:
+                    description: Resource ID segment making up resource location.
+                      It identifies the resource within its parent collection as described
+                      in https://google.aip.dev/122.
+                    type: string
+                  modelConfig:
+                    description: |-
+                      The model config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      acceptEula:
+                        description: |-
+                          Whether the user accepts the End User License Agreement (EULA)
+                          for the model.
+                        type: boolean
+                      containerSpec:
+                        description: |-
+                          Specification of a container for serving predictions. Some fields in this
+                          message correspond to fields in the Kubernetes Container v1 core
+                          specification.
+                          Structure is documented below.
+                        properties:
+                          args:
+                            description: |-
+                              Specifies arguments for the command that runs when the container starts.
+                              This overrides the container's
+                              CMD. Specify
+                              this field as an array of executable and arguments, similar to a Docker
+                              CMD's "default parameters" form.
+                              If you don't specify this field but do specify the
+                              command field, then the command from the
+                              command field runs without any additional arguments. See the
+                              Kubernetes documentation about how the
+                              .
+                              If you don't specify this field and don't specify the command field,
+                              then the container's
+                              ENTRYPOINT and
+                              CMD determine what runs based on their default behavior. See the Docker
+                              documentation about how .
+                              In this field, you can reference environment variables
+                              set by Vertex
+                              AI
+                              and environment variables set in the env field.
+                              You cannot reference environment variables set in the Docker image. In
+                              order for environment variables to be expanded, reference them by using the
+                              following syntax:$(VARIABLE_NAME)
+                              Note that this differs from Bash variable expansion, which does not use
+                              parentheses. If a variable cannot be resolved, the reference in the input
+                              string is used unchanged. To avoid variable expansion, you can escape this
+                              syntax with $$; for example:$$(VARIABLE_NAME)
+                              This field corresponds to the args field of the Kubernetes Containers
+                              v1 core
+                              API.
+                            items:
+                              type: string
+                            type: array
+                          command:
+                            description: |-
+                              Command is the command line to execute inside the container, the working
+                              directory for the command is root ('/') in the container's filesystem.
+                              The command is simply exec'd, it is not run inside a shell, so
+                              traditional shell instructions ('|', etc) won't work. To use a shell, you
+                              need to explicitly call out to that shell. Exit status of 0 is treated as
+                              live/healthy and non-zero is unhealthy.
+                            items:
+                              type: string
+                            type: array
+                          deploymentTimeout:
+                            description: |-
+                              Deployment timeout.
+                              Limit for deployment timeout is 2 hours.
+                            type: string
+                          env:
+                            description: |-
+                              List of environment variables to set in the container. After the container
+                              starts running, code running in the container can read these environment
+                              variables.
+                              Additionally, the command and
+                              args fields can reference these variables. Later
+                              entries in this list can also reference earlier entries. For example, the
+                              following example sets the variable VAR_2 to have the value foo bar:
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The header field name.
+                                    This will be canonicalized upon output, so case-variant names will be
+                                    understood as the same header.
+                                  type: string
+                                value:
+                                  description: The header field value
+                                  type: string
+                              type: object
+                            type: array
+                          grpcPorts:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends gRPC
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends liveness and health checks to this port.
+                              If you do not specify this field, gRPC requests to the container will be
+                              disabled.
+                              Vertex AI does not use ports other than the first one listed. This field
+                              corresponds to the ports field of the Kubernetes Containers v1 core API.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          healthProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          healthRoute:
+                            description: |-
+                              HTTP path on the container to send health checks to. Vertex AI
+                              intermittently sends GET requests to this path on the container's IP
+                              address and port to check that the container is healthy. Read more about
+                              health
+                              checks.
+                              For example, if you set this field to /bar, then Vertex AI
+                              intermittently sends a GET request to the /bar path on the port of your
+                              container specified by the first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          imageUri:
+                            description: |-
+                              URI of the Docker image to be used as the custom container for serving
+                              predictions. This URI must identify an image in Artifact Registry or
+                              Container Registry. Learn more about the container publishing
+                              requirements,
+                              including permissions requirements for the Vertex AI Service Agent.
+                              The container image is ingested upon ModelService.UploadModel, stored
+                              internally, and this original path is afterwards not used.
+                              To learn about the requirements for the Docker image itself, see
+                              Custom container
+                              requirements.
+                              You can use the URI to one of Vertex AI's pre-built container images for
+                              prediction
+                              in this field.
+                            type: string
+                          livenessProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          ports:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends any
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends
+                              liveness and health
+                              checks
+                              to this port.
+                              If you do not specify this field, it defaults to following value:
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          predictRoute:
+                            description: |-
+                              HTTP path on the container to send prediction requests to. Vertex AI
+                              forwards requests sent using
+                              projects.locations.endpoints.predict to this
+                              path on the container's IP address and port. Vertex AI then returns the
+                              container's response in the API response.
+                              For example, if you set this field to /foo, then when Vertex AI
+                              receives a prediction request, it forwards the request body in a POST
+                              request to the /foo path on the port of your container specified by the
+                              first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          sharedMemorySizeMb:
+                            description: |-
+                              The amount of the VM memory to reserve as the shared memory for the model
+                              in megabytes.
+                            type: string
+                          startupProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                        type: object
+                      huggingFaceAccessToken:
+                        description: |-
+                          The Hugging Face read access token used to access the model
+                          artifacts of gated models.
+                        type: string
+                      huggingFaceCacheEnabled:
+                        description: |-
+                          If true, the model will deploy with a cached version instead of directly
+                          downloading the model artifacts from Hugging Face. This is suitable for
+                          VPC-SC users with limited internet access.
+                        type: boolean
+                      modelDisplayName:
+                        description: |-
+                          The user-specified display name of the uploaded model. If not
+                          set, a default name will be used.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  publisherModelName:
+                    description: |-
+                      The Model Garden model to deploy.
+                      Format:
+                      publishers/{publisher}/models/{publisher_model}@{version_id}, or
+                      publishers/hf-{hugging-face-author}/models/{hugging-face-model-name}@001.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  deployConfig:
+                    description: |-
+                      The deploy config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedResources:
+                        description: |-
+                          A description of resources that are dedicated to a DeployedModel or
+                          DeployedIndex, and that need a higher degree of manual configuration.
+                          Structure is documented below.
+                        properties:
+                          autoscalingMetricSpecs:
+                            description: |-
+                              The metric specifications that overrides a resource
+                              utilization metric (CPU utilization, accelerator's duty cycle, and so on)
+                              target value (default to 60 if not set). At most one entry is allowed per
+                              metric.
+                              If machine_spec.accelerator_count is
+                              above 0, the autoscaling will be based on both CPU utilization and
+                              accelerator's duty cycle metrics and scale up when either metrics exceeds
+                              its target value while scale down if both metrics are under their target
+                              value. The default target value is 60 for both metrics.
+                              If machine_spec.accelerator_count is
+                              0, the autoscaling will be based on CPU utilization metric only with
+                              default target value 60 if not explicitly set.
+                              For example, in the case of Online Prediction, if you want to override
+                              target CPU utilization to 80, you should set
+                              autoscaling_metric_specs.metric_name
+                              to aiplatform.googleapis.com/prediction/online/cpu/utilization and
+                              autoscaling_metric_specs.target to 80.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                metricName:
+                                  description: |-
+                                    The resource metric name.
+                                    Supported metrics:
+                                  type: string
+                                target:
+                                  description: |-
+                                    The target resource utilization in percentage (1% - 100%) for the given
+                                    metric; once the real usage deviates from the target by a certain
+                                    percentage, the machine replicas change. The default value is 60
+                                    (representing 60%) if not provided.
+                                  type: number
+                              type: object
+                            type: array
+                          machineSpec:
+                            description: |-
+                              Specification of a single machine.
+                              Structure is documented below.
+                            properties:
+                              acceleratorCount:
+                                description: The number of accelerators to attach
+                                  to the machine.
+                                type: number
+                              acceleratorType:
+                                description: |-
+                                  Possible values:
+                                  ACCELERATOR_TYPE_UNSPECIFIED
+                                  NVIDIA_TESLA_K80
+                                  NVIDIA_TESLA_P100
+                                  NVIDIA_TESLA_V100
+                                  NVIDIA_TESLA_P4
+                                  NVIDIA_TESLA_T4
+                                  NVIDIA_TESLA_A100
+                                  NVIDIA_A100_80GB
+                                  NVIDIA_L4
+                                  NVIDIA_H100_80GB
+                                  NVIDIA_H100_MEGA_80GB
+                                  NVIDIA_H200_141GB
+                                  NVIDIA_B200
+                                  TPU_V2
+                                  TPU_V3
+                                  TPU_V4_POD
+                                  TPU_V5_LITEPOD
+                                type: string
+                              machineType:
+                                description: |-
+                                  The type of the machine.
+                                  See the list of machine types supported for
+                                  prediction
+                                  See the list of machine types supported for custom
+                                  training.
+                                  For DeployedModel this field is optional, and the default
+                                  value is n1-standard-2. For BatchPredictionJob or as part of
+                                  WorkerPoolSpec this field is required.
+                                type: string
+                              multihostGpuNodeCount:
+                                description: The number of nodes per replica for multihost
+                                  GPU deployments.
+                                type: number
+                              reservationAffinity:
+                                description: |-
+                                  A ReservationAffinity can be used to configure a Vertex AI resource (e.g., a
+                                  DeployedModel) to draw its Compute Engine resources from a Shared
+                                  Reservation, or exclusively from on-demand capacity.
+                                  Structure is documented below.
+                                properties:
+                                  key:
+                                    description: |-
+                                      Corresponds to the label key of a reservation resource. To target a
+                                      SPECIFIC_RESERVATION by name, use compute.googleapis.com/reservation-name
+                                      as the key and specify the name of your reservation as its value.
+                                    type: string
+                                  reservationAffinityType:
+                                    description: |-
+                                      Specifies the reservation affinity type.
+                                      Possible values:
+                                      TYPE_UNSPECIFIED
+                                      NO_RESERVATION
+                                      ANY_RESERVATION
+                                      SPECIFIC_RESERVATION
+                                    type: string
+                                  values:
+                                    description: |-
+                                      Corresponds to the label values of a reservation resource. This must be the
+                                      full resource name of the reservation or reservation block.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              tpuTopology:
+                                description: |-
+                                  The topology of the TPUs. Corresponds to the TPU topologies available from
+                                  GKE. (Example: tpu_topology: "2x2x1").
+                                type: string
+                            type: object
+                          maxReplicaCount:
+                            description: |-
+                              The maximum number of replicas that may be deployed on when the traffic
+                              against it increases. If the requested value is too large, the deployment
+                              will error, but if deployment succeeds then the ability to scale to that
+                              many replicas is guaranteed (barring service outages). If traffic increases
+                              beyond what its replicas at maximum may handle, a portion of the traffic
+                              will be dropped. If this value is not provided, will use
+                              min_replica_count as the default value.
+                              The value of this field impacts the charge against Vertex CPU and GPU
+                              quotas. Specifically, you will be charged for (max_replica_count *
+                              number of cores in the selected machine type) and (max_replica_count *
+                              number of GPUs per replica in the selected machine type).
+                            type: number
+                          minReplicaCount:
+                            description: |-
+                              The minimum number of machine replicas that will be always deployed on.
+                              This value must be greater than or equal to 1.
+                              If traffic increases, it may dynamically be deployed onto more replicas,
+                              and as traffic decreases, some of these extra replicas may be freed.
+                            type: number
+                          requiredReplicaCount:
+                            description: |-
+                              Number of required available replicas for the deployment to succeed.
+                              This field is only needed when partial deployment/mutation is
+                              desired. If set, the deploy/mutate operation will succeed once
+                              available_replica_count reaches required_replica_count, and the rest of
+                              the replicas will be retried. If not set, the default
+                              required_replica_count will be min_replica_count.
+                            type: number
+                          spot:
+                            description: |-
+                              If true, schedule the deployment workload on spot
+                              VMs.
+                            type: boolean
+                        type: object
+                      fastTryoutEnabled:
+                        description: If true, enable the QMT fast tryout feature for
+                          this model if possible.
+                        type: boolean
+                      systemLabels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          System labels for Model Garden deployments.
+                          These labels are managed by Google and for tracking purposes only.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  endpointConfig:
+                    description: |-
+                      The endpoint config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedEndpointEnabled:
+                        description: |-
+                          If true, the endpoint will be exposed through a dedicated
+                          DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS
+                          will be isolated from other users' traffic and will have better
+                          performance and reliability. Note: Once you enabled dedicated endpoint,
+                          you won't be able to send request to the shared DNS
+                          {region}-aiplatform.googleapis.com. The limitations will be removed soon.
+                        type: boolean
+                      endpointDisplayName:
+                        description: |-
+                          The user-specified display name of the endpoint. If not set, a
+                          default name will be used.
+                        type: string
+                    type: object
+                  huggingFaceModelId:
+                    description: |-
+                      The Hugging Face model to deploy.
+                      Format: Hugging Face model ID like google/gemma-2-2b-it.
+                    type: string
+                  location:
+                    description: Resource ID segment making up resource location.
+                      It identifies the resource within its parent collection as described
+                      in https://google.aip.dev/122.
+                    type: string
+                  modelConfig:
+                    description: |-
+                      The model config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      acceptEula:
+                        description: |-
+                          Whether the user accepts the End User License Agreement (EULA)
+                          for the model.
+                        type: boolean
+                      containerSpec:
+                        description: |-
+                          Specification of a container for serving predictions. Some fields in this
+                          message correspond to fields in the Kubernetes Container v1 core
+                          specification.
+                          Structure is documented below.
+                        properties:
+                          args:
+                            description: |-
+                              Specifies arguments for the command that runs when the container starts.
+                              This overrides the container's
+                              CMD. Specify
+                              this field as an array of executable and arguments, similar to a Docker
+                              CMD's "default parameters" form.
+                              If you don't specify this field but do specify the
+                              command field, then the command from the
+                              command field runs without any additional arguments. See the
+                              Kubernetes documentation about how the
+                              .
+                              If you don't specify this field and don't specify the command field,
+                              then the container's
+                              ENTRYPOINT and
+                              CMD determine what runs based on their default behavior. See the Docker
+                              documentation about how .
+                              In this field, you can reference environment variables
+                              set by Vertex
+                              AI
+                              and environment variables set in the env field.
+                              You cannot reference environment variables set in the Docker image. In
+                              order for environment variables to be expanded, reference them by using the
+                              following syntax:$(VARIABLE_NAME)
+                              Note that this differs from Bash variable expansion, which does not use
+                              parentheses. If a variable cannot be resolved, the reference in the input
+                              string is used unchanged. To avoid variable expansion, you can escape this
+                              syntax with $$; for example:$$(VARIABLE_NAME)
+                              This field corresponds to the args field of the Kubernetes Containers
+                              v1 core
+                              API.
+                            items:
+                              type: string
+                            type: array
+                          command:
+                            description: |-
+                              Command is the command line to execute inside the container, the working
+                              directory for the command is root ('/') in the container's filesystem.
+                              The command is simply exec'd, it is not run inside a shell, so
+                              traditional shell instructions ('|', etc) won't work. To use a shell, you
+                              need to explicitly call out to that shell. Exit status of 0 is treated as
+                              live/healthy and non-zero is unhealthy.
+                            items:
+                              type: string
+                            type: array
+                          deploymentTimeout:
+                            description: |-
+                              Deployment timeout.
+                              Limit for deployment timeout is 2 hours.
+                            type: string
+                          env:
+                            description: |-
+                              List of environment variables to set in the container. After the container
+                              starts running, code running in the container can read these environment
+                              variables.
+                              Additionally, the command and
+                              args fields can reference these variables. Later
+                              entries in this list can also reference earlier entries. For example, the
+                              following example sets the variable VAR_2 to have the value foo bar:
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The header field name.
+                                    This will be canonicalized upon output, so case-variant names will be
+                                    understood as the same header.
+                                  type: string
+                                value:
+                                  description: The header field value
+                                  type: string
+                              type: object
+                            type: array
+                          grpcPorts:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends gRPC
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends liveness and health checks to this port.
+                              If you do not specify this field, gRPC requests to the container will be
+                              disabled.
+                              Vertex AI does not use ports other than the first one listed. This field
+                              corresponds to the ports field of the Kubernetes Containers v1 core API.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          healthProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          healthRoute:
+                            description: |-
+                              HTTP path on the container to send health checks to. Vertex AI
+                              intermittently sends GET requests to this path on the container's IP
+                              address and port to check that the container is healthy. Read more about
+                              health
+                              checks.
+                              For example, if you set this field to /bar, then Vertex AI
+                              intermittently sends a GET request to the /bar path on the port of your
+                              container specified by the first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          imageUri:
+                            description: |-
+                              URI of the Docker image to be used as the custom container for serving
+                              predictions. This URI must identify an image in Artifact Registry or
+                              Container Registry. Learn more about the container publishing
+                              requirements,
+                              including permissions requirements for the Vertex AI Service Agent.
+                              The container image is ingested upon ModelService.UploadModel, stored
+                              internally, and this original path is afterwards not used.
+                              To learn about the requirements for the Docker image itself, see
+                              Custom container
+                              requirements.
+                              You can use the URI to one of Vertex AI's pre-built container images for
+                              prediction
+                              in this field.
+                            type: string
+                          livenessProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          ports:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends any
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends
+                              liveness and health
+                              checks
+                              to this port.
+                              If you do not specify this field, it defaults to following value:
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          predictRoute:
+                            description: |-
+                              HTTP path on the container to send prediction requests to. Vertex AI
+                              forwards requests sent using
+                              projects.locations.endpoints.predict to this
+                              path on the container's IP address and port. Vertex AI then returns the
+                              container's response in the API response.
+                              For example, if you set this field to /foo, then when Vertex AI
+                              receives a prediction request, it forwards the request body in a POST
+                              request to the /foo path on the port of your container specified by the
+                              first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          sharedMemorySizeMb:
+                            description: |-
+                              The amount of the VM memory to reserve as the shared memory for the model
+                              in megabytes.
+                            type: string
+                          startupProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                        type: object
+                      huggingFaceAccessToken:
+                        description: |-
+                          The Hugging Face read access token used to access the model
+                          artifacts of gated models.
+                        type: string
+                      huggingFaceCacheEnabled:
+                        description: |-
+                          If true, the model will deploy with a cached version instead of directly
+                          downloading the model artifacts from Hugging Face. This is suitable for
+                          VPC-SC users with limited internet access.
+                        type: boolean
+                      modelDisplayName:
+                        description: |-
+                          The user-specified display name of the uploaded model. If not
+                          set, a default name will be used.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  publisherModelName:
+                    description: |-
+                      The Model Garden model to deploy.
+                      Format:
+                      publishers/{publisher}/models/{publisher_model}@{version_id}, or
+                      publishers/hf-{hugging-face-author}/models/{hugging-face-model-name}@001.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.location is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.location)
+                || (has(self.initProvider) && has(self.initProvider.location))'
+          status:
+            description: EndpointWithModelGardenDeploymentStatus defines the observed
+              state of EndpointWithModelGardenDeployment.
+            properties:
+              atProvider:
+                properties:
+                  deployConfig:
+                    description: |-
+                      The deploy config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedResources:
+                        description: |-
+                          A description of resources that are dedicated to a DeployedModel or
+                          DeployedIndex, and that need a higher degree of manual configuration.
+                          Structure is documented below.
+                        properties:
+                          autoscalingMetricSpecs:
+                            description: |-
+                              The metric specifications that overrides a resource
+                              utilization metric (CPU utilization, accelerator's duty cycle, and so on)
+                              target value (default to 60 if not set). At most one entry is allowed per
+                              metric.
+                              If machine_spec.accelerator_count is
+                              above 0, the autoscaling will be based on both CPU utilization and
+                              accelerator's duty cycle metrics and scale up when either metrics exceeds
+                              its target value while scale down if both metrics are under their target
+                              value. The default target value is 60 for both metrics.
+                              If machine_spec.accelerator_count is
+                              0, the autoscaling will be based on CPU utilization metric only with
+                              default target value 60 if not explicitly set.
+                              For example, in the case of Online Prediction, if you want to override
+                              target CPU utilization to 80, you should set
+                              autoscaling_metric_specs.metric_name
+                              to aiplatform.googleapis.com/prediction/online/cpu/utilization and
+                              autoscaling_metric_specs.target to 80.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                metricName:
+                                  description: |-
+                                    The resource metric name.
+                                    Supported metrics:
+                                  type: string
+                                target:
+                                  description: |-
+                                    The target resource utilization in percentage (1% - 100%) for the given
+                                    metric; once the real usage deviates from the target by a certain
+                                    percentage, the machine replicas change. The default value is 60
+                                    (representing 60%) if not provided.
+                                  type: number
+                              type: object
+                            type: array
+                          machineSpec:
+                            description: |-
+                              Specification of a single machine.
+                              Structure is documented below.
+                            properties:
+                              acceleratorCount:
+                                description: The number of accelerators to attach
+                                  to the machine.
+                                type: number
+                              acceleratorType:
+                                description: |-
+                                  Possible values:
+                                  ACCELERATOR_TYPE_UNSPECIFIED
+                                  NVIDIA_TESLA_K80
+                                  NVIDIA_TESLA_P100
+                                  NVIDIA_TESLA_V100
+                                  NVIDIA_TESLA_P4
+                                  NVIDIA_TESLA_T4
+                                  NVIDIA_TESLA_A100
+                                  NVIDIA_A100_80GB
+                                  NVIDIA_L4
+                                  NVIDIA_H100_80GB
+                                  NVIDIA_H100_MEGA_80GB
+                                  NVIDIA_H200_141GB
+                                  NVIDIA_B200
+                                  TPU_V2
+                                  TPU_V3
+                                  TPU_V4_POD
+                                  TPU_V5_LITEPOD
+                                type: string
+                              machineType:
+                                description: |-
+                                  The type of the machine.
+                                  See the list of machine types supported for
+                                  prediction
+                                  See the list of machine types supported for custom
+                                  training.
+                                  For DeployedModel this field is optional, and the default
+                                  value is n1-standard-2. For BatchPredictionJob or as part of
+                                  WorkerPoolSpec this field is required.
+                                type: string
+                              multihostGpuNodeCount:
+                                description: The number of nodes per replica for multihost
+                                  GPU deployments.
+                                type: number
+                              reservationAffinity:
+                                description: |-
+                                  A ReservationAffinity can be used to configure a Vertex AI resource (e.g., a
+                                  DeployedModel) to draw its Compute Engine resources from a Shared
+                                  Reservation, or exclusively from on-demand capacity.
+                                  Structure is documented below.
+                                properties:
+                                  key:
+                                    description: |-
+                                      Corresponds to the label key of a reservation resource. To target a
+                                      SPECIFIC_RESERVATION by name, use compute.googleapis.com/reservation-name
+                                      as the key and specify the name of your reservation as its value.
+                                    type: string
+                                  reservationAffinityType:
+                                    description: |-
+                                      Specifies the reservation affinity type.
+                                      Possible values:
+                                      TYPE_UNSPECIFIED
+                                      NO_RESERVATION
+                                      ANY_RESERVATION
+                                      SPECIFIC_RESERVATION
+                                    type: string
+                                  values:
+                                    description: |-
+                                      Corresponds to the label values of a reservation resource. This must be the
+                                      full resource name of the reservation or reservation block.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              tpuTopology:
+                                description: |-
+                                  The topology of the TPUs. Corresponds to the TPU topologies available from
+                                  GKE. (Example: tpu_topology: "2x2x1").
+                                type: string
+                            type: object
+                          maxReplicaCount:
+                            description: |-
+                              The maximum number of replicas that may be deployed on when the traffic
+                              against it increases. If the requested value is too large, the deployment
+                              will error, but if deployment succeeds then the ability to scale to that
+                              many replicas is guaranteed (barring service outages). If traffic increases
+                              beyond what its replicas at maximum may handle, a portion of the traffic
+                              will be dropped. If this value is not provided, will use
+                              min_replica_count as the default value.
+                              The value of this field impacts the charge against Vertex CPU and GPU
+                              quotas. Specifically, you will be charged for (max_replica_count *
+                              number of cores in the selected machine type) and (max_replica_count *
+                              number of GPUs per replica in the selected machine type).
+                            type: number
+                          minReplicaCount:
+                            description: |-
+                              The minimum number of machine replicas that will be always deployed on.
+                              This value must be greater than or equal to 1.
+                              If traffic increases, it may dynamically be deployed onto more replicas,
+                              and as traffic decreases, some of these extra replicas may be freed.
+                            type: number
+                          requiredReplicaCount:
+                            description: |-
+                              Number of required available replicas for the deployment to succeed.
+                              This field is only needed when partial deployment/mutation is
+                              desired. If set, the deploy/mutate operation will succeed once
+                              available_replica_count reaches required_replica_count, and the rest of
+                              the replicas will be retried. If not set, the default
+                              required_replica_count will be min_replica_count.
+                            type: number
+                          spot:
+                            description: |-
+                              If true, schedule the deployment workload on spot
+                              VMs.
+                            type: boolean
+                        type: object
+                      fastTryoutEnabled:
+                        description: If true, enable the QMT fast tryout feature for
+                          this model if possible.
+                        type: boolean
+                      systemLabels:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          System labels for Model Garden deployments.
+                          These labels are managed by Google and for tracking purposes only.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
+                  deployedModelDisplayName:
+                    description: |-
+                      Output only. The display name assigned to the model deployed to the endpoint.
+                      This is not required to delete the resource but is used for debug logging.
+                    type: string
+                  deployedModelId:
+                    description: |-
+                      Output only. The unique numeric ID that Vertex AI assigns to the model at the time it is deployed to the endpoint.
+                      It is required to undeploy the model from the endpoint during resource deletion as described in
+                      https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.endpoints/undeployModel.
+                    type: string
+                  endpoint:
+                    description: Resource ID segment making up resource endpoint.
+                      It identifies the resource within its parent collection as described
+                      in https://google.aip.dev/122.
+                    type: string
+                  endpointConfig:
+                    description: |-
+                      The endpoint config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      dedicatedEndpointEnabled:
+                        description: |-
+                          If true, the endpoint will be exposed through a dedicated
+                          DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS
+                          will be isolated from other users' traffic and will have better
+                          performance and reliability. Note: Once you enabled dedicated endpoint,
+                          you won't be able to send request to the shared DNS
+                          {region}-aiplatform.googleapis.com. The limitations will be removed soon.
+                        type: boolean
+                      endpointDisplayName:
+                        description: |-
+                          The user-specified display name of the endpoint. If not set, a
+                          default name will be used.
+                        type: string
+                    type: object
+                  huggingFaceModelId:
+                    description: |-
+                      The Hugging Face model to deploy.
+                      Format: Hugging Face model ID like google/gemma-2-2b-it.
+                    type: string
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/endpoints/{{endpoint}}
+                    type: string
+                  location:
+                    description: Resource ID segment making up resource location.
+                      It identifies the resource within its parent collection as described
+                      in https://google.aip.dev/122.
+                    type: string
+                  modelConfig:
+                    description: |-
+                      The model config to use for the deployment.
+                      Structure is documented below.
+                    properties:
+                      acceptEula:
+                        description: |-
+                          Whether the user accepts the End User License Agreement (EULA)
+                          for the model.
+                        type: boolean
+                      containerSpec:
+                        description: |-
+                          Specification of a container for serving predictions. Some fields in this
+                          message correspond to fields in the Kubernetes Container v1 core
+                          specification.
+                          Structure is documented below.
+                        properties:
+                          args:
+                            description: |-
+                              Specifies arguments for the command that runs when the container starts.
+                              This overrides the container's
+                              CMD. Specify
+                              this field as an array of executable and arguments, similar to a Docker
+                              CMD's "default parameters" form.
+                              If you don't specify this field but do specify the
+                              command field, then the command from the
+                              command field runs without any additional arguments. See the
+                              Kubernetes documentation about how the
+                              .
+                              If you don't specify this field and don't specify the command field,
+                              then the container's
+                              ENTRYPOINT and
+                              CMD determine what runs based on their default behavior. See the Docker
+                              documentation about how .
+                              In this field, you can reference environment variables
+                              set by Vertex
+                              AI
+                              and environment variables set in the env field.
+                              You cannot reference environment variables set in the Docker image. In
+                              order for environment variables to be expanded, reference them by using the
+                              following syntax:$(VARIABLE_NAME)
+                              Note that this differs from Bash variable expansion, which does not use
+                              parentheses. If a variable cannot be resolved, the reference in the input
+                              string is used unchanged. To avoid variable expansion, you can escape this
+                              syntax with $$; for example:$$(VARIABLE_NAME)
+                              This field corresponds to the args field of the Kubernetes Containers
+                              v1 core
+                              API.
+                            items:
+                              type: string
+                            type: array
+                          command:
+                            description: |-
+                              Command is the command line to execute inside the container, the working
+                              directory for the command is root ('/') in the container's filesystem.
+                              The command is simply exec'd, it is not run inside a shell, so
+                              traditional shell instructions ('|', etc) won't work. To use a shell, you
+                              need to explicitly call out to that shell. Exit status of 0 is treated as
+                              live/healthy and non-zero is unhealthy.
+                            items:
+                              type: string
+                            type: array
+                          deploymentTimeout:
+                            description: |-
+                              Deployment timeout.
+                              Limit for deployment timeout is 2 hours.
+                            type: string
+                          env:
+                            description: |-
+                              List of environment variables to set in the container. After the container
+                              starts running, code running in the container can read these environment
+                              variables.
+                              Additionally, the command and
+                              args fields can reference these variables. Later
+                              entries in this list can also reference earlier entries. For example, the
+                              following example sets the variable VAR_2 to have the value foo bar:
+                            items:
+                              properties:
+                                name:
+                                  description: |-
+                                    The header field name.
+                                    This will be canonicalized upon output, so case-variant names will be
+                                    understood as the same header.
+                                  type: string
+                                value:
+                                  description: The header field value
+                                  type: string
+                              type: object
+                            type: array
+                          grpcPorts:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends gRPC
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends liveness and health checks to this port.
+                              If you do not specify this field, gRPC requests to the container will be
+                              disabled.
+                              Vertex AI does not use ports other than the first one listed. This field
+                              corresponds to the ports field of the Kubernetes Containers v1 core API.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          healthProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          healthRoute:
+                            description: |-
+                              HTTP path on the container to send health checks to. Vertex AI
+                              intermittently sends GET requests to this path on the container's IP
+                              address and port to check that the container is healthy. Read more about
+                              health
+                              checks.
+                              For example, if you set this field to /bar, then Vertex AI
+                              intermittently sends a GET request to the /bar path on the port of your
+                              container specified by the first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          imageUri:
+                            description: |-
+                              URI of the Docker image to be used as the custom container for serving
+                              predictions. This URI must identify an image in Artifact Registry or
+                              Container Registry. Learn more about the container publishing
+                              requirements,
+                              including permissions requirements for the Vertex AI Service Agent.
+                              The container image is ingested upon ModelService.UploadModel, stored
+                              internally, and this original path is afterwards not used.
+                              To learn about the requirements for the Docker image itself, see
+                              Custom container
+                              requirements.
+                              You can use the URI to one of Vertex AI's pre-built container images for
+                              prediction
+                              in this field.
+                            type: string
+                          livenessProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                          ports:
+                            description: |-
+                              List of ports to expose from the container. Vertex AI sends any
+                              prediction requests that it receives to the first port on this list. Vertex
+                              AI also sends
+                              liveness and health
+                              checks
+                              to this port.
+                              If you do not specify this field, it defaults to following value:
+                            items:
+                              properties:
+                                containerPort:
+                                  description: |-
+                                    The number of the port to expose on the pod's IP address.
+                                    Must be a valid port number, between 1 and 65535 inclusive.
+                                  type: number
+                              type: object
+                            type: array
+                          predictRoute:
+                            description: |-
+                              HTTP path on the container to send prediction requests to. Vertex AI
+                              forwards requests sent using
+                              projects.locations.endpoints.predict to this
+                              path on the container's IP address and port. Vertex AI then returns the
+                              container's response in the API response.
+                              For example, if you set this field to /foo, then when Vertex AI
+                              receives a prediction request, it forwards the request body in a POST
+                              request to the /foo path on the port of your container specified by the
+                              first value of this ModelContainerSpec's
+                              ports field.
+                              If you don't specify this field, it defaults to the following value when
+                              you deploy this Model to an Endpoint:/v1/endpoints/ENDPOINT/deployedModels/DEPLOYED_MODEL:predict
+                              The placeholders in this value are replaced as follows:
+                            type: string
+                          sharedMemorySizeMb:
+                            description: |-
+                              The amount of the VM memory to reserve as the shared memory for the model
+                              in megabytes.
+                            type: string
+                          startupProbe:
+                            description: |-
+                              Probe describes a health check to be performed against a container to
+                              determine whether it is alive or ready to receive traffic.
+                              Structure is documented below.
+                            properties:
+                              exec:
+                                description: |-
+                                  ExecAction specifies a command to execute.
+                                  Structure is documented below.
+                                properties:
+                                  command:
+                                    description: |-
+                                      Command is the command line to execute inside the container, the working
+                                      directory for the command is root ('/') in the container's filesystem.
+                                      The command is simply exec'd, it is not run inside a shell, so
+                                      traditional shell instructions ('|', etc) won't work. To use a shell, you
+                                      need to explicitly call out to that shell. Exit status of 0 is treated as
+                                      live/healthy and non-zero is unhealthy.
+                                    items:
+                                      type: string
+                                    type: array
+                                type: object
+                              failureThreshold:
+                                description: |-
+                                  Number of consecutive failures before the probe is considered failed.
+                                  Defaults to 3. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'failureThreshold'.
+                                type: number
+                              grpc:
+                                description: |-
+                                  GrpcAction checks the health of a container using a gRPC service.
+                                  Structure is documented below.
+                                properties:
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  service:
+                                    description: |-
+                                      Service is the name of the service to place in the gRPC
+                                      HealthCheckRequest. See
+                                      https://github.com/grpc/grpc/blob/master/doc/health-checking.md.
+                                      If this is not specified, the default behavior is defined by gRPC.
+                                    type: string
+                                type: object
+                              httpGet:
+                                description: |-
+                                  HttpGetAction describes an action based on HTTP Get requests.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  httpHeaders:
+                                    description: |-
+                                      Custom headers to set in the request. HTTP allows repeated headers.
+                                      Structure is documented below.
+                                    items:
+                                      properties:
+                                        name:
+                                          description: |-
+                                            The header field name.
+                                            This will be canonicalized upon output, so case-variant names will be
+                                            understood as the same header.
+                                          type: string
+                                        value:
+                                          description: The header field value
+                                          type: string
+                                      type: object
+                                    type: array
+                                  path:
+                                    description: Path to access on the HTTP server.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                  scheme:
+                                    description: |-
+                                      Scheme to use for connecting to the host.
+                                      Defaults to HTTP. Acceptable values are "HTTP" or "HTTPS".
+                                    type: string
+                                type: object
+                              initialDelaySeconds:
+                                description: |-
+                                  Number of seconds to wait before starting the probe. Defaults to 0.
+                                  Minimum value is 0.
+                                  Maps to Kubernetes probe argument 'initialDelaySeconds'.
+                                type: number
+                              periodSeconds:
+                                description: |-
+                                  How often (in seconds) to perform the probe. Default to 10 seconds.
+                                  Minimum value is 1. Must be less than timeout_seconds.
+                                  Maps to Kubernetes probe argument 'periodSeconds'.
+                                type: number
+                              successThreshold:
+                                description: |-
+                                  Number of consecutive successes before the probe is considered successful.
+                                  Defaults to 1. Minimum value is 1.
+                                  Maps to Kubernetes probe argument 'successThreshold'.
+                                type: number
+                              tcpSocket:
+                                description: |-
+                                  TcpSocketAction probes the health of a container by opening a TCP socket
+                                  connection.
+                                  Structure is documented below.
+                                properties:
+                                  host:
+                                    description: |-
+                                      Optional: Host name to connect to, defaults to the model serving
+                                      container's IP.
+                                    type: string
+                                  port:
+                                    description: |-
+                                      Number of the port to access on the container.
+                                      Number must be in the range 1 to 65535.
+                                    type: number
+                                type: object
+                              timeoutSeconds:
+                                description: |-
+                                  Number of seconds after which the probe times out. Defaults to 1 second.
+                                  Minimum value is 1. Must be greater or equal to period_seconds.
+                                  Maps to Kubernetes probe argument 'timeoutSeconds'.
+                                type: number
+                            type: object
+                        type: object
+                      huggingFaceAccessToken:
+                        description: |-
+                          The Hugging Face read access token used to access the model
+                          artifacts of gated models.
+                        type: string
+                      huggingFaceCacheEnabled:
+                        description: |-
+                          If true, the model will deploy with a cached version instead of directly
+                          downloading the model artifacts from Hugging Face. This is suitable for
+                          VPC-SC users with limited internet access.
+                        type: boolean
+                      modelDisplayName:
+                        description: |-
+                          The user-specified display name of the uploaded model. If not
+                          set, a default name will be used.
+                        type: string
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  publisherModelName:
+                    description: |-
+                      The Model Garden model to deploy.
+                      Format:
+                      publishers/{publisher}/models/{publisher_model}@{version_id}, or
+                      publishers/hf-{hugging-face-author}/models/{hugging-face-model-name}@001.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
