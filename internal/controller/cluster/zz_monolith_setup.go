@@ -300,6 +300,8 @@ import (
 	projectsink "github.com/upbound/provider-gcp/internal/controller/cluster/logging/projectsink"
 	instancememcache "github.com/upbound/provider-gcp/internal/controller/cluster/memcache/instance"
 	model "github.com/upbound/provider-gcp/internal/controller/cluster/mlengine/model"
+	floorsetting "github.com/upbound/provider-gcp/internal/controller/cluster/modelarmor/floorsetting"
+	template "github.com/upbound/provider-gcp/internal/controller/cluster/modelarmor/template"
 	alertpolicy "github.com/upbound/provider-gcp/internal/controller/cluster/monitoring/alertpolicy"
 	customservice "github.com/upbound/provider-gcp/internal/controller/cluster/monitoring/customservice"
 	dashboard "github.com/upbound/provider-gcp/internal/controller/cluster/monitoring/dashboard"
@@ -692,6 +694,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectsink.Setup,
 		instancememcache.Setup,
 		model.Setup,
+		floorsetting.Setup,
+		template.Setup,
 		alertpolicy.Setup,
 		customservice.Setup,
 		dashboard.Setup,
@@ -1090,6 +1094,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		projectsink.SetupGated,
 		instancememcache.SetupGated,
 		model.SetupGated,
+		floorsetting.SetupGated,
+		template.SetupGated,
 		alertpolicy.SetupGated,
 		customservice.SetupGated,
 		dashboard.SetupGated,

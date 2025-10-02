@@ -105,6 +105,7 @@ import (
 	v1beta2memcache "github.com/upbound/provider-gcp/apis/cluster/memcache/v1beta2"
 	v1beta1mlengine "github.com/upbound/provider-gcp/apis/cluster/mlengine/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/apis/cluster/mlengine/v1beta2"
+	v1beta1modelarmor "github.com/upbound/provider-gcp/apis/cluster/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/apis/cluster/monitoring/v1beta1"
 	v1beta2monitoring "github.com/upbound/provider-gcp/apis/cluster/monitoring/v1beta2"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta1"
@@ -248,6 +249,7 @@ func init() {
 		v1beta2memcache.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,
+		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta2monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,

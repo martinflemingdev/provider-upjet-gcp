@@ -1,0 +1,14 @@
+apiVersion: modelarmor.gcp.upbound.io/v1beta1
+kind: Floorsetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelarmor/v1beta1/floorsetting
+  labels:
+    testing.upbound.io/example-name: floorsetting-basic
+  name: floorsetting-basic
+spec:
+  forProvider:
+    filterConfig:
+    - {}
+    location: global
+    parent: projects/my-project-name

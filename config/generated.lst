@@ -276,6 +276,8 @@
   "google_logging_project_sink",
   "google_memcache_instance",
   "google_ml_engine_model",
+  "google_model_armor_floorsetting",
+  "google_model_armor_template",
   "google_monitoring_alert_policy",
   "google_monitoring_custom_service",
   "google_monitoring_dashboard",
