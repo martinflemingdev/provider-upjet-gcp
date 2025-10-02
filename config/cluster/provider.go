@@ -35,6 +35,7 @@ import (
 	"github.com/upbound/provider-gcp/config/cluster/identityplatform"
 	"github.com/upbound/provider-gcp/config/cluster/kms"
 	"github.com/upbound/provider-gcp/config/cluster/logging"
+	"github.com/upbound/provider-gcp/config/cluster/modelarmor"
 	"github.com/upbound/provider-gcp/config/cluster/monitoring"
 	"github.com/upbound/provider-gcp/config/cluster/networksecurity"
 	"github.com/upbound/provider-gcp/config/cluster/notebooks"
@@ -82,6 +83,7 @@ func init() {
 	ProviderConfiguration.AddConfig(identityplatform.Configure)
 	ProviderConfiguration.AddConfig(logging.Configure)
 	ProviderConfiguration.AddConfig(kms.Configure)
+	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(networksecurity.Configure)
 	ProviderConfiguration.AddConfig(notebooks.Configure)
 	ProviderConfiguration.AddConfig(privateca.Configure)
