@@ -1017,6 +1017,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}
 	"google_document_ai_processor": config.IdentifierFromProvider,
 
+	// modelarmor
+	//
+	// Imported by using the following {{parent}}/locations/{{location}}/floorSetting
+	"google_model_armor_floorsetting": config.TemplatedStringAsIdentifier("", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/floorSetting"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/templates/{{template_id}}
+	"google_model_armor_template": config.TemplatedStringAsIdentifier("template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/templates/{{ .external_name }}"),
+
 	// artifactregistry
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
