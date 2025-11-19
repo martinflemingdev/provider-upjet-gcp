@@ -73,6 +73,9 @@ import (
 	tableiambindingbigtable "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiambinding"
 	tableiammemberbigtable "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiammember"
 	tableiampolicybigtable "github.com/upbound/provider-gcp/internal/controller/cluster/bigtable/tableiampolicy"
+	accountiammember "github.com/upbound/provider-gcp/internal/controller/cluster/billing/accountiammember"
+	budget "github.com/upbound/provider-gcp/internal/controller/cluster/billing/budget"
+	projectinfo "github.com/upbound/provider-gcp/internal/controller/cluster/billing/projectinfo"
 	attestor "github.com/upbound/provider-gcp/internal/controller/cluster/binaryauthorization/attestor"
 	policy "github.com/upbound/provider-gcp/internal/controller/cluster/binaryauthorization/policy"
 	certificate "github.com/upbound/provider-gcp/internal/controller/cluster/certificatemanager/certificate"
@@ -474,6 +477,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tableiambindingbigtable.Setup,
 		tableiammemberbigtable.Setup,
 		tableiampolicybigtable.Setup,
+		accountiammember.Setup,
+		budget.Setup,
+		projectinfo.Setup,
 		attestor.Setup,
 		policy.Setup,
 		certificate.Setup,
@@ -881,6 +887,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tableiambindingbigtable.SetupGated,
 		tableiammemberbigtable.SetupGated,
 		tableiampolicybigtable.SetupGated,
+		accountiammember.SetupGated,
+		budget.SetupGated,
+		projectinfo.SetupGated,
 		attestor.SetupGated,
 		policy.SetupGated,
 		certificate.SetupGated,

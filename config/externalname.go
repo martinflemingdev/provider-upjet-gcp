@@ -1108,6 +1108,16 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
+
+	// cloud billing
+	//
+	// Imported by using "{{billing_account_id}} roles/billing.user user:jane@example.com"
+	"google_billing_account_iam_member": config.IdentifierFromProvider,
+	// Imported by using billingAccounts/{{billing_account}}/budgets/{{name}}
+	"google_billing_budget": config.TemplatedStringAsIdentifier("name", "billingAccounts/{{ .parameters.billing_account }}/budgets/{{ .external_name }}"),
+	// Imported by using projects/{{project}}
+	// The empty string indicates there is no separate name field; the resource identity is just the project.
+	"google_billing_project_info": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

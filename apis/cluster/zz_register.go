@@ -27,6 +27,7 @@ import (
 	v1beta2bigquery "github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2"
 	v1beta1bigtable "github.com/upbound/provider-gcp/apis/cluster/bigtable/v1beta1"
 	v1beta2bigtable "github.com/upbound/provider-gcp/apis/cluster/bigtable/v1beta2"
+	v1beta1billing "github.com/upbound/provider-gcp/apis/cluster/billing/v1beta1"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta1"
 	v1beta2binaryauthorization "github.com/upbound/provider-gcp/apis/cluster/binaryauthorization/v1beta2"
 	v1beta1certificatemanager "github.com/upbound/provider-gcp/apis/cluster/certificatemanager/v1beta1"
@@ -173,6 +174,7 @@ func init() {
 		v1beta2bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
 		v1beta2bigtable.SchemeBuilder.AddToScheme,
+		v1beta1billing.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta2binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta1certificatemanager.SchemeBuilder.AddToScheme,

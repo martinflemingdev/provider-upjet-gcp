@@ -11,6 +11,7 @@ import (
 	"github.com/upbound/provider-gcp/config/namespaced/beyondcorp"
 	"github.com/upbound/provider-gcp/config/namespaced/bigquery"
 	"github.com/upbound/provider-gcp/config/namespaced/bigtable"
+	"github.com/upbound/provider-gcp/config/namespaced/billing"
 	composer "github.com/upbound/provider-gcp/config/namespaced/cloudcomposer"
 	"github.com/upbound/provider-gcp/config/namespaced/cloudfunctions"
 	"github.com/upbound/provider-gcp/config/namespaced/cloudplatform"
@@ -62,6 +63,7 @@ func init() {
 	ProviderConfiguration.AddConfig(accesscontextmanager.Configure)
 	ProviderConfiguration.AddConfig(apigee.Configure)
 	ProviderConfiguration.AddConfig(bigtable.Configure)
+	ProviderConfiguration.AddConfig(billing.Configure)
 	ProviderConfiguration.AddConfig(composer.Configure)
 	ProviderConfiguration.AddConfig(cloudfunctions.Configure)
 	ProviderConfiguration.AddConfig(cloudplatform.Configure)

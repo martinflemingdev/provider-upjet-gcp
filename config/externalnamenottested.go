@@ -28,12 +28,12 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// your-billing-account-id roles/billing.user
 	"google_billing_account_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }}"),
 	// your-billing-account-id roles/billing.user user:jane@example.com
-	"google_billing_account_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// "google_billing_account_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// your-billing-account-id
 	"google_billing_account_iam_policy": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }}"),
 	// billingAccounts/{{billing_account}}/budgets/{{name}}
 	// TODO: For now API is not normalized. While testing resource we can check the actual ID and normalize the API.
-	"google_billing_budget": config.IdentifierFromProvider,
+	// "google_billing_budget": config.IdentifierFromProvider,
 
 	// binaryauthorization
 	//
