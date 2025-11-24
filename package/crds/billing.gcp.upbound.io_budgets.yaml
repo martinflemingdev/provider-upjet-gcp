@@ -394,8 +394,6 @@ spec:
                           type: number
                       type: object
                     type: array
-                required:
-                - billingAccount
                 type: object
               initProvider:
                 description: |-
@@ -573,6 +571,9 @@ spec:
                             type: string
                         type: object
                     type: object
+                  billingAccount:
+                    description: ID of the billing account to set a budget on.
+                    type: string
                   budgetFilter:
                     description: |-
                       Filters that define which resources are used to compute the actual
@@ -820,6 +821,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.amount)
                 || (has(self.initProvider) && has(self.initProvider.amount))'
+            - message: spec.forProvider.billingAccount is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.billingAccount)
+                || (has(self.initProvider) && has(self.initProvider.billingAccount))'
           status:
             description: BudgetStatus defines the observed state of Budget.
             properties:
@@ -1041,6 +1046,12 @@ spec:
                     type: string
                   id:
                     description: an identifier for the resource with format billingAccounts/{{billing_account}}/budgets/{{name}}
+                    type: string
+                  name:
+                    description: |-
+                      Resource name of the budget. The resource name
+                      implies the scope of a budget. Values are of the form
+                      billingAccounts/{billingAccountId}/budgets/{budgetId}.
                     type: string
                   ownershipScope:
                     description: |-

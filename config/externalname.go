@@ -1113,8 +1113,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using "{{billing_account_id}} roles/billing.user user:jane@example.com"
 	"google_billing_account_iam_member": config.IdentifierFromProvider,
-	// Imported by using billingAccounts/{{billing_account}}/budgets/{{name}}
-	"google_billing_budget": config.TemplatedStringAsIdentifier("name", "billingAccounts/{{ .parameters.billing_account }}/budgets/{{ .external_name }}"),
+	// Imported by using billingAccounts/{{billing_account}}/budgets/{{name}} but name is hash string and not deterministically computable
+	"google_billing_budget": config.IdentifierFromProvider,
 	// Imported by using projects/{{project}}
 	// The empty string indicates there is no separate name field; the resource identity is just the project.
 	"google_billing_project_info": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}"),

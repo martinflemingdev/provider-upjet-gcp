@@ -802,6 +802,11 @@ func (in *BudgetInitParameters) DeepCopyInto(out *BudgetInitParameters) {
 		*out = new(AmountInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.BillingAccount != nil {
+		in, out := &in.BillingAccount, &out.BillingAccount
+		*out = new(string)
+		**out = **in
+	}
 	if in.BudgetFilter != nil {
 		in, out := &in.BudgetFilter, &out.BudgetFilter
 		*out = new(BudgetFilterInitParameters)
@@ -898,6 +903,11 @@ func (in *BudgetObservation) DeepCopyInto(out *BudgetObservation) {
 	}
 	if in.ID != nil {
 		in, out := &in.ID, &out.ID
+		*out = new(string)
+		**out = **in
+	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
 	}

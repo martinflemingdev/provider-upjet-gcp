@@ -398,6 +398,9 @@ type BudgetInitParameters struct {
 	// Structure is documented below.
 	Amount *AmountInitParameters `json:"amount,omitempty" tf:"amount,omitempty"`
 
+	// ID of the billing account to set a budget on.
+	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
+
 	// Filters that define which resources are used to compute the actual
 	// spend against the budget.
 	// Structure is documented below.
@@ -444,6 +447,11 @@ type BudgetObservation struct {
 	// an identifier for the resource with format billingAccounts/{{billing_account}}/budgets/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Resource name of the budget. The resource name
+	// implies the scope of a budget. Values are of the form
+	// billingAccounts/{billingAccountId}/budgets/{budgetId}.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
 	// The ownership scope of the budget. The ownership scope and users'
 	// IAM permissions determine who has full access to the budget's data.
 	// Possible values are: OWNERSHIP_SCOPE_UNSPECIFIED, ALL_USERS, BILLING_ACCOUNT.
@@ -471,8 +479,8 @@ type BudgetParameters struct {
 	Amount *AmountParameters `json:"amount,omitempty" tf:"amount,omitempty"`
 
 	// ID of the billing account to set a budget on.
-	// +kubebuilder:validation:Required
-	BillingAccount *string `json:"billingAccount" tf:"billing_account,omitempty"`
+	// +kubebuilder:validation:Optional
+	BillingAccount *string `json:"billingAccount,omitempty" tf:"billing_account,omitempty"`
 
 	// Filters that define which resources are used to compute the actual
 	// spend against the budget.
@@ -752,6 +760,7 @@ type Budget struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.amount) || (has(self.initProvider) && has(self.initProvider.amount))",message="spec.forProvider.amount is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.billingAccount) || (has(self.initProvider) && has(self.initProvider.billingAccount))",message="spec.forProvider.billingAccount is a required parameter"
 	Spec   BudgetSpec   `json:"spec"`
 	Status BudgetStatus `json:"status,omitempty"`
 }
