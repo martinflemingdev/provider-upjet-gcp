@@ -8,6 +8,8 @@ import (
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
+	"strings"
+
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	conversiontfjson "github.com/crossplane/upjet/v2/pkg/types/conversion/tfjson"
 	"github.com/crossplane/upjet/v2/pkg/types/name"
@@ -137,6 +139,25 @@ func resourceList(t map[string]ujconfig.ExternalName) []string {
 		i++
 	}
 	return l
+}
+
+// filterByGroup returns a new map containing only resources that belong to
+// the specified API group. The group match is performed by checking if the
+// resource name starts with "google_<group>_" (e.g. "google_bigquery_"). This
+// is appropriate for GCP family providers where resources are named with the
+// pattern "google_<service>_<resource>".
+func filterByGroup(t map[string]ujconfig.ExternalName, group string) map[string]ujconfig.ExternalName {
+	if group == "" {
+		return t
+	}
+	out := make(map[string]ujconfig.ExternalName)
+	prefix := "google_" + group + "_"
+	for n, v := range t {
+		if strings.HasPrefix(n, prefix) {
+			out[n] = v
+		}
+	}
+	return out
 }
 
 func init() {

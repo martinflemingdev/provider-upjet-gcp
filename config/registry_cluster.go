@@ -22,6 +22,12 @@ import (
 
 // GetProvider returns provider configuration
 func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
+	return GetProviderWithGroup(context.Background(), sdkProvider, generationProvider, "")
+}
+
+// GetProviderWithGroup returns provider configuration filtered by resource group (e.g., "bigquery", "storage")
+// If group is empty, all resources are included (monolith behavior)
+func GetProviderWithGroup(_ context.Context, sdkProvider *schema.Provider, generationProvider bool, group string) (*ujconfig.Provider, error) {
 	if generationProvider {
 		p, err := getProviderSchema(providerSchema)
 		if err != nil {
@@ -37,6 +43,14 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProv
 		sdkProvider = p
 	}
 
+	// Filter external name configs by group if specified
+	cliConfigs := cliReconciledExternalNameConfigs
+	sdkConfigs := terraformPluginSDKExternalNameConfigs
+	if group != "" {
+		cliConfigs = filterByGroup(cliReconciledExternalNameConfigs, group)
+		sdkConfigs = filterByGroup(terraformPluginSDKExternalNameConfigs, group)
+	}
+
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
 		ujconfig.WithDefaultResourceOptions(
 			groupOverrides(),
@@ -48,8 +62,8 @@ func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProv
 		ujconfig.WithRootGroup("gcp.upbound.io"),
 		ujconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
-		ujconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
-		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithIncludeList(resourceList(cliConfigs)),
+		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(sdkConfigs)),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithSkipList(skipList),
 		ujconfig.WithFeaturesPackage("internal/features"),

@@ -20,6 +20,12 @@ import (
 
 // GetNamespacedProvider returns the namespaced provider configuration
 func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
+	return GetNamespacedProviderWithGroup(context.Background(), sdkProvider, generationProvider, "")
+}
+
+// GetNamespacedProviderWithGroup returns the namespaced provider configuration
+// filtered by resource group. If group is empty, all resources are included.
+func GetNamespacedProviderWithGroup(_ context.Context, sdkProvider *schema.Provider, generationProvider bool, group string) (*ujconfig.Provider, error) {
 	if generationProvider {
 		p, err := getProviderSchema(providerSchema)
 		if err != nil {
@@ -28,11 +34,14 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, gene
 		if err := traverser.TFResourceSchema(sdkProvider.ResourcesMap).Traverse(traverser.NewMaxItemsSync(p.ResourcesMap)); err != nil {
 			return nil, errors.Wrap(err, "cannot sync the MaxItems constraints between the Go schema and the JSON schema")
 		}
-		// use the JSON schema to temporarily prevent float64->int64
-		// conversions in the CRD APIs.
-		// We would like to convert to int64s with the next major release of
-		// the provider.
 		sdkProvider = p
+	}
+
+	cliConfigs := cliReconciledExternalNameConfigs
+	sdkConfigs := terraformPluginSDKExternalNameConfigs
+	if group != "" {
+		cliConfigs = filterByGroup(cliReconciledExternalNameConfigs, group)
+		sdkConfigs = filterByGroup(terraformPluginSDKExternalNameConfigs, group)
 	}
 
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, providerMetadata,
@@ -46,8 +55,8 @@ func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, gene
 		ujconfig.WithRootGroup("gcp.m.upbound.io"),
 		ujconfig.WithShortName("gcp"),
 		// Comment out the following line to generate all resources.
-		ujconfig.WithIncludeList(resourceList(cliReconciledExternalNameConfigs)),
-		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(terraformPluginSDKExternalNameConfigs)),
+		ujconfig.WithIncludeList(resourceList(cliConfigs)),
+		ujconfig.WithTerraformPluginSDKIncludeList(resourceList(sdkConfigs)),
 		ujconfig.WithReferenceInjectors([]ujconfig.ReferenceInjector{reference.NewInjector(modulePath)}),
 		ujconfig.WithSkipList(skipList),
 		ujconfig.WithFeaturesPackage("internal/features"),
