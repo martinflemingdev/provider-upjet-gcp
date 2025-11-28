@@ -20,7 +20,7 @@ import (
 // GetNamespacedProvider returns the namespaced provider configuration
 func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
 	// Auto-detect the group from the binary name (same logic as cluster provider)
-	group := detectGroupFromBinary()
+	group := detectGroupFromBinary("namespaced")
 	return GetNamespacedProviderWithGroup(context.Background(), sdkProvider, generationProvider, group)
 }
 

@@ -23,7 +23,7 @@ import (
 func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
 	// Auto-detect the group from the binary name
 	// Binary names follow the pattern: provider (monolith) or bigquery, storage, etc. (family providers)
-	group := detectGroupFromBinary()
+	group := detectGroupFromBinary("cluster")
 	return GetProviderWithGroup(context.Background(), sdkProvider, generationProvider, group)
 }
 

@@ -167,11 +167,12 @@ func filterByGroup(t map[string]ujconfig.ExternalName, group string) map[string]
 // 2. HOSTNAME environment variable (set by Kubernetes, e.g., "provider-gcp-bigquery-...")
 // 3. Binary name (fallback for local development)
 // For the monolith provider, it returns empty string
-func detectGroupFromBinary() string {
+// The context parameter is used for logging to identify whether this is called from cluster or namespaced provider
+func detectGroupFromBinary(context string) string {
 	// First, check for explicit PROVIDER_GROUP environment variable
 	// This is the most reliable method for explicit configuration
 	if group := os.Getenv("PROVIDER_GROUP"); group != "" {
-		println("DEBUG: detectGroupFromBinary: using PROVIDER_GROUP env var =", group)
+		println("DEBUG: detectGroupFromBinary ("+context+"): using PROVIDER_GROUP env var =", group)
 		return group
 	}
 
@@ -179,21 +180,21 @@ func detectGroupFromBinary() string {
 	// Format: provider-gcp-<group>-<hash>-<pod-id>
 	// Example: provider-gcp-monitoring-5af302a3f2a2-5fbcb9fc84-8s6s5
 	if hostname := os.Getenv("HOSTNAME"); hostname != "" {
-		println("DEBUG: detectGroupFromBinary: parsing HOSTNAME =", hostname)
+		println("DEBUG: detectGroupFromBinary ("+context+"): parsing HOSTNAME =", hostname)
 
 		// Split by '-' and look for pattern: provider-gcp-<group>-...
 		parts := strings.Split(hostname, "-")
 		if len(parts) >= 3 && parts[0] == "provider" && parts[1] == "gcp" {
 			group := parts[2]
-			println("DEBUG: detectGroupFromBinary: extracted group from HOSTNAME =", group)
+			println("DEBUG: detectGroupFromBinary ("+context+"): extracted group from HOSTNAME =", group)
 			return group
 		}
-		println("DEBUG: detectGroupFromBinary: HOSTNAME doesn't match expected pattern")
+		println("DEBUG: detectGroupFromBinary (" + context + "): HOSTNAME doesn't match expected pattern")
 	}
 
 	// Fallback to binary name detection (useful for local development)
 	if len(os.Args) == 0 {
-		println("DEBUG: detectGroupFromBinary: os.Args is empty, returning empty group")
+		println("DEBUG: detectGroupFromBinary (" + context + "): os.Args is empty, returning empty group")
 		return ""
 	}
 
@@ -206,11 +207,11 @@ func detectGroupFromBinary() string {
 			binaryName = binaryName[lastSlash+1:]
 		}
 	}
-	println("DEBUG: detectGroupFromBinary: binary name =", binaryName)
+	println("DEBUG: detectGroupFromBinary ("+context+"): binary name =", binaryName)
 
 	// Common binary names that indicate monolith provider
 	if binaryName == "provider" || binaryName == "monolith" || strings.HasPrefix(binaryName, "provider-gcp") {
-		println("DEBUG: detectGroupFromBinary: detected monolith provider, returning empty group")
+		println("DEBUG: detectGroupFromBinary (" + context + "): detected monolith provider, returning empty group")
 		return ""
 	}
 
@@ -220,7 +221,7 @@ func detectGroupFromBinary() string {
 	group = strings.TrimPrefix(group, "provider-")
 	group = strings.TrimPrefix(group, "gcp-")
 
-	println("DEBUG: detectGroupFromBinary: detected family provider group from binary =", group)
+	println("DEBUG: detectGroupFromBinary ("+context+"): detected family provider group from binary =", group)
 	return group
 }
 
