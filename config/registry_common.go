@@ -8,6 +8,8 @@ import (
 	// Note(ezgidemirel): we are importing this to embed provider schema document
 	_ "embed"
 
+	"os"
+	"path/filepath"
 	"strings"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
@@ -158,6 +160,35 @@ func filterByGroup(t map[string]ujconfig.ExternalName, group string) map[string]
 		}
 	}
 	return out
+}
+
+// detectGroupFromBinary extracts the API group from the binary name
+// For family providers, the binary is typically named after the group (e.g., "bigquery", "storage")
+// For the monolith provider, it returns empty string
+func detectGroupFromBinary() string {
+	if len(os.Args) == 0 {
+		println("DEBUG: detectGroupFromBinary: os.Args is empty, returning empty group")
+		return ""
+	}
+	
+	// Get the binary name without path
+	binaryName := filepath.Base(os.Args[0])
+	println("DEBUG: detectGroupFromBinary: binary name =", binaryName)
+	
+	// Common binary names that indicate monolith provider
+	if binaryName == "provider" || binaryName == "monolith" || strings.HasPrefix(binaryName, "provider-gcp") {
+		println("DEBUG: detectGroupFromBinary: detected monolith provider, returning empty group")
+		return ""
+	}
+	
+	// For family providers, the binary name is the group name
+	// Remove any common suffixes or prefixes
+	group := binaryName
+	group = strings.TrimPrefix(group, "provider-")
+	group = strings.TrimPrefix(group, "gcp-")
+	
+	println("DEBUG: detectGroupFromBinary: detected family provider group =", group)
+	return group
 }
 
 func init() {

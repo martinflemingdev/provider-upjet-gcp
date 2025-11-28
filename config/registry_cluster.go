@@ -8,7 +8,6 @@ import (
 	"context"
 	"strings"
 
-	"github.com/crossplane/upjet/v2/pkg/config"
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/config/conversion"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
@@ -22,7 +21,10 @@ import (
 
 // GetProvider returns provider configuration
 func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
-	return GetProviderWithGroup(context.Background(), sdkProvider, generationProvider, "")
+	// Auto-detect the group from the binary name
+	// Binary names follow the pattern: provider (monolith) or bigquery, storage, etc. (family providers)
+	group := detectGroupFromBinary()
+	return GetProviderWithGroup(context.Background(), sdkProvider, generationProvider, group)
 }
 
 // GetProviderWithGroup returns provider configuration filtered by resource group (e.g., "bigquery", "storage")
@@ -115,8 +117,8 @@ func bumpVersionsWithEmbeddedLists(pc *ujconfig.Provider) {
 			// with the converted API (with embedded objects in place of
 			// singleton lists), so we need the appropriate Terraform
 			// converter in this case.
-			r.TerraformConversions = []config.TerraformConversion{
-				config.NewTFSingletonConversion(),
+			r.TerraformConversions = []ujconfig.TerraformConversion{
+				ujconfig.NewTFSingletonConversion(),
 			}
 		}
 		pc.Resources[n] = r

@@ -7,7 +7,6 @@ package config
 import (
 	"context"
 
-	"github.com/crossplane/upjet/v2/pkg/config"
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 	"github.com/crossplane/upjet/v2/pkg/registry/reference"
 	"github.com/crossplane/upjet/v2/pkg/schema/traverser"
@@ -20,7 +19,9 @@ import (
 
 // GetNamespacedProvider returns the namespaced provider configuration
 func GetNamespacedProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
-	return GetNamespacedProviderWithGroup(context.Background(), sdkProvider, generationProvider, "")
+	// Auto-detect the group from the binary name (same logic as cluster provider)
+	group := detectGroupFromBinary()
+	return GetNamespacedProviderWithGroup(context.Background(), sdkProvider, generationProvider, group)
 }
 
 // GetNamespacedProviderWithGroup returns the namespaced provider configuration
@@ -90,8 +91,8 @@ func registerTerraformConversions(pc *ujconfig.Provider) {
 		// with the converted API (with embedded objects in place of
 		// singleton lists), so we need the appropriate Terraform
 		// converter in this case.
-		r.TerraformConversions = []config.TerraformConversion{
-			config.NewTFSingletonConversion(),
+		r.TerraformConversions = []ujconfig.TerraformConversion{
+			ujconfig.NewTFSingletonConversion(),
 		}
 		pc.Resources[n] = r
 	}
