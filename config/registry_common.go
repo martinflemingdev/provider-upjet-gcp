@@ -9,7 +9,6 @@ import (
 	_ "embed"
 
 	"os"
-	"path/filepath"
 	"strings"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
@@ -162,32 +161,66 @@ func filterByGroup(t map[string]ujconfig.ExternalName, group string) map[string]
 	return out
 }
 
-// detectGroupFromBinary extracts the API group from the binary name
-// For family providers, the binary is typically named after the group (e.g., "bigquery", "storage")
+// detectGroupFromBinary extracts the API group from the binary name or environment
+// For family providers, checks multiple sources in order of preference:
+// 1. PROVIDER_GROUP environment variable (explicit override)
+// 2. HOSTNAME environment variable (set by Kubernetes, e.g., "provider-gcp-bigquery-...")
+// 3. Binary name (fallback for local development)
 // For the monolith provider, it returns empty string
 func detectGroupFromBinary() string {
+	// First, check for explicit PROVIDER_GROUP environment variable
+	// This is the most reliable method for explicit configuration
+	if group := os.Getenv("PROVIDER_GROUP"); group != "" {
+		println("DEBUG: detectGroupFromBinary: using PROVIDER_GROUP env var =", group)
+		return group
+	}
+
+	// Second, check HOSTNAME which Kubernetes sets for pods
+	// Format: provider-gcp-<group>-<hash>-<pod-id>
+	// Example: provider-gcp-monitoring-5af302a3f2a2-5fbcb9fc84-8s6s5
+	if hostname := os.Getenv("HOSTNAME"); hostname != "" {
+		println("DEBUG: detectGroupFromBinary: parsing HOSTNAME =", hostname)
+
+		// Split by '-' and look for pattern: provider-gcp-<group>-...
+		parts := strings.Split(hostname, "-")
+		if len(parts) >= 3 && parts[0] == "provider" && parts[1] == "gcp" {
+			group := parts[2]
+			println("DEBUG: detectGroupFromBinary: extracted group from HOSTNAME =", group)
+			return group
+		}
+		println("DEBUG: detectGroupFromBinary: HOSTNAME doesn't match expected pattern")
+	}
+
+	// Fallback to binary name detection (useful for local development)
 	if len(os.Args) == 0 {
 		println("DEBUG: detectGroupFromBinary: os.Args is empty, returning empty group")
 		return ""
 	}
-	
+
 	// Get the binary name without path
-	binaryName := filepath.Base(os.Args[0])
+	binaryName := os.Getenv("BINARY_NAME")
+	if binaryName == "" && len(os.Args) > 0 {
+		binaryName = os.Args[0]
+		// Strip path if present
+		if lastSlash := strings.LastIndex(binaryName, "/"); lastSlash != -1 {
+			binaryName = binaryName[lastSlash+1:]
+		}
+	}
 	println("DEBUG: detectGroupFromBinary: binary name =", binaryName)
-	
+
 	// Common binary names that indicate monolith provider
 	if binaryName == "provider" || binaryName == "monolith" || strings.HasPrefix(binaryName, "provider-gcp") {
 		println("DEBUG: detectGroupFromBinary: detected monolith provider, returning empty group")
 		return ""
 	}
-	
-	// For family providers, the binary name is the group name
+
+	// For family providers built locally, the binary name is the group name
 	// Remove any common suffixes or prefixes
 	group := binaryName
 	group = strings.TrimPrefix(group, "provider-")
 	group = strings.TrimPrefix(group, "gcp-")
-	
-	println("DEBUG: detectGroupFromBinary: detected family provider group =", group)
+
+	println("DEBUG: detectGroupFromBinary: detected family provider group from binary =", group)
 	return group
 }
 
