@@ -127,6 +127,46 @@ func (mg *AnalyticsHubListing) SetWriteConnectionSecretToReference(r *xpv1.Local
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this AnalyticsHubListingIAMMember.
+func (mg *AnalyticsHubListingIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this AnalyticsHubListingSubscription.
 func (mg *AnalyticsHubListingSubscription) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
