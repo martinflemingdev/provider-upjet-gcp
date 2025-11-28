@@ -354,7 +354,17 @@ type PacketMirroringParameters struct {
 type SubnetworksInitParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type SubnetworksObservation struct {
@@ -366,8 +376,18 @@ type SubnetworksObservation struct {
 type SubnetworksParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url" tf:"url,omitempty"`
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.NamespacedReference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.NamespacedSelector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 // PacketMirroringSpec defines the desired state of PacketMirroring

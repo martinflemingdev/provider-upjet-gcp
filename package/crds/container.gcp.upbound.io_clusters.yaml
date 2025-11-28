@@ -8496,7 +8496,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -8506,7 +8506,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -8515,7 +8515,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -8525,7 +8525,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -8537,7 +8537,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -8546,7 +8546,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -8589,7 +8589,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -8616,7 +8616,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -8628,7 +8628,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -8636,7 +8636,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -8645,7 +8645,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
@@ -8657,7 +8657,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -8732,7 +8732,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -8866,6 +8866,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -8928,6 +8933,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -9010,7 +9023,8 @@ spec:
                         type: string
                       clusterDns:
                         description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
+                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS
+                          or KUBE_DNS.
                         type: string
                       clusterDnsDomain:
                         description: The suffix used for all cluster service records.
@@ -9091,18 +9105,29 @@ spec:
                       See the official documentation.
                     type: boolean
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
+                        description: (DEPRECATED) Sets the tier of the cluster. Available
+                          options include STANDARD and ENTERPRISE. Deprecated as GKE
+                          Enterprise features are now available without an Enterprise
+                          tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                          for the announcement of this change.
                         type: string
                     type: object
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
                     properties:
+                      membershipType:
+                        description: Sets the membership type of the cluster.  Available
+                          option is LIGHTWEIGHT to support only lightweight compatible
+                          features.  If unspecified, the membership_type will be a
+                          regular membership that supports all features.
+                        type: string
                       project:
                         description: The name of the Fleet host project where this
                           cluster will be registered.
@@ -9188,6 +9213,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -9202,6 +9235,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -9286,9 +9329,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -9414,12 +9464,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -9566,6 +9618,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -9583,7 +9660,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -9613,19 +9690,30 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -9656,7 +9744,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -9673,7 +9761,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -9734,7 +9822,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -9796,6 +9884,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -9827,11 +10038,57 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -9871,6 +10128,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -10100,10 +10367,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -10280,7 +10556,18 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -10291,7 +10578,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -10570,6 +10857,19 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
@@ -10780,7 +11080,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -10790,7 +11090,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -10799,7 +11099,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -10809,7 +11109,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -10821,7 +11121,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -10830,7 +11130,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -10873,7 +11173,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -10900,7 +11200,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -10912,7 +11212,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -10920,7 +11220,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -10929,7 +11229,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
@@ -10941,7 +11241,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -11016,7 +11316,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -11150,6 +11450,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -11212,6 +11517,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -11294,7 +11607,8 @@ spec:
                         type: string
                       clusterDns:
                         description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
+                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS
+                          or KUBE_DNS.
                         type: string
                       clusterDnsDomain:
                         description: The suffix used for all cluster service records.
@@ -11375,18 +11689,29 @@ spec:
                       See the official documentation.
                     type: boolean
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
+                        description: (DEPRECATED) Sets the tier of the cluster. Available
+                          options include STANDARD and ENTERPRISE. Deprecated as GKE
+                          Enterprise features are now available without an Enterprise
+                          tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                          for the announcement of this change.
                         type: string
                     type: object
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
                     properties:
+                      membershipType:
+                        description: Sets the membership type of the cluster.  Available
+                          option is LIGHTWEIGHT to support only lightweight compatible
+                          features.  If unspecified, the membership_type will be a
+                          regular membership that supports all features.
+                        type: string
                       project:
                         description: The name of the Fleet host project where this
                           cluster will be registered.
@@ -11472,6 +11797,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -11486,6 +11819,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -11561,9 +11904,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -11689,12 +12039,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -11841,6 +12193,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -11858,7 +12235,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -11888,19 +12265,30 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -11931,7 +12319,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -11948,7 +12336,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -12009,7 +12397,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -12071,6 +12459,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -12102,11 +12613,57 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -12146,6 +12703,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -12375,10 +12942,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -12555,7 +13131,18 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -12566,7 +13153,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -12845,6 +13432,19 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
@@ -13131,7 +13731,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -13141,7 +13741,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -13150,7 +13750,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -13160,7 +13760,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -13172,7 +13772,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -13181,7 +13781,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -13224,7 +13824,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -13251,7 +13851,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -13263,7 +13863,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -13271,7 +13871,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -13280,7 +13880,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
@@ -13292,7 +13892,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -13367,7 +13967,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -13513,6 +14113,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -13575,6 +14180,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -13657,7 +14270,8 @@ spec:
                         type: string
                       clusterDns:
                         description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
+                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS
+                          or KUBE_DNS.
                         type: string
                       clusterDnsDomain:
                         description: The suffix used for all cluster service records.
@@ -13746,15 +14360,20 @@ spec:
                     description: The IP address of this cluster's Kubernetes master.
                     type: string
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       clusterTier:
                         description: The effective tier of the cluster.
                         type: string
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
+                        description: (DEPRECATED) Sets the tier of the cluster. Available
+                          options include STANDARD and ENTERPRISE. Deprecated as GKE
+                          Enterprise features are now available without an Enterprise
+                          tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                          for the announcement of this change.
                         type: string
                     type: object
                   fleet:
@@ -13775,6 +14394,12 @@ spec:
                         description: The location of the fleet membership,  extracted
                           from fleet.0.membership. You can use this field to configure
                           membership_location under google_gkehub_feature_membership.
+                        type: string
+                      membershipType:
+                        description: Sets the membership type of the cluster.  Available
+                          option is LIGHTWEIGHT to support only lightweight compatible
+                          features.  If unspecified, the membership_type will be a
+                          regular membership that supports all features.
                         type: string
                       preRegistered:
                         type: boolean
@@ -13866,6 +14491,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -13880,6 +14513,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -13973,9 +14616,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -14117,12 +14767,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -14195,6 +14847,31 @@ spec:
                               per core by the underlying processor is assumed.
                             type: number
                         type: object
+                      bootDisk:
+                        description: Configuration of the node pool boot disk. Structure
+                          is documented below
+                        properties:
+                          diskType:
+                            description: |-
+                              Type of the disk attached to each node
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                            type: string
+                          provisionedIops:
+                            description: Configure disk IOPs. This is only valid if
+                              the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          provisionedThroughput:
+                            description: Configure disk throughput. This is only valid
+                              if the disk_type is 'hyperdisk-balanced'. See performance
+                              limit documention for more information about valid values.
+                            type: number
+                          sizeGb:
+                            description: |-
+                              Size of the disk attached to each node, specified
+                              in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         description: 'The Customer Managed Encryption Key used to
                           encrypt the boot disk attached to each node in the node
@@ -14212,7 +14889,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -14242,19 +14919,30 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
                       diskSizeGb:
                         description: |-
                           Size of the disk attached to each node, specified
-                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                          in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                          Prefer configuring boot_disk.
                         type: number
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       effectiveTaints:
                         description: List of kubernetes taints applied to each node.
@@ -14302,7 +14990,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -14319,7 +15007,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -14380,7 +15068,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -14442,6 +15130,129 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            description: Defines the maximum allowed grace period
+                              (in seconds) to use when terminating pods in response
+                              to a soft eviction threshold being met. The integer
+                              must be positive and not exceed 300.
+                            type: number
+                          evictionMinimumReclaim:
+                            description: Defines a map of signal names to percentage
+                              that defines minimum reclaims. It describes the minimum
+                              amount of a given resource the kubelet will reclaim
+                              when performing a pod eviction. Structure is documented
+                              below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoft:
+                            description: Defines a map of signal names to quantities
+                              or percentage that defines soft eviction thresholds.
+                              Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            description: Defines a map of signal names to durations
+                              that defines grace periods for soft eviction thresholds.
+                              Each soft eviction threshold must have a corresponding
+                              grace period. Structure is documented below.
+                            properties:
+                              imagefsAvailable:
+                                description: Defines grace period for the imagefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              imagefsInodesFree:
+                                description: Defines grace period for the imagefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              memoryAvailable:
+                                description: Defines grace period for the memory.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h".
+                                type: string
+                              nodefsAvailable:
+                                description: Defines grace period for the nodefs.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              nodefsInodesFree:
+                                description: Defines grace period for the nodefs.inodesFree
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                              pidAvailable:
+                                description: Defines grace period for the pid.available
+                                  soft eviction threshold. The value must be a positive
+                                  duration string no more than "5m".
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             description: Defines the percent of disk usage after which
                               image garbage collection is always run. The integer
@@ -14473,11 +15284,57 @@ spec:
                               pools in the cluster. It is strongly recommended to
                               set this to FALSE. Possible values: TRUE, FALSE.'
                             type: string
+                          maxParallelImagePulls:
+                            description: Set the maximum number of image pulls in
+                              parallel. The integer must be between 2 and 5, inclusive.
+                            type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          singleProcessOomKill:
+                            description: Defines whether to enable single process
+                              OOM killer. If true, the processes in the container
+                              will be OOM killed individually instead of as a group.
+                            type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -14517,6 +15374,16 @@ spec:
                               Note that validations happen all server side. All attributes are optional.
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            description: |-
+                              The Linux kernel transparent hugepage defrag setting.
+                              Accepted values are:
+                            type: string
+                          transparentHugepageEnabled:
+                            description: |-
+                              The Linux kernel transparent hugepage setting.
+                              Accepted values are:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         description: Parameters for the local NVMe SSDs. Structure
@@ -14670,10 +15537,19 @@ spec:
                         type: object
                       soleTenantConfig:
                         description: Allows specifying multiple node affinities useful
-                          for running workloads on sole tenant nodes. node_affinity
-                          structure is documented below.
+                          for running workloads on sole tenant nodes. Structure is
+                          documented below.
                         properties:
+                          minNodeCpus:
+                            description: Specifies the minimum number of vCPUs that
+                              each sole tenant node must have to use CPU overcommit.
+                              If not specified, the CPU overcommit feeature is disabled.
+                              The value should be greater than or equal to half of
+                              the machine type's CPU count.
+                            type: number
                           nodeAffinity:
+                            description: The node affinity settings for the sole tenant
+                              node pool. Structure is documented below.
                             items:
                               properties:
                                 key:
@@ -14921,6 +15797,33 @@ spec:
                                     is assumed.
                                   type: number
                               type: object
+                            bootDisk:
+                              description: Configuration of the node pool boot disk.
+                                Structure is documented below
+                              properties:
+                                diskType:
+                                  description: |-
+                                    Type of the disk attached to each node
+                                    (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                                  type: string
+                                provisionedIops:
+                                  description: Configure disk IOPs. This is only valid
+                                    if the disk_type is 'hyperdisk-balanced'. See
+                                    performance limit documention for more information
+                                    about valid values.
+                                  type: number
+                                provisionedThroughput:
+                                  description: Configure disk throughput. This is
+                                    only valid if the disk_type is 'hyperdisk-balanced'.
+                                    See performance limit documention for more information
+                                    about valid values.
+                                  type: number
+                                sizeGb:
+                                  description: |-
+                                    Size of the disk attached to each node, specified
+                                    in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated from node_config.disk_size_gb, and must match if specified in both places. Prefer using this field.
+                                  type: number
+                              type: object
                             bootDiskKmsKey:
                               description: 'The Customer Managed Encryption Key used
                                 to encrypt the boot disk attached to each node in
@@ -14938,7 +15841,7 @@ spec:
                                     by the confidential node.
                                   type: string
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             containerdConfig:
@@ -14969,19 +15872,31 @@ spec:
                                         type: object
                                       type: array
                                     enabled:
-                                      description: Enables vertical pod autoscaling
+                                      description: Whether writable cgroups are enabled.
+                                      type: boolean
+                                  type: object
+                                writableCgroups:
+                                  description: 'Configuration for writable cgroups.
+                                    This allows containers to have a writable /sys/fs/cgroup
+                                    directory, which is required for some workloads
+                                    to create their own sub-cgroups. The writable_cgroups
+                                    block supports:'
+                                  properties:
+                                    enabled:
+                                      description: Whether writable cgroups are enabled.
                                       type: boolean
                                   type: object
                               type: object
                             diskSizeGb:
                               description: |-
                                 Size of the disk attached to each node, specified
-                                in GB. The smallest allowed disk size is 10GB. Defaults to 100GB.
+                                in GB. The smallest allowed disk size is 10GB. Defaults to 100GB. This is being migrated to boot_disk.size_gb, and must match if specified in both places.
+                                Prefer configuring boot_disk.
                               type: number
                             diskType:
                               description: |-
                                 Type of the disk attached to each node
-                                (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced'
+                                (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                               type: string
                             effectiveTaints:
                               description: List of kubernetes taints applied to each
@@ -15030,7 +15945,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             flexStart:
@@ -15044,7 +15959,7 @@ spec:
                                 cluster. Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             guestAccelerator:
@@ -15105,7 +16020,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             hostMaintenancePolicy:
@@ -15168,6 +16083,132 @@ spec:
                                     Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                                     is setting the empty string "", which will function identically to not setting this field.
                                   type: string
+                                evictionMaxPodGracePeriodSeconds:
+                                  description: Defines the maximum allowed grace period
+                                    (in seconds) to use when terminating pods in response
+                                    to a soft eviction threshold being met. The integer
+                                    must be positive and not exceed 300.
+                                  type: number
+                                evictionMinimumReclaim:
+                                  description: Defines a map of signal names to percentage
+                                    that defines minimum reclaims. It describes the
+                                    minimum amount of a given resource the kubelet
+                                    will reclaim when performing a pod eviction. Structure
+                                    is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
+                                evictionSoft:
+                                  description: Defines a map of signal names to quantities
+                                    or percentage that defines soft eviction thresholds.
+                                    Structure is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
+                                evictionSoftGracePeriod:
+                                  description: Defines a map of signal names to durations
+                                    that defines grace periods for soft eviction thresholds.
+                                    Each soft eviction threshold must have a corresponding
+                                    grace period. Structure is documented below.
+                                  properties:
+                                    imagefsAvailable:
+                                      description: Defines grace period for the imagefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    imagefsInodesFree:
+                                      description: Defines grace period for the imagefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    memoryAvailable:
+                                      description: Defines grace period for the memory.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m",
+                                        such as "30s", "1m30s", "2.5m". Valid time
+                                        units are "ns", "us" (or "µs"), "ms", "s",
+                                        "m", "h".
+                                      type: string
+                                    nodefsAvailable:
+                                      description: Defines grace period for the nodefs.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    nodefsInodesFree:
+                                      description: Defines grace period for the nodefs.inodesFree
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                    pidAvailable:
+                                      description: Defines grace period for the pid.available
+                                        soft eviction threshold. The value must be
+                                        a positive duration string no more than "5m".
+                                      type: string
+                                  type: object
                                 imageGcHighThresholdPercent:
                                   description: Defines the percent of disk usage after
                                     which image garbage collection is always run.
@@ -15200,11 +16241,59 @@ spec:
                                     node pools in the cluster. It is strongly recommended
                                     to set this to FALSE. Possible values: TRUE, FALSE.'
                                   type: string
+                                maxParallelImagePulls:
+                                  description: Set the maximum number of image pulls
+                                    in parallel. The integer must be between 2 and
+                                    5, inclusive.
+                                  type: number
+                                memoryManager:
+                                  description: |-
+                                    Configuration for the memory manager on the node.
+                                    The memory manager optimizes memory and hugepages allocation for pods, especially
+                                    those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
+                                  type: object
                                 podPidsLimit:
                                   description: Controls the maximum number of processes
                                     allowed to run in a pod. The value must be greater
                                     than or equal to 1024 and less than 4194304.
                                   type: number
+                                singleProcessOomKill:
+                                  description: Defines whether to enable single process
+                                    OOM killer. If true, the processes in the container
+                                    will be OOM killed individually instead of as
+                                    a group.
+                                  type: boolean
+                                topologyManager:
+                                  description: These settings control the kubelet's
+                                    Topology Manager policy, which coordinates the
+                                    set of components responsible for performance
+                                    optimizations related to CPU isolation, memory,
+                                    and device locality. Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
+                                    scope:
+                                      description: |-
+                                        The Topology Manager scope, defining the granularity at which
+                                        policy decisions are applied. Valid values are "container" (resources are aligned
+                                        per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                      type: string
+                                  type: object
                               type: object
                             labels:
                               additionalProperties:
@@ -15246,6 +16335,16 @@ spec:
                                     Note that validations happen all server side. All attributes are optional.
                                   type: object
                                   x-kubernetes-map-type: granular
+                                transparentHugepageDefrag:
+                                  description: |-
+                                    The Linux kernel transparent hugepage defrag setting.
+                                    Accepted values are:
+                                  type: string
+                                transparentHugepageEnabled:
+                                  description: |-
+                                    The Linux kernel transparent hugepage setting.
+                                    Accepted values are:
+                                  type: string
                               type: object
                             localNvmeSsdBlockConfig:
                               description: Parameters for the local NVMe SSDs. Structure
@@ -15403,9 +16502,20 @@ spec:
                             soleTenantConfig:
                               description: Allows specifying multiple node affinities
                                 useful for running workloads on sole tenant nodes.
-                                node_affinity structure is documented below.
+                                Structure is documented below.
                               properties:
+                                minNodeCpus:
+                                  description: Specifies the minimum number of vCPUs
+                                    that each sole tenant node must have to use CPU
+                                    overcommit. If not specified, the CPU overcommit
+                                    feeature is disabled. The value should be greater
+                                    than or equal to half of the machine type's CPU
+                                    count.
+                                  type: number
                                 nodeAffinity:
+                                  description: The node affinity settings for the
+                                    sole tenant node pool. Structure is documented
+                                    below.
                                   items:
                                     properties:
                                       key:
@@ -15511,7 +16621,7 @@ spec:
                         queuedProvisioning:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                           type: object
                         upgradeSettings:
@@ -15668,7 +16778,18 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -15679,7 +16800,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -15896,6 +17017,19 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for

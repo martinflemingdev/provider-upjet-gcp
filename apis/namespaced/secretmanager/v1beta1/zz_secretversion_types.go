@@ -27,6 +27,10 @@ type SecretVersionInitParameters struct {
 	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/namespaced/common.ExtractResourceID()
@@ -77,6 +81,10 @@ type SecretVersionObservation struct {
 	// projects/{{project}}/secrets/{{secret_id}}/versions/{{version}}
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
 	// Secret Manager secret resource
 	Secret *string `json:"secret,omitempty" tf:"secret,omitempty"`
 
@@ -106,6 +114,11 @@ type SecretVersionParameters struct {
 	// If set to 'true', the secret data is expected to be base64-encoded string and would be sent as is.
 	// +kubebuilder:validation:Optional
 	IsSecretDataBase64 *bool `json:"isSecretDataBase64,omitempty" tf:"is_secret_data_base64,omitempty"`
+
+	// The ID of the project in which the resource belongs. If it is not provided,
+	// the provider project is used
+	// +kubebuilder:validation:Optional
+	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// Secret Manager secret resource
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/secretmanager/v1beta1.Secret

@@ -111,6 +111,23 @@ type ConsumerAcceptListsParameters struct {
 	ProjectIDOrNum *string `json:"projectIdOrNum,omitempty" tf:"project_id_or_num,omitempty"`
 }
 
+type PscServiceAttachmentIDInitParameters struct {
+}
+
+type PscServiceAttachmentIDObservation struct {
+
+	// (Output)
+	// The high 64 bits of the PSC service attachment ID.
+	High *string `json:"high,omitempty" tf:"high,omitempty"`
+
+	// (Output)
+	// The low 64 bits of the PSC service attachment ID.
+	Low *string `json:"low,omitempty" tf:"low,omitempty"`
+}
+
+type PscServiceAttachmentIDParameters struct {
+}
+
 type ServiceAttachmentInitParameters struct {
 
 	// The connection preference to use for this service attachment. Valid
@@ -242,6 +259,10 @@ type ServiceAttachmentObservation struct {
 	// If the connection preference of the service attachment is ACCEPT_AUTOMATIC, the limit applies to each project that contains a connected endpoint.
 	// If unspecified, the default propagated connection limit is 250. To explicitly send a zero value, set send_propagated_connection_limit_if_zero = true.
 	PropagatedConnectionLimit *float64 `json:"propagatedConnectionLimit,omitempty" tf:"propagated_connection_limit,omitempty"`
+
+	// An 128-bit global unique ID of the PSC service attachment.
+	// Structure is documented below.
+	PscServiceAttachmentID []PscServiceAttachmentIDObservation `json:"pscServiceAttachmentId,omitempty" tf:"psc_service_attachment_id,omitempty"`
 
 	// This flag determines whether a consumer accept/reject list change can reconcile the statuses of existing ACCEPTED or REJECTED PSC endpoints.
 	// If false, connection policy update will only affect existing PENDING PSC endpoints. Existing ACCEPTED/REJECTED endpoints will remain untouched regardless how the connection policy is modified .

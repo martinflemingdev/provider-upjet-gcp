@@ -1120,6 +1120,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -1301,6 +1306,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 	if in.DeletionPolicy != nil {
 		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
 		**out = **in
 	}
 	if in.DisplayName != nil {
@@ -1537,6 +1547,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 	if in.DeletionPolicy != nil {
 		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionProtection != nil {
+		in, out := &in.DeletionProtection, &out.DeletionProtection
+		*out = new(bool)
 		**out = **in
 	}
 	if in.DisplayName != nil {

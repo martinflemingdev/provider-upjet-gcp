@@ -2249,6 +2249,10 @@ spec:
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
                       Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -2269,7 +2273,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. This must be set for all new Clusters.
                       Structure is documented below.
                     properties:
                       passwordSecretRef:
@@ -2892,6 +2896,10 @@ spec:
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
                       Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -2912,7 +2920,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. This must be set for all new Clusters.
                       Structure is documented below.
                     properties:
                       passwordSecretRef:
@@ -3672,6 +3680,10 @@ spec:
                       Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
                       Possible values: DEFAULT, FORCE
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the cluster
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: User-settable and human-readable display name for
                       the Cluster.
@@ -3726,7 +3738,7 @@ spec:
                     type: string
                   initialUser:
                     description: |-
-                      Initial user to setup during cluster creation.
+                      Initial user to setup during cluster creation. This must be set for all new Clusters.
                       Structure is documented below.
                     properties:
                       user:

@@ -1716,160 +1716,6 @@ type PathMatcherDefaultRouteActionWeightedBackendServicesParameters struct {
 	Weight *float64 `json:"weight,omitempty" tf:"weight,omitempty"`
 }
 
-type PathMatcherHeaderActionInitParameters struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionObservation struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionParameters struct {
-
-	// Headers to add to a matching request prior to forwarding the request to the
-	// backendService.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []PathMatcherHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the request
-	// prior to forwarding the request to the backendService.
-	// +kubebuilder:validation:Optional
-	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
-
-	// Headers to add the response prior to sending the response back to the client.
-	// Structure is documented below.
-	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []PathMatcherHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
-
-	// A list of header names for headers that need to be removed from the response
-	// prior to sending the response back to the client.
-	// +kubebuilder:validation:Optional
-	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionRequestHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type PathMatcherHeaderActionResponseHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
 type PathMatcherPathRuleInitParameters struct {
 
 	// customErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
@@ -2963,7 +2809,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionInitPara
 	// Headers to add to a matching request prior to forwarding the request to the
 	// backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -2971,7 +2817,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionInitPara
 
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
@@ -2983,7 +2829,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionObservat
 	// Headers to add to a matching request prior to forwarding the request to the
 	// backendService.
 	// Structure is documented below.
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -2991,7 +2837,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionObservat
 
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
@@ -3004,7 +2850,7 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionParamete
 	// backendService.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	RequestHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+	RequestHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the request
 	// prior to forwarding the request to the backendService.
@@ -3014,12 +2860,102 @@ type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionParamete
 	// Headers to add the response prior to sending the response back to the client.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ResponseHeadersToAdd []RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+	ResponseHeadersToAdd []PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
 
 	// A list of header names for headers that need to be removed from the response
 	// prior to sending the response back to the client.
 	// +kubebuilder:validation:Optional
 	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type PathMatcherRouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionWeightedBackendServicesInitParameters struct {
@@ -4675,96 +4611,6 @@ type RouteRulesRouteActionMaxStreamDurationParameters struct {
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionRequestHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddInitParameters struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddObservation struct {
-
-	// The name of the header.
-	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
-}
-
-type RouteRulesRouteActionWeightedBackendServicesHeaderActionResponseHeadersToAddParameters struct {
-
-	// The name of the header.
-	// +kubebuilder:validation:Optional
-	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
-
-	// The value of the header to add.
-	// +kubebuilder:validation:Optional
-	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
-
-	// If false, headerValue is appended to any values that already exist for the
-	// header. If true, headerValue is set for the header, discarding any values that
-	// were set for that header.
-	// +kubebuilder:validation:Optional
-	Replace *bool `json:"replace" tf:"replace,omitempty"`
-}
-
 type URLMapDefaultRouteActionCorsPolicyInitParameters struct {
 
 	// In response to a preflight request, setting this to true indicates that the
@@ -6212,6 +6058,160 @@ type URLMapPathMatcherDefaultURLRedirectParameters struct {
 	StripQuery *bool `json:"stripQuery" tf:"strip_query,omitempty"`
 }
 
+type URLMapPathMatcherHeaderActionInitParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddInitParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddInitParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionObservation struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddObservation `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddObservation `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionParameters struct {
+
+	// Headers to add to a matching request prior to forwarding the request to the
+	// backendService.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToAdd []URLMapPathMatcherHeaderActionRequestHeadersToAddParameters `json:"requestHeadersToAdd,omitempty" tf:"request_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the request
+	// prior to forwarding the request to the backendService.
+	// +kubebuilder:validation:Optional
+	RequestHeadersToRemove []*string `json:"requestHeadersToRemove,omitempty" tf:"request_headers_to_remove,omitempty"`
+
+	// Headers to add the response prior to sending the response back to the client.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToAdd []URLMapPathMatcherHeaderActionResponseHeadersToAddParameters `json:"responseHeadersToAdd,omitempty" tf:"response_headers_to_add,omitempty"`
+
+	// A list of header names for headers that need to be removed from the response
+	// prior to sending the response back to the client.
+	// +kubebuilder:validation:Optional
+	ResponseHeadersToRemove []*string `json:"responseHeadersToRemove,omitempty" tf:"response_headers_to_remove,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionRequestHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddInitParameters struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddObservation struct {
+
+	// The name of the header.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	HeaderValue *string `json:"headerValue,omitempty" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	Replace *bool `json:"replace,omitempty" tf:"replace,omitempty"`
+}
+
+type URLMapPathMatcherHeaderActionResponseHeadersToAddParameters struct {
+
+	// The name of the header.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+
+	// The value of the header to add.
+	// +kubebuilder:validation:Optional
+	HeaderValue *string `json:"headerValue" tf:"header_value,omitempty"`
+
+	// If false, headerValue is appended to any values that already exist for the
+	// header. If true, headerValue is set for the header, discarding any values that
+	// were set for that header.
+	// +kubebuilder:validation:Optional
+	Replace *bool `json:"replace" tf:"replace,omitempty"`
+}
+
 type URLMapPathMatcherInitParameters struct {
 
 	// defaultCustomErrorResponsePolicy specifies how the Load Balancer returns error responses when BackendService or BackendBucket responds with an error.
@@ -6260,7 +6260,7 @@ type URLMapPathMatcherInitParameters struct {
 	// the selected backendService. HeaderAction specified here are applied after the
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
-	HeaderAction *PathMatcherHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionInitParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -6322,7 +6322,7 @@ type URLMapPathMatcherObservation struct {
 	// the selected backendService. HeaderAction specified here are applied after the
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
-	HeaderAction *PathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionObservation `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -6400,7 +6400,7 @@ type URLMapPathMatcherParameters struct {
 	// matching HttpRouteRule HeaderAction and before the HeaderAction in the UrlMap
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	HeaderAction *PathMatcherHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
+	HeaderAction *URLMapPathMatcherHeaderActionParameters `json:"headerAction,omitempty" tf:"header_action,omitempty"`
 
 	// The name to which this PathMatcher is referred by the HostRule.
 	// +kubebuilder:validation:Optional

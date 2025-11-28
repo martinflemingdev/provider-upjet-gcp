@@ -646,6 +646,59 @@ spec:
                   description:
                     description: Human-readable description of the trigger.
                     type: string
+                  developerConnectEventConfig:
+                    description: |-
+                      Configuration for triggers that respond to Developer Connect events.
+                      Structure is documented below.
+                    properties:
+                      gitRepositoryLink:
+                        description: The Developer Connect Git repository link, formatted
+                          as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+                        type: string
+                      pullRequest:
+                        description: |-
+                          Filter to match changes in pull requests.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          commentControl:
+                            description: |-
+                              Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+                              Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                        type: object
+                      push:
+                        description: |-
+                          Filter to match changes in refs like branches and tags.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                          tag:
+                            description: |-
+                              Regex of tags to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                        type: object
+                    type: object
                   disabled:
                     description: Whether the trigger is disabled or not. If true,
                       the trigger will never result in a build.
@@ -1838,6 +1891,59 @@ spec:
                   description:
                     description: Human-readable description of the trigger.
                     type: string
+                  developerConnectEventConfig:
+                    description: |-
+                      Configuration for triggers that respond to Developer Connect events.
+                      Structure is documented below.
+                    properties:
+                      gitRepositoryLink:
+                        description: The Developer Connect Git repository link, formatted
+                          as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+                        type: string
+                      pullRequest:
+                        description: |-
+                          Filter to match changes in pull requests.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          commentControl:
+                            description: |-
+                              Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+                              Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                        type: object
+                      push:
+                        description: |-
+                          Filter to match changes in refs like branches and tags.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                          tag:
+                            description: |-
+                              Regex of tags to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                        type: object
+                    type: object
                   disabled:
                     description: Whether the trigger is disabled or not. If true,
                       the trigger will never result in a build.
@@ -3103,6 +3209,64 @@ spec:
                   description:
                     description: Human-readable description of the trigger.
                     type: string
+                  developerConnectEventConfig:
+                    description: |-
+                      Configuration for triggers that respond to Developer Connect events.
+                      Structure is documented below.
+                    properties:
+                      gitRepositoryLink:
+                        description: The Developer Connect Git repository link, formatted
+                          as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+                        type: string
+                      gitRepositoryLinkType:
+                        description: |-
+                          (Output)
+                          The type of DeveloperConnect GitRepositoryLink.
+                        type: string
+                      pullRequest:
+                        description: |-
+                          Filter to match changes in pull requests.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          commentControl:
+                            description: |-
+                              Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+                              Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                        type: object
+                      push:
+                        description: |-
+                          Filter to match changes in refs like branches and tags.
+                          Structure is documented below.
+                        properties:
+                          branch:
+                            description: |-
+                              Regex of branches to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                          invertRegex:
+                            description: Only trigger a build if the revision regex
+                              does NOT match the revision regex.
+                            type: boolean
+                          tag:
+                            description: |-
+                              Regex of tags to match.
+                              The syntax of the regular expressions accepted is the syntax accepted by
+                              RE2 and described at https://github.com/google/re2/wiki/Syntax
+                            type: string
+                        type: object
+                    type: object
                   disabled:
                     description: Whether the trigger is disabled or not. If true,
                       the trigger will never result in a build.

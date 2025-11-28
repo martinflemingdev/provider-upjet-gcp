@@ -499,6 +499,10 @@ type NFSExportOptionsInitParameters struct {
 	// The limit is 64 IP ranges/addresses for each FileShareConfig among all NfsExportOptions.
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
 
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
@@ -528,6 +532,10 @@ type NFSExportOptionsObservation struct {
 	// Overlapping IP ranges are not allowed, both within and across NfsExportOptions. An error will be returned.
 	// The limit is 64 IP ranges/addresses for each FileShareConfig among all NfsExportOptions.
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
+
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
@@ -563,6 +571,11 @@ type NFSExportOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
 
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
@@ -588,6 +601,11 @@ type NetworksInitParameters struct {
 	// The name of the GCE VPC network to which the
 	// instance is connected.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
@@ -616,6 +634,11 @@ type NetworksObservation struct {
 	// instance is connected.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	PscConfig *PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
@@ -641,6 +664,12 @@ type NetworksParameters struct {
 	// instance is connected.
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network" tf:"network,omitempty"`
+
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
@@ -690,6 +719,34 @@ type PerformanceConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IopsPerTb *IopsPerTbParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PscConfigInitParameters struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	// +kubebuilder:validation:Optional
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
 }
 
 type ReplicasInitParameters struct {

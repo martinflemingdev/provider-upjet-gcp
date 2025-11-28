@@ -3552,6 +3552,30 @@ func (mg *PacketMirroring) ResolveReferences(ctx context.Context, c client.Reade
 
 		}
 	}
+	if mg.Spec.ForProvider.MirroredResources != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.MirroredResources.Subnetworks); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLRef,
+					Selector:     mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL")
+			}
+			mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.ForProvider.Network != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
@@ -3617,6 +3641,30 @@ func (mg *PacketMirroring) ResolveReferences(ctx context.Context, c client.Reade
 			}
 			mg.Spec.InitProvider.MirroredResources.Instances[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.InitProvider.MirroredResources.Instances[i4].URLRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.MirroredResources != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.MirroredResources.Subnetworks); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLRef,
+					Selector:     mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL")
+			}
+			mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLRef = rsp.ResolvedReference
 
 		}
 	}
@@ -3870,6 +3918,56 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 		mg.Spec.ForProvider.Backend[i3].GroupRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.ForProvider.HaPolicy != nil {
+		if mg.Spec.ForProvider.HaPolicy.Leader != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "NetworkEndpointGroup", "NetworkEndpointGroupList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.HaPolicy.Leader.BackendGroup),
+					Extract:      resource.ExtractParamPath("self_link", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.HaPolicy.Leader.BackendGroupRef,
+					Selector:     mg.Spec.ForProvider.HaPolicy.Leader.BackendGroupSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.HaPolicy.Leader.BackendGroup")
+			}
+			mg.Spec.ForProvider.HaPolicy.Leader.BackendGroup = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.HaPolicy.Leader.BackendGroupRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.HaPolicy != nil {
+		if mg.Spec.ForProvider.HaPolicy.Leader != nil {
+			if mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Instance", "InstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.Instance),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.InstanceRef,
+						Selector:     mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.InstanceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.Instance")
+				}
+				mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.HaPolicy.Leader.NetworkEndpoint.InstanceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "RegionHealthCheck", "RegionHealthCheckList")
 		if err != nil {
@@ -3889,6 +3987,26 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.ForProvider.HealthChecks = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.ForProvider.HealthChecksRefs = mrsp.ResolvedReferences
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.NetworkRef,
+			Selector:     mg.Spec.ForProvider.NetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Network")
+	}
+	mg.Spec.ForProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkRef = rsp.ResolvedReference
 
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Backend); i3++ {
 		{
@@ -3912,6 +4030,56 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 		mg.Spec.InitProvider.Backend[i3].GroupRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.InitProvider.HaPolicy != nil {
+		if mg.Spec.InitProvider.HaPolicy.Leader != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "NetworkEndpointGroup", "NetworkEndpointGroupList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.HaPolicy.Leader.BackendGroup),
+					Extract:      resource.ExtractParamPath("self_link", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.HaPolicy.Leader.BackendGroupRef,
+					Selector:     mg.Spec.InitProvider.HaPolicy.Leader.BackendGroupSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.HaPolicy.Leader.BackendGroup")
+			}
+			mg.Spec.InitProvider.HaPolicy.Leader.BackendGroup = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.HaPolicy.Leader.BackendGroupRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.HaPolicy != nil {
+		if mg.Spec.InitProvider.HaPolicy.Leader != nil {
+			if mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Instance", "InstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.Instance),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.InstanceRef,
+						Selector:     mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.InstanceSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.Instance")
+				}
+				mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.HaPolicy.Leader.NetworkEndpoint.InstanceRef = rsp.ResolvedReference
+
+			}
+		}
+	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "RegionHealthCheck", "RegionHealthCheckList")
 		if err != nil {
@@ -3931,6 +4099,26 @@ func (mg *RegionBackendService) ResolveReferences(ctx context.Context, c client.
 	}
 	mg.Spec.InitProvider.HealthChecks = reference.ToPtrValues(mrsp.ResolvedValues)
 	mg.Spec.InitProvider.HealthChecksRefs = mrsp.ResolvedReferences
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.NetworkRef,
+			Selector:     mg.Spec.InitProvider.NetworkSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Network")
+	}
+	mg.Spec.InitProvider.Network = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkRef = rsp.ResolvedReference
 
 	return nil
 }
@@ -4429,7 +4617,7 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 		}
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-			Extract:      resource.ExtractParamPath("self_link", true),
+			Extract:      resource.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -4533,7 +4721,7 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 		}
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
-			Extract:      resource.ExtractParamPath("self_link", true),
+			Extract:      resource.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,

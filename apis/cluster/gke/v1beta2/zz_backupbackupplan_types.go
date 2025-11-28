@@ -218,6 +218,10 @@ type BackupConfigInitParameters struct {
 	// Structure is documented below.
 	SelectedApplications *SelectedApplicationsInitParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
 
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	SelectedNamespaceLabels *SelectedNamespaceLabelsInitParameters `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
+
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
 	SelectedNamespaces *SelectedNamespacesInitParameters `json:"selectedNamespaces,omitempty" tf:"selected_namespaces,omitempty"`
@@ -249,6 +253,10 @@ type BackupConfigObservation struct {
 	// A list of namespaced Kubernetes Resources.
 	// Structure is documented below.
 	SelectedApplications *SelectedApplicationsObservation `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
+
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	SelectedNamespaceLabels *SelectedNamespaceLabelsObservation `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
 
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
@@ -287,6 +295,11 @@ type BackupConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelectedApplications *SelectedApplicationsParameters `json:"selectedApplications,omitempty" tf:"selected_applications,omitempty"`
+
+	// If set, include just the resources in the listed namespace Labels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SelectedNamespaceLabels *SelectedNamespaceLabelsParameters `json:"selectedNamespaceLabels,omitempty" tf:"selected_namespace_labels,omitempty"`
 
 	// If set, include just the resources in the listed namespaces.
 	// Structure is documented below.
@@ -533,6 +546,35 @@ type NamespacedNamesParameters struct {
 	Namespace *string `json:"namespace" tf:"namespace,omitempty"`
 }
 
+type ResourceLabelsInitParameters struct {
+
+	// The key of the kubernetes label.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the Label.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ResourceLabelsObservation struct {
+
+	// The key of the kubernetes label.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// The value of the Label.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ResourceLabelsParameters struct {
+
+	// The key of the kubernetes label.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// The value of the Label.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
 type RetentionPolicyInitParameters struct {
 
 	// Minimum age for a Backup created via this BackupPlan (in days).
@@ -702,6 +744,28 @@ type SelectedApplicationsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	NamespacedNames []NamespacedNamesParameters `json:"namespacedNames" tf:"namespaced_names,omitempty"`
+}
+
+type SelectedNamespaceLabelsInitParameters struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	ResourceLabels []ResourceLabelsInitParameters `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+}
+
+type SelectedNamespaceLabelsObservation struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	ResourceLabels []ResourceLabelsObservation `json:"resourceLabels,omitempty" tf:"resource_labels,omitempty"`
+}
+
+type SelectedNamespaceLabelsParameters struct {
+
+	// A list of Kubernetes Namespace labels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResourceLabels []ResourceLabelsParameters `json:"resourceLabels" tf:"resource_labels,omitempty"`
 }
 
 type SelectedNamespacesInitParameters struct {

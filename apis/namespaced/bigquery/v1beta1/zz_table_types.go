@@ -493,6 +493,10 @@ type ExternalDataConfigurationInitParameters struct {
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions *CsvOptionsInitParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
 
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
+
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
 	// Other options include specifying manifest files. Only applicable to object storage systems. Docs
@@ -592,6 +596,10 @@ type ExternalDataConfigurationObservation struct {
 	// Additional properties to set if
 	// source_format is set to "CSV". Structure is documented below.
 	CsvOptions *CsvOptionsObservation `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
 
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
@@ -698,6 +706,11 @@ type ExternalDataConfigurationParameters struct {
 	// source_format is set to "CSV". Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CsvOptions *CsvOptionsParameters `json:"csvOptions,omitempty" tf:"csv_options,omitempty"`
+
+	// Defines the list of possible SQL data types to which the source decimal values are converted. This list and the precision and the scale parameters of the decimal field determine the target type. In the order of NUMERIC, BIGNUMERIC, and STRING, a type is picked if it is in the specified list and if it supports the precision and the scale. STRING supports all precision and scale values. If none of the listed types supports the precision and the scale, the type supporting the widest range in the specified list is picked, and if a value exceeds the supported range when reading the data, an error will be thrown.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DecimalTargetTypes []*string `json:"decimalTargetTypes,omitempty" tf:"decimal_target_types,omitempty"`
 
 	// Specifies how source URIs are interpreted for constructing the file set to load.
 	// By default source URIs are expanded against the underlying storage.
@@ -1950,7 +1963,10 @@ type TableViewInitParameters struct {
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
@@ -1962,7 +1978,10 @@ type TableViewObservation struct {
 	Query *string `json:"query,omitempty" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	UseLegacySQL *bool `json:"useLegacySql,omitempty" tf:"use_legacy_sql,omitempty"`
@@ -1975,7 +1994,10 @@ type TableViewParameters struct {
 	Query *string `json:"query" tf:"query,omitempty"`
 
 	// Specifies whether to use BigQuery's legacy SQL for this view.
-	// The default value is true. If set to false, the view will use BigQuery's standard SQL.
+	// If set to false, the view will use BigQuery's standard SQL. If set to
+	// true, the view will use BigQuery's legacy SQL. If unset, the API will
+	// interpret it as a true and assumes the legacy SQL dialect for its query
+	// according to the API documentation.
 	// -> Note: Starting in provider version 7.0.0, no default value is
 	// provided for this field unless explicitly set in the configuration.
 	// +kubebuilder:validation:Optional

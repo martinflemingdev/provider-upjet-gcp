@@ -116,6 +116,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -277,6 +282,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP
@@ -427,6 +446,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -584,6 +608,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP
@@ -854,6 +892,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            network:
+                              description: |-
+                                The source VPC network for ip_ranges.
+                                Required for instances using Private Service Connect, optional otherwise.
+                              type: string
                             squashMode:
                               description: |-
                                 Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
@@ -945,6 +988,20 @@ spec:
                             The name of the GCE VPC network to which the
                             instance is connected.
                           type: string
+                        pscConfig:
+                          description: |-
+                            Private Service Connect configuration.
+                            Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+                            Structure is documented below.
+                          properties:
+                            endpointProject:
+                              description: |-
+                                Consumer service project in which the Private Service Connect endpoint
+                                would be set up. This is optional, and only relevant in case the network
+                                is a shared VPC. If this is not specified, the endpoint would be set up
+                                in the VPC host project.
+                              type: string
+                          type: object
                         reservedIpRange:
                           description: |-
                             A /29 CIDR block that identifies the range of IP

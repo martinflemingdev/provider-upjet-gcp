@@ -932,6 +932,12 @@ type GceClusterConfigInitParameters struct {
 	// Reservation Affinity for consuming zonal reservation.
 	ReservationAffinity *ReservationAffinityInitParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
@@ -1004,6 +1010,12 @@ type GceClusterConfigObservation struct {
 	// Reservation Affinity for consuming zonal reservation.
 	ReservationAffinity *ReservationAffinityObservation `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
 
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1071,6 +1083,13 @@ type GceClusterConfigParameters struct {
 	// Reservation Affinity for consuming zonal reservation.
 	// +kubebuilder:validation:Optional
 	ReservationAffinity *ReservationAffinityParameters `json:"reservationAffinity,omitempty" tf:"reservation_affinity,omitempty"`
+
+	// A map of resource manager tags to add to all instances.
+	// Keys must be in the format tagKeys/{tag_key_id} and values in the format tagValues/{tag_value_id}
+	// (see Secure tags).
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// The service account to be used by the Node VMs.
 	// If not specified, the "default" service account is used.

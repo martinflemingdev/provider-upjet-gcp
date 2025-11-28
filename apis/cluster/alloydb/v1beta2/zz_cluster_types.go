@@ -218,6 +218,9 @@ type ClusterInitParameters struct {
 	// Possible values: DEFAULT, FORCE
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
+	// When the field is set to false, deleting the cluster is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -228,7 +231,7 @@ type ClusterInitParameters struct {
 	// For Resource freshness validation (https://google.aip.dev/154)
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. This must be set for all new Clusters.
 	// Structure is documented below.
 	InitialUser *InitialUserInitParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
@@ -315,6 +318,9 @@ type ClusterObservation struct {
 	// Possible values: DEFAULT, FORCE
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
+	// When the field is set to false, deleting the cluster is allowed.
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-settable and human-readable display name for the Cluster.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -339,7 +345,7 @@ type ClusterObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/clusters/{{cluster_id}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. This must be set for all new Clusters.
 	// Structure is documented below.
 	InitialUser *InitialUserObservation `json:"initialUser,omitempty" tf:"initial_user,omitempty"`
 
@@ -454,6 +460,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
+	// When the field is set to false, deleting the cluster is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
+
 	// User-settable and human-readable display name for the Cluster.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -467,7 +477,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
-	// Initial user to setup during cluster creation.
+	// Initial user to setup during cluster creation. This must be set for all new Clusters.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InitialUser *InitialUserParameters `json:"initialUser,omitempty" tf:"initial_user,omitempty"`

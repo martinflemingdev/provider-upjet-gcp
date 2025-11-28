@@ -338,12 +338,10 @@ type InstanceTemplateDiskInitParameters struct {
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// Indicates how many IOPS to provision for the disk. This
-	// sets the number of I/O operations per second that the disk can handle.
-	// Values must be between 10,000 and 120,000. For more details, see the
-	// Extreme persistent disk documentation.
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. For more details, see the Extreme persistent disk documentation or the Hyperdisk documentation depending on the selected disk_type.
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
+	// Indicates how much throughput to provision for the disk, in MB/s. This sets the amount of data that can be read or written from the disk per second. Values must greater than or equal to 1. For more details, see the Hyperdisk documentation.
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A set of key/value resource manager tag pairs to bind to this disk. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
@@ -457,12 +455,10 @@ type InstanceTemplateDiskObservation struct {
 	// read-write mode.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// Indicates how many IOPS to provision for the disk. This
-	// sets the number of I/O operations per second that the disk can handle.
-	// Values must be between 10,000 and 120,000. For more details, see the
-	// Extreme persistent disk documentation.
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. For more details, see the Extreme persistent disk documentation or the Hyperdisk documentation depending on the selected disk_type.
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
+	// Indicates how much throughput to provision for the disk, in MB/s. This sets the amount of data that can be read or written from the disk per second. Values must greater than or equal to 1. For more details, see the Hyperdisk documentation.
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 
 	// A set of key/value resource manager tag pairs to bind to this disk. Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/456.
@@ -569,13 +565,11 @@ type InstanceTemplateDiskParameters struct {
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
-	// Indicates how many IOPS to provision for the disk. This
-	// sets the number of I/O operations per second that the disk can handle.
-	// Values must be between 10,000 and 120,000. For more details, see the
-	// Extreme persistent disk documentation.
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. For more details, see the Extreme persistent disk documentation or the Hyperdisk documentation depending on the selected disk_type.
 	// +kubebuilder:validation:Optional
 	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
 
+	// Indicates how much throughput to provision for the disk, in MB/s. This sets the amount of data that can be read or written from the disk per second. Values must greater than or equal to 1. For more details, see the Hyperdisk documentation.
 	// +kubebuilder:validation:Optional
 	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
 

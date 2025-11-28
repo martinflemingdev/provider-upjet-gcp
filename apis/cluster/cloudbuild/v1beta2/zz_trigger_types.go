@@ -421,6 +421,154 @@ type BuildParameters struct {
 	Timeout *string `json:"timeout,omitempty" tf:"timeout,omitempty"`
 }
 
+type DeveloperConnectEventConfigInitParameters struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	GitRepositoryLink *string `json:"gitRepositoryLink,omitempty" tf:"git_repository_link,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	PullRequest *DeveloperConnectEventConfigPullRequestInitParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	Push *DeveloperConnectEventConfigPushInitParameters `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigObservation struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	GitRepositoryLink *string `json:"gitRepositoryLink,omitempty" tf:"git_repository_link,omitempty"`
+
+	// (Output)
+	// The type of DeveloperConnect GitRepositoryLink.
+	GitRepositoryLinkType *string `json:"gitRepositoryLinkType,omitempty" tf:"git_repository_link_type,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	PullRequest *DeveloperConnectEventConfigPullRequestObservation `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	Push *DeveloperConnectEventConfigPushObservation `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigParameters struct {
+
+	// The Developer Connect Git repository link, formatted as projects/*/locations/*/connections/*/gitRepositoryLink/*.
+	// +kubebuilder:validation:Optional
+	GitRepositoryLink *string `json:"gitRepositoryLink" tf:"git_repository_link,omitempty"`
+
+	// Filter to match changes in pull requests.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PullRequest *DeveloperConnectEventConfigPullRequestParameters `json:"pullRequest,omitempty" tf:"pull_request,omitempty"`
+
+	// Filter to match changes in refs like branches and tags.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Push *DeveloperConnectEventConfigPushParameters `json:"push,omitempty" tf:"push,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPullRequestParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Configure builds to run whether a repository owner or collaborator need to comment /gcbrun.
+	// Possible values are: COMMENTS_DISABLED, COMMENTS_ENABLED, COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY.
+	// +kubebuilder:validation:Optional
+	CommentControl *string `json:"commentControl,omitempty" tf:"comment_control,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushInitParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushObservation struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
+type DeveloperConnectEventConfigPushParameters struct {
+
+	// Regex of branches to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Branch *string `json:"branch,omitempty" tf:"branch,omitempty"`
+
+	// Only trigger a build if the revision regex does NOT match the revision regex.
+	// +kubebuilder:validation:Optional
+	InvertRegex *bool `json:"invertRegex,omitempty" tf:"invert_regex,omitempty"`
+
+	// Regex of tags to match.
+	// The syntax of the regular expressions accepted is the syntax accepted by
+	// RE2 and described at https://github.com/google/re2/wiki/Syntax
+	// +kubebuilder:validation:Optional
+	Tag *string `json:"tag,omitempty" tf:"tag,omitempty"`
+}
+
 type GitFileSourceInitParameters struct {
 
 	// The full resource name of the bitbucket server config.
@@ -2071,6 +2219,10 @@ type TriggerInitParameters struct {
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigInitParameters `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
+
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
@@ -2207,6 +2359,10 @@ type TriggerObservation struct {
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigObservation `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
+
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
@@ -2339,6 +2495,11 @@ type TriggerParameters struct {
 	// Human-readable description of the trigger.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Configuration for triggers that respond to Developer Connect events.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DeveloperConnectEventConfig *DeveloperConnectEventConfigParameters `json:"developerConnectEventConfig,omitempty" tf:"developer_connect_event_config,omitempty"`
 
 	// Whether the trigger is disabled or not. If true, the trigger will never result in a build.
 	// +kubebuilder:validation:Optional

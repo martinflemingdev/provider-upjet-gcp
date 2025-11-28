@@ -321,6 +321,17 @@ spec:
                           threadsPerCore:
                             type: number
                         type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
@@ -350,6 +361,13 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            properties:
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -446,6 +464,53 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -456,8 +521,24 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
+                          singleProcessOomKill:
+                            type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -483,6 +564,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -648,6 +733,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:
@@ -999,6 +1086,17 @@ spec:
                           threadsPerCore:
                             type: number
                         type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
@@ -1028,6 +1126,13 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            properties:
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -1124,6 +1229,53 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -1134,8 +1286,24 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
+                          singleProcessOomKill:
+                            type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -1161,6 +1329,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -1326,6 +1498,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:
@@ -1758,6 +1932,17 @@ spec:
                           threadsPerCore:
                             type: number
                         type: object
+                      bootDisk:
+                        properties:
+                          diskType:
+                            type: string
+                          provisionedIops:
+                            type: number
+                          provisionedThroughput:
+                            type: number
+                          sizeGb:
+                            type: number
+                        type: object
                       bootDiskKmsKey:
                         type: string
                       confidentialNodes:
@@ -1787,6 +1972,13 @@ spec:
                                       type: object
                                   type: object
                                 type: array
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
+                          writableCgroups:
+                            properties:
                               enabled:
                                 description: Makes nodes obtainable through the ProvisioningRequest
                                   API exclusively.
@@ -1896,6 +2088,53 @@ spec:
                             type: string
                           cpuManagerPolicy:
                             type: string
+                          evictionMaxPodGracePeriodSeconds:
+                            type: number
+                          evictionMinimumReclaim:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoft:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
+                          evictionSoftGracePeriod:
+                            properties:
+                              imagefsAvailable:
+                                type: string
+                              imagefsInodesFree:
+                                type: string
+                              memoryAvailable:
+                                type: string
+                              nodefsAvailable:
+                                type: string
+                              nodefsInodesFree:
+                                type: string
+                              pidAvailable:
+                                type: string
+                            type: object
                           imageGcHighThresholdPercent:
                             type: number
                           imageGcLowThresholdPercent:
@@ -1906,8 +2145,24 @@ spec:
                             type: string
                           insecureKubeletReadonlyPortEnabled:
                             type: string
+                          maxParallelImagePulls:
+                            type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
+                          singleProcessOomKill:
+                            type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -1933,6 +2188,10 @@ spec:
                               type: string
                             type: object
                             x-kubernetes-map-type: granular
+                          transparentHugepageDefrag:
+                            type: string
+                          transparentHugepageEnabled:
+                            type: string
                         type: object
                       localNvmeSsdBlockConfig:
                         properties:
@@ -2016,6 +2275,8 @@ spec:
                         type: object
                       soleTenantConfig:
                         properties:
+                          minNodeCpus:
+                            type: number
                           nodeAffinity:
                             items:
                               properties:

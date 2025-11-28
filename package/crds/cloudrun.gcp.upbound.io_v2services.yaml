@@ -3981,6 +3981,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -4021,6 +4025,18 @@ spec:
                   location:
                     description: The location of the cloud run service
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -4036,6 +4052,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -4347,9 +4368,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -4468,6 +4491,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -4490,6 +4517,9 @@ spec:
                       gpuZonalRedundancyDisabled:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
+                        type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
                         type: boolean
                       labels:
                         additionalProperties:
@@ -4761,6 +4791,13 @@ spec:
                                           type: string
                                       type: object
                                   type: object
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only
@@ -5154,6 +5191,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
                   deletionProtection:
                     description: |-
                       Defaults to true.
@@ -5191,6 +5232,18 @@ spec:
                       For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output.
                       Possible values are: UNIMPLEMENTED, PRELAUNCH, EARLY_ACCESS, ALPHA, BETA, GA, DEPRECATED.
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -5206,6 +5259,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -5517,9 +5575,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -5638,6 +5698,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -5660,6 +5724,9 @@ spec:
                       gpuZonalRedundancyDisabled:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
+                        type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
                         type: boolean
                       labels:
                         additionalProperties:
@@ -5931,6 +5998,13 @@ spec:
                                           type: string
                                       type: object
                                   type: object
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only
@@ -6389,6 +6463,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  defaultUriDisabled:
+                    description: Disables public resolution of the default URI of
+                      this service.
+                    type: boolean
                   deleteTime:
                     description: The deletion time.
                     type: string
@@ -6473,6 +6551,23 @@ spec:
                   location:
                     description: The location of the cloud run service
                     type: string
+                  multiRegionSettings:
+                    description: |-
+                      Settings for creating a Multi-Region Service. Make sure to use region = 'global' when using them. For more information, visit https://cloud.google.com/run/docs/multiple-regions#deploy
+                      Structure is documented below.
+                    properties:
+                      multiRegionId:
+                        description: |-
+                          (Output)
+                          System-generated unique id for the multi-region Service.
+                        type: string
+                      regions:
+                        description: The list of regions to deploy the multi-region
+                          Service.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   observedGeneration:
                     description: The generation of this Service currently serving
                       traffic. See comments in reconciling for additional information
@@ -6502,6 +6597,11 @@ spec:
                           scaling mode. This number of instances is divided among
                           all revisions with specified traffic based on the percent
                           of traffic they are receiving.
+                        type: number
+                      maxInstanceCount:
+                        description: |-
+                          Maximum number of serving instances that this resource should have. Must not be less than minimum instance count. If absent, Cloud Run will calculate
+                          a default value based on the project's available container instances quota in the region and specified instance size.
                         type: number
                       minInstanceCount:
                         description: Minimum number of serving instances that this
@@ -6755,9 +6855,11 @@ spec:
                                     are supported. Use key cpu for CPU limit, memory
                                     for memory limit, nvidia.com/gpu for gpu limit.
                                     Note: The only supported values for CPU are ''1'',
-                                    ''2'', ''4'', and ''8''. Setting 4 CPU requires
-                                    at least 2Gi of memory. The values of the map
-                                    is string form of the ''quantity'' k8s type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
+                                    ''2'', ''4'', ''6'' and ''8''. Setting 4 CPU requires
+                                    at least 2Gi of memory, setting 6 or more CPU
+                                    requires at least 4Gi of memory. The values of
+                                    the map is string form of the ''quantity'' k8s
+                                    type: https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go'
                                   type: object
                                   x-kubernetes-map-type: granular
                                 startupCpuBoost:
@@ -6876,6 +6978,10 @@ spec:
                                   name:
                                     description: Volume's name.
                                     type: string
+                                  subPath:
+                                    description: Path within the volume from which
+                                      the container's volume should be mounted.
+                                    type: string
                                 type: object
                               type: array
                             workingDir:
@@ -6898,6 +7004,9 @@ spec:
                       gpuZonalRedundancyDisabled:
                         description: True if GPU zonal redundancy is disabled on this
                           revision.
+                        type: boolean
+                      healthCheckDisabled:
+                        description: Disables health checking containers during deployment.
                         type: boolean
                       labels:
                         additionalProperties:
@@ -7014,6 +7123,13 @@ spec:
                                 bucket:
                                   description: GCS Bucket name
                                   type: string
+                                mountOptions:
+                                  description: |-
+                                    A list of flags to pass to the gcsfuse command for configuring this volume.
+                                    Flags should be passed without leading dashes.
+                                  items:
+                                    type: string
+                                  type: array
                                 readOnly:
                                   description: If true, mount the NFS volume as read
                                     only

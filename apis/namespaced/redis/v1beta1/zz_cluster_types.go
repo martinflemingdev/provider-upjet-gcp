@@ -86,12 +86,6 @@ type CACertsParameters struct {
 
 type ClusterInitParameters struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -119,6 +113,10 @@ type ClusterInitParameters struct {
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -168,12 +166,6 @@ type ClusterInitParameters struct {
 
 type ClusterObservation struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -182,6 +174,9 @@ type ClusterObservation struct {
 	// The automated backup config for a instance.
 	// Structure is documented below.
 	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
+
+	// This field is used to determine the available maintenance versions for the self service update.
+	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
 
 	// The backup collection full resource name.
 	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
@@ -206,6 +201,9 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	DiscoveryEndpoints []DiscoveryEndpointsObservation `json:"discoveryEndpoints,omitempty" tf:"discovery_endpoints,omitempty"`
 
+	// This field represents the actual maintenance version of the cluster.
+	EffectiveMaintenanceVersion *string `json:"effectiveMaintenanceVersion,omitempty" tf:"effective_maintenance_version,omitempty"`
+
 	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
 	// Structure is documented below.
 	GcsSource *GcsSourceObservation `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
@@ -223,6 +221,10 @@ type ClusterObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -303,13 +305,6 @@ type ClusterObservation struct {
 
 type ClusterParameters struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	// +kubebuilder:validation:Optional
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -344,6 +339,11 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.

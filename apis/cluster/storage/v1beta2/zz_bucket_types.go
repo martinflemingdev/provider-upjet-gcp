@@ -625,7 +625,7 @@ type IPFilterInitParameters struct {
 	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
@@ -643,7 +643,7 @@ type IPFilterObservation struct {
 	// While set true, allows cross-org VPCs in the bucket's IP filter configuration.
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
 
 	// The public network IP address ranges that can access the bucket and its data. Structure is documented below.
@@ -663,7 +663,7 @@ type IPFilterParameters struct {
 	// +kubebuilder:validation:Optional
 	AllowCrossOrgVpcs *bool `json:"allowCrossOrgVpcs,omitempty" tf:"allow_cross_org_vpcs,omitempty"`
 
-	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket. Note: allow_all_service_agent_access must be supplied when mode is set to Enabled, it can be ommited for other values.
+	// The state of the IP filter configuration. Valid values are Enabled and Disabled. When set to Enabled, IP filtering rules are applied to a bucket and all incoming requests to the bucket are evaluated against these rules. When set to Disabled, IP filtering rules are not applied to a bucket.
 	// +kubebuilder:validation:Optional
 	Mode *string `json:"mode" tf:"mode,omitempty"`
 
@@ -761,8 +761,8 @@ type RetentionPolicyInitParameters struct {
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
-	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type RetentionPolicyObservation struct {
@@ -770,8 +770,8 @@ type RetentionPolicyObservation struct {
 	// If set to true, the bucket will be locked and permanently restrict edits to the bucket's retention policy.  Caution: Locking a bucket is an irreversible action.
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
-	RetentionPeriod *float64 `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
+	RetentionPeriod *string `json:"retentionPeriod,omitempty" tf:"retention_period,omitempty"`
 }
 
 type RetentionPolicyParameters struct {
@@ -780,9 +780,9 @@ type RetentionPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	IsLocked *bool `json:"isLocked,omitempty" tf:"is_locked,omitempty"`
 
-	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 2,147,483,647 seconds.
+	// The period of time, in seconds, that objects in the bucket must be retained and cannot be deleted, overwritten, or archived. The value must be less than 3,155,760,000 seconds.
 	// +kubebuilder:validation:Optional
-	RetentionPeriod *float64 `json:"retentionPeriod" tf:"retention_period,omitempty"`
+	RetentionPeriod *string `json:"retentionPeriod" tf:"retention_period,omitempty"`
 }
 
 type SoftDeletePolicyInitParameters struct {

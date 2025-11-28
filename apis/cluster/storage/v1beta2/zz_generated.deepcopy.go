@@ -2787,7 +2787,7 @@ func (in *RetentionPolicyInitParameters) DeepCopyInto(out *RetentionPolicyInitPa
 	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
-		*out = new(float64)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2812,7 +2812,7 @@ func (in *RetentionPolicyObservation) DeepCopyInto(out *RetentionPolicyObservati
 	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
-		*out = new(float64)
+		*out = new(string)
 		**out = **in
 	}
 }
@@ -2837,7 +2837,7 @@ func (in *RetentionPolicyParameters) DeepCopyInto(out *RetentionPolicyParameters
 	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
-		*out = new(float64)
+		*out = new(string)
 		**out = **in
 	}
 }

@@ -24,7 +24,7 @@ type TagKeyInitParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -60,7 +60,7 @@ type TagKeyObservation struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 
 	// Optional. Purpose data cannot be changed once set.
@@ -89,7 +89,7 @@ type TagKeyParameters struct {
 
 	// Optional. A purpose cannot be changed once set.
 	// A purpose denotes that this Tag is intended for use in policies of a specific policy engine, and will involve that policy engine in management operations involving this Tag.
-	// Possible values are: GCE_FIREWALL.
+	// Possible values are: GCE_FIREWALL, DATA_GOVERNANCE.
 	// +kubebuilder:validation:Optional
 	Purpose *string `json:"purpose,omitempty" tf:"purpose,omitempty"`
 

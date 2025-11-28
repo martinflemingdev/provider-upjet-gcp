@@ -86,7 +86,7 @@ type CertificateMapEntryObservation struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// A map entry that is inputted into the cetrificate map
+	// A map entry that is inputted into the certificate map
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`
 
 	// A predefined matcher for particular cases, other than SNI selection
@@ -145,7 +145,7 @@ type CertificateMapEntryParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
-	// A map entry that is inputted into the cetrificate map
+	// A map entry that is inputted into the certificate map
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/certificatemanager/v1beta1.CertificateMap
 	// +kubebuilder:validation:Optional
 	Map *string `json:"map,omitempty" tf:"map,omitempty"`

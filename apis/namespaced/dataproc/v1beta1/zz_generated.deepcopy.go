@@ -4091,6 +4091,22 @@ func (in *GceClusterConfigInitParameters) DeepCopyInto(out *GceClusterConfigInit
 		*out = new(ReservationAffinityInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -4259,6 +4275,22 @@ func (in *GceClusterConfigObservation) DeepCopyInto(out *GceClusterConfigObserva
 		*out = new(ReservationAffinityObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
 		*out = new(string)
@@ -4356,6 +4388,22 @@ func (in *GceClusterConfigParameters) DeepCopyInto(out *GceClusterConfigParamete
 		in, out := &in.ReservationAffinity, &out.ReservationAffinity
 		*out = new(ReservationAffinityParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.ResourceManagerTags != nil {
+		in, out := &in.ResourceManagerTags, &out.ResourceManagerTags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.ServiceAccount != nil {
 		in, out := &in.ServiceAccount, &out.ServiceAccount
@@ -9275,6 +9323,22 @@ func (in *MetastoreServiceInitParameters) DeepCopyInto(out *MetastoreServiceInit
 		*out = new(ScheduledBackupInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = new(TelemetryConfigInitParameters)
@@ -9469,6 +9533,22 @@ func (in *MetastoreServiceObservation) DeepCopyInto(out *MetastoreServiceObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
+	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig
 		*out = new(TelemetryConfigObservation)
@@ -9605,6 +9685,22 @@ func (in *MetastoreServiceParameters) DeepCopyInto(out *MetastoreServiceParamete
 		in, out := &in.ScheduledBackup, &out.ScheduledBackup
 		*out = new(ScheduledBackupParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Tags != nil {
+		in, out := &in.Tags, &out.Tags
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.TelemetryConfig != nil {
 		in, out := &in.TelemetryConfig, &out.TelemetryConfig

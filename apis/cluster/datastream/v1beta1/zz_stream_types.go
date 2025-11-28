@@ -33,6 +33,10 @@ type AvroFileFormatParameters struct {
 
 type BackfillAllInitParameters struct {
 
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	MongodbExcludedObjects *MongodbExcludedObjectsInitParameters `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
+
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
 	MySQLExcludedObjects *MySQLExcludedObjectsInitParameters `json:"mysqlExcludedObjects,omitempty" tf:"mysql_excluded_objects,omitempty"`
@@ -56,6 +60,10 @@ type BackfillAllInitParameters struct {
 
 type BackfillAllObservation struct {
 
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	MongodbExcludedObjects *MongodbExcludedObjectsObservation `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
+
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
 	MySQLExcludedObjects *MySQLExcludedObjectsObservation `json:"mysqlExcludedObjects,omitempty" tf:"mysql_excluded_objects,omitempty"`
@@ -78,6 +86,11 @@ type BackfillAllObservation struct {
 }
 
 type BackfillAllParameters struct {
+
+	// MongoDB data source objects to avoid backfilling.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MongodbExcludedObjects *MongodbExcludedObjectsParameters `json:"mongodbExcludedObjects,omitempty" tf:"mongodb_excluded_objects,omitempty"`
 
 	// MySQL data source objects to avoid backfilling.
 	// Structure is documented below.
@@ -308,6 +321,57 @@ type ChangeTablesObservation struct {
 type ChangeTablesParameters struct {
 }
 
+type CollectionsFieldsInitParameters struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsFieldsObservation struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsFieldsParameters struct {
+
+	// Field name.
+	// +kubebuilder:validation:Optional
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type CollectionsInitParameters struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type CollectionsObservation struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type CollectionsParameters struct {
+
+	// Collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
 type ColumnsInitParameters struct {
 
 	// Column name.
@@ -361,6 +425,89 @@ type ColumnsParameters struct {
 	DataType *string `json:"dataType,omitempty" tf:"data_type,omitempty"`
 }
 
+type DatabasesCollectionsFieldsInitParameters struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsFieldsObservation struct {
+
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsFieldsParameters struct {
+
+	// Field name.
+	// +kubebuilder:validation:Optional
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
+}
+
+type DatabasesCollectionsInitParameters struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []CollectionsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesCollectionsObservation struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []CollectionsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesCollectionsParameters struct {
+
+	// Collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []CollectionsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type DatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []CollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type DatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []CollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type DatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []CollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database" tf:"database,omitempty"`
+}
+
 type DatasetTemplateInitParameters struct {
 
 	// If supplied, every created dataset will have its name prefixed by the provided value.
@@ -386,8 +533,7 @@ type DatasetTemplateObservation struct {
 	// See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information.
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The geographic location where the dataset should reside.
-	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
+	// The name of the location this stream is located in.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 }
 
@@ -405,8 +551,7 @@ type DatasetTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// The geographic location where the dataset should reside.
-	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
+	// The name of the location this stream is located in.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
 }
@@ -485,11 +630,43 @@ type DropLargeObjectsObservation struct {
 type DropLargeObjectsParameters struct {
 }
 
+type ExcludeObjectsDatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []DatabasesCollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type ExcludeObjectsDatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []DatabasesCollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type ExcludeObjectsDatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []DatabasesCollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
 type ExcludeObjectsInitParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsMySQLDatabasesInitParameters struct {
@@ -524,11 +701,30 @@ type ExcludeObjectsMySQLDatabasesParameters struct {
 	MySQLTables []MySQLDatabasesMySQLTablesParameters `json:"mysqlTables,omitempty" tf:"mysql_tables,omitempty"`
 }
 
+type ExcludeObjectsObjectsFieldsInitParameters struct {
+
+	// The stream's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludeObjectsObjectsFieldsObservation struct {
+
+	// The stream's name.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type ExcludeObjectsObjectsFieldsParameters struct {
+
+	// The stream's name.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
 type ExcludeObjectsObjectsInitParameters struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []ObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
@@ -538,7 +734,7 @@ type ExcludeObjectsObjectsObservation struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []ObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
@@ -549,7 +745,7 @@ type ExcludeObjectsObjectsParameters struct {
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Fields []ObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ExcludeObjectsObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	// +kubebuilder:validation:Optional
@@ -558,9 +754,9 @@ type ExcludeObjectsObjectsParameters struct {
 
 type ExcludeObjectsObservation struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsOracleSchemasInitParameters struct {
@@ -597,10 +793,10 @@ type ExcludeObjectsOracleSchemasParameters struct {
 
 type ExcludeObjectsParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MySQLDatabases []ExcludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+	Databases []ExcludeObjectsDatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type ExcludeObjectsPostgresqlSchemasInitParameters struct {
@@ -669,21 +865,21 @@ type ExcludeObjectsSchemasParameters struct {
 
 type FieldsInitParameters struct {
 
-	// The stream's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type FieldsObservation struct {
 
-	// The stream's name.
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	// Field name.
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type FieldsParameters struct {
 
-	// The stream's name.
+	// Field name.
 	// +kubebuilder:validation:Optional
-	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+	Field *string `json:"field,omitempty" tf:"field,omitempty"`
 }
 
 type GcsDestinationConfigInitParameters struct {
@@ -760,11 +956,75 @@ type GtidObservation struct {
 type GtidParameters struct {
 }
 
+type IncludeObjectsDatabasesCollectionsInitParameters struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []DatabasesCollectionsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesCollectionsObservation struct {
+
+	// Collection name.
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	Fields []DatabasesCollectionsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesCollectionsParameters struct {
+
+	// Collection name.
+	// +kubebuilder:validation:Optional
+	Collection *string `json:"collection,omitempty" tf:"collection,omitempty"`
+
+	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Fields []DatabasesCollectionsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+}
+
+type IncludeObjectsDatabasesInitParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []IncludeObjectsDatabasesCollectionsInitParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type IncludeObjectsDatabasesObservation struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	Collections []IncludeObjectsDatabasesCollectionsObservation `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
+type IncludeObjectsDatabasesParameters struct {
+
+	// Collections in the database.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Collections []IncludeObjectsDatabasesCollectionsParameters `json:"collections,omitempty" tf:"collections,omitempty"`
+
+	// Database name.
+	// +kubebuilder:validation:Optional
+	Database *string `json:"database,omitempty" tf:"database,omitempty"`
+}
+
 type IncludeObjectsInitParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []IncludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsMySQLDatabasesInitParameters struct {
@@ -884,9 +1144,9 @@ type IncludeObjectsObjectsParameters struct {
 
 type IncludeObjectsObservation struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
-	MySQLDatabases []IncludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsOracleSchemasInitParameters struct {
@@ -955,10 +1215,10 @@ type IncludeObjectsOracleSchemasParameters struct {
 
 type IncludeObjectsParameters struct {
 
-	// MySQL databases on the server
+	// MongoDB databases in the cluster.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	MySQLDatabases []IncludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+	Databases []IncludeObjectsDatabasesParameters `json:"databases,omitempty" tf:"databases,omitempty"`
 }
 
 type IncludeObjectsPostgresqlSchemasInitParameters struct {
@@ -1131,6 +1391,73 @@ type MergeObservation struct {
 }
 
 type MergeParameters struct {
+}
+
+type MongodbExcludedObjectsInitParameters struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	Databases []DatabasesInitParameters `json:"databases,omitempty" tf:"databases,omitempty"`
+}
+
+type MongodbExcludedObjectsObservation struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	Databases []DatabasesObservation `json:"databases,omitempty" tf:"databases,omitempty"`
+}
+
+type MongodbExcludedObjectsParameters struct {
+
+	// MongoDB databases in the cluster.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Databases []DatabasesParameters `json:"databases" tf:"databases,omitempty"`
+}
+
+type MongodbSourceConfigInitParameters struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *ExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *IncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+}
+
+type MongodbSourceConfigObservation struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	ExcludeObjects *ExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	IncludeObjects *IncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
+}
+
+type MongodbSourceConfigParameters struct {
+
+	// SQL Server objects to exclude from the stream.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExcludeObjects *ExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+
+	// SQL Server objects to retrieve from the source.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	IncludeObjects *IncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+
+	// Max concurrent backfill tasks.
+	// +kubebuilder:validation:Optional
+	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
 }
 
 type MySQLColumnsInitParameters struct {
@@ -1371,6 +1698,50 @@ type MySQLExcludedObjectsParameters struct {
 	MySQLDatabases []MySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
 }
 
+type MySQLSourceConfigExcludeObjectsInitParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigExcludeObjectsObservation struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigExcludeObjectsParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MySQLDatabases []ExcludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsInitParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []IncludeObjectsMySQLDatabasesInitParameters `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsObservation struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	MySQLDatabases []IncludeObjectsMySQLDatabasesObservation `json:"mysqlDatabases,omitempty" tf:"mysql_databases,omitempty"`
+}
+
+type MySQLSourceConfigIncludeObjectsParameters struct {
+
+	// MySQL databases on the server
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MySQLDatabases []IncludeObjectsMySQLDatabasesParameters `json:"mysqlDatabases" tf:"mysql_databases,omitempty"`
+}
+
 type MySQLSourceConfigInitParameters struct {
 
 	// CDC reader reads from binary logs replication cdc method.
@@ -1378,14 +1749,14 @@ type MySQLSourceConfigInitParameters struct {
 
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
-	ExcludeObjects *ExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsInitParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	Gtid *GtidInitParameters `json:"gtid,omitempty" tf:"gtid,omitempty"`
 
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
-	IncludeObjects *IncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsInitParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
@@ -1401,14 +1772,14 @@ type MySQLSourceConfigObservation struct {
 
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
-	ExcludeObjects *ExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsObservation `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	Gtid *GtidParameters `json:"gtid,omitempty" tf:"gtid,omitempty"`
 
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
-	IncludeObjects *IncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsObservation `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	MaxConcurrentBackfillTasks *float64 `json:"maxConcurrentBackfillTasks,omitempty" tf:"max_concurrent_backfill_tasks,omitempty"`
@@ -1426,7 +1797,7 @@ type MySQLSourceConfigParameters struct {
 	// SQL Server objects to exclude from the stream.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	ExcludeObjects *ExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
+	ExcludeObjects *MySQLSourceConfigExcludeObjectsParameters `json:"excludeObjects,omitempty" tf:"exclude_objects,omitempty"`
 
 	// CDC reader reads from gtid based replication.
 	// +kubebuilder:validation:Optional
@@ -1435,7 +1806,7 @@ type MySQLSourceConfigParameters struct {
 	// SQL Server objects to retrieve from the source.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	IncludeObjects *IncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
+	IncludeObjects *MySQLSourceConfigIncludeObjectsParameters `json:"includeObjects,omitempty" tf:"include_objects,omitempty"`
 
 	// Max concurrent backfill tasks.
 	// +kubebuilder:validation:Optional
@@ -1577,7 +1948,7 @@ type ObjectsInitParameters struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []FieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsInitParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
@@ -1587,7 +1958,7 @@ type ObjectsObservation struct {
 
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
-	Fields []FieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsObservation `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	ObjectName *string `json:"objectName,omitempty" tf:"object_name,omitempty"`
@@ -1598,7 +1969,7 @@ type ObjectsParameters struct {
 	// Fields in the Salesforce object. When unspecified as part of include/exclude objects, includes/excludes everything/nothing.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Fields []FieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
+	Fields []ObjectsFieldsParameters `json:"fields,omitempty" tf:"fields,omitempty"`
 
 	// Name of object in Salesforce Org.
 	// +kubebuilder:validation:Optional
@@ -2881,6 +3252,10 @@ type SingleTargetDatasetParameters struct {
 
 type SourceConfigInitParameters struct {
 
+	// MongoDB source configuration.
+	// Structure is documented below.
+	MongodbSourceConfig *MongodbSourceConfigInitParameters `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
+
 	// MySQL data source configuration.
 	// Structure is documented below.
 	MySQLSourceConfig *MySQLSourceConfigInitParameters `json:"mysqlSourceConfig,omitempty" tf:"mysql_source_config,omitempty"`
@@ -2917,6 +3292,10 @@ type SourceConfigInitParameters struct {
 
 type SourceConfigObservation struct {
 
+	// MongoDB source configuration.
+	// Structure is documented below.
+	MongodbSourceConfig *MongodbSourceConfigObservation `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
+
 	// MySQL data source configuration.
 	// Structure is documented below.
 	MySQLSourceConfig *MySQLSourceConfigObservation `json:"mysqlSourceConfig,omitempty" tf:"mysql_source_config,omitempty"`
@@ -2942,6 +3321,11 @@ type SourceConfigObservation struct {
 }
 
 type SourceConfigParameters struct {
+
+	// MongoDB source configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MongodbSourceConfig *MongodbSourceConfigParameters `json:"mongodbSourceConfig,omitempty" tf:"mongodb_source_config,omitempty"`
 
 	// MySQL data source configuration.
 	// Structure is documented below.
@@ -2988,6 +3372,19 @@ type SourceHierarchyDatasetsInitParameters struct {
 	// Dataset template used for dynamic dataset creation.
 	// Structure is documented below.
 	DatasetTemplate *DatasetTemplateInitParameters `json:"datasetTemplate,omitempty" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type SourceHierarchyDatasetsObservation struct {
@@ -2995,6 +3392,9 @@ type SourceHierarchyDatasetsObservation struct {
 	// Dataset template used for dynamic dataset creation.
 	// Structure is documented below.
 	DatasetTemplate *DatasetTemplateObservation `json:"datasetTemplate,omitempty" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 }
 
 type SourceHierarchyDatasetsParameters struct {
@@ -3003,6 +3403,20 @@ type SourceHierarchyDatasetsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DatasetTemplate *DatasetTemplateParameters `json:"datasetTemplate" tf:"dataset_template,omitempty"`
+
+	// Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("project_id",false)
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// Reference to a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDRef *v1.Reference `json:"projectIdRef,omitempty" tf:"-"`
+
+	// Selector for a Project in cloudplatform to populate projectId.
+	// +kubebuilder:validation:Optional
+	ProjectIDSelector *v1.Selector `json:"projectIdSelector,omitempty" tf:"-"`
 }
 
 type StreamInitParameters struct {
