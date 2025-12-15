@@ -12,6 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -56,7 +57,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicSelector,
@@ -100,7 +101,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      resource.ExtractResourceID(),
+				Extract:      common.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicSelector,

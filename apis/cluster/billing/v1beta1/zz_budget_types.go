@@ -48,7 +48,7 @@ type AllUpdatesRuleInitParameters struct {
 	// projects/{project_id}/topics/{topic_id}. Updates are sent
 	// at regular intervals to the topic.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 
 	// Reference to a Topic in pubsub to populate pubsubTopic.
@@ -135,7 +135,7 @@ type AllUpdatesRuleParameters struct {
 	// projects/{project_id}/topics/{topic_id}. Updates are sent
 	// at regular intervals to the topic.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
 

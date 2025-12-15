@@ -1,6 +1,9 @@
 package billing
 
-import "github.com/crossplane/upjet/v2/pkg/config"
+import (
+	"github.com/crossplane/upjet/v2/pkg/config"
+	"github.com/upbound/provider-gcp/config/cluster/common"
+)
 
 // Configure configures billing resources.
 func Configure(p *config.Provider) {
@@ -15,7 +18,7 @@ func Configure(p *config.Provider) {
 		// projects/{project}/topics/{topic-name}
 		r.References["all_updates_rule.pubsub_topic"] = config.Reference{
 			TerraformName: "google_pubsub_topic",
-			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
 
