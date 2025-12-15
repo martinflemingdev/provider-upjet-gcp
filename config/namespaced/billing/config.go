@@ -9,8 +9,15 @@ func Configure(p *config.Provider) {
 		// Required arguments
 		config.MarkAsRequired(r.TerraformResource, "amount")
 		config.MarkAsRequired(r.TerraformResource, "billing_account")
-	})
 
+		// Cross-resource reference to Pub/Sub Topic
+		// The all_updates_rule.pubsub_topic field expects a topic ID in the format:
+		// projects/{project}/topics/{topic-name}
+		r.References["all_updates_rule.pubsub_topic"] = config.Reference{
+			TerraformName: "google_pubsub_topic",
+		}
+	})
+	
 	// ProjectInfo
 	p.AddResourceConfigurator("google_billing_project_info", func(r *config.Resource) {
 		// Required arguments

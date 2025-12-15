@@ -47,7 +47,16 @@ type AllUpdatesRuleInitParameters struct {
 	// messages will be published, in the form
 	// projects/{project_id}/topics/{topic_id}. Updates are sent
 	// at regular intervals to the topic.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicRef *v1.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicSelector *v1.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// The schema version of the notification. Only "1.0" is
 	// accepted. It represents the JSON schema as defined in
@@ -124,8 +133,17 @@ type AllUpdatesRuleParameters struct {
 	// messages will be published, in the form
 	// projects/{project_id}/topics/{topic_id}. Updates are sent
 	// at regular intervals to the topic.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/pubsub/v1beta2.Topic
 	// +kubebuilder:validation:Optional
 	PubsubTopic *string `json:"pubsubTopic,omitempty" tf:"pubsub_topic,omitempty"`
+
+	// Reference to a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicRef *v1.Reference `json:"pubsubTopicRef,omitempty" tf:"-"`
+
+	// Selector for a Topic in pubsub to populate pubsubTopic.
+	// +kubebuilder:validation:Optional
+	PubsubTopicSelector *v1.Selector `json:"pubsubTopicSelector,omitempty" tf:"-"`
 
 	// The schema version of the notification. Only "1.0" is
 	// accepted. It represents the JSON schema as defined in

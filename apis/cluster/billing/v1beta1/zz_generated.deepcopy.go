@@ -263,6 +263,16 @@ func (in *AllUpdatesRuleInitParameters) DeepCopyInto(out *AllUpdatesRuleInitPara
 		*out = new(string)
 		**out = **in
 	}
+	if in.PubsubTopicRef != nil {
+		in, out := &in.PubsubTopicRef, &out.PubsubTopicRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PubsubTopicSelector != nil {
+		in, out := &in.PubsubTopicSelector, &out.PubsubTopicSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.SchemaVersion != nil {
 		in, out := &in.SchemaVersion, &out.SchemaVersion
 		*out = new(string)
@@ -366,6 +376,16 @@ func (in *AllUpdatesRuleParameters) DeepCopyInto(out *AllUpdatesRuleParameters) 
 		in, out := &in.PubsubTopic, &out.PubsubTopic
 		*out = new(string)
 		**out = **in
+	}
+	if in.PubsubTopicRef != nil {
+		in, out := &in.PubsubTopicRef, &out.PubsubTopicRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.PubsubTopicSelector != nil {
+		in, out := &in.PubsubTopicSelector, &out.PubsubTopicSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SchemaVersion != nil {
 		in, out := &in.SchemaVersion, &out.SchemaVersion

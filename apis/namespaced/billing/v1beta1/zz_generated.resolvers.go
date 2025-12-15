@@ -22,6 +22,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 	var l xpresource.ManagedList
 	r := reference.NewAPINamespacedResolver(c, mg)
 
+	var rsp reference.NamespacedResolutionResponse
 	var mrsp reference.MultiNamespacedResolutionResponse
 	var err error
 
@@ -47,6 +48,28 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 		mg.Spec.ForProvider.AllUpdatesRule.MonitoringNotificationChannelsRefs = mrsp.ResolvedReferences
 
 	}
+	if mg.Spec.ForProvider.AllUpdatesRule != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Topic", "TopicList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicRef,
+				Selector:     mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic")
+		}
+		mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicRef = rsp.ResolvedReference
+
+	}
 	if mg.Spec.InitProvider.AllUpdatesRule != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("monitoring.gcp.m.upbound.io", "v1beta1", "NotificationChannel", "NotificationChannelList")
@@ -67,6 +90,28 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 		}
 		mg.Spec.InitProvider.AllUpdatesRule.MonitoringNotificationChannels = reference.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.AllUpdatesRule.MonitoringNotificationChannelsRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.InitProvider.AllUpdatesRule != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("pubsub.gcp.m.upbound.io", "v1beta1", "Topic", "TopicList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic),
+				Extract:      reference.ExternalName(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicRef,
+				Selector:     mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic")
+		}
+		mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicRef = rsp.ResolvedReference
 
 	}
 
