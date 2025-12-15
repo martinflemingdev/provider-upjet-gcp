@@ -15,6 +15,7 @@ func Configure(p *config.Provider) {
 		// projects/{project}/topics/{topic-name}
 		r.References["all_updates_rule.pubsub_topic"] = config.Reference{
 			TerraformName: "google_pubsub_topic",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
 		}
 	})
 

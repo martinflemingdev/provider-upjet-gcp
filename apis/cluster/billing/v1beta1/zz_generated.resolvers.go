@@ -56,7 +56,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      reference.ExternalName(),
+				Extract:      resource.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicSelector,
@@ -100,7 +100,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      reference.ExternalName(),
+				Extract:      resource.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicSelector,

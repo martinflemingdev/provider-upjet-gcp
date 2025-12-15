@@ -10,6 +10,7 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
+	resource1 "github.com/crossplane/upjet/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
 	apisresolver "github.com/upbound/provider-gcp/internal/apis"
@@ -56,7 +57,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      reference.ExternalName(),
+				Extract:      resource1.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.ForProvider.AllUpdatesRule.PubsubTopicSelector,
@@ -100,7 +101,7 @@ func (mg *Budget) ResolveReferences( // ResolveReferences of this Budget.
 			}
 			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AllUpdatesRule.PubsubTopic),
-				Extract:      reference.ExternalName(),
+				Extract:      resource1.ExtractResourceID(),
 				Namespace:    mg.GetNamespace(),
 				Reference:    mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicRef,
 				Selector:     mg.Spec.InitProvider.AllUpdatesRule.PubsubTopicSelector,
