@@ -1226,6 +1226,16 @@ func (in *AnalyticsHubListingIAMMemberInitParameters) DeepCopyInto(out *Analytic
 		*out = new(string)
 		**out = **in
 	}
+	if in.DataExchangeIDRef != nil {
+		in, out := &in.DataExchangeIDRef, &out.DataExchangeIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DataExchangeIDSelector != nil {
+		in, out := &in.DataExchangeIDSelector, &out.DataExchangeIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ListingID != nil {
 		in, out := &in.ListingID, &out.ListingID
 		*out = new(string)
@@ -1377,6 +1387,16 @@ func (in *AnalyticsHubListingIAMMemberParameters) DeepCopyInto(out *AnalyticsHub
 		in, out := &in.DataExchangeID, &out.DataExchangeID
 		*out = new(string)
 		**out = **in
+	}
+	if in.DataExchangeIDRef != nil {
+		in, out := &in.DataExchangeIDRef, &out.DataExchangeIDRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DataExchangeIDSelector != nil {
+		in, out := &in.DataExchangeIDSelector, &out.DataExchangeIDSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ListingID != nil {
 		in, out := &in.ListingID, &out.ListingID

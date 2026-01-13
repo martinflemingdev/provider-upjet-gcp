@@ -246,6 +246,26 @@ func (mg *AnalyticsHubListingIAMMember) ResolveReferences(ctx context.Context, c
 	var rsp reference.NamespacedResolutionResponse
 	var err error
 	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataExchangeID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DataExchangeIDRef,
+			Selector:     mg.Spec.ForProvider.DataExchangeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataExchangeID")
+	}
+	mg.Spec.ForProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataExchangeIDRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "AnalyticsHubListing", "AnalyticsHubListingList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -265,6 +285,26 @@ func (mg *AnalyticsHubListingIAMMember) ResolveReferences(ctx context.Context, c
 	}
 	mg.Spec.ForProvider.ListingID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ListingIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "AnalyticsHubDataExchange", "AnalyticsHubDataExchangeList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataExchangeID),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DataExchangeIDRef,
+			Selector:     mg.Spec.InitProvider.DataExchangeIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DataExchangeID")
+	}
+	mg.Spec.InitProvider.DataExchangeID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataExchangeIDRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "AnalyticsHubListing", "AnalyticsHubListingList")
 		if err != nil {

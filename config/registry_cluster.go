@@ -21,9 +21,14 @@ import (
 
 // GetProvider returns provider configuration
 func GetProvider(_ context.Context, sdkProvider *schema.Provider, generationProvider bool) (*ujconfig.Provider, error) {
-	// Auto-detect the group from the binary name
-	// Binary names follow the pattern: provider (monolith) or bigquery, storage, etc. (family providers)
-	group := detectGroupFromBinary("cluster")
+	// Only apply group filtering at runtime, not during code generation
+	// During generation, we need ALL resources to be included in generated.lst
+	group := ""
+	if !generationProvider {
+		// Auto-detect the group from the binary name
+		// Binary names follow the pattern: provider (monolith) or bigquery, storage, etc. (family providers)
+		group = detectGroupFromBinary("cluster")
+	}
 	return GetProviderWithGroup(context.Background(), sdkProvider, generationProvider, group)
 }
 

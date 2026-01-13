@@ -107,5 +107,9 @@ func Configure(p *config.Provider) {
 		r.References["listing_id"] = config.Reference{
 			TerraformName: "google_bigquery_analytics_hub_listing",
 		}
+		r.References["data_exchange_id"] = config.Reference{
+			TerraformName: "google_bigquery_analytics_hub_data_exchange",
+			// Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
 	})
 }

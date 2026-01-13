@@ -44,7 +44,16 @@ type AnalyticsHubListingIAMMemberConditionParameters struct {
 type AnalyticsHubListingIAMMemberInitParameters struct {
 	Condition *AnalyticsHubListingIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta1.AnalyticsHubDataExchange
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+
+	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.AnalyticsHubListing
 	ListingID *string `json:"listingId,omitempty" tf:"listing_id,omitempty"`
@@ -91,8 +100,17 @@ type AnalyticsHubListingIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Condition *AnalyticsHubListingIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta1.AnalyticsHubDataExchange
 	// +kubebuilder:validation:Optional
 	DataExchangeID *string `json:"dataExchangeId,omitempty" tf:"data_exchange_id,omitempty"`
+
+	// Reference to a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDRef *v1.Reference `json:"dataExchangeIdRef,omitempty" tf:"-"`
+
+	// Selector for a AnalyticsHubDataExchange in bigquery to populate dataExchangeId.
+	// +kubebuilder:validation:Optional
+	DataExchangeIDSelector *v1.Selector `json:"dataExchangeIdSelector,omitempty" tf:"-"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/bigquery/v1beta2.AnalyticsHubListing
 	// +kubebuilder:validation:Optional
@@ -155,7 +173,6 @@ type AnalyticsHubListingIAMMemberStatus struct {
 type AnalyticsHubListingIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.dataExchangeId) || (has(self.initProvider) && has(self.initProvider.dataExchangeId))",message="spec.forProvider.dataExchangeId is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || (has(self.initProvider) && has(self.initProvider.member))",message="spec.forProvider.member is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
 	Spec   AnalyticsHubListingIAMMemberSpec   `json:"spec"`
