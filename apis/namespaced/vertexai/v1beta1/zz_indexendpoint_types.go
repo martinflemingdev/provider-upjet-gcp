@@ -14,6 +14,25 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type IndexEndpointEncryptionSpecInitParameters struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type IndexEndpointEncryptionSpecObservation struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type IndexEndpointEncryptionSpecParameters struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
 type IndexEndpointInitParameters struct {
 
 	// The description of the Index.
@@ -21,6 +40,10 @@ type IndexEndpointInitParameters struct {
 
 	// The display name of the Index. The name can be up to 128 characters long and can consist of any UTF-8 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *IndexEndpointEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// The labels with user-defined metadata to organize your Indexes.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -59,6 +82,10 @@ type IndexEndpointObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *IndexEndpointEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -114,6 +141,11 @@ type IndexEndpointParameters struct {
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
+	// Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionSpec *IndexEndpointEncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
 	// The labels with user-defined metadata to organize your Indexes.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
@@ -154,6 +186,10 @@ type IndexEndpointPrivateServiceConnectConfigInitParameters struct {
 
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsInitParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type IndexEndpointPrivateServiceConnectConfigObservation struct {
@@ -163,6 +199,10 @@ type IndexEndpointPrivateServiceConnectConfigObservation struct {
 
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsObservation `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type IndexEndpointPrivateServiceConnectConfigParameters struct {
@@ -174,6 +214,40 @@ type IndexEndpointPrivateServiceConnectConfigParameters struct {
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	// +kubebuilder:validation:Optional
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsInitParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsObservation struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 // IndexEndpointSpec defines the desired state of IndexEndpoint

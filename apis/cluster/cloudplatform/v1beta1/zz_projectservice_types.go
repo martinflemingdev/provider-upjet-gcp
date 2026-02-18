@@ -21,9 +21,8 @@ type ProjectServiceInitParameters struct {
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -51,9 +50,8 @@ type ProjectServiceObservation struct {
 	// services depend on this service when attempting to destroy it.
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{service}}
@@ -76,9 +74,8 @@ type ProjectServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
-	// Defaults to true. Most configurations should
-	// set this to false; it should generally only be true or unset in configurations
-	// that manage the google_project resource itself.
+	// It should generally only
+	// be true in configurations that manage the google_project resource itself.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 

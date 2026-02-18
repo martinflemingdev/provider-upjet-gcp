@@ -1348,8 +1348,9 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
                             description: The key to select.
@@ -1371,6 +1372,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:
@@ -1662,8 +1666,9 @@ spec:
                       Structure is documented below.
                     properties:
                       secretAccessKeySecretRef:
-                        description: A SecretKeySelector is a reference to a secret
-                          key in an arbitrary namespace.
+                        description: |-
+                          The Secret Access Key of the AWS account transferring data from.
+                          Note: This property is sensitive and will not be displayed in the plan.
                         properties:
                           key:
                             description: The key to select.
@@ -1685,6 +1690,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:
@@ -1935,6 +1943,9 @@ spec:
                           Note: This property is write-only and will not be read from the API.
                         type: string
                       secretAccessKeyWoVersion:
+                        description: The version of the sensitive params - used to
+                          trigger updates of the write-only params. For more info
+                          see updating write-only arguments
                         type: number
                     type: object
                   serviceAccountName:

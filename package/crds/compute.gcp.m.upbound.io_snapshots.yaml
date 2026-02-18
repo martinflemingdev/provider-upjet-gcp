@@ -139,6 +139,11 @@ spec:
                         - name
                         type: object
                     type: object
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -269,6 +274,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageLocations:
                     description: Cloud Storage bucket storage location of the snapshot
                       (regional or multi-regional).
@@ -372,6 +381,11 @@ spec:
                         - name
                         type: object
                     type: object
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -502,6 +516,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageLocations:
                     description: Cloud Storage bucket storage location of the snapshot
                       (regional or multi-regional).
@@ -665,6 +683,11 @@ spec:
                   snapshotId:
                     description: The unique identifier for the resource.
                     type: number
+                  snapshotType:
+                    description: |-
+                      Indicates the type of the snapshot.
+                      Possible values are: ARCHIVE, STANDARD.
+                    type: string
                   sourceDisk:
                     description: A reference to the disk used to create this snapshot.
                     type: string
@@ -685,6 +708,10 @@ spec:
                           If absent, the Compute Engine Service Agent service account is used.
                         type: string
                     type: object
+                  sourceInstantSnapshot:
+                    description: A reference to the instant snapshot used to create
+                      this snapshot.
+                    type: string
                   storageBytes:
                     description: |-
                       A size of the storage used by the snapshot. As snapshots share

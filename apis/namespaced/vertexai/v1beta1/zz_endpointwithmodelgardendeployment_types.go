@@ -876,6 +876,10 @@ type EndpointConfigInitParameters struct {
 	// The user-specified display name of the endpoint. If not set, a
 	// default name will be used.
 	EndpointDisplayName *string `json:"endpointDisplayName,omitempty" tf:"endpoint_display_name,omitempty"`
+
+	// The configuration for Private Service Connect (PSC).
+	// Structure is documented below.
+	PrivateServiceConnectConfig *EndpointConfigPrivateServiceConnectConfigInitParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type EndpointConfigObservation struct {
@@ -891,6 +895,10 @@ type EndpointConfigObservation struct {
 	// The user-specified display name of the endpoint. If not set, a
 	// default name will be used.
 	EndpointDisplayName *string `json:"endpointDisplayName,omitempty" tf:"endpoint_display_name,omitempty"`
+
+	// The configuration for Private Service Connect (PSC).
+	// Structure is documented below.
+	PrivateServiceConnectConfig *EndpointConfigPrivateServiceConnectConfigObservation `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
 }
 
 type EndpointConfigParameters struct {
@@ -908,6 +916,58 @@ type EndpointConfigParameters struct {
 	// default name will be used.
 	// +kubebuilder:validation:Optional
 	EndpointDisplayName *string `json:"endpointDisplayName,omitempty" tf:"endpoint_display_name,omitempty"`
+
+	// The configuration for Private Service Connect (PSC).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PrivateServiceConnectConfig *EndpointConfigPrivateServiceConnectConfigParameters `json:"privateServiceConnectConfig,omitempty" tf:"private_service_connect_config,omitempty"`
+}
+
+type EndpointConfigPrivateServiceConnectConfigInitParameters struct {
+
+	// Required. If true, expose the IndexEndpoint via private service connect.
+	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect,omitempty" tf:"enable_private_service_connect,omitempty"`
+
+	// A list of Projects from which the forwarding rule will target the service attachment.
+	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// PSC config that is used to automatically create PSC endpoints in the user projects.
+	// Structure is documented below.
+	PscAutomationConfigs *PrivateServiceConnectConfigPscAutomationConfigsInitParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
+}
+
+type EndpointConfigPrivateServiceConnectConfigObservation struct {
+
+	// Required. If true, expose the IndexEndpoint via private service connect.
+	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect,omitempty" tf:"enable_private_service_connect,omitempty"`
+
+	// A list of Projects from which the forwarding rule will target the service attachment.
+	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// PSC config that is used to automatically create PSC endpoints in the user projects.
+	// Structure is documented below.
+	PscAutomationConfigs *PrivateServiceConnectConfigPscAutomationConfigsObservation `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
+
+	// (Output)
+	// Output only. The name of the generated service attachment resource.
+	// This is only populated if the endpoint is deployed with PrivateServiceConnect.
+	ServiceAttachment *string `json:"serviceAttachment,omitempty" tf:"service_attachment,omitempty"`
+}
+
+type EndpointConfigPrivateServiceConnectConfigParameters struct {
+
+	// Required. If true, expose the IndexEndpoint via private service connect.
+	// +kubebuilder:validation:Optional
+	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect" tf:"enable_private_service_connect,omitempty"`
+
+	// A list of Projects from which the forwarding rule will target the service attachment.
+	// +kubebuilder:validation:Optional
+	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// PSC config that is used to automatically create PSC endpoints in the user projects.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscAutomationConfigs *PrivateServiceConnectConfigPscAutomationConfigsParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type EndpointWithModelGardenDeploymentInitParameters struct {
@@ -1873,6 +1933,74 @@ type PortsParameters struct {
 	// Must be a valid port number, between 1 and 65535 inclusive.
 	// +kubebuilder:validation:Optional
 	ContainerPort *float64 `json:"containerPort,omitempty" tf:"container_port,omitempty"`
+}
+
+type PrivateServiceConnectConfigPscAutomationConfigsInitParameters struct {
+
+	// Required. The full name of the Google Compute Engine network.
+	// Format: projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Required. Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type PrivateServiceConnectConfigPscAutomationConfigsObservation struct {
+
+	// (Output)
+	// Output only. Error message if the PSC service automation failed.
+	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
+
+	// (Output)
+	// Output only. Forwarding rule created by the PSC service automation.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+
+	// (Output)
+	// Output only. IP address rule created by the PSC service automation.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// Required. The full name of the Google Compute Engine network.
+	// Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Required. Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// (Output)
+	// Output only. The state of the PSC service automation.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type PrivateServiceConnectConfigPscAutomationConfigsParameters struct {
+
+	// Required. The full name of the Google Compute Engine network.
+	// Format: projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Required. Project id used to create forwarding rule.
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 type ReservationAffinityInitParameters struct {

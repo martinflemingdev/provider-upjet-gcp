@@ -57,6 +57,12 @@ type BigtableInitParameters struct {
 	// Autoscaling config applied to Bigtable Instance.
 	// Structure is documented below.
 	AutoScaling *AutoScalingInitParameters `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
+
+	// Optional. If true, enable direct access to the Bigtable instance.
+	EnableDirectBigtableAccess *bool `json:"enableDirectBigtableAccess,omitempty" tf:"enable_direct_bigtable_access,omitempty"`
+
+	// The zone where the Bigtable instance will be created.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type BigtableObservation struct {
@@ -64,6 +70,12 @@ type BigtableObservation struct {
 	// Autoscaling config applied to Bigtable Instance.
 	// Structure is documented below.
 	AutoScaling *AutoScalingObservation `json:"autoScaling,omitempty" tf:"auto_scaling,omitempty"`
+
+	// Optional. If true, enable direct access to the Bigtable instance.
+	EnableDirectBigtableAccess *bool `json:"enableDirectBigtableAccess,omitempty" tf:"enable_direct_bigtable_access,omitempty"`
+
+	// The zone where the Bigtable instance will be created.
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type BigtableParameters struct {
@@ -72,6 +84,14 @@ type BigtableParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AutoScaling *AutoScalingParameters `json:"autoScaling" tf:"auto_scaling,omitempty"`
+
+	// Optional. If true, enable direct access to the Bigtable instance.
+	// +kubebuilder:validation:Optional
+	EnableDirectBigtableAccess *bool `json:"enableDirectBigtableAccess,omitempty" tf:"enable_direct_bigtable_access,omitempty"`
+
+	// The zone where the Bigtable instance will be created.
+	// +kubebuilder:validation:Optional
+	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
 }
 
 type DedicatedServingEndpointInitParameters struct {
@@ -133,6 +153,25 @@ type DedicatedServingEndpointPrivateServiceConnectConfigParameters struct {
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
 }
 
+type FeatureOnlineStoreEncryptionSpecInitParameters struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type FeatureOnlineStoreEncryptionSpecObservation struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type FeatureOnlineStoreEncryptionSpecParameters struct {
+
+	// The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
 type FeatureOnlineStoreInitParameters struct {
 
 	// Settings for Cloud Bigtable instance that will be created to serve featureValues for all FeatureViews under this FeatureOnlineStore.
@@ -142,6 +181,10 @@ type FeatureOnlineStoreInitParameters struct {
 	// The dedicated serving endpoint for this FeatureOnlineStore, which is different from common vertex service endpoint. Only need to be set when you choose Optimized storage type or enable EmbeddingManagement. Will use public endpoint by default.
 	// Structure is documented below.
 	DedicatedServingEndpoint *DedicatedServingEndpointInitParameters `json:"dedicatedServingEndpoint,omitempty" tf:"dedicated_serving_endpoint,omitempty"`
+
+	// If set, both of the online and offline data storage will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *FeatureOnlineStoreEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// If set to true, any FeatureViews and Features for this FeatureOnlineStore will also be deleted.
 	ForceDestroy *bool `json:"forceDestroy,omitempty" tf:"force_destroy,omitempty"`
@@ -175,6 +218,10 @@ type FeatureOnlineStoreObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// If set, both of the online and offline data storage will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *FeatureOnlineStoreEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -224,6 +271,11 @@ type FeatureOnlineStoreParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DedicatedServingEndpoint *DedicatedServingEndpointParameters `json:"dedicatedServingEndpoint,omitempty" tf:"dedicated_serving_endpoint,omitempty"`
+
+	// If set, both of the online and offline data storage will be secured by this key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionSpec *FeatureOnlineStoreEncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// If set to true, any FeatureViews and Features for this FeatureOnlineStore will also be deleted.
 	// +kubebuilder:validation:Optional

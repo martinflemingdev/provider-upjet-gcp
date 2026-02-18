@@ -184,6 +184,9 @@ type InstanceInitParameters struct {
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
+
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
 	// able to access the public internet.
@@ -276,6 +279,9 @@ type InstanceObservation struct {
 
 	// P4 service account for the customer project.
 	P4ServiceAccount *string `json:"p4ServiceAccount,omitempty" tf:"p4_service_account,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -385,6 +391,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	// +kubebuilder:validation:Optional
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be

@@ -80,6 +80,19 @@ spec:
                     description: The display name of the Index. The name can be up
                       to 128 characters long and can consist of any UTF-8 characters.
                     type: string
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
@@ -110,6 +123,21 @@ spec:
                           rule will target the service attachment.
                         items:
                           type: string
+                        type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   project:
@@ -147,6 +175,19 @@ spec:
                     description: The display name of the Index. The name can be up
                       to 128 characters long and can consist of any UTF-8 characters.
                     type: string
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
                   labels:
                     additionalProperties:
                       type: string
@@ -177,6 +218,21 @@ spec:
                           rule will target the service attachment.
                         items:
                           type: string
+                        type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   project:
@@ -302,6 +358,19 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionSpec:
+                    description: |-
+                      Customer-managed encryption key spec for an IndexEndpoint. If set, this IndexEndpoint and all sub-resources of this IndexEndpoint will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'Required. The Cloud KMS resource identifier
+                          of the customer managed encryption key used to protect a
+                          resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
                   etag:
                     description: Used to perform consistent read-modify-write updates.
                     type: string
@@ -338,6 +407,21 @@ spec:
                           rule will target the service attachment.
                         items:
                           type: string
+                        type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   project:

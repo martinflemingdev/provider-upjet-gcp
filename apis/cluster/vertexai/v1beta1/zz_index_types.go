@@ -62,7 +62,7 @@ type BruteForceConfigParameters struct {
 
 type ConfigInitParameters struct {
 
-	// The configuration with regard to the algorithms used for efficient search.
+	// The configuration with regard to the algorithms used for efficient search. This field may be required based on your configuration.
 	// Structure is documented below.
 	AlgorithmConfig *AlgorithmConfigInitParameters `json:"algorithmConfig,omitempty" tf:"algorithm_config,omitempty"`
 
@@ -88,7 +88,7 @@ type ConfigInitParameters struct {
 
 type ConfigObservation struct {
 
-	// The configuration with regard to the algorithms used for efficient search.
+	// The configuration with regard to the algorithms used for efficient search. This field may be required based on your configuration.
 	// Structure is documented below.
 	AlgorithmConfig *AlgorithmConfigObservation `json:"algorithmConfig,omitempty" tf:"algorithm_config,omitempty"`
 
@@ -114,7 +114,7 @@ type ConfigObservation struct {
 
 type ConfigParameters struct {
 
-	// The configuration with regard to the algorithms used for efficient search.
+	// The configuration with regard to the algorithms used for efficient search. This field may be required based on your configuration.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AlgorithmConfig *AlgorithmConfigParameters `json:"algorithmConfig,omitempty" tf:"algorithm_config,omitempty"`
@@ -161,6 +161,25 @@ type DeployedIndexesObservation struct {
 type DeployedIndexesParameters struct {
 }
 
+type IndexEncryptionSpecInitParameters struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type IndexEncryptionSpecObservation struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
+}
+
+type IndexEncryptionSpecParameters struct {
+
+	// Required. The Cloud KMS resource identifier of the customer managed encryption key used to protect a resource. Has the form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key. The key needs to be in the same region as where the compute resource is created.
+	// +kubebuilder:validation:Optional
+	KMSKeyName *string `json:"kmsKeyName" tf:"kms_key_name,omitempty"`
+}
+
 type IndexInitParameters struct {
 
 	// The description of the Index.
@@ -168,6 +187,10 @@ type IndexInitParameters struct {
 
 	// The display name of the Index. The name can be up to 128 characters long and can consist of any UTF-8 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Customer-managed encryption key spec for an Index. If set, this Index and all sub-resources of this Index will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *IndexEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// The update method to use with this Index. The value must be the followings. If not set, BATCH_UPDATE will be used by default.
 	IndexUpdateMethod *string `json:"indexUpdateMethod,omitempty" tf:"index_update_method,omitempty"`
@@ -206,6 +229,10 @@ type IndexObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// Customer-managed encryption key spec for an Index. If set, this Index and all sub-resources of this Index will be secured by this key.
+	// Structure is documented below.
+	EncryptionSpec *IndexEncryptionSpecObservation `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// Used to perform consistent read-modify-write updates.
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
@@ -260,6 +287,11 @@ type IndexParameters struct {
 	// The display name of the Index. The name can be up to 128 characters long and can consist of any UTF-8 characters.
 	// +kubebuilder:validation:Optional
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
+
+	// Customer-managed encryption key spec for an Index. If set, this Index and all sub-resources of this Index will be secured by this key.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	EncryptionSpec *IndexEncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
 
 	// The update method to use with this Index. The value must be the followings. If not set, BATCH_UPDATE will be used by default.
 	// +kubebuilder:validation:Optional
@@ -349,7 +381,7 @@ type MetadataParameters struct {
 	// The configuration of the Matching Engine Index.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Config *ConfigParameters `json:"config,omitempty" tf:"config,omitempty"`
+	Config *ConfigParameters `json:"config" tf:"config,omitempty"`
 
 	// Allows inserting, updating  or deleting the contents of the Matching Engine Index.
 	// The string must be a valid Cloud Storage directory path. If this
@@ -435,6 +467,7 @@ type Index struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.displayName) || (has(self.initProvider) && has(self.initProvider.displayName))",message="spec.forProvider.displayName is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.metadata) || (has(self.initProvider) && has(self.initProvider.metadata))",message="spec.forProvider.metadata is a required parameter"
 	Spec   IndexSpec   `json:"spec"`
 	Status IndexStatus `json:"status,omitempty"`
 }

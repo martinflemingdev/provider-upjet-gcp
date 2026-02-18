@@ -8,4 +8,5 @@ metadata:
   name: cache
 spec:
   forProvider:
+    deletionProtection: false
     memorySizeGb: 1

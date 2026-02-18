@@ -88,6 +88,14 @@ spec:
                               to. Must be greater than or equal to 1.
                             type: number
                         type: object
+                      enableDirectBigtableAccess:
+                        description: Optional. If true, enable direct access to the
+                          Bigtable instance.
+                        type: boolean
+                      zone:
+                        description: The zone where the Bigtable instance will be
+                          created.
+                        type: string
                     type: object
                   dedicatedServingEndpoint:
                     description: |-
@@ -111,6 +119,19 @@ spec:
                               type: string
                             type: array
                         type: object
+                    type: object
+                  encryptionSpec:
+                    description: |-
+                      If set, both of the online and offline data storage will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'The Cloud KMS resource identifier of the customer
+                          managed encryption key used to protect a resource. Has the
+                          form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
                     type: object
                   forceDestroy:
                     description: If set to true, any FeatureViews and Features for
@@ -181,6 +202,14 @@ spec:
                               to. Must be greater than or equal to 1.
                             type: number
                         type: object
+                      enableDirectBigtableAccess:
+                        description: Optional. If true, enable direct access to the
+                          Bigtable instance.
+                        type: boolean
+                      zone:
+                        description: The zone where the Bigtable instance will be
+                          created.
+                        type: string
                     type: object
                   dedicatedServingEndpoint:
                     description: |-
@@ -204,6 +233,19 @@ spec:
                               type: string
                             type: array
                         type: object
+                    type: object
+                  encryptionSpec:
+                    description: |-
+                      If set, both of the online and offline data storage will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'The Cloud KMS resource identifier of the customer
+                          managed encryption key used to protect a resource. Has the
+                          form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
                     type: object
                   forceDestroy:
                     description: If set to true, any FeatureViews and Features for
@@ -319,6 +361,14 @@ spec:
                               to. Must be greater than or equal to 1.
                             type: number
                         type: object
+                      enableDirectBigtableAccess:
+                        description: Optional. If true, enable direct access to the
+                          Bigtable instance.
+                        type: boolean
+                      zone:
+                        description: The zone where the Bigtable instance will be
+                          created.
+                        type: string
                     type: object
                   createTime:
                     description: The timestamp of when the feature online store was
@@ -363,6 +413,19 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  encryptionSpec:
+                    description: |-
+                      If set, both of the online and offline data storage will be secured by this key.
+                      Structure is documented below.
+                    properties:
+                      kmsKeyName:
+                        description: 'The Cloud KMS resource identifier of the customer
+                          managed encryption key used to protect a resource. Has the
+                          form: projects/my-project/locations/my-region/keyRings/my-kr/cryptoKeys/my-key.
+                          The key needs to be in the same region as where the compute
+                          resource is created.'
+                        type: string
+                    type: object
                   etag:
                     description: Used to perform consistent read-modify-write updates.
                     type: string

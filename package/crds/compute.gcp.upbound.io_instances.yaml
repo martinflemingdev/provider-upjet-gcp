@@ -4566,6 +4566,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -4804,6 +4809,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -4895,12 +4904,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         properties:
                           nanos:
                             description: |-
@@ -5861,6 +5870,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -6099,6 +6113,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -6190,12 +6208,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         properties:
                           nanos:
                             description: |-
@@ -7058,6 +7076,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -7126,6 +7149,10 @@ spec:
                           description: 'The type of vNIC to be used on this interface.
                             Possible values: GVNIC, VIRTIO_NET, IDPF, MRDMA, IRDMA.'
                           type: string
+                        parentNicName:
+                          description: Name of the parent network interface of a dynamic
+                            network interface.
+                          type: string
                         queueCount:
                           description: The networking queue count that's specified
                             by users for the network interface. Both Rx and Tx queues
@@ -7154,6 +7181,10 @@ spec:
                             defined in the subnetwork self_link. If the subnetwork is a name and this
                             field is not provided, the provider project is used.
                           type: string
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -7245,12 +7276,12 @@ spec:
                           Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         properties:
                           nanos:
                             description: |-

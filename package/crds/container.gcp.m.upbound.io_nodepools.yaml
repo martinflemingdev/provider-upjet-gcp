@@ -366,6 +366,74 @@ spec:
                                   API exclusively.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -516,10 +584,22 @@ spec:
                             type: string
                           maxParallelImagePulls:
                             type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
                           singleProcessOomKill:
                             type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -540,6 +620,11 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -558,9 +643,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -779,6 +861,17 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must
@@ -1112,6 +1205,74 @@ spec:
                                   API exclusively.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -1262,10 +1423,22 @@ spec:
                             type: string
                           maxParallelImagePulls:
                             type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
                           singleProcessOomKill:
                             type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -1286,6 +1459,11 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -1304,9 +1482,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -1525,6 +1700,17 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must
@@ -1939,6 +2125,74 @@ spec:
                                   API exclusively.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: name" as the key and specify
+                                                the name of your reservation as its
+                                                value.
+                                              type: string
+                                            value:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            properties:
+                              enabled:
+                                description: Makes nodes obtainable through the ProvisioningRequest
+                                  API exclusively.
+                                type: boolean
+                            type: object
                         type: object
                       diskSizeGb:
                         type: number
@@ -2102,10 +2356,22 @@ spec:
                             type: string
                           maxParallelImagePulls:
                             type: number
+                          memoryManager:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           podPidsLimit:
                             type: number
                           singleProcessOomKill:
                             type: boolean
+                          topologyManager:
+                            properties:
+                              policy:
+                                type: string
+                              scope:
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -2126,6 +2392,11 @@ spec:
                               hugepageSize2M:
                                 type: number
                             type: object
+                          nodeKernelModuleLoading:
+                            properties:
+                              policy:
+                                type: string
+                            type: object
                           sysctls:
                             additionalProperties:
                               type: string
@@ -2144,9 +2415,6 @@ spec:
                       localSsdCount:
                         type: number
                       localSsdEncryptionMode:
-                        description: |-
-                          Possible Local SSD encryption modes:
-                          Accepted values are:
                         type: string
                       loggingVariant:
                         type: string
@@ -2283,6 +2551,17 @@ spec:
                       The number of nodes per instance group. This field can be used to
                       update the number of nodes per instance group but should not be used alongside autoscaling.
                     type: number
+                  nodeDrainConfig:
+                    description: The node drain configuration of the pool. Structure
+                      is documented below.
+                    items:
+                      properties:
+                        respectPdbDuringNodePoolDeletion:
+                          description: Whether to respect PodDisruptionBudget policy
+                            during node pool deletion.
+                          type: boolean
+                      type: object
+                    type: array
                   nodeLocations:
                     description: |-
                       The list of zones in which the node pool's nodes should be located. Nodes must

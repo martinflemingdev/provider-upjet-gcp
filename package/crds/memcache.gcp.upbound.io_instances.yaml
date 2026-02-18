@@ -1079,6 +1079,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: A user-visible name for the instance.
                     type: string
@@ -1303,6 +1307,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: A user-visible name for the instance.
                     type: string
@@ -1545,6 +1553,10 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   discoveryEndpoint:
                     description: Endpoint for Discovery API
                     type: string

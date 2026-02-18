@@ -27,6 +27,70 @@ type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfig
 	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
 }
 
+type ContainerdConfigRegistryHostsHostsCAInitParameters struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsCAObservation struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsCAParameters struct {
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsClientInitParameters struct {
+	Cert *RegistryHostsHostsClientCertInitParameters `json:"cert,omitempty" tf:"cert,omitempty"`
+
+	// name" as the key and specify the name of your reservation as its value.
+	Key *RegistryHostsHostsClientKeyInitParameters `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsClientObservation struct {
+	Cert *RegistryHostsHostsClientCertObservation `json:"cert,omitempty" tf:"cert,omitempty"`
+
+	// name" as the key and specify the name of your reservation as its value.
+	Key *RegistryHostsHostsClientKeyObservation `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsClientParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Cert *RegistryHostsHostsClientCertParameters `json:"cert" tf:"cert,omitempty"`
+
+	// name" as the key and specify the name of your reservation as its value.
+	// +kubebuilder:validation:Optional
+	Key *RegistryHostsHostsClientKeyParameters `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsHeaderInitParameters struct {
+
+	// name" as the key and specify the name of your reservation as its value.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value []*string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsHeaderObservation struct {
+
+	// name" as the key and specify the name of your reservation as its value.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	Value []*string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ContainerdConfigRegistryHostsHostsHeaderParameters struct {
+
+	// name" as the key and specify the name of your reservation as its value.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Value []*string `json:"value" tf:"value,omitempty"`
+}
+
 type NetworkConfigAdditionalNodeNetworkConfigsInitParameters struct {
 
 	// Name of the VPC where the additional interface belongs.
@@ -146,6 +210,102 @@ type NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	CertificateAuthorityDomainConfig []NodeConfigContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsHostsInitParameters struct {
+	CA []ContainerdConfigRegistryHostsHostsCAInitParameters `json:"ca,omitempty" tf:"ca,omitempty"`
+
+	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
+
+	Client []ContainerdConfigRegistryHostsHostsClientInitParameters `json:"client,omitempty" tf:"client,omitempty"`
+
+	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
+
+	Header []ContainerdConfigRegistryHostsHostsHeaderInitParameters `json:"header,omitempty" tf:"header,omitempty"`
+
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsHostsObservation struct {
+	CA []ContainerdConfigRegistryHostsHostsCAObservation `json:"ca,omitempty" tf:"ca,omitempty"`
+
+	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
+
+	Client []ContainerdConfigRegistryHostsHostsClientObservation `json:"client,omitempty" tf:"client,omitempty"`
+
+	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
+
+	Header []ContainerdConfigRegistryHostsHostsHeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
+
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsHostsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	CA []ContainerdConfigRegistryHostsHostsCAParameters `json:"ca,omitempty" tf:"ca,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Client []ContainerdConfigRegistryHostsHostsClientParameters `json:"client,omitempty" tf:"client,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Header []ContainerdConfigRegistryHostsHostsHeaderParameters `json:"header,omitempty" tf:"header,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host" tf:"host,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsInitParameters struct {
+	Hosts []NodeConfigContainerdConfigRegistryHostsHostsInitParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
+
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsObservation struct {
+	Hosts []NodeConfigContainerdConfigRegistryHostsHostsObservation `json:"hosts,omitempty" tf:"hosts,omitempty"`
+
+	Server *string `json:"server,omitempty" tf:"server,omitempty"`
+}
+
+type NodeConfigContainerdConfigRegistryHostsParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Hosts []NodeConfigContainerdConfigRegistryHostsHostsParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Server *string `json:"server" tf:"server,omitempty"`
+}
+
+type NodeConfigContainerdConfigWritableCgroupsInitParameters struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigWritableCgroupsObservation struct {
+
+	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeConfigContainerdConfigWritableCgroupsParameters struct {
 
 	// Makes nodes obtainable through the ProvisioningRequest API exclusively.
 	// +kubebuilder:validation:Optional
@@ -345,6 +505,41 @@ type NodeConfigKubeletConfigEvictionSoftParameters struct {
 	PidAvailable *string `json:"pidAvailable,omitempty" tf:"pid_available,omitempty"`
 }
 
+type NodeConfigKubeletConfigMemoryManagerInitParameters struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type NodeConfigKubeletConfigMemoryManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type NodeConfigKubeletConfigMemoryManagerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type NodeConfigKubeletConfigTopologyManagerInitParameters struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type NodeConfigKubeletConfigTopologyManagerObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
+type NodeConfigKubeletConfigTopologyManagerParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Scope *string `json:"scope,omitempty" tf:"scope,omitempty"`
+}
+
 type NodeConfigLinuxNodeConfigHugepagesConfigInitParameters struct {
 	HugepageSize1G *float64 `json:"hugepageSize1G,omitempty" tf:"hugepage_size_1g,omitempty"`
 
@@ -364,6 +559,20 @@ type NodeConfigLinuxNodeConfigHugepagesConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	HugepageSize2M *float64 `json:"hugepageSize2M,omitempty" tf:"hugepage_size_2m,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigNodeKernelModuleLoadingInitParameters struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigNodeKernelModuleLoadingObservation struct {
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
+}
+
+type NodeConfigLinuxNodeConfigNodeKernelModuleLoadingParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Policy *string `json:"policy,omitempty" tf:"policy,omitempty"`
 }
 
 type NodeConfigSoleTenantConfigNodeAffinityInitParameters struct {
@@ -518,6 +727,9 @@ type NodePoolInitParameters_2 struct {
 	// The number of nodes per instance group. This field can be used to
 	// update the number of nodes per instance group but should not be used alongside autoscaling.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The node drain configuration of the pool. Structure is documented below.
+	NodeDrainConfig []NodePoolNodeDrainConfigInitParameters `json:"nodeDrainConfig,omitempty" tf:"node_drain_config,omitempty"`
 
 	// The list of zones in which the node pool's nodes should be located. Nodes must
 	// be in the region of their regional cluster or in the same region as their
@@ -802,16 +1014,30 @@ type NodePoolNodeConfigConfidentialNodesParameters_2 struct {
 
 type NodePoolNodeConfigContainerdConfigInitParameters struct {
 	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+
+	RegistryHosts []NodeConfigContainerdConfigRegistryHostsInitParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
+
+	WritableCgroups *NodeConfigContainerdConfigWritableCgroupsInitParameters `json:"writableCgroups,omitempty" tf:"writable_cgroups,omitempty"`
 }
 
 type NodePoolNodeConfigContainerdConfigObservation struct {
 	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+
+	RegistryHosts []NodeConfigContainerdConfigRegistryHostsObservation `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
+
+	WritableCgroups *NodeConfigContainerdConfigWritableCgroupsObservation `json:"writableCgroups,omitempty" tf:"writable_cgroups,omitempty"`
 }
 
 type NodePoolNodeConfigContainerdConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	PrivateRegistryAccessConfig *NodeConfigContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	RegistryHosts []NodeConfigContainerdConfigRegistryHostsParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WritableCgroups *NodeConfigContainerdConfigWritableCgroupsParameters `json:"writableCgroups,omitempty" tf:"writable_cgroups,omitempty"`
 }
 
 type NodePoolNodeConfigEffectiveTaintsInitParameters struct {
@@ -1018,8 +1244,6 @@ type NodePoolNodeConfigInitParameters_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
-	// Possible Local SSD encryption modes:
-	// Accepted values are:
 	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
 
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -1114,9 +1338,13 @@ type NodePoolNodeConfigKubeletConfigInitParameters struct {
 
 	MaxParallelImagePulls *float64 `json:"maxParallelImagePulls,omitempty" tf:"max_parallel_image_pulls,omitempty"`
 
+	MemoryManager *NodeConfigKubeletConfigMemoryManagerInitParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
 	SingleProcessOomKill *bool `json:"singleProcessOomKill,omitempty" tf:"single_process_oom_kill,omitempty"`
+
+	TopologyManager *NodeConfigKubeletConfigTopologyManagerInitParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigObservation struct {
@@ -1152,9 +1380,13 @@ type NodePoolNodeConfigKubeletConfigObservation struct {
 
 	MaxParallelImagePulls *float64 `json:"maxParallelImagePulls,omitempty" tf:"max_parallel_image_pulls,omitempty"`
 
+	MemoryManager *NodeConfigKubeletConfigMemoryManagerObservation `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
 	SingleProcessOomKill *bool `json:"singleProcessOomKill,omitempty" tf:"single_process_oom_kill,omitempty"`
+
+	TopologyManager *NodeConfigKubeletConfigTopologyManagerObservation `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigKubeletConfigParameters struct {
@@ -1208,16 +1440,24 @@ type NodePoolNodeConfigKubeletConfigParameters struct {
 	MaxParallelImagePulls *float64 `json:"maxParallelImagePulls,omitempty" tf:"max_parallel_image_pulls,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	MemoryManager *NodeConfigKubeletConfigMemoryManagerParameters `json:"memoryManager,omitempty" tf:"memory_manager,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	PodPidsLimit *float64 `json:"podPidsLimit,omitempty" tf:"pod_pids_limit,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	SingleProcessOomKill *bool `json:"singleProcessOomKill,omitempty" tf:"single_process_oom_kill,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	TopologyManager *NodeConfigKubeletConfigTopologyManagerParameters `json:"topologyManager,omitempty" tf:"topology_manager,omitempty"`
 }
 
 type NodePoolNodeConfigLinuxNodeConfigInitParameters struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
+
+	NodeKernelModuleLoading *NodeConfigLinuxNodeConfigNodeKernelModuleLoadingInitParameters `json:"nodeKernelModuleLoading,omitempty" tf:"node_kernel_module_loading,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
@@ -1231,6 +1471,8 @@ type NodePoolNodeConfigLinuxNodeConfigObservation struct {
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
+
+	NodeKernelModuleLoading *NodeConfigLinuxNodeConfigNodeKernelModuleLoadingObservation `json:"nodeKernelModuleLoading,omitempty" tf:"node_kernel_module_loading,omitempty"`
 
 	// +mapType=granular
 	Sysctls map[string]*string `json:"sysctls,omitempty" tf:"sysctls,omitempty"`
@@ -1247,6 +1489,9 @@ type NodePoolNodeConfigLinuxNodeConfigParameters struct {
 
 	// +kubebuilder:validation:Optional
 	HugepagesConfig *NodeConfigLinuxNodeConfigHugepagesConfigParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NodeKernelModuleLoading *NodeConfigLinuxNodeConfigNodeKernelModuleLoadingParameters `json:"nodeKernelModuleLoading,omitempty" tf:"node_kernel_module_loading,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
@@ -1321,8 +1566,6 @@ type NodePoolNodeConfigObservation_2 struct {
 
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
-	// Possible Local SSD encryption modes:
-	// Accepted values are:
 	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
 
 	LoggingVariant *string `json:"loggingVariant,omitempty" tf:"logging_variant,omitempty"`
@@ -1442,8 +1685,6 @@ type NodePoolNodeConfigParameters_2 struct {
 	// +kubebuilder:validation:Optional
 	LocalSsdCount *float64 `json:"localSsdCount,omitempty" tf:"local_ssd_count,omitempty"`
 
-	// Possible Local SSD encryption modes:
-	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	LocalSsdEncryptionMode *string `json:"localSsdEncryptionMode,omitempty" tf:"local_ssd_encryption_mode,omitempty"`
 
@@ -1705,6 +1946,25 @@ type NodePoolNodeConfigWorkloadMetadataConfigParameters struct {
 	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
+type NodePoolNodeDrainConfigInitParameters struct {
+
+	// Whether to respect PodDisruptionBudget policy during node pool deletion.
+	RespectPdbDuringNodePoolDeletion *bool `json:"respectPdbDuringNodePoolDeletion,omitempty" tf:"respect_pdb_during_node_pool_deletion,omitempty"`
+}
+
+type NodePoolNodeDrainConfigObservation struct {
+
+	// Whether to respect PodDisruptionBudget policy during node pool deletion.
+	RespectPdbDuringNodePoolDeletion *bool `json:"respectPdbDuringNodePoolDeletion,omitempty" tf:"respect_pdb_during_node_pool_deletion,omitempty"`
+}
+
+type NodePoolNodeDrainConfigParameters struct {
+
+	// Whether to respect PodDisruptionBudget policy during node pool deletion.
+	// +kubebuilder:validation:Optional
+	RespectPdbDuringNodePoolDeletion *bool `json:"respectPdbDuringNodePoolDeletion,omitempty" tf:"respect_pdb_during_node_pool_deletion,omitempty"`
+}
+
 type NodePoolObservation_2 struct {
 
 	// Configuration required by cluster autoscaler to adjust
@@ -1756,6 +2016,9 @@ type NodePoolObservation_2 struct {
 	// The number of nodes per instance group. This field can be used to
 	// update the number of nodes per instance group but should not be used alongside autoscaling.
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The node drain configuration of the pool. Structure is documented below.
+	NodeDrainConfig []NodePoolNodeDrainConfigObservation `json:"nodeDrainConfig,omitempty" tf:"node_drain_config,omitempty"`
 
 	// The list of zones in which the node pool's nodes should be located. Nodes must
 	// be in the region of their regional cluster or in the same region as their
@@ -1849,6 +2112,10 @@ type NodePoolParameters_2 struct {
 	// update the number of nodes per instance group but should not be used alongside autoscaling.
 	// +kubebuilder:validation:Optional
 	NodeCount *float64 `json:"nodeCount,omitempty" tf:"node_count,omitempty"`
+
+	// The node drain configuration of the pool. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeDrainConfig []NodePoolNodeDrainConfigParameters `json:"nodeDrainConfig,omitempty" tf:"node_drain_config,omitempty"`
 
 	// The list of zones in which the node pool's nodes should be located. Nodes must
 	// be in the region of their regional cluster or in the same region as their
@@ -2049,6 +2316,34 @@ type NodePoolUpgradeSettingsParameters_2 struct {
 	// (Default SURGE) The upgrade strategy to be used for upgrading the nodes.
 	// +kubebuilder:validation:Optional
 	Strategy *string `json:"strategy,omitempty" tf:"strategy,omitempty"`
+}
+
+type RegistryHostsHostsClientCertInitParameters struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type RegistryHostsHostsClientCertObservation struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type RegistryHostsHostsClientCertParameters struct {
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type RegistryHostsHostsClientKeyInitParameters struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type RegistryHostsHostsClientKeyObservation struct {
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+}
+
+type RegistryHostsHostsClientKeyParameters struct {
+
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type UpgradeSettingsBlueGreenSettingsStandardRolloutPolicyInitParameters struct {

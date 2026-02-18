@@ -460,6 +460,10 @@ spec:
                       Configures when data is to be synced/updated for this FeatureView. At the end of the sync the latest featureValues for each entityId of this FeatureView are made ready for online serving.
                       Structure is documented below.
                     properties:
+                      continuous:
+                        description: If true, syncs the FeatureView in a continuous
+                          manner to Online Store.
+                        type: boolean
                       cron:
                         description: |-
                           Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
@@ -791,6 +795,10 @@ spec:
                       Configures when data is to be synced/updated for this FeatureView. At the end of the sync the latest featureValues for each entityId of this FeatureView are made ready for online serving.
                       Structure is documented below.
                     properties:
+                      continuous:
+                        description: If true, syncs the FeatureView in a continuous
+                          manner to Online Store.
+                        type: boolean
                       cron:
                         description: |-
                           Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
@@ -944,6 +952,10 @@ spec:
                       Configures when data is to be synced/updated for this FeatureView. At the end of the sync the latest featureValues for each entityId of this FeatureView are made ready for online serving.
                       Structure is documented below.
                     properties:
+                      continuous:
+                        description: If true, syncs the FeatureView in a continuous
+                          manner to Online Store.
+                        type: boolean
                       cron:
                         description: |-
                           Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.

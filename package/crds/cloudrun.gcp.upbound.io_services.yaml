@@ -3550,6 +3550,64 @@ spec:
                                         type: string
                                     type: object
                                   type: array
+                                readinessProbe:
+                                  description: |-
+                                    Periodic probe of container readiness.
+                                    Structure is documented below.
+                                  properties:
+                                    failureThreshold:
+                                      description: |-
+                                        Minimum consecutive failures for the probe to be considered failed after
+                                        having succeeded. Defaults to 3. Minimum value is 1.
+                                      type: number
+                                    grpc:
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
+                                      properties:
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                        service:
+                                          description: |-
+                                            The name of the service to place in the gRPC HealthCheckRequest
+                                            (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                            If this is not specified, the default behavior is defined by gRPC.
+                                          type: string
+                                      type: object
+                                    httpGet:
+                                      description: |-
+                                        HttpGet specifies the http request to perform.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: Path exported by the NFS server
+                                          type: string
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                      type: object
+                                    periodSeconds:
+                                      description: |-
+                                        How often (in seconds) to perform the probe.
+                                        Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+                                      type: number
+                                    successThreshold:
+                                      description: |-
+                                        Minimum consecutive successes for the probe to be considered successful after having failed.
+                                        Defaults to 2.
+                                      type: number
+                                    timeoutSeconds:
+                                      description: |-
+                                        Number of seconds after which the probe times out.
+                                        Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+                                        Must be smaller than periodSeconds.
+                                      type: number
+                                  type: object
                                 resources:
                                   description: |-
                                     Compute Resources required by this container. Used to set values such as max memory
@@ -3560,8 +3618,7 @@ spec:
                                         type: string
                                       description: |-
                                         Limits describes the maximum amount of compute resources allowed.
-                                        The values of the map is string form of the 'quantity' k8s type:
-                                        https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+                                        CPU Limit details:
                                       type: object
                                       x-kubernetes-map-type: granular
                                     requests:
@@ -3676,6 +3733,10 @@ spec:
                                         type: string
                                       name:
                                         description: Volume's name.
+                                        type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
                                         type: string
                                     type: object
                                   type: array
@@ -4433,6 +4494,64 @@ spec:
                                         type: string
                                     type: object
                                   type: array
+                                readinessProbe:
+                                  description: |-
+                                    Periodic probe of container readiness.
+                                    Structure is documented below.
+                                  properties:
+                                    failureThreshold:
+                                      description: |-
+                                        Minimum consecutive failures for the probe to be considered failed after
+                                        having succeeded. Defaults to 3. Minimum value is 1.
+                                      type: number
+                                    grpc:
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
+                                      properties:
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                        service:
+                                          description: |-
+                                            The name of the service to place in the gRPC HealthCheckRequest
+                                            (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                            If this is not specified, the default behavior is defined by gRPC.
+                                          type: string
+                                      type: object
+                                    httpGet:
+                                      description: |-
+                                        HttpGet specifies the http request to perform.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: Path exported by the NFS server
+                                          type: string
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                      type: object
+                                    periodSeconds:
+                                      description: |-
+                                        How often (in seconds) to perform the probe.
+                                        Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+                                      type: number
+                                    successThreshold:
+                                      description: |-
+                                        Minimum consecutive successes for the probe to be considered successful after having failed.
+                                        Defaults to 2.
+                                      type: number
+                                    timeoutSeconds:
+                                      description: |-
+                                        Number of seconds after which the probe times out.
+                                        Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+                                        Must be smaller than periodSeconds.
+                                      type: number
+                                  type: object
                                 resources:
                                   description: |-
                                     Compute Resources required by this container. Used to set values such as max memory
@@ -4443,8 +4562,7 @@ spec:
                                         type: string
                                       description: |-
                                         Limits describes the maximum amount of compute resources allowed.
-                                        The values of the map is string form of the 'quantity' k8s type:
-                                        https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+                                        CPU Limit details:
                                       type: object
                                       x-kubernetes-map-type: granular
                                     requests:
@@ -4559,6 +4677,10 @@ spec:
                                         type: string
                                       name:
                                         description: Volume's name.
+                                        type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
                                         type: string
                                     type: object
                                   type: array
@@ -5415,6 +5537,64 @@ spec:
                                         type: string
                                     type: object
                                   type: array
+                                readinessProbe:
+                                  description: |-
+                                    Periodic probe of container readiness.
+                                    Structure is documented below.
+                                  properties:
+                                    failureThreshold:
+                                      description: |-
+                                        Minimum consecutive failures for the probe to be considered failed after
+                                        having succeeded. Defaults to 3. Minimum value is 1.
+                                      type: number
+                                    grpc:
+                                      description: |-
+                                        GRPC specifies an action involving a GRPC port.
+                                        Structure is documented below.
+                                      properties:
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                        service:
+                                          description: |-
+                                            The name of the service to place in the gRPC HealthCheckRequest
+                                            (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+                                            If this is not specified, the default behavior is defined by gRPC.
+                                          type: string
+                                      type: object
+                                    httpGet:
+                                      description: |-
+                                        HttpGet specifies the http request to perform.
+                                        Structure is documented below.
+                                      properties:
+                                        path:
+                                          description: Path exported by the NFS server
+                                          type: string
+                                        port:
+                                          description: |-
+                                            Port number to access on the container. Number must be in the range 1 to 65535.
+                                            If not specified, defaults to the same value as container.ports[0].containerPort.
+                                          type: number
+                                      type: object
+                                    periodSeconds:
+                                      description: |-
+                                        How often (in seconds) to perform the probe.
+                                        Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+                                      type: number
+                                    successThreshold:
+                                      description: |-
+                                        Minimum consecutive successes for the probe to be considered successful after having failed.
+                                        Defaults to 2.
+                                      type: number
+                                    timeoutSeconds:
+                                      description: |-
+                                        Number of seconds after which the probe times out.
+                                        Defaults to 1 second. Minimum value is 1. Maximum value is 3600.
+                                        Must be smaller than periodSeconds.
+                                      type: number
+                                  type: object
                                 resources:
                                   description: |-
                                     Compute Resources required by this container. Used to set values such as max memory
@@ -5425,8 +5605,7 @@ spec:
                                         type: string
                                       description: |-
                                         Limits describes the maximum amount of compute resources allowed.
-                                        The values of the map is string form of the 'quantity' k8s type:
-                                        https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apimachinery/pkg/api/resource/quantity.go
+                                        CPU Limit details:
                                       type: object
                                       x-kubernetes-map-type: granular
                                     requests:
@@ -5541,6 +5720,10 @@ spec:
                                         type: string
                                       name:
                                         description: Volume's name.
+                                        type: string
+                                      subPath:
+                                        description: Path within the volume from which
+                                          the container's volume should be mounted.
                                         type: string
                                     type: object
                                   type: array

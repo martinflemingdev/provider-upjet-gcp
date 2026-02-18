@@ -458,11 +458,12 @@ type PrivateServiceConnectConfigInitParameters struct {
 	// Required. If true, expose the IndexEndpoint via private service connect.
 	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect,omitempty" tf:"enable_private_service_connect,omitempty"`
 
-	// If set to true, enable secure private service connect with IAM authorization. Otherwise, private service connect will be done without authorization. Note latency will be slightly increased if authorization is enabled.
-	EnableSecurePrivateServiceConnect *bool `json:"enableSecurePrivateServiceConnect,omitempty" tf:"enable_secure_private_service_connect,omitempty"`
-
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []PscAutomationConfigsInitParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type PrivateServiceConnectConfigObservation struct {
@@ -470,11 +471,12 @@ type PrivateServiceConnectConfigObservation struct {
 	// Required. If true, expose the IndexEndpoint via private service connect.
 	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect,omitempty" tf:"enable_private_service_connect,omitempty"`
 
-	// If set to true, enable secure private service connect with IAM authorization. Otherwise, private service connect will be done without authorization. Note latency will be slightly increased if authorization is enabled.
-	EnableSecurePrivateServiceConnect *bool `json:"enableSecurePrivateServiceConnect,omitempty" tf:"enable_secure_private_service_connect,omitempty"`
-
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []PscAutomationConfigsObservation `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type PrivateServiceConnectConfigParameters struct {
@@ -483,13 +485,79 @@ type PrivateServiceConnectConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	EnablePrivateServiceConnect *bool `json:"enablePrivateServiceConnect" tf:"enable_private_service_connect,omitempty"`
 
-	// If set to true, enable secure private service connect with IAM authorization. Otherwise, private service connect will be done without authorization. Note latency will be slightly increased if authorization is enabled.
-	// +kubebuilder:validation:Optional
-	EnableSecurePrivateServiceConnect *bool `json:"enableSecurePrivateServiceConnect,omitempty" tf:"enable_secure_private_service_connect,omitempty"`
-
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	// +kubebuilder:validation:Optional
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscAutomationConfigs []PscAutomationConfigsParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
+}
+
+type PscAutomationConfigsInitParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type PscAutomationConfigsObservation struct {
+
+	// (Output)
+	// Error message if the PSC service automation failed.
+	ErrorMessage *string `json:"errorMessage,omitempty" tf:"error_message,omitempty"`
+
+	// (Output)
+	// Forwarding rule created by the PSC service automation.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+
+	// (Output)
+	// IP address rule created by the PSC service automation.
+	IPAddress *string `json:"ipAddress,omitempty" tf:"ip_address,omitempty"`
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
+	// (Output)
+	// The state of the PSC service automation.
+	State *string `json:"state,omitempty" tf:"state,omitempty"`
+}
+
+type PscAutomationConfigsParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Reference to a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
+
+	// Selector for a Network in compute to populate network.
+	// +kubebuilder:validation:Optional
+	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+
+	// Project id used to create forwarding rule.
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 // EndpointSpec defines the desired state of Endpoint

@@ -1540,6 +1540,26 @@ spec:
                               type: object
                             type: array
                         type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       selectedNamespaces:
                         description: |-
                           If set, include just the resources in the listed namespaces.
@@ -1947,6 +1967,26 @@ spec:
                               type: object
                             type: array
                         type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
                       selectedNamespaces:
                         description: |-
                           If set, include just the resources in the listed namespaces.
@@ -2347,6 +2387,26 @@ spec:
                                   type: string
                                 namespace:
                                   description: The namespace of a Kubernetes Resource.
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                      selectedNamespaceLabels:
+                        description: |-
+                          If set, include just the resources in the listed namespace Labels.
+                          Structure is documented below.
+                        properties:
+                          resourceLabels:
+                            description: |-
+                              A list of Kubernetes Namespace labels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                key:
+                                  description: The key of the kubernetes label.
+                                  type: string
+                                value:
+                                  description: The value of the Label.
                                   type: string
                               type: object
                             type: array

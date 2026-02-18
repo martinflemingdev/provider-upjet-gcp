@@ -13,6 +13,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type DirectoryServicesInitParameters struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	Ldap *LdapInitParameters `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
+type DirectoryServicesObservation struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	Ldap *LdapObservation `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
+type DirectoryServicesParameters struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Ldap *LdapParameters `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
 type EffectiveReplicationInitParameters struct {
 }
 
@@ -181,6 +203,14 @@ type InstanceInitParameters struct {
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The desired_replica_state field controls the state of a replica.
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	DirectoryServices *DirectoryServicesInitParameters `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
+
 	// File system shares on the instance. For this version, only a
 	// single file share is supported.
 	// Structure is documented below.
@@ -263,6 +293,14 @@ type InstanceObservation struct {
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired_replica_state field controls the state of a replica.
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	DirectoryServices *DirectoryServicesObservation `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -359,6 +397,16 @@ type InstanceParameters struct {
 	// A description of the instance.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired_replica_state field controls the state of a replica.
+	// +kubebuilder:validation:Optional
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DirectoryServices *DirectoryServicesParameters `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
 
 	// File system shares on the instance. For this version, only a
 	// single file share is supported.
@@ -475,6 +523,70 @@ type IopsPerTbParameters struct {
 	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
 }
 
+type LdapInitParameters struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	Servers []*string `json:"servers,omitempty" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
+}
+
+type LdapObservation struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	Servers []*string `json:"servers,omitempty" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
+}
+
+type LdapParameters struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	// +kubebuilder:validation:Optional
+	Domain *string `json:"domain" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	// +kubebuilder:validation:Optional
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	// +kubebuilder:validation:Optional
+	Servers []*string `json:"servers" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	// +kubebuilder:validation:Optional
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
+}
+
 type NFSExportOptionsInitParameters struct {
 
 	// Either READ_ONLY, for allowing only read requests on the exported directory,
@@ -497,6 +609,10 @@ type NFSExportOptionsInitParameters struct {
 	// Overlapping IP ranges are not allowed, both within and across NfsExportOptions. An error will be returned.
 	// The limit is 64 IP ranges/addresses for each FileShareConfig among all NfsExportOptions.
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
+
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
@@ -527,6 +643,10 @@ type NFSExportOptionsObservation struct {
 	// Overlapping IP ranges are not allowed, both within and across NfsExportOptions. An error will be returned.
 	// The limit is 64 IP ranges/addresses for each FileShareConfig among all NfsExportOptions.
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
+
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
@@ -562,6 +682,11 @@ type NFSExportOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	IPRanges []*string `json:"ipRanges,omitempty" tf:"ip_ranges,omitempty"`
 
+	// The source VPC network for ip_ranges.
+	// Required for instances using Private Service Connect, optional otherwise.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
 	// Either NO_ROOT_SQUASH, for allowing root access on the exported directory, or ROOT_SQUASH,
 	// for not allowing root access. The default is NO_ROOT_SQUASH.
 	// Default value is NO_ROOT_SQUASH.
@@ -587,6 +712,11 @@ type NetworksInitParameters struct {
 	// The name of the GCE VPC network to which the
 	// instance is connected.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
@@ -615,6 +745,11 @@ type NetworksObservation struct {
 	// instance is connected.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	PscConfig *PscConfigObservation `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
+
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
 	ReservedIPRange *string `json:"reservedIpRange,omitempty" tf:"reserved_ip_range,omitempty"`
@@ -640,6 +775,12 @@ type NetworksParameters struct {
 	// instance is connected.
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network" tf:"network,omitempty"`
+
+	// Private Service Connect configuration.
+	// Should only be set when connect_mode is PRIVATE_SERVICE_CONNECT.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// A /29 CIDR block that identifies the range of IP
 	// addresses reserved for this instance.
@@ -689,6 +830,34 @@ type PerformanceConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	IopsPerTb *IopsPerTbParameters `json:"iopsPerTb,omitempty" tf:"iops_per_tb,omitempty"`
+}
+
+type PscConfigInitParameters struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
+}
+
+type PscConfigObservation struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
+}
+
+type PscConfigParameters struct {
+
+	// Consumer service project in which the Private Service Connect endpoint
+	// would be set up. This is optional, and only relevant in case the network
+	// is a shared VPC. If this is not specified, the endpoint would be set up
+	// in the VPC host project.
+	// +kubebuilder:validation:Optional
+	EndpointProject *string `json:"endpointProject,omitempty" tf:"endpoint_project,omitempty"`
 }
 
 type ReplicasInitParameters struct {

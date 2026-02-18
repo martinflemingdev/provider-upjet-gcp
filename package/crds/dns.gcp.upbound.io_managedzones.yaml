@@ -1455,13 +1455,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array
@@ -1875,13 +1884,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array
@@ -2389,13 +2407,22 @@ spec:
                               type: string
                             forwardingPath:
                               description: |-
-                                Forwarding path for this TargetNameServer. If unset or default Cloud DNS will make forwarding
-                                decision based on address ranges, i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
-                                to the Internet. When set to private, Cloud DNS will always send queries through VPC for this target
+                                Forwarding path for this TargetNameServer. If unset or default
+                                Cloud DNS will make forwarding decision based on address ranges,
+                                i.e. RFC1918 addresses go to the VPC, Non-RFC1918 addresses go
+                                to the Internet. When set to private, Cloud DNS will always
+                                send queries through VPC for this target.
                                 Possible values are: default, private.
                               type: string
                             ipv4Address:
-                              description: IPv4 address of a target name server.
+                              description: |-
+                                IPv4 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
+                              type: string
+                            ipv6Address:
+                              description: |-
+                                IPv6 address of a target name server.
+                                Does not accept both fields (ipv4 & ipv6) being populated.
                               type: string
                           type: object
                         type: array

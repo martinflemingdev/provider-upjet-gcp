@@ -84,7 +84,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -94,7 +94,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -103,7 +103,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -113,7 +113,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -125,7 +125,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -134,7 +134,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -177,7 +177,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -204,7 +204,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -216,7 +216,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -224,7 +224,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -233,11 +233,17 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -245,7 +251,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -260,8 +266,9 @@ spec:
                       Structure is documented below.
                     properties:
                       mode:
-                        description: Sets or removes authentication restrictions.
-                          Available options include LIMITED and ENABLED.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                     type: object
                   authenticatorGroupsConfig:
@@ -320,7 +327,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -454,6 +461,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -464,7 +476,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -516,6 +528,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -591,23 +611,12 @@ spec:
                       is documented below.
                     properties:
                       additiveVpcScopeDnsDomain:
-                        description: This will enable Cloud DNS additive VPC scope.
-                          Must provide a domain name that is unique within the VPC.
-                          For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
-                          = "CLUSTER_SCOPE" must both be set as well.
                         type: string
                       clusterDns:
-                        description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
                         type: string
                       clusterDnsDomain:
-                        description: The suffix used for all cluster service records.
                         type: string
                       clusterDnsScope:
-                        description: The scope of access to cluster DNS records. DNS_SCOPE_UNSPECIFIED
-                          or CLUSTER_SCOPE or VPC_SCOPE. If the cluster_dns field
-                          is set to CLOUD_DNS, DNS_SCOPE_UNSPECIFIED and empty/null
-                          behave like CLUSTER_SCOPE.
                         type: string
                     type: object
                   enableAutopilot:
@@ -679,21 +688,24 @@ spec:
                       See the official documentation.
                     type: boolean
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
                         type: string
                     type: object
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
                     properties:
+                      membershipType:
+                        type: string
                       project:
-                        description: The name of the Fleet host project where this
-                          cluster will be registered.
+                        description: |-
+                          The ID of the project in which the resource belongs. If it
+                          is not provided, the provider project is used.
                         type: string
                     type: object
                   gatewayApiConfig:
@@ -701,8 +713,9 @@ spec:
                       is documented below.
                     properties:
                       channel:
-                        description: Which Gateway Api channel should be used. CHANNEL_DISABLED,
-                          CHANNEL_EXPERIMENTAL or CHANNEL_STANDARD.
+                        description: |-
+                          The selected release channel.
+                          Accepted values are:
                         type: string
                     type: object
                   gkeAutoUpgradeConfig:
@@ -755,6 +768,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -776,6 +794,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -790,6 +816,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -874,9 +910,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -1002,12 +1045,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -1167,7 +1212,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           provisionedIops:
                             description: Configure disk IOPs. This is only valid if
@@ -1202,7 +1247,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -1232,7 +1277,79 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
@@ -1245,7 +1362,7 @@ spec:
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -1276,7 +1393,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -1293,7 +1410,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -1354,7 +1471,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -1574,6 +1691,21 @@ spec:
                             description: Set the maximum number of image pulls in
                               parallel. The integer must be between 2 and 5, inclusive.
                             type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
@@ -1584,6 +1716,28 @@ spec:
                               OOM killer. If true, the processes in the container
                               will be OOM killed individually instead of as a group.
                             type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -1612,6 +1766,19 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
                             type: object
                           sysctls:
                             additionalProperties:
@@ -1974,15 +2141,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -2057,7 +2237,80 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -2068,7 +2321,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -2278,12 +2531,8 @@ spec:
                       below.
                     properties:
                       enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
                         type: boolean
                       enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
                         type: boolean
                     type: object
                   releaseChannel:
@@ -2353,21 +2602,30 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
                     properties:
                       mode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED,
-                          BASIC, and ENTERPRISE.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                       vulnerabilityMode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's workload vulnerability scanning. Available options
-                          include VULNERABILITY_DISABLED, VULNERABILITY_BASIC and
-                          VULNERABILITY_ENTERPRISE.
                         type: string
                     type: object
                   serviceExternalIpsConfig:
@@ -2514,7 +2772,7 @@ spec:
                       Structure is documented below.
                     properties:
                       enabled:
-                        description: Enables vertical pod autoscaling
+                        description: Whether writable cgroups are enabled.
                         type: boolean
                     type: object
                   workloadIdentityConfig:
@@ -2569,7 +2827,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -2579,7 +2837,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -2588,7 +2846,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -2598,7 +2856,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -2610,7 +2868,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -2619,7 +2877,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -2662,7 +2920,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -2689,7 +2947,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -2701,7 +2959,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -2709,7 +2967,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -2718,11 +2976,17 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -2730,7 +2994,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -2745,8 +3009,9 @@ spec:
                       Structure is documented below.
                     properties:
                       mode:
-                        description: Sets or removes authentication restrictions.
-                          Available options include LIMITED and ENABLED.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                     type: object
                   authenticatorGroupsConfig:
@@ -2805,7 +3070,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -2939,6 +3204,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -2949,7 +3219,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -3001,6 +3271,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -3076,23 +3354,12 @@ spec:
                       is documented below.
                     properties:
                       additiveVpcScopeDnsDomain:
-                        description: This will enable Cloud DNS additive VPC scope.
-                          Must provide a domain name that is unique within the VPC.
-                          For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
-                          = "CLUSTER_SCOPE" must both be set as well.
                         type: string
                       clusterDns:
-                        description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
                         type: string
                       clusterDnsDomain:
-                        description: The suffix used for all cluster service records.
                         type: string
                       clusterDnsScope:
-                        description: The scope of access to cluster DNS records. DNS_SCOPE_UNSPECIFIED
-                          or CLUSTER_SCOPE or VPC_SCOPE. If the cluster_dns field
-                          is set to CLOUD_DNS, DNS_SCOPE_UNSPECIFIED and empty/null
-                          behave like CLUSTER_SCOPE.
                         type: string
                     type: object
                   enableAutopilot:
@@ -3164,21 +3431,24 @@ spec:
                       See the official documentation.
                     type: boolean
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
                         type: string
                     type: object
                   fleet:
                     description: Fleet configuration for the cluster. Structure is
                       documented below.
                     properties:
+                      membershipType:
+                        type: string
                       project:
-                        description: The name of the Fleet host project where this
-                          cluster will be registered.
+                        description: |-
+                          The ID of the project in which the resource belongs. If it
+                          is not provided, the provider project is used.
                         type: string
                     type: object
                   gatewayApiConfig:
@@ -3186,8 +3456,9 @@ spec:
                       is documented below.
                     properties:
                       channel:
-                        description: Which Gateway Api channel should be used. CHANNEL_DISABLED,
-                          CHANNEL_EXPERIMENTAL or CHANNEL_STANDARD.
+                        description: |-
+                          The selected release channel.
+                          Accepted values are:
                         type: string
                     type: object
                   gkeAutoUpgradeConfig:
@@ -3240,6 +3511,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -3261,6 +3537,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -3275,6 +3559,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -3350,9 +3644,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -3478,12 +3779,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -3643,7 +3946,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           provisionedIops:
                             description: Configure disk IOPs. This is only valid if
@@ -3678,7 +3981,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -3708,7 +4011,79 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
@@ -3721,7 +4096,7 @@ spec:
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       enableConfidentialStorage:
                         description: Enabling Confidential Storage will create boot
@@ -3752,7 +4127,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -3769,7 +4144,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -3830,7 +4205,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -4050,6 +4425,21 @@ spec:
                             description: Set the maximum number of image pulls in
                               parallel. The integer must be between 2 and 5, inclusive.
                             type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
@@ -4060,6 +4450,28 @@ spec:
                               OOM killer. If true, the processes in the container
                               will be OOM killed individually instead of as a group.
                             type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -4088,6 +4500,19 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
                             type: object
                           sysctls:
                             additionalProperties:
@@ -4450,15 +4875,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -4533,7 +4971,80 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -4544,7 +5055,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -4754,12 +5265,8 @@ spec:
                       below.
                     properties:
                       enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
                         type: boolean
                       enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
                         type: boolean
                     type: object
                   releaseChannel:
@@ -4829,21 +5336,30 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
                     properties:
                       mode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED,
-                          BASIC, and ENTERPRISE.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                       vulnerabilityMode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's workload vulnerability scanning. Available options
-                          include VULNERABILITY_DISABLED, VULNERABILITY_BASIC and
-                          VULNERABILITY_ENTERPRISE.
                         type: string
                     type: object
                   serviceExternalIpsConfig:
@@ -4990,7 +5506,7 @@ spec:
                       Structure is documented below.
                     properties:
                       enabled:
-                        description: Enables vertical pod autoscaling
+                        description: Whether writable cgroups are enabled.
                         type: boolean
                     type: object
                   workloadIdentityConfig:
@@ -5093,7 +5609,7 @@ spec:
                           The status of the ConfigConnector addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       dnsCacheConfig:
@@ -5103,7 +5619,7 @@ spec:
                           Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcePersistentDiskCsiDriverConfig:
@@ -5112,7 +5628,7 @@ spec:
                           Whether this cluster should enable the Google Compute Engine Persistent Disk Container Storage Interface (CSI) Driver. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcpFilestoreCsiDriverConfig:
@@ -5122,7 +5638,7 @@ spec:
                           It is disabled by default; set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gcsFuseCsiDriverConfig:
@@ -5134,7 +5650,7 @@ spec:
                           See Enable the Cloud Storage FUSE CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       gkeBackupAgentConfig:
@@ -5143,7 +5659,7 @@ spec:
                           The status of the Backup for GKE agent addon. It is disabled by default; Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       horizontalPodAutoscaling:
@@ -5186,7 +5702,7 @@ spec:
                           enableLegacyLustrePort:
                             type: boolean
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       networkPolicyConfig:
@@ -5213,7 +5729,7 @@ spec:
                           See Enable the Parallelstore CSI driver for more information.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       rayOperatorConfig:
@@ -5225,7 +5741,7 @@ spec:
                         items:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                             rayClusterLoggingConfig:
                               description: |-
@@ -5233,7 +5749,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             rayClusterMonitoringConfig:
@@ -5242,11 +5758,17 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -5254,7 +5776,7 @@ spec:
                           It is disabled by default for Standard clusters. Set enabled = true to enable.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -5269,8 +5791,9 @@ spec:
                       Structure is documented below.
                     properties:
                       mode:
-                        description: Sets or removes authentication restrictions.
-                          Available options include LIMITED and ENABLED.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                     type: object
                   authenticatorGroupsConfig:
@@ -5329,7 +5852,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           imageType:
                             description: |-
@@ -5354,8 +5877,6 @@ spec:
                                   with the latest release version of Kubernetes.
                                 type: boolean
                               upgradeOptions:
-                                description: Specifies the Auto Upgrade knobs for
-                                  the node pool.
                                 items:
                                   properties:
                                     autoUpgradeStartTime:
@@ -5475,6 +5996,11 @@ spec:
                           feature, which lets you choose whether the cluster autoscaler should optimize for resource utilization or resource availability
                           when deciding to remove nodes from a cluster. Can be BALANCED or OPTIMIZE_UTILIZATION. Defaults to BALANCED.
                         type: string
+                      defaultComputeClassEnabled:
+                        description: Specifies whether default compute class behaviour
+                          is enabled. If enabled, cluster autoscaler will use Compute
+                          Class with name default for all the workloads, if not overriden.
+                        type: boolean
                       enabled:
                         description: |-
                           Whether node auto-provisioning is enabled. Must be supplied for GKE Standard clusters, true is implied
@@ -5485,7 +6011,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -5537,6 +6063,14 @@ spec:
                             description: Controls whether user traffic is allowed
                               over this endpoint. Note that GCP-managed services may
                               still use the endpoint even if this is false.
+                            type: boolean
+                          enableK8SCertsViaDns:
+                            description: Controls whether the k8s certs auth is allowed
+                              via Dns.
+                            type: boolean
+                          enableK8STokensViaDns:
+                            description: Controls whether the k8s token auth is allowed
+                              via Dns.
                             type: boolean
                           endpoint:
                             description: (Output) The cluster's DNS endpoint.
@@ -5612,23 +6146,12 @@ spec:
                       is documented below.
                     properties:
                       additiveVpcScopeDnsDomain:
-                        description: This will enable Cloud DNS additive VPC scope.
-                          Must provide a domain name that is unique within the VPC.
-                          For this to work cluster_dns = "CLOUD_DNS" and cluster_dns_scope
-                          = "CLUSTER_SCOPE" must both be set as well.
                         type: string
                       clusterDns:
-                        description: Which in-cluster DNS provider should be used.
-                          PROVIDER_UNSPECIFIED (default) or PLATFORM_DEFAULT or CLOUD_DNS.
                         type: string
                       clusterDnsDomain:
-                        description: The suffix used for all cluster service records.
                         type: string
                       clusterDnsScope:
-                        description: The scope of access to cluster DNS records. DNS_SCOPE_UNSPECIFIED
-                          or CLUSTER_SCOPE or VPC_SCOPE. If the cluster_dns field
-                          is set to CLOUD_DNS, DNS_SCOPE_UNSPECIFIED and empty/null
-                          behave like CLUSTER_SCOPE.
                         type: string
                     type: object
                   effectiveLabels:
@@ -5705,18 +6228,17 @@ spec:
                       See the official documentation.
                     type: boolean
                   endpoint:
-                    description: The IP address of this cluster's Kubernetes master.
+                    description: (Output) The cluster's DNS endpoint.
                     type: string
                   enterpriseConfig:
-                    description: Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
-                      Structure is documented below.
+                    description: (DEPRECATED) Configuration for [Enterprise edition].(https://cloud.google.com/kubernetes-engine/enterprise/docs/concepts/gke-editions).
+                      Structure is documented below. Deprecated as GKE Enterprise
+                      features are now available without an Enterprise tier. See https://cloud.google.com/blog/products/containers-kubernetes/gke-gets-new-pricing-and-capabilities-on-10th-birthday
+                      for the announcement of this change.
                     properties:
                       clusterTier:
-                        description: The effective tier of the cluster.
                         type: string
                       desiredTier:
-                        description: Sets the tier of the cluster. Available options
-                          include STANDARD and ENTERPRISE.
                         type: string
                     type: object
                   fleet:
@@ -5724,25 +6246,26 @@ spec:
                       documented below.
                     properties:
                       membership:
-                        description: The resource name of the fleet Membership resource
-                          associated to this cluster with format //gkehub.googleapis.com/projects/{{project}}/locations/{{location}}/memberships/{{name}}.
-                          See the official doc for fleet management.
                         type: string
                       membershipId:
-                        description: The short name of the fleet membership, extracted
-                          from fleet.0.membership. You can use this field to configure
-                          membership_id under google_gkehub_feature_membership.
                         type: string
                       membershipLocation:
-                        description: The location of the fleet membership,  extracted
-                          from fleet.0.membership. You can use this field to configure
-                          membership_location under google_gkehub_feature_membership.
+                        description: |-
+                          The location (region or zone) in which the cluster
+                          master will be created, as well as the default node location. If you specify a
+                          zone (such as us-central1-a), the cluster will be a zonal cluster with a
+                          single cluster master. If you specify a region (such as us-west1), the
+                          cluster will be a regional cluster with multiple masters spread across zones in
+                          the region, and with default node locations in those zones as well
+                        type: string
+                      membershipType:
                         type: string
                       preRegistered:
                         type: boolean
                       project:
-                        description: The name of the Fleet host project where this
-                          cluster will be registered.
+                        description: |-
+                          The ID of the project in which the resource belongs. If it
+                          is not provided, the provider project is used.
                         type: string
                     type: object
                   gatewayApiConfig:
@@ -5750,8 +6273,9 @@ spec:
                       is documented below.
                     properties:
                       channel:
-                        description: Which Gateway Api channel should be used. CHANNEL_DISABLED,
-                          CHANNEL_EXPERIMENTAL or CHANNEL_STANDARD.
+                        description: |-
+                          The selected release channel.
+                          Accepted values are:
                         type: string
                     type: object
                   gkeAutoUpgradeConfig:
@@ -5766,7 +6290,6 @@ spec:
                         type: string
                     type: object
                   id:
-                    description: an identifier for the resource with format projects/{{project}}/locations/{{zone}}/clusters/{{name}}
                     type: string
                   identityServiceConfig:
                     description: . Structure is documented below.
@@ -5807,6 +6330,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -5828,6 +6356,14 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                         type: object
+                      autoIpamConfig:
+                        description: All the information related to Auto IPAM. Structure
+                          is documented below
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       clusterIpv4CidrBlock:
                         description: |-
                           The IP address range for the cluster pod IPs.
@@ -5842,6 +6378,16 @@ spec:
                           range in the cluster's subnetwork to use for pod IP addresses. Alternatively,
                           cluster_ipv4_cidr_block can be used to automatically create a GKE-managed one.
                         type: string
+                      networkTierConfig:
+                        description: Contains network tier information. Structure
+                          is documented below
+                        properties:
+                          networkTier:
+                            description: |-
+                              Network tier configuration.
+                              Accepted values are:
+                            type: string
+                        type: object
                       podCidrOverprovisionConfig:
                         properties:
                           disabled:
@@ -5873,7 +6419,6 @@ spec:
                         type: string
                     type: object
                   labelFingerprint:
-                    description: The fingerprint of the set of labels for this cluster.
                     type: string
                   location:
                     description: |-
@@ -5912,10 +6457,6 @@ spec:
                         description: structure documented below.
                         properties:
                           duration:
-                            description: |-
-                              Duration of the time window, automatically chosen to be
-                              smallest possible in the given scenario.
-                              Duration will be in RFC3339 format "PTnHnMnS".
                             type: string
                           startTime:
                             type: string
@@ -5935,9 +6476,16 @@ spec:
                               description: MaintenanceExclusionOptions provides maintenance
                                 exclusion related options.
                               properties:
+                                endTimeBehavior:
+                                  description: 'The exclusion window end time behavior.
+                                    One of: UNTIL_END_OF_SUPPORT. One and and one
+                                    of end_time_behavior and end_time should be specified.'
+                                  type: string
                                 scope:
-                                  description: 'Whether or not to enable GKE Auto-Monitoring.
-                                    Supported values include: ALL, NONE.'
+                                  description: |-
+                                    The Topology Manager scope, defining the granularity at which
+                                    policy decisions are applied. Valid values are "container" (resources are aligned
+                                    per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                   type: string
                               type: object
                             startTime:
@@ -5965,9 +6513,6 @@ spec:
                       Structure is documented below.
                     properties:
                       clientCertificate:
-                        description: |-
-                          Base64 encoded public certificate
-                          used by clients to authenticate to the cluster endpoint.
                         type: string
                       clientCertificateConfig:
                         description: 'Whether client certificate authorization is
@@ -5977,9 +6522,6 @@ spec:
                             type: boolean
                         type: object
                       clusterCaCertificate:
-                        description: |-
-                          Base64 encoded public certificate
-                          that is the root certificate of the cluster.
                         type: string
                     type: object
                   masterAuthorizedNetworksConfig:
@@ -6017,10 +6559,6 @@ spec:
                         type: boolean
                     type: object
                   masterVersion:
-                    description: |-
-                      The current version of the master in the cluster. This may
-                      be different than the min_master_version set in the config if the master
-                      has been updated by GKE.
                     type: string
                   meshCertificates:
                     description: Structure is documented below.
@@ -6079,12 +6617,14 @@ spec:
                             description: Configuration options for GKE Auto-Monitoring.
                             properties:
                               scope:
-                                description: 'Whether or not to enable GKE Auto-Monitoring.
-                                  Supported values include: ALL, NONE.'
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
                                 type: string
                             type: object
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                     type: object
@@ -6164,7 +6704,7 @@ spec:
                           diskType:
                             description: |-
                               Type of the disk attached to each node
-                              (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                              (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                             type: string
                           provisionedIops:
                             description: Configure disk IOPs. This is only valid if
@@ -6199,7 +6739,7 @@ spec:
                               by the confidential node.
                             type: string
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       containerdConfig:
@@ -6229,7 +6769,79 @@ spec:
                                   type: object
                                 type: array
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                            type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
+                          writableCgroups:
+                            description: 'Configuration for writable cgroups. This
+                              allows containers to have a writable /sys/fs/cgroup
+                              directory, which is required for some workloads to create
+                              their own sub-cgroups. The writable_cgroups block supports:'
+                            properties:
+                              enabled:
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                         type: object
@@ -6242,11 +6854,9 @@ spec:
                       diskType:
                         description: |-
                           Type of the disk attached to each node
-                          (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                          (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                         type: string
                       effectiveTaints:
-                        description: List of kubernetes taints applied to each node.
-                          Structure is documented above.
                         items:
                           properties:
                             effect:
@@ -6290,7 +6900,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       flexStart:
@@ -6307,7 +6917,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       guestAccelerator:
@@ -6368,7 +6978,7 @@ spec:
                           Structure is documented below.
                         properties:
                           enabled:
-                            description: Enables vertical pod autoscaling
+                            description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
                       hostMaintenancePolicy:
@@ -6588,6 +7198,21 @@ spec:
                             description: Set the maximum number of image pulls in
                               parallel. The integer must be between 2 and 5, inclusive.
                             type: number
+                          memoryManager:
+                            description: |-
+                              Configuration for the memory manager on the node.
+                              The memory manager optimizes memory and hugepages allocation for pods, especially
+                              those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                           podPidsLimit:
                             description: Controls the maximum number of processes
                               allowed to run in a pod. The value must be greater than
@@ -6598,6 +7223,28 @@ spec:
                               OOM killer. If true, the processes in the container
                               will be OOM killed individually instead of as a group.
                             type: boolean
+                          topologyManager:
+                            description: These settings control the kubelet's Topology
+                              Manager policy, which coordinates the set of components
+                              responsible for performance optimizations related to
+                              CPU isolation, memory, and device locality. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                              scope:
+                                description: |-
+                                  The Topology Manager scope, defining the granularity at which
+                                  policy decisions are applied. Valid values are "container" (resources are aligned
+                                  per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                type: string
+                            type: object
                         type: object
                       labels:
                         additionalProperties:
@@ -6626,6 +7273,19 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
                             type: object
                           sysctls:
                             additionalProperties:
@@ -7067,7 +7727,7 @@ spec:
                                 diskType:
                                   description: |-
                                     Type of the disk attached to each node
-                                    (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                                    (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                                   type: string
                                 provisionedIops:
                                   description: Configure disk IOPs. This is only valid
@@ -7104,7 +7764,7 @@ spec:
                                     by the confidential node.
                                   type: string
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             containerdConfig:
@@ -7135,7 +7795,80 @@ spec:
                                         type: object
                                       type: array
                                     enabled:
-                                      description: Enables vertical pod autoscaling
+                                      description: Whether writable cgroups are enabled.
+                                      type: boolean
+                                  type: object
+                                registryHosts:
+                                  description: 'Defines containerd registry host configuration.
+                                    Each registry_hosts entry represents a hosts.toml
+                                    file. See customize containerd configuration in
+                                    GKE nodes for more detail. Example:'
+                                  items:
+                                    properties:
+                                      hosts:
+                                        items:
+                                          properties:
+                                            ca:
+                                              items:
+                                                properties:
+                                                  gcpSecretManagerSecretUri:
+                                                    type: string
+                                                type: object
+                                              type: array
+                                            capabilities:
+                                              items:
+                                                type: string
+                                              type: array
+                                            client:
+                                              items:
+                                                properties:
+                                                  cert:
+                                                    properties:
+                                                      gcpSecretManagerSecretUri:
+                                                        type: string
+                                                    type: object
+                                                  key:
+                                                    description: Key for taint.
+                                                    properties:
+                                                      gcpSecretManagerSecretUri:
+                                                        type: string
+                                                    type: object
+                                                type: object
+                                              type: array
+                                            dialTimeout:
+                                              type: string
+                                            header:
+                                              items:
+                                                properties:
+                                                  key:
+                                                    description: Key for taint.
+                                                    type: string
+                                                  value:
+                                                    description: Value for taint.
+                                                    items:
+                                                      type: string
+                                                    type: array
+                                                type: object
+                                              type: array
+                                            host:
+                                              type: string
+                                            overridePath:
+                                              type: boolean
+                                          type: object
+                                        type: array
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
+                                writableCgroups:
+                                  description: 'Configuration for writable cgroups.
+                                    This allows containers to have a writable /sys/fs/cgroup
+                                    directory, which is required for some workloads
+                                    to create their own sub-cgroups. The writable_cgroups
+                                    block supports:'
+                                  properties:
+                                    enabled:
+                                      description: Whether writable cgroups are enabled.
                                       type: boolean
                                   type: object
                               type: object
@@ -7148,11 +7881,9 @@ spec:
                             diskType:
                               description: |-
                                 Type of the disk attached to each node
-                                (e.g. 'pd-standard', 'pd-balanced' or 'pd-ssd'). If unspecified, the default disk type is 'pd-balanced' This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
+                                (e.g. 'pd-standard', 'pd-balanced', 'pd-ssd', or 'hyperdisk-balanced'). Defaults to hyperdisk-balanced if hyperdisk-balanced is supported and pd-balanced is not supported for the machine type; otherwise defaults to pd-balanced. This is being migrated to boot_disk.disk_type, and must match if specified in both places. Prefer configuring boot_disk.
                               type: string
                             effectiveTaints:
-                              description: List of kubernetes taints applied to each
-                                node. Structure is documented above.
                               items:
                                 properties:
                                   effect:
@@ -7197,7 +7928,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             flexStart:
@@ -7211,7 +7942,7 @@ spec:
                                 cluster. Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             guestAccelerator:
@@ -7272,7 +8003,7 @@ spec:
                                 Structure is documented below.
                               properties:
                                 enabled:
-                                  description: Enables vertical pod autoscaling
+                                  description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
                             hostMaintenancePolicy:
@@ -7498,6 +8229,21 @@ spec:
                                     in parallel. The integer must be between 2 and
                                     5, inclusive.
                                   type: number
+                                memoryManager:
+                                  description: |-
+                                    Configuration for the memory manager on the node.
+                                    The memory manager optimizes memory and hugepages allocation for pods, especially
+                                    those in the Guaranteed QoS class, by influencing NUMA affinity. Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
+                                  type: object
                                 podPidsLimit:
                                   description: Controls the maximum number of processes
                                     allowed to run in a pod. The value must be greater
@@ -7509,6 +8255,28 @@ spec:
                                     will be OOM killed individually instead of as
                                     a group.
                                   type: boolean
+                                topologyManager:
+                                  description: These settings control the kubelet's
+                                    Topology Manager policy, which coordinates the
+                                    set of components responsible for performance
+                                    optimizations related to CPU isolation, memory,
+                                    and device locality. Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
+                                    scope:
+                                      description: |-
+                                        The Topology Manager scope, defining the granularity at which
+                                        policy decisions are applied. Valid values are "container" (resources are aligned
+                                        per container within a pod which is set by default) or "pod" (resources are aligned for the entire pod).  If unset (or set to the empty string ""), the API will treat the field as if set to "container".
+                                      type: string
+                                  type: object
                               type: object
                             labels:
                               additionalProperties:
@@ -7521,8 +8289,9 @@ spec:
                             linuxNodeConfig:
                               description: Linux system configuration for the cluster's
                                 automatically provisioned node pools. Only cgroup_mode
-                                field is supported in node_pool_auto_config. Structure
-                                is documented below.
+                                and node_kernel_module_loading fields are supported
+                                in node_pool_auto_config. Structure is documented
+                                below.
                               properties:
                                 cgroupMode:
                                   description: |-
@@ -7539,6 +8308,19 @@ spec:
                                     hugepageSize2M:
                                       description: Amount of 2M hugepages.
                                       type: number
+                                  type: object
+                                nodeKernelModuleLoading:
+                                  description: Settings for kernel module loading.
+                                    Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
                                   type: object
                                 sysctls:
                                   additionalProperties:
@@ -7809,6 +8591,13 @@ spec:
                           type: object
                         nodeCount:
                           type: number
+                        nodeDrainConfig:
+                          items:
+                            properties:
+                              respectPdbDuringNodePoolDeletion:
+                                type: boolean
+                            type: object
+                          type: array
                         nodeLocations:
                           description: |-
                             The list of zones in which the cluster's nodes
@@ -7836,7 +8625,7 @@ spec:
                         queuedProvisioning:
                           properties:
                             enabled:
-                              description: Enables vertical pod autoscaling
+                              description: Whether writable cgroups are enabled.
                               type: boolean
                           type: object
                         upgradeSettings:
@@ -7910,15 +8699,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -7993,7 +8795,80 @@ spec:
                                       type: object
                                     type: array
                                   enabled:
-                                    description: Enables vertical pod autoscaling
+                                    description: Whether writable cgroups are enabled.
+                                    type: boolean
+                                type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
+                              writableCgroups:
+                                description: 'Configuration for writable cgroups.
+                                  This allows containers to have a writable /sys/fs/cgroup
+                                  directory, which is required for some workloads
+                                  to create their own sub-cgroups. The writable_cgroups
+                                  block supports:'
+                                properties:
+                                  enabled:
+                                    description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
                             type: object
@@ -8004,7 +8879,7 @@ spec:
                               Structure is documented below.
                             properties:
                               enabled:
-                                description: Enables vertical pod autoscaling
+                                description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
                           insecureKubeletReadonlyPortEnabled:
@@ -8146,12 +9021,8 @@ spec:
                       below.
                     properties:
                       enableInsecureBindingSystemAuthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:authenticated.
                         type: boolean
                       enableInsecureBindingSystemUnauthenticated:
-                        description: Setting this to true will allow any ClusterRoleBinding
-                          and RoleBinding with subjects system:anonymous or system:unauthenticated.
                         type: boolean
                     type: object
                   releaseChannel:
@@ -8221,25 +9092,33 @@ spec:
                       enabled:
                         description: Enable the Secret Manager add-on for this cluster.
                         type: boolean
+                      rotationConfig:
+                        description: config for secret manager auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Secret Manager add-on
+                              for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
                     type: object
                   securityPostureConfig:
                     description: Enable/Disable Security Posture API features for
                       the cluster. Structure is documented below.
                     properties:
                       mode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's off-cluster features. Available options include DISABLED,
-                          BASIC, and ENTERPRISE.
+                        description: |-
+                          How to expose the node metadata to the workload running on the node.
+                          Accepted values are:
                         type: string
                       vulnerabilityMode:
-                        description: Sets the mode of the Kubernetes security posture
-                          API's workload vulnerability scanning. Available options
-                          include VULNERABILITY_DISABLED, VULNERABILITY_BASIC and
-                          VULNERABILITY_ENTERPRISE.
                         type: string
                     type: object
                   selfLink:
-                    description: The server-defined URL for the resource.
                     type: string
                   serviceExternalIpsConfig:
                     description: Structure is documented below.
@@ -8250,11 +9129,6 @@ spec:
                         type: boolean
                     type: object
                   servicesIpv4Cidr:
-                    description: |-
-                      The IP address range of the Kubernetes services in this
-                      cluster, in CIDR
-                      notation (e.g. 1.2.3.4/29). Service addresses are typically put in the last
-                      /16 from the container CIDR.
                     type: string
                   subnetwork:
                     description: |-
@@ -8269,10 +9143,6 @@ spec:
                     type: object
                     x-kubernetes-map-type: granular
                   tpuIpv4CidrBlock:
-                    description: |-
-                      The IP address range of the Cloud TPUs in this cluster, in
-                      CIDR
-                      notation (e.g. 1.2.3.4/29).
                     type: string
                   userManagedKeysConfig:
                     description: The custom keys configuration of the cluster Structure
@@ -8323,7 +9193,7 @@ spec:
                       Structure is documented below.
                     properties:
                       enabled:
-                        description: Enables vertical pod autoscaling
+                        description: Whether writable cgroups are enabled.
                         type: boolean
                     type: object
                   workloadIdentityConfig:

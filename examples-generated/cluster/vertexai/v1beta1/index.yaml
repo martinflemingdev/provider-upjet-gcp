@@ -10,6 +10,8 @@ spec:
   forProvider:
     description: index for test
     displayName: test-index
+    encryptionSpec:
+    - kmsKeyName: kms-name
     indexUpdateMethod: BATCH_UPDATE
     labels:
       foo: bar
@@ -24,6 +26,7 @@ spec:
         distanceMeasureType: DOT_PRODUCT_DISTANCE
         shardSize: SHARD_SIZE_SMALL
       contentsDeltaUri: gs://${google_storage_bucket.bucket.name}/contents
+    provider: ${google-beta}
     region: us-central1
 
 ---
@@ -39,6 +42,7 @@ metadata:
 spec:
   forProvider:
     location: us-central1
+    provider: ${google-beta}
     uniformBucketLevelAccess: true
 
 ---
@@ -60,3 +64,4 @@ spec:
       {"id": "42", "embedding": [0.5, 1.0], "restricts": [{"namespace": "class", "allow": ["cat", "pet"]},{"namespace": "category", "allow": ["feline"]}]}
       {"id": "43", "embedding": [0.6, 1.0], "restricts": [{"namespace": "class", "allow": ["dog", "pet"]},{"namespace": "category", "allow": ["canine"]}]}
     name: contents/data.json
+    provider: ${google-beta}

@@ -44,8 +44,6 @@ type TableIAMMemberConditionParameters struct {
 type TableIAMMemberInitParameters struct {
 	Condition *TableIAMMemberConditionInitParameters `json:"condition,omitempty" tf:"condition,omitempty"`
 
-	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
-
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -57,8 +55,6 @@ type TableIAMMemberObservation struct {
 	Etag *string `json:"etag,omitempty" tf:"etag,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
 
@@ -75,9 +71,6 @@ type TableIAMMemberParameters struct {
 
 	// +kubebuilder:validation:Optional
 	Condition *TableIAMMemberConditionParameters `json:"condition,omitempty" tf:"condition,omitempty"`
-
-	// +kubebuilder:validation:Optional
-	Instance *string `json:"instance,omitempty" tf:"instance,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	InstanceName *string `json:"instanceName,omitempty" tf:"instance_name,omitempty"`
@@ -130,8 +123,9 @@ type TableIAMMemberStatus struct {
 type TableIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TableIAMMemberSpec   `json:"spec"`
-	Status            TableIAMMemberStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.instanceName) || (has(self.initProvider) && has(self.initProvider.instanceName))",message="spec.forProvider.instanceName is a required parameter"
+	Spec   TableIAMMemberSpec   `json:"spec"`
+	Status TableIAMMemberStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

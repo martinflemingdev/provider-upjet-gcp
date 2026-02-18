@@ -97,7 +97,7 @@ type GatewayInitParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -195,7 +195,7 @@ type GatewayObservation struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 
 	// Immutable. Scope determines how configuration across multiple Gateway instances are merged.
@@ -326,7 +326,7 @@ type GatewayParameters struct {
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
 	// The routing mode of the Gateway. This field is configurable only for gateways of type SECURE_WEB_GATEWAY. This field is required for gateways of type SECURE_WEB_GATEWAY.
-	// Possible values are: NEXT_HOP_ROUTING_MODE.
+	// Possible values are: NEXT_HOP_ROUTING_MODE, EXPLICIT_ROUTING_MODE.
 	// +kubebuilder:validation:Optional
 	RoutingMode *string `json:"routingMode,omitempty" tf:"routing_mode,omitempty"`
 

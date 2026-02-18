@@ -276,6 +276,9 @@ type FeatureRegistrySourceParameters struct {
 
 type SyncConfigInitParameters struct {
 
+	// If true, syncs the FeatureView in a continuous manner to Online Store.
+	Continuous *bool `json:"continuous,omitempty" tf:"continuous,omitempty"`
+
 	// Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
 	// To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}".
 	Cron *string `json:"cron,omitempty" tf:"cron,omitempty"`
@@ -283,12 +286,19 @@ type SyncConfigInitParameters struct {
 
 type SyncConfigObservation struct {
 
+	// If true, syncs the FeatureView in a continuous manner to Online Store.
+	Continuous *bool `json:"continuous,omitempty" tf:"continuous,omitempty"`
+
 	// Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
 	// To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}".
 	Cron *string `json:"cron,omitempty" tf:"cron,omitempty"`
 }
 
 type SyncConfigParameters struct {
+
+	// If true, syncs the FeatureView in a continuous manner to Online Store.
+	// +kubebuilder:validation:Optional
+	Continuous *bool `json:"continuous,omitempty" tf:"continuous,omitempty"`
 
 	// Cron schedule (https://en.wikipedia.org/wiki/Cron) to launch scheduled runs.
 	// To explicitly set a timezone to the cron tab, apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or "TZ=${IANA_TIME_ZONE}".

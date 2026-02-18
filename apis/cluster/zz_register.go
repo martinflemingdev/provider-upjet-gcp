@@ -139,8 +139,6 @@ import (
 	v1beta1storagetransfer "github.com/upbound/provider-gcp/apis/cluster/storagetransfer/v1beta1"
 	v1beta2storagetransfer "github.com/upbound/provider-gcp/apis/cluster/storagetransfer/v1beta2"
 	v1beta1tags "github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1"
-	v1beta1tpu "github.com/upbound/provider-gcp/apis/cluster/tpu/v1beta1"
-	v1beta2tpu "github.com/upbound/provider-gcp/apis/cluster/tpu/v1beta2"
 	v1alpha1 "github.com/upbound/provider-gcp/apis/cluster/v1alpha1"
 	v1beta1cluster "github.com/upbound/provider-gcp/apis/cluster/v1beta1"
 	v1beta1vertexai "github.com/upbound/provider-gcp/apis/cluster/vertexai/v1beta1"
@@ -282,8 +280,6 @@ func init() {
 		v1beta1storagetransfer.SchemeBuilder.AddToScheme,
 		v1beta2storagetransfer.SchemeBuilder.AddToScheme,
 		v1beta1tags.SchemeBuilder.AddToScheme,
-		v1beta1tpu.SchemeBuilder.AddToScheme,
-		v1beta2tpu.SchemeBuilder.AddToScheme,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1beta1cluster.SchemeBuilder.AddToScheme,
 		v1beta1vertexai.SchemeBuilder.AddToScheme,

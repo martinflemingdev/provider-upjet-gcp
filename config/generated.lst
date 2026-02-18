@@ -366,7 +366,6 @@
   "google_tags_tag_binding",
   "google_tags_tag_key",
   "google_tags_tag_value",
-  "google_tpu_node",
   "google_vertex_ai_dataset",
   "google_vertex_ai_deployment_resource_pool",
   "google_vertex_ai_endpoint",

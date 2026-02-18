@@ -1197,9 +1197,6 @@ spec:
                               type: array
                           type: object
                         type: array
-                      service:
-                        description: Name of the service associated with a Function.
-                        type: string
                       serviceAccountEmail:
                         description: The email of the service account for this function.
                         type: string
@@ -2452,9 +2449,6 @@ spec:
                               type: array
                           type: object
                         type: array
-                      service:
-                        description: Name of the service associated with a Function.
-                        type: string
                       serviceAccountEmail:
                         description: The email of the service account for this function.
                         type: string
@@ -2975,7 +2969,9 @@ spec:
                           type: object
                         type: array
                       service:
-                        description: Name of the service associated with a Function.
+                        description: |-
+                          (Output)
+                          Name of the service associated with a Function.
                         type: string
                       serviceAccountEmail:
                         description: The email of the service account for this function.

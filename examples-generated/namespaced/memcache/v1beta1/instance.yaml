@@ -12,6 +12,7 @@ spec:
     authorizedNetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: private_service_connection
+    deletionProtection: false
     labels:
       env: test
     maintenancePolicy:

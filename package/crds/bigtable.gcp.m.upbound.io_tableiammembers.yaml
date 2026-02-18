@@ -68,8 +68,6 @@ spec:
                       title:
                         type: string
                     type: object
-                  instance:
-                    type: string
                   instanceName:
                     type: string
                   member:
@@ -107,8 +105,6 @@ spec:
                       title:
                         type: string
                     type: object
-                  instance:
-                    type: string
                   instanceName:
                     type: string
                   project:
@@ -172,6 +168,11 @@ spec:
             required:
             - forProvider
             type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.instanceName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.instanceName)
+                || (has(self.initProvider) && has(self.initProvider.instanceName))'
           status:
             description: TableIAMMemberStatus defines the observed state of TableIAMMember.
             properties:
@@ -189,8 +190,6 @@ spec:
                   etag:
                     type: string
                   id:
-                    type: string
-                  instance:
                     type: string
                   instanceName:
                     type: string
