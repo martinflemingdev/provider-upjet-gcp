@@ -88,11 +88,14 @@ func constructFederatedCredentials(providerID, serviceAccount string) ([]byte, e
 // goal. Consider refactoring before adding new branches.
 func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //nolint:gocyclo
 	return func(ctx context.Context, crClient client.Client, mg resource.Managed) (terraform.Setup, error) {
+		fmt.Printf("DEBUG TerraformSetupBuilder: called for %s/%s\n", mg.GetObjectKind().GroupVersionKind().Kind, mg.GetName())
 		ps := terraform.Setup{}
 		pcSpec, err := resolveProviderConfig(ctx, crClient, mg)
 		if err != nil {
+			fmt.Printf("DEBUG TerraformSetupBuilder: resolveProviderConfig error: %v\n", err)
 			return terraform.Setup{}, errors.Wrap(err, "cannot resolve provider config")
 		}
+		fmt.Printf("DEBUG TerraformSetupBuilder: resolveProviderConfig succeeded, projectID=%s, credSource=%s\n", pcSpec.ProjectID, pcSpec.Credentials.Source)
 		// set provider configuration
 		ps.Configuration = map[string]interface{}{
 			keyProject: pcSpec.ProjectID,
@@ -144,7 +147,13 @@ func TerraformSetupBuilder(tfProvider *schema.Provider) terraform.SetupFn { //no
 
 		// deliberately not using the caller context as context used to configure terraform is stored
 		// nolint:contextcheck
-		return ps, errors.Wrap(configureNoForkGCPClient(&ps, *tfProvider), "failed to configure the no-fork GCP client")
+		err = configureNoForkGCPClient(&ps, *tfProvider)
+		if err != nil {
+			fmt.Printf("DEBUG configureNoForkGCPClient error: %v\n", err)
+			return ps, errors.Wrap(err, "failed to configure the no-fork GCP client")
+		}
+		fmt.Println("DEBUG configureNoForkGCPClient succeeded")
+		return ps, nil
 	}
 }
 
@@ -167,13 +176,24 @@ func configureNoForkGCPClient(ps *terraform.Setup, p schema.Provider) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	time.AfterFunc(providerTimeout, cancel)
 
+	fmt.Printf("DEBUG configureNoForkGCPClient: about to call p.Configure with config keys: %v\n", func() []string {
+		keys := make([]string, 0, len(ps.Configuration))
+		for k := range ps.Configuration {
+			keys = append(keys, k)
+		}
+		return keys
+	}())
+
 	diag := p.Configure(ctx, &tfsdk.ResourceConfig{
 		Config: ps.Configuration,
 	})
 	if diag != nil && diag.HasError() {
+		fmt.Printf("DEBUG configureNoForkGCPClient: p.Configure returned diagnostics: %v\n", diag)
 		return errors.Errorf("failed to configure the provider: %v", diag)
 	}
+	fmt.Printf("DEBUG configureNoForkGCPClient: p.Configure succeeded, diag=%v\n", diag)
 	ps.Meta = p.Meta()
+	fmt.Printf("DEBUG configureNoForkGCPClient: p.Meta() type=%T, isNil=%v\n", ps.Meta, ps.Meta == nil)
 	return nil
 }
 

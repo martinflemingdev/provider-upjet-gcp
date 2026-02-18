@@ -399,8 +399,19 @@ import (
 	tagkey "github.com/upbound/provider-gcp/internal/controller/namespaced/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/internal/controller/namespaced/tags/tagvalue"
 	datasetvertexai "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/dataset"
+	deploymentresourcepool "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/deploymentresourcepool"
+	endpoint "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/endpoint"
+	endpointwithmodelgardendeployment "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/endpointwithmodelgardendeployment"
+	featuregroup "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featuregroup"
+	featuregroupfeature "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featuregroupfeature"
+	featureonlinestore "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featureonlinestore"
+	featureonlinestorefeatureview "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featureonlinestorefeatureview"
 	featurestore "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/featurestoreentitytype"
+	index "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/index"
+	indexendpoint "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/indexendpoint"
+	indexendpointdeployedindex "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/indexendpointdeployedindex"
+	ragengineconfig "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/ragengineconfig"
 	tensorboard "github.com/upbound/provider-gcp/internal/controller/namespaced/vertexai/tensorboard"
 	connector "github.com/upbound/provider-gcp/internal/controller/namespaced/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/internal/controller/namespaced/workflows/workflow"
@@ -800,8 +811,19 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagkey.Setup,
 		tagvalue.Setup,
 		datasetvertexai.Setup,
+		deploymentresourcepool.Setup,
+		endpoint.Setup,
+		endpointwithmodelgardendeployment.Setup,
+		featuregroup.Setup,
+		featuregroupfeature.Setup,
+		featureonlinestore.Setup,
+		featureonlinestorefeatureview.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		index.Setup,
+		indexendpoint.Setup,
+		indexendpointdeployedindex.Setup,
+		ragengineconfig.Setup,
 		tensorboard.Setup,
 		connector.Setup,
 		workflow.Setup,
@@ -1207,8 +1229,19 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
 		datasetvertexai.SetupGated,
+		deploymentresourcepool.SetupGated,
+		endpoint.SetupGated,
+		endpointwithmodelgardendeployment.SetupGated,
+		featuregroup.SetupGated,
+		featuregroupfeature.SetupGated,
+		featureonlinestore.SetupGated,
+		featureonlinestorefeatureview.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		index.SetupGated,
+		indexendpoint.SetupGated,
+		indexendpointdeployedindex.SetupGated,
+		ragengineconfig.SetupGated,
 		tensorboard.SetupGated,
 		connector.SetupGated,
 		workflow.SetupGated,

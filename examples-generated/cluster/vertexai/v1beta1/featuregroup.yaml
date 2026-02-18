@@ -1,0 +1,69 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: FeatureGroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroup
+  labels:
+    testing.upbound.io/example-name: feature_group
+  name: feature-group
+spec:
+  forProvider:
+    bigQuery:
+      bigQuerySource:
+        inputUri: bq://${google_bigquery_table.sample_table.project}.${google_bigquery_table.sample_table.dataset_id}.${google_bigquery_table.sample_table.table_id}
+      entityIdColumns:
+      - feature_id
+    description: A sample feature group
+    labels:
+      label-one: value-one
+    region: us-central1
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroup
+  labels:
+    testing.upbound.io/example-name: sample_dataset
+  name: sample-dataset
+spec:
+  forProvider:
+    description: This is a test description
+    friendlyName: test
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.upbound.io/v1beta2
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featuregroup
+  labels:
+    testing.upbound.io/example-name: sample_table
+  name: sample-table
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    deletionProtection: false
+    schema: |
+      [
+          {
+              "name": "feature_id",
+              "type": "STRING",
+              "mode": "NULLABLE"
+          },
+          {
+              "name": "feature_timestamp",
+              "type": "TIMESTAMP",
+              "mode": "NULLABLE"
+          }
+      ]

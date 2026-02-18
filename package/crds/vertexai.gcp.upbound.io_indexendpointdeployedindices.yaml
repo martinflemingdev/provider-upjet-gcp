@@ -1,0 +1,848 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: indexendpointdeployedindices.vertexai.gcp.upbound.io
+spec:
+  group: vertexai.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: IndexEndpointDeployedIndex
+    listKind: IndexEndpointDeployedIndexList
+    plural: indexendpointdeployedindices
+    singular: indexendpointdeployedindex
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: IndexEndpointDeployedIndex is the Schema for the IndexEndpointDeployedIndexs
+          API. An endpoint indexes are deployed into.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: IndexEndpointDeployedIndexSpec defines the desired state
+              of IndexEndpointDeployedIndex
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  automaticResources:
+                    description: |-
+                      A description of resources that the DeployedIndex uses, which to large degree are decided by Vertex AI, and optionally allows only a modest additional configuration.
+                      Structure is documented below.
+                    properties:
+                      maxReplicaCount:
+                        description: |-
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, a no upper bound for scaling under heavy traffic will be assume, though Vertex AI may be unable to scale beyond certain replica number.
+                        type: number
+                      minReplicaCount:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on. If minReplicaCount is not set, the default value is 2 (we don't provide SLA when minReplicaCount=1).
+                          If traffic against it increases, it may dynamically be deployed onto more replicas up to maxReplicaCount, and as traffic decreases, some of these extra replicas may be freed. If the requested value is too large, the deployment will error.
+                        type: number
+                    type: object
+                  dedicatedResources:
+                    description: |-
+                      A description of resources that are dedicated to the DeployedIndex, and that need a higher degree of manual configuration. The field minReplicaCount must be set to a value strictly greater than 0, or else validation will fail. We don't provide SLA when minReplicaCount=1. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                      Available machine types for SMALL shard: e2-standard-2 and all machine types available for MEDIUM and LARGE shard.
+                      Available machine types for MEDIUM shard: e2-standard-16 and all machine types available for LARGE shard.
+                      Available machine types for LARGE shard: e2-highmem-16, n2d-standard-32.
+                      n1-standard-16 and n1-standard-32 are still available, but we recommend e2-standard-16 and e2-highmem-16 for cost efficiency.
+                      Structure is documented below.
+                    properties:
+                      machineSpec:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on.
+                          Structure is documented below.
+                        properties:
+                          machineType:
+                            description: |-
+                              The type of the machine.
+                              See the list of machine types supported for prediction
+                              See the list of machine types supported for custom training.
+                              For DeployedModel this field is optional, and the default value is n1-standard-2. For BatchPredictionJob or as part of WorkerPoolSpec this field is required.
+                            type: string
+                        type: object
+                      maxReplicaCount:
+                        description: The maximum number of replicas this DeployedModel
+                          may be deployed on when the traffic against it increases.
+                          If maxReplicaCount is not set, the default value is minReplicaCount
+                        type: number
+                      minReplicaCount:
+                        description: The minimum number of machine replicas this DeployedModel
+                          will be always deployed on. This value must be greater than
+                          or equal to 1.
+                        type: number
+                    type: object
+                  deployedIndexAuthConfig:
+                    description: |-
+                      If set, the authentication is enabled for the private endpoint.
+                      Structure is documented below.
+                    properties:
+                      authProvider:
+                        description: |-
+                          Defines the authentication provider that the DeployedIndex uses.
+                          Structure is documented below.
+                        properties:
+                          allowedIssuers:
+                            description: 'A list of allowed JWT issuers. Each entry
+                              must be a valid Google service account, in the following
+                              format: service-account-name@project-id.iam.gserviceaccount.com'
+                            items:
+                              type: string
+                            type: array
+                          audiences:
+                            description: The list of JWT audiences. that are allowed
+                              to access. A JWT containing any of these audiences will
+                              be accepted.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  deploymentGroup:
+                    description: |-
+                      The deployment group can be no longer than 64 characters (eg: 'test', 'prod'). If not set, we will use the 'default' deployment group.
+                      Creating deployment_groups with reserved_ip_ranges is a recommended practice when the peered network has multiple peering ranges. This creates your deployments from predictable IP spaces for easier traffic administration. Also, one deployment_group (except 'default') can only be used with the same reserved_ip_ranges which means if the deployment_group has been used with reserved_ip_ranges: [a, b, c], using it with [a, b] or [d, e] is disallowed. See the official documentation here.
+                      Note: we only support up to 5 deployment groups (not including 'default').
+                    type: string
+                  displayName:
+                    description: The display name of the Index. The name can be up
+                      to 128 characters long and can consist of any UTF-8 characters.
+                    type: string
+                  enableAccessLogging:
+                    description: If true, private endpoint's access logs are sent
+                      to Cloud Logging.
+                    type: boolean
+                  index:
+                    description: The name of the Index this is the deployment of.
+                    type: string
+                  indexEndpoint:
+                    description: |-
+                      Identifies the index endpoint. Must be in the format
+                      'projects/{{project}}/locations/{{region}}/indexEndpoints/{{indexEndpoint}}'
+                    type: string
+                  indexEndpointRef:
+                    description: Reference to a IndexEndpoint in vertexai to populate
+                      indexEndpoint.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  indexEndpointSelector:
+                    description: Selector for a IndexEndpoint in vertexai to populate
+                      indexEndpoint.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  indexRef:
+                    description: Reference to a Index in vertexai to populate index.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  indexSelector:
+                    description: Selector for a Index in vertexai to populate index.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  region:
+                    description: The region of the index endpoint deployment. eg us-central1
+                    type: string
+                  reservedIpRanges:
+                    description: |-
+                      A list of reserved ip ranges under the VPC network that can be used for this DeployedIndex.
+                      If set, we will deploy the index within the provided ip ranges. Otherwise, the index might be deployed to any ip ranges under the provided VPC network.
+                      The value should be the name of the address (https://cloud.google.com/compute/docs/reference/rest/v1/addresses) Example: ['vertex-ai-ip-range'].
+                      For more information about subnets and network IP ranges, please see https://cloud.google.com/vpc/docs/subnets#manually_created_subnet_ip_ranges.
+                    items:
+                      type: string
+                    type: array
+                required:
+                - region
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  automaticResources:
+                    description: |-
+                      A description of resources that the DeployedIndex uses, which to large degree are decided by Vertex AI, and optionally allows only a modest additional configuration.
+                      Structure is documented below.
+                    properties:
+                      maxReplicaCount:
+                        description: |-
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, a no upper bound for scaling under heavy traffic will be assume, though Vertex AI may be unable to scale beyond certain replica number.
+                        type: number
+                      minReplicaCount:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on. If minReplicaCount is not set, the default value is 2 (we don't provide SLA when minReplicaCount=1).
+                          If traffic against it increases, it may dynamically be deployed onto more replicas up to maxReplicaCount, and as traffic decreases, some of these extra replicas may be freed. If the requested value is too large, the deployment will error.
+                        type: number
+                    type: object
+                  dedicatedResources:
+                    description: |-
+                      A description of resources that are dedicated to the DeployedIndex, and that need a higher degree of manual configuration. The field minReplicaCount must be set to a value strictly greater than 0, or else validation will fail. We don't provide SLA when minReplicaCount=1. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                      Available machine types for SMALL shard: e2-standard-2 and all machine types available for MEDIUM and LARGE shard.
+                      Available machine types for MEDIUM shard: e2-standard-16 and all machine types available for LARGE shard.
+                      Available machine types for LARGE shard: e2-highmem-16, n2d-standard-32.
+                      n1-standard-16 and n1-standard-32 are still available, but we recommend e2-standard-16 and e2-highmem-16 for cost efficiency.
+                      Structure is documented below.
+                    properties:
+                      machineSpec:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on.
+                          Structure is documented below.
+                        properties:
+                          machineType:
+                            description: |-
+                              The type of the machine.
+                              See the list of machine types supported for prediction
+                              See the list of machine types supported for custom training.
+                              For DeployedModel this field is optional, and the default value is n1-standard-2. For BatchPredictionJob or as part of WorkerPoolSpec this field is required.
+                            type: string
+                        type: object
+                      maxReplicaCount:
+                        description: The maximum number of replicas this DeployedModel
+                          may be deployed on when the traffic against it increases.
+                          If maxReplicaCount is not set, the default value is minReplicaCount
+                        type: number
+                      minReplicaCount:
+                        description: The minimum number of machine replicas this DeployedModel
+                          will be always deployed on. This value must be greater than
+                          or equal to 1.
+                        type: number
+                    type: object
+                  deployedIndexAuthConfig:
+                    description: |-
+                      If set, the authentication is enabled for the private endpoint.
+                      Structure is documented below.
+                    properties:
+                      authProvider:
+                        description: |-
+                          Defines the authentication provider that the DeployedIndex uses.
+                          Structure is documented below.
+                        properties:
+                          allowedIssuers:
+                            description: 'A list of allowed JWT issuers. Each entry
+                              must be a valid Google service account, in the following
+                              format: service-account-name@project-id.iam.gserviceaccount.com'
+                            items:
+                              type: string
+                            type: array
+                          audiences:
+                            description: The list of JWT audiences. that are allowed
+                              to access. A JWT containing any of these audiences will
+                              be accepted.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  deploymentGroup:
+                    description: |-
+                      The deployment group can be no longer than 64 characters (eg: 'test', 'prod'). If not set, we will use the 'default' deployment group.
+                      Creating deployment_groups with reserved_ip_ranges is a recommended practice when the peered network has multiple peering ranges. This creates your deployments from predictable IP spaces for easier traffic administration. Also, one deployment_group (except 'default') can only be used with the same reserved_ip_ranges which means if the deployment_group has been used with reserved_ip_ranges: [a, b, c], using it with [a, b] or [d, e] is disallowed. See the official documentation here.
+                      Note: we only support up to 5 deployment groups (not including 'default').
+                    type: string
+                  displayName:
+                    description: The display name of the Index. The name can be up
+                      to 128 characters long and can consist of any UTF-8 characters.
+                    type: string
+                  enableAccessLogging:
+                    description: If true, private endpoint's access logs are sent
+                      to Cloud Logging.
+                    type: boolean
+                  index:
+                    description: The name of the Index this is the deployment of.
+                    type: string
+                  indexRef:
+                    description: Reference to a Index in vertexai to populate index.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  indexSelector:
+                    description: Selector for a Index in vertexai to populate index.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  reservedIpRanges:
+                    description: |-
+                      A list of reserved ip ranges under the VPC network that can be used for this DeployedIndex.
+                      If set, we will deploy the index within the provided ip ranges. Otherwise, the index might be deployed to any ip ranges under the provided VPC network.
+                      The value should be the name of the address (https://cloud.google.com/compute/docs/reference/rest/v1/addresses) Example: ['vertex-ai-ip-range'].
+                      For more information about subnets and network IP ranges, please see https://cloud.google.com/vpc/docs/subnets#manually_created_subnet_ip_ranges.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: IndexEndpointDeployedIndexStatus defines the observed state
+              of IndexEndpointDeployedIndex.
+            properties:
+              atProvider:
+                properties:
+                  automaticResources:
+                    description: |-
+                      A description of resources that the DeployedIndex uses, which to large degree are decided by Vertex AI, and optionally allows only a modest additional configuration.
+                      Structure is documented below.
+                    properties:
+                      maxReplicaCount:
+                        description: |-
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                          The maximum number of replicas this DeployedModel may be deployed on when the traffic against it increases. If the requested value is too large, the deployment will error, but if deployment succeeds then the ability to scale the model to that many replicas is guaranteed (barring service outages). If traffic against the DeployedModel increases beyond what its replicas at maximum may handle, a portion of the traffic will be dropped. If this value is not provided, a no upper bound for scaling under heavy traffic will be assume, though Vertex AI may be unable to scale beyond certain replica number.
+                        type: number
+                      minReplicaCount:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on. If minReplicaCount is not set, the default value is 2 (we don't provide SLA when minReplicaCount=1).
+                          If traffic against it increases, it may dynamically be deployed onto more replicas up to maxReplicaCount, and as traffic decreases, some of these extra replicas may be freed. If the requested value is too large, the deployment will error.
+                        type: number
+                    type: object
+                  createTime:
+                    description: The timestamp of when the Index was created in RFC3339
+                      UTC "Zulu" format, with nanosecond resolution and up to nine
+                      fractional digits.
+                    type: string
+                  dedicatedResources:
+                    description: |-
+                      A description of resources that are dedicated to the DeployedIndex, and that need a higher degree of manual configuration. The field minReplicaCount must be set to a value strictly greater than 0, or else validation will fail. We don't provide SLA when minReplicaCount=1. If maxReplicaCount is not set, the default value is minReplicaCount. The max allowed replica count is 1000.
+                      Available machine types for SMALL shard: e2-standard-2 and all machine types available for MEDIUM and LARGE shard.
+                      Available machine types for MEDIUM shard: e2-standard-16 and all machine types available for LARGE shard.
+                      Available machine types for LARGE shard: e2-highmem-16, n2d-standard-32.
+                      n1-standard-16 and n1-standard-32 are still available, but we recommend e2-standard-16 and e2-highmem-16 for cost efficiency.
+                      Structure is documented below.
+                    properties:
+                      machineSpec:
+                        description: |-
+                          The minimum number of replicas this DeployedModel will be always deployed on.
+                          Structure is documented below.
+                        properties:
+                          machineType:
+                            description: |-
+                              The type of the machine.
+                              See the list of machine types supported for prediction
+                              See the list of machine types supported for custom training.
+                              For DeployedModel this field is optional, and the default value is n1-standard-2. For BatchPredictionJob or as part of WorkerPoolSpec this field is required.
+                            type: string
+                        type: object
+                      maxReplicaCount:
+                        description: The maximum number of replicas this DeployedModel
+                          may be deployed on when the traffic against it increases.
+                          If maxReplicaCount is not set, the default value is minReplicaCount
+                        type: number
+                      minReplicaCount:
+                        description: The minimum number of machine replicas this DeployedModel
+                          will be always deployed on. This value must be greater than
+                          or equal to 1.
+                        type: number
+                    type: object
+                  deployedIndexAuthConfig:
+                    description: |-
+                      If set, the authentication is enabled for the private endpoint.
+                      Structure is documented below.
+                    properties:
+                      authProvider:
+                        description: |-
+                          Defines the authentication provider that the DeployedIndex uses.
+                          Structure is documented below.
+                        properties:
+                          allowedIssuers:
+                            description: 'A list of allowed JWT issuers. Each entry
+                              must be a valid Google service account, in the following
+                              format: service-account-name@project-id.iam.gserviceaccount.com'
+                            items:
+                              type: string
+                            type: array
+                          audiences:
+                            description: The list of JWT audiences. that are allowed
+                              to access. A JWT containing any of these audiences will
+                              be accepted.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                    type: object
+                  deploymentGroup:
+                    description: |-
+                      The deployment group can be no longer than 64 characters (eg: 'test', 'prod'). If not set, we will use the 'default' deployment group.
+                      Creating deployment_groups with reserved_ip_ranges is a recommended practice when the peered network has multiple peering ranges. This creates your deployments from predictable IP spaces for easier traffic administration. Also, one deployment_group (except 'default') can only be used with the same reserved_ip_ranges which means if the deployment_group has been used with reserved_ip_ranges: [a, b, c], using it with [a, b] or [d, e] is disallowed. See the official documentation here.
+                      Note: we only support up to 5 deployment groups (not including 'default').
+                    type: string
+                  displayName:
+                    description: The display name of the Index. The name can be up
+                      to 128 characters long and can consist of any UTF-8 characters.
+                    type: string
+                  enableAccessLogging:
+                    description: If true, private endpoint's access logs are sent
+                      to Cloud Logging.
+                    type: boolean
+                  id:
+                    description: an identifier for the resource with format {{index_endpoint}}/deployedIndex/{{deployed_index_id}}
+                    type: string
+                  index:
+                    description: The name of the Index this is the deployment of.
+                    type: string
+                  indexEndpoint:
+                    description: |-
+                      Identifies the index endpoint. Must be in the format
+                      'projects/{{project}}/locations/{{region}}/indexEndpoints/{{indexEndpoint}}'
+                    type: string
+                  indexSyncTime:
+                    description: |-
+                      The DeployedIndex may depend on various data on its original Index. Additionally when certain changes to the original Index are being done (e.g. when what the Index contains is being changed) the DeployedIndex may be asynchronously updated in the background to reflect these changes. If this timestamp's value is at least the Index.update_time of the original Index, it means that this DeployedIndex and the original Index are in sync. If this timestamp is older, then to see which updates this DeployedIndex already contains (and which it does not), one must list the operations that are running on the original Index. Only the successfully completed Operations with updateTime equal or before this sync time are contained in this DeployedIndex.
+                      A timestamp in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits. Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  name:
+                    description: The name of the DeployedIndex resource.
+                    type: string
+                  privateEndpoints:
+                    description: |-
+                      Provides paths for users to send requests directly to the deployed index services running on Cloud via private services access. This field is populated if network is configured.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        matchGrpcAddress:
+                          description: |-
+                            (Output)
+                            The ip address used to send match gRPC requests.
+                          type: string
+                        pscAutomatedEndpoints:
+                          description: |-
+                            (Output)
+                            PscAutomatedEndpoints is populated if private service connect is enabled if PscAutomatedConfig is set.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              matchAddress:
+                                description: |-
+                                  (Output)
+                                  ip Address created by the automated forwarding rule.
+                                type: string
+                              network:
+                                description: |-
+                                  (Output)
+                                  Corresponding network in pscAutomationConfigs.
+                                type: string
+                              projectId:
+                                description: |-
+                                  (Output)
+                                  Corresponding projectId in pscAutomationConfigs
+                                type: string
+                            type: object
+                          type: array
+                        serviceAttachment:
+                          description: |-
+                            (Output)
+                            The name of the service attachment resource. Populated if private service connect is enabled.
+                          type: string
+                      type: object
+                    type: array
+                  region:
+                    description: The region of the index endpoint deployment. eg us-central1
+                    type: string
+                  reservedIpRanges:
+                    description: |-
+                      A list of reserved ip ranges under the VPC network that can be used for this DeployedIndex.
+                      If set, we will deploy the index within the provided ip ranges. Otherwise, the index might be deployed to any ip ranges under the provided VPC network.
+                      The value should be the name of the address (https://cloud.google.com/compute/docs/reference/rest/v1/addresses) Example: ['vertex-ai-ip-range'].
+                      For more information about subnets and network IP ranges, please see https://cloud.google.com/vpc/docs/subnets#manually_created_subnet_ip_ranges.
+                    items:
+                      type: string
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
