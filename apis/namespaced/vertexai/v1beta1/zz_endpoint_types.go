@@ -498,17 +498,7 @@ type PrivateServiceConnectConfigParameters struct {
 type PscAutomationConfigsInitParameters struct {
 
 	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
-	// Reference to a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
 
 	// Project id used to create forwarding rule.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -542,18 +532,8 @@ type PscAutomationConfigsObservation struct {
 type PscAutomationConfigsParameters struct {
 
 	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	Network *string `json:"network,omitempty" tf:"network,omitempty"`
-
-	// Reference to a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkRef *v1.NamespacedReference `json:"networkRef,omitempty" tf:"-"`
-
-	// Selector for a Network in compute to populate network.
-	// +kubebuilder:validation:Optional
-	NetworkSelector *v1.NamespacedSelector `json:"networkSelector,omitempty" tf:"-"`
+	Network *string `json:"network" tf:"network,omitempty"`
 
 	// Project id used to create forwarding rule.
 	// +kubebuilder:validation:Optional

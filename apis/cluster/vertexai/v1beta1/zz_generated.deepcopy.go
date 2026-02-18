@@ -5105,16 +5105,6 @@ func (in *FeatureOnlineStoreFeatureviewInitParameters) DeepCopyInto(out *Feature
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProjectRef != nil {
-		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectSelector != nil {
-		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.SyncConfig != nil {
 		in, out := &in.SyncConfig, &out.SyncConfig
 		*out = new(SyncConfigInitParameters)
@@ -5320,16 +5310,6 @@ func (in *FeatureOnlineStoreFeatureviewParameters) DeepCopyInto(out *FeatureOnli
 		in, out := &in.Project, &out.Project
 		*out = new(string)
 		**out = **in
-	}
-	if in.ProjectRef != nil {
-		in, out := &in.ProjectRef, &out.ProjectRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProjectSelector != nil {
-		in, out := &in.ProjectSelector, &out.ProjectSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.Region != nil {
 		in, out := &in.Region, &out.Region
@@ -10391,16 +10371,6 @@ func (in *PrivateServiceConnectConfigPscAutomationConfigsInitParameters) DeepCop
 		*out = new(string)
 		**out = **in
 	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -10470,16 +10440,6 @@ func (in *PrivateServiceConnectConfigPscAutomationConfigsParameters) DeepCopyInt
 		in, out := &in.Network, &out.Network
 		*out = new(string)
 		**out = **in
-	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
@@ -10566,16 +10526,6 @@ func (in *PscAutomationConfigsInitParameters) DeepCopyInto(out *PscAutomationCon
 		*out = new(string)
 		**out = **in
 	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
-	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -10645,16 +10595,6 @@ func (in *PscAutomationConfigsParameters) DeepCopyInto(out *PscAutomationConfigs
 		in, out := &in.Network, &out.Network
 		*out = new(string)
 		**out = **in
-	}
-	if in.NetworkRef != nil {
-		in, out := &in.NetworkRef, &out.NetworkRef
-		*out = new(v1.Reference)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.NetworkSelector != nil {
-		in, out := &in.NetworkSelector, &out.NetworkSelector
-		*out = new(v1.Selector)
-		(*in).DeepCopyInto(*out)
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
