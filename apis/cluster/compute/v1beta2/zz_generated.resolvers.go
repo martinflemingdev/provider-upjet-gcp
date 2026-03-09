@@ -79,26 +79,6 @@ func (mg *BackendBucket) ResolveReferences(ctx context.Context, c client.Reader)
 	var rsp reference.ResolutionResponse
 	var err error
 	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
-			Extract:      reference.ExternalName(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.ForProvider.BucketNameRef,
-			Selector:     mg.Spec.ForProvider.BucketNameSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.BucketName")
-	}
-	mg.Spec.ForProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.BucketNameRef = rsp.ResolvedReference
-	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "SecurityPolicy", "SecurityPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -118,26 +98,6 @@ func (mg *BackendBucket) ResolveReferences(ctx context.Context, c client.Reader)
 	}
 	mg.Spec.ForProvider.EdgeSecurityPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.EdgeSecurityPolicyRef = rsp.ResolvedReference
-	{
-		m, l, err = apisresolver.GetManagedResource("storage.gcp.upbound.io", "v1beta2", "Bucket", "BucketList")
-		if err != nil {
-			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-		}
-
-		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BucketName),
-			Extract:      reference.ExternalName(),
-			Namespace:    mg.GetNamespace(),
-			Reference:    mg.Spec.InitProvider.BucketNameRef,
-			Selector:     mg.Spec.InitProvider.BucketNameSelector,
-			To:           reference.To{List: l, Managed: m},
-		})
-	}
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.BucketName")
-	}
-	mg.Spec.InitProvider.BucketName = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.BucketNameRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "SecurityPolicy", "SecurityPolicyList")
 		if err != nil {
@@ -427,7 +387,6 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
-	var mrsp reference.MultiResolutionResponse
 	var err error
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "FirewallPolicy", "FirewallPolicyList")
@@ -449,80 +408,12 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.ForProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.FirewallPolicyRef = rsp.ResolvedReference
-
-	if mg.Spec.ForProvider.Match != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "AddressGroup", "AddressGroupList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Match.DestAddressGroups),
-				Extract:       resource.ExtractResourceID(),
-				Namespace:     mg.GetNamespace(),
-				References:    mg.Spec.ForProvider.Match.DestAddressGroupsRefs,
-				Selector:      mg.Spec.ForProvider.Match.DestAddressGroupsSelector,
-				To:            reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.Match.DestAddressGroups")
-		}
-		mg.Spec.ForProvider.Match.DestAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
-		mg.Spec.ForProvider.Match.DestAddressGroupsRefs = mrsp.ResolvedReferences
-
-	}
-	if mg.Spec.ForProvider.Match != nil {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.Match.SrcSecureTags); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Match.SrcSecureTags[i4].Name),
-					Extract:      resource.ExtractResourceID(),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.ForProvider.Match.SrcSecureTags[i4].NameRef,
-					Selector:     mg.Spec.ForProvider.Match.SrcSecureTags[i4].NameSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.Match.SrcSecureTags[i4].Name")
-			}
-			mg.Spec.ForProvider.Match.SrcSecureTags[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.Match.SrcSecureTags[i4].NameRef = rsp.ResolvedReference
-
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.ForProvider.TargetSecureTags); i3++ {
-		{
-			m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.TargetSecureTags[i3].Name),
-				Extract:      resource.ExtractResourceID(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.ForProvider.TargetSecureTags[i3].NameRef,
-				Selector:     mg.Spec.ForProvider.TargetSecureTags[i3].NameSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.TargetSecureTags[i3].Name")
-		}
-		mg.Spec.ForProvider.TargetSecureTags[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.TargetSecureTags[i3].NameRef = rsp.ResolvedReference
-
-	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "FirewallPolicy", "FirewallPolicyList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
+
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.FirewallPolicy),
 			Extract:      resource.ExtractParamPath("name", true),
@@ -537,75 +428,6 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 	}
 	mg.Spec.InitProvider.FirewallPolicy = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.FirewallPolicyRef = rsp.ResolvedReference
-
-	if mg.Spec.InitProvider.Match != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("networksecurity.gcp.upbound.io", "v1beta1", "AddressGroup", "AddressGroupList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			mrsp, err = r.ResolveMultiple(ctx, reference.MultiResolutionRequest{
-				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Match.DestAddressGroups),
-				Extract:       resource.ExtractResourceID(),
-				Namespace:     mg.GetNamespace(),
-				References:    mg.Spec.InitProvider.Match.DestAddressGroupsRefs,
-				Selector:      mg.Spec.InitProvider.Match.DestAddressGroupsSelector,
-				To:            reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.Match.DestAddressGroups")
-		}
-		mg.Spec.InitProvider.Match.DestAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
-		mg.Spec.InitProvider.Match.DestAddressGroupsRefs = mrsp.ResolvedReferences
-
-	}
-	if mg.Spec.InitProvider.Match != nil {
-		for i4 := 0; i4 < len(mg.Spec.InitProvider.Match.SrcSecureTags); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Match.SrcSecureTags[i4].Name),
-					Extract:      resource.ExtractResourceID(),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.InitProvider.Match.SrcSecureTags[i4].NameRef,
-					Selector:     mg.Spec.InitProvider.Match.SrcSecureTags[i4].NameSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.InitProvider.Match.SrcSecureTags[i4].Name")
-			}
-			mg.Spec.InitProvider.Match.SrcSecureTags[i4].Name = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.InitProvider.Match.SrcSecureTags[i4].NameRef = rsp.ResolvedReference
-
-		}
-	}
-	for i3 := 0; i3 < len(mg.Spec.InitProvider.TargetSecureTags); i3++ {
-		{
-			m, l, err = apisresolver.GetManagedResource("tags.gcp.upbound.io", "v1beta1", "TagValue", "TagValueList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.TargetSecureTags[i3].Name),
-				Extract:      resource.ExtractResourceID(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.InitProvider.TargetSecureTags[i3].NameRef,
-				Selector:     mg.Spec.InitProvider.TargetSecureTags[i3].NameSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.TargetSecureTags[i3].Name")
-		}
-		mg.Spec.InitProvider.TargetSecureTags[i3].Name = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.TargetSecureTags[i3].NameRef = rsp.ResolvedReference
-
-	}
 
 	return nil
 }
@@ -1215,28 +1037,6 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		mg.Spec.ForProvider.NetworkInterface[i3].SubnetworkRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.ForProvider.ServiceAccount != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount.Email),
-				Extract:      resource.ExtractParamPath("email", true),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.ForProvider.ServiceAccount.EmailRef,
-				Selector:     mg.Spec.ForProvider.ServiceAccount.EmailSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount.Email")
-		}
-		mg.Spec.ForProvider.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.ServiceAccount.EmailRef = rsp.ResolvedReference
-
-	}
 	if mg.Spec.InitProvider.BootDisk != nil {
 		if mg.Spec.InitProvider.BootDisk.InitializeParams != nil {
 			{
@@ -1303,28 +1103,6 @@ func (mg *Instance) ResolveReferences(ctx context.Context, c client.Reader) erro
 		}
 		mg.Spec.InitProvider.NetworkInterface[i3].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.NetworkInterface[i3].SubnetworkRef = rsp.ResolvedReference
-
-	}
-	if mg.Spec.InitProvider.ServiceAccount != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount.Email),
-				Extract:      resource.ExtractParamPath("email", true),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.InitProvider.ServiceAccount.EmailRef,
-				Selector:     mg.Spec.InitProvider.ServiceAccount.EmailSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount.Email")
-		}
-		mg.Spec.InitProvider.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.ServiceAccount.EmailRef = rsp.ResolvedReference
 
 	}
 
@@ -1807,28 +1585,6 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 		mg.Spec.ForProvider.NetworkInterface[i3].SubnetworkRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.ForProvider.ServiceAccount != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccount.Email),
-				Extract:      resource.ExtractParamPath("email", true),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.ForProvider.ServiceAccount.EmailRef,
-				Selector:     mg.Spec.ForProvider.ServiceAccount.EmailSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccount.Email")
-		}
-		mg.Spec.ForProvider.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.ServiceAccount.EmailRef = rsp.ResolvedReference
-
-	}
 	for i3 := 0; i3 < len(mg.Spec.InitProvider.Disk); i3++ {
 		{
 			m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "ResourcePolicy", "ResourcePolicyList")
@@ -1917,28 +1673,6 @@ func (mg *InstanceTemplate) ResolveReferences(ctx context.Context, c client.Read
 		mg.Spec.InitProvider.NetworkInterface[i3].SubnetworkRef = rsp.ResolvedReference
 
 	}
-	if mg.Spec.InitProvider.ServiceAccount != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccount.Email),
-				Extract:      resource.ExtractParamPath("email", true),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.InitProvider.ServiceAccount.EmailRef,
-				Selector:     mg.Spec.InitProvider.ServiceAccount.EmailSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccount.Email")
-		}
-		mg.Spec.InitProvider.ServiceAccount.Email = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.ServiceAccount.EmailRef = rsp.ResolvedReference
-
-	}
 
 	return nil
 }
@@ -1971,60 +1705,12 @@ func (mg *NodeGroup) ResolveReferences(ctx context.Context, c client.Reader) err
 	}
 	mg.Spec.ForProvider.NodeTemplate = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.NodeTemplateRef = rsp.ResolvedReference
-
-	if mg.Spec.ForProvider.ShareSettings != nil {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.ShareSettings.ProjectMap); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ID),
-					Extract:      resource.ExtractParamPath("project_id", false),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].IDRef,
-					Selector:     mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].IDSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ID")
-			}
-			mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].IDRef = rsp.ResolvedReference
-
-		}
-	}
-	if mg.Spec.ForProvider.ShareSettings != nil {
-		for i4 := 0; i4 < len(mg.Spec.ForProvider.ShareSettings.ProjectMap); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectID),
-					Extract:      resource.ExtractParamPath("project_id", false),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectIDRef,
-					Selector:     mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectIDSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectID")
-			}
-			mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.ForProvider.ShareSettings.ProjectMap[i4].ProjectIDRef = rsp.ResolvedReference
-
-		}
-	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "NodeTemplate", "NodeTemplateList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
+
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NodeTemplate),
 			Extract:      resource.ExtractResourceID(),
@@ -2039,55 +1725,6 @@ func (mg *NodeGroup) ResolveReferences(ctx context.Context, c client.Reader) err
 	}
 	mg.Spec.InitProvider.NodeTemplate = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.NodeTemplateRef = rsp.ResolvedReference
-
-	if mg.Spec.InitProvider.ShareSettings != nil {
-		for i4 := 0; i4 < len(mg.Spec.InitProvider.ShareSettings.ProjectMap); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ID),
-					Extract:      resource.ExtractParamPath("project_id", false),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].IDRef,
-					Selector:     mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].IDSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ID")
-			}
-			mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ID = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].IDRef = rsp.ResolvedReference
-
-		}
-	}
-	if mg.Spec.InitProvider.ShareSettings != nil {
-		for i4 := 0; i4 < len(mg.Spec.InitProvider.ShareSettings.ProjectMap); i4++ {
-			{
-				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "Project", "ProjectList")
-				if err != nil {
-					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-				}
-				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectID),
-					Extract:      resource.ExtractParamPath("project_id", false),
-					Namespace:    mg.GetNamespace(),
-					Reference:    mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectIDRef,
-					Selector:     mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectIDSelector,
-					To:           reference.To{List: l, Managed: m},
-				})
-			}
-			if err != nil {
-				return errors.Wrap(err, "mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectID")
-			}
-			mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectID = reference.ToPtrValue(rsp.ResolvedValue)
-			mg.Spec.InitProvider.ShareSettings.ProjectMap[i4].ProjectIDRef = rsp.ResolvedReference
-
-		}
-	}
 
 	return nil
 }
@@ -2144,6 +1781,30 @@ func (mg *PacketMirroring) ResolveReferences(ctx context.Context, c client.Reade
 			}
 			mg.Spec.ForProvider.MirroredResources.Instances[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.ForProvider.MirroredResources.Instances[i4].URLRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.MirroredResources != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.MirroredResources.Subnetworks); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLRef,
+					Selector:     mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL")
+			}
+			mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.MirroredResources.Subnetworks[i4].URLRef = rsp.ResolvedReference
 
 		}
 	}
@@ -2212,6 +1873,30 @@ func (mg *PacketMirroring) ResolveReferences(ctx context.Context, c client.Reade
 			}
 			mg.Spec.InitProvider.MirroredResources.Instances[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
 			mg.Spec.InitProvider.MirroredResources.Instances[i4].URLRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.MirroredResources != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.MirroredResources.Subnetworks); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Subnetwork", "SubnetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLRef,
+					Selector:     mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL")
+			}
+			mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URL = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.MirroredResources.Subnetworks[i4].URLRef = rsp.ResolvedReference
 
 		}
 	}
@@ -2968,59 +2653,15 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 
 	var rsp reference.ResolutionResponse
 	var err error
-
-	if mg.Spec.ForProvider.CloudFunction != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudfunctions.gcp.upbound.io", "v1beta2", "Function", "FunctionList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudFunction.Function),
-				Extract:      reference.ExternalName(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.ForProvider.CloudFunction.FunctionRef,
-				Selector:     mg.Spec.ForProvider.CloudFunction.FunctionSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.CloudFunction.Function")
-		}
-		mg.Spec.ForProvider.CloudFunction.Function = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.CloudFunction.FunctionRef = rsp.ResolvedReference
-
-	}
-	if mg.Spec.ForProvider.CloudRun != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.upbound.io", "v1beta2", "Service", "ServiceList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudRun.Service),
-				Extract:      reference.ExternalName(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.ForProvider.CloudRun.ServiceRef,
-				Selector:     mg.Spec.ForProvider.CloudRun.ServiceSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.ForProvider.CloudRun.Service")
-		}
-		mg.Spec.ForProvider.CloudRun.Service = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.ForProvider.CloudRun.ServiceRef = rsp.ResolvedReference
-
-	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
+
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Network),
-			Extract:      resource.ExtractParamPath("self_link", true),
+			Extract:      resource.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.NetworkRef,
 			Selector:     mg.Spec.ForProvider.NetworkSelector,
@@ -3072,59 +2713,15 @@ func (mg *RegionNetworkEndpointGroup) ResolveReferences(ctx context.Context, c c
 	}
 	mg.Spec.ForProvider.Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.SubnetworkRef = rsp.ResolvedReference
-
-	if mg.Spec.InitProvider.CloudFunction != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudfunctions.gcp.upbound.io", "v1beta2", "Function", "FunctionList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudFunction.Function),
-				Extract:      reference.ExternalName(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.InitProvider.CloudFunction.FunctionRef,
-				Selector:     mg.Spec.InitProvider.CloudFunction.FunctionSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.CloudFunction.Function")
-		}
-		mg.Spec.InitProvider.CloudFunction.Function = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.CloudFunction.FunctionRef = rsp.ResolvedReference
-
-	}
-	if mg.Spec.InitProvider.CloudRun != nil {
-		{
-			m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.upbound.io", "v1beta2", "Service", "ServiceList")
-			if err != nil {
-				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
-			}
-			rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
-				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudRun.Service),
-				Extract:      reference.ExternalName(),
-				Namespace:    mg.GetNamespace(),
-				Reference:    mg.Spec.InitProvider.CloudRun.ServiceRef,
-				Selector:     mg.Spec.InitProvider.CloudRun.ServiceSelector,
-				To:           reference.To{List: l, Managed: m},
-			})
-		}
-		if err != nil {
-			return errors.Wrap(err, "mg.Spec.InitProvider.CloudRun.Service")
-		}
-		mg.Spec.InitProvider.CloudRun.Service = reference.ToPtrValue(rsp.ResolvedValue)
-		mg.Spec.InitProvider.CloudRun.ServiceRef = rsp.ResolvedReference
-
-	}
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
 		}
+
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Network),
-			Extract:      resource.ExtractParamPath("self_link", true),
+			Extract:      resource.ExtractResourceID(),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.NetworkRef,
 			Selector:     mg.Spec.InitProvider.NetworkSelector,

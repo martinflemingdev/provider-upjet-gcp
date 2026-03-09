@@ -19,30 +19,10 @@ type SharedVPCServiceProjectInitParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
-	// Reference to a Project in cloudplatform to populate hostProject.
-	// +kubebuilder:validation:Optional
-	HostProjectRef *v1.Reference `json:"hostProjectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate hostProject.
-	// +kubebuilder:validation:Optional
-	HostProjectSelector *v1.Selector `json:"hostProjectSelector,omitempty" tf:"-"`
-
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
-
-	// Reference to a Project in cloudplatform to populate serviceProject.
-	// +kubebuilder:validation:Optional
-	ServiceProjectRef *v1.Reference `json:"serviceProjectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate serviceProject.
-	// +kubebuilder:validation:Optional
-	ServiceProjectSelector *v1.Selector `json:"serviceProjectSelector,omitempty" tf:"-"`
 }
 
 type SharedVPCServiceProjectObservation struct {
@@ -67,32 +47,12 @@ type SharedVPCServiceProjectParameters struct {
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of a host project to associate.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	HostProject *string `json:"hostProject,omitempty" tf:"host_project,omitempty"`
 
-	// Reference to a Project in cloudplatform to populate hostProject.
-	// +kubebuilder:validation:Optional
-	HostProjectRef *v1.Reference `json:"hostProjectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate hostProject.
-	// +kubebuilder:validation:Optional
-	HostProjectSelector *v1.Selector `json:"hostProjectSelector,omitempty" tf:"-"`
-
 	// The ID of the project that will serve as a Shared VPC service project.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	ServiceProject *string `json:"serviceProject,omitempty" tf:"service_project,omitempty"`
-
-	// Reference to a Project in cloudplatform to populate serviceProject.
-	// +kubebuilder:validation:Optional
-	ServiceProjectRef *v1.Reference `json:"serviceProjectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate serviceProject.
-	// +kubebuilder:validation:Optional
-	ServiceProjectSelector *v1.Selector `json:"serviceProjectSelector,omitempty" tf:"-"`
 }
 
 // SharedVPCServiceProjectSpec defines the desired state of SharedVPCServiceProject
@@ -131,8 +91,10 @@ type SharedVPCServiceProjectStatus struct {
 type SharedVPCServiceProject struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SharedVPCServiceProjectSpec   `json:"spec"`
-	Status            SharedVPCServiceProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.hostProject) || (has(self.initProvider) && has(self.initProvider.hostProject))",message="spec.forProvider.hostProject is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.serviceProject) || (has(self.initProvider) && has(self.initProvider.serviceProject))",message="spec.forProvider.serviceProject is a required parameter"
+	Spec   SharedVPCServiceProjectSpec   `json:"spec"`
+	Status SharedVPCServiceProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

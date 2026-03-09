@@ -29,22 +29,6 @@ metadata:
   name: test-backend
 spec:
   forProvider:
-    bucketNameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    bucketName: test-storage-bucket
     description: Contains beautiful images
     enableCdn: true
-
----
-
-apiVersion: storage.gcp.upbound.io/v1beta2
-kind: Bucket
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/backendbucketsignedurlkey
-  labels:
-    testing.upbound.io/example-name: bucket
-  name: bucket
-spec:
-  forProvider:
-    location: EU

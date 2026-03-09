@@ -36,9 +36,7 @@ spec:
     - automaticRestart: true
       onHostMaintenance: MIGRATE
     serviceAccount:
-    - emailSelector:
-        matchLabels:
-          testing.upbound.io/example-name: default
+    - email: ${google_service_account.default.email}
       scopes:
       - cloud-platform
     tags:
@@ -80,17 +78,3 @@ spec:
       - dailySchedule:
         - daysInCycle: 1
           startTime: "04:00"
-
----
-
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: ServiceAccount
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta2/instancetemplate
-  labels:
-    testing.upbound.io/example-name: default
-  name: default
-spec:
-  forProvider:
-    displayName: Service Account

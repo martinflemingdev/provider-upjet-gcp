@@ -16,17 +16,7 @@ import (
 type FirewallPolicyAssociationInitParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
-
-	// Reference to a Folder in cloudplatform to populate attachmentTarget.
-	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
-
-	// Selector for a Folder in cloudplatform to populate attachmentTarget.
-	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
@@ -74,18 +64,8 @@ type FirewallPolicyAssociationObservation struct {
 type FirewallPolicyAssociationParameters struct {
 
 	// The target that the firewall policy is attached to.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)
 	// +kubebuilder:validation:Optional
 	AttachmentTarget *string `json:"attachmentTarget,omitempty" tf:"attachment_target,omitempty"`
-
-	// Reference to a Folder in cloudplatform to populate attachmentTarget.
-	// +kubebuilder:validation:Optional
-	AttachmentTargetRef *v1.Reference `json:"attachmentTargetRef,omitempty" tf:"-"`
-
-	// Selector for a Folder in cloudplatform to populate attachmentTarget.
-	// +kubebuilder:validation:Optional
-	AttachmentTargetSelector *v1.Selector `json:"attachmentTargetSelector,omitempty" tf:"-"`
 
 	// The firewall policy of the resource.
 	// This field can be updated to refer to a different Firewall Policy, which will create a new association from that new
@@ -146,6 +126,7 @@ type FirewallPolicyAssociationStatus struct {
 type FirewallPolicyAssociation struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.attachmentTarget) || (has(self.initProvider) && has(self.initProvider.attachmentTarget))",message="spec.forProvider.attachmentTarget is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	Spec   FirewallPolicyAssociationSpec   `json:"spec"`
 	Status FirewallPolicyAssociationStatus `json:"status,omitempty"`

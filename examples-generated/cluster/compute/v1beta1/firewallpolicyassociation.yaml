@@ -8,9 +8,7 @@ metadata:
   name: default
 spec:
   forProvider:
-    attachmentTargetSelector:
-      matchLabels:
-        testing.upbound.io/example-name: folder
+    attachmentTarget: ${google_folder.folder.name}
     firewallPolicySelector:
       matchLabels:
         testing.upbound.io/example-name: policy
@@ -31,21 +29,3 @@ spec:
     description: Example Resource
     parent: organizations/123456789
     shortName: my-policy
-
----
-
-apiVersion: cloudplatform.gcp.upbound.io/v1beta1
-kind: Folder
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyassociation
-  labels:
-    testing.upbound.io/example-name: folder
-  name: folder
-spec:
-  forProvider:
-    deletionProtection: false
-    displayName: my-folder
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example

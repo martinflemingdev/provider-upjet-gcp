@@ -16,17 +16,7 @@ import (
 type SharedVPCHostProjectInitParameters struct {
 
 	// The ID of the project that will serve as a Shared VPC host project
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Reference to a Project in cloudplatform to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 type SharedVPCHostProjectObservation struct {
@@ -41,18 +31,8 @@ type SharedVPCHostProjectObservation struct {
 type SharedVPCHostProjectParameters struct {
 
 	// The ID of the project that will serve as a Shared VPC host project
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/cloudplatform/v1beta1.Project
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/config/cluster/common.ExtractProjectID()
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
-
-	// Reference to a Project in cloudplatform to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectRef *v1.Reference `json:"projectRef,omitempty" tf:"-"`
-
-	// Selector for a Project in cloudplatform to populate project.
-	// +kubebuilder:validation:Optional
-	ProjectSelector *v1.Selector `json:"projectSelector,omitempty" tf:"-"`
 }
 
 // SharedVPCHostProjectSpec defines the desired state of SharedVPCHostProject
@@ -91,8 +71,9 @@ type SharedVPCHostProjectStatus struct {
 type SharedVPCHostProject struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SharedVPCHostProjectSpec   `json:"spec"`
-	Status            SharedVPCHostProjectStatus `json:"status,omitempty"`
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.project) || (has(self.initProvider) && has(self.initProvider.project))",message="spec.forProvider.project is a required parameter"
+	Spec   SharedVPCHostProjectSpec   `json:"spec"`
+	Status SharedVPCHostProjectStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

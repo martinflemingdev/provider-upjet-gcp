@@ -51,16 +51,7 @@ type MatchLayer4ConfigsParameters struct {
 type MatchSrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type MatchSrcSecureTagsObservation struct {
@@ -76,17 +67,8 @@ type MatchSrcSecureTagsObservation struct {
 type MatchSrcSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type NetworkFirewallPolicyRuleInitParameters struct {
@@ -164,17 +146,7 @@ type NetworkFirewallPolicyRuleMatchInitParameters struct {
 	Layer4Configs []MatchLayer4ConfigsInitParameters `json:"layer4Configs,omitempty" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	SrcFqdns []*string `json:"srcFqdns,omitempty" tf:"src_fqdns,omitempty"`
@@ -262,18 +234,8 @@ type NetworkFirewallPolicyRuleMatchParameters struct {
 	Layer4Configs []MatchLayer4ConfigsParameters `json:"layer4Configs" tf:"layer4_configs,omitempty"`
 
 	// Address groups which should be matched against the traffic source. Maximum number of source address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	SrcAddressGroups []*string `json:"srcAddressGroups,omitempty" tf:"src_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsRefs []v1.Reference `json:"srcAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate srcAddressGroups.
-	// +kubebuilder:validation:Optional
-	SrcAddressGroupsSelector *v1.Selector `json:"srcAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic source. Maximum number of source fqdn allowed is 100.
 	// +kubebuilder:validation:Optional

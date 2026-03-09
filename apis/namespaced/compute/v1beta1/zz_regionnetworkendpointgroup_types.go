@@ -88,16 +88,7 @@ type CloudFunctionInitParameters struct {
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudfunctions/v1beta1.Function
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
-
-	// Reference to a Function in cloudfunctions to populate function.
-	// +kubebuilder:validation:Optional
-	FunctionRef *v1.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
-
-	// Selector for a Function in cloudfunctions to populate function.
-	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -129,17 +120,8 @@ type CloudFunctionParameters struct {
 	// A user-defined name of the Cloud Function.
 	// The function name is case-sensitive and must be 1-63 characters long.
 	// Example value: "func1".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudfunctions/v1beta1.Function
 	// +kubebuilder:validation:Optional
 	Function *string `json:"function,omitempty" tf:"function,omitempty"`
-
-	// Reference to a Function in cloudfunctions to populate function.
-	// +kubebuilder:validation:Optional
-	FunctionRef *v1.NamespacedReference `json:"functionRef,omitempty" tf:"-"`
-
-	// Selector for a Function in cloudfunctions to populate function.
-	// +kubebuilder:validation:Optional
-	FunctionSelector *v1.NamespacedSelector `json:"functionSelector,omitempty" tf:"-"`
 
 	// A template to parse function field from a request URL. URL mask allows
 	// for routing to multiple Cloud Functions without having to create
@@ -156,16 +138,7 @@ type CloudRunInitParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudrun/v1beta1.Service
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-
-	// Reference to a Service in cloudrun to populate service.
-	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
-
-	// Selector for a Service in cloudrun to populate service.
-	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -211,17 +184,8 @@ type CloudRunParameters struct {
 	// Cloud Run service is the main resource of Cloud Run.
 	// The service must be 1-63 characters long, and comply with RFC1035.
 	// Example value: "run-service".
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudrun/v1beta1.Service
 	// +kubebuilder:validation:Optional
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-
-	// Reference to a Service in cloudrun to populate service.
-	// +kubebuilder:validation:Optional
-	ServiceRef *v1.NamespacedReference `json:"serviceRef,omitempty" tf:"-"`
-
-	// Selector for a Service in cloudrun to populate service.
-	// +kubebuilder:validation:Optional
-	ServiceSelector *v1.NamespacedSelector `json:"serviceSelector,omitempty" tf:"-"`
 
 	// Cloud Run tag represents the "named-revision" to provide
 	// additional fine-grained traffic routing information.
@@ -294,7 +258,7 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// Type of network endpoints in this network endpoint group. Defaults to SERVERLESS.
@@ -435,7 +399,7 @@ type RegionNetworkEndpointGroupParameters struct {
 	// The URL of the network to which all network endpoints in the NEG belong. Uses
 	// "default" project network if unspecified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("self_link",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 

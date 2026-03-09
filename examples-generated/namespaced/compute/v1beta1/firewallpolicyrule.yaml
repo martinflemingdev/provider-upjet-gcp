@@ -18,8 +18,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: default
     match:
-    - destAddressGroupsRefs:
-      - name: basic_global_networksecurity_address_group
+    - destAddressGroups:
+      - ${google_network_security_address_group.basic_global_networksecurity_address_group.id}
       destFqdns: []
       destIpRanges:
       - 11.100.0.1/32
@@ -55,82 +55,3 @@ spec:
     description: Resource created for Terraform acceptance testing
     parent: ${google_folder.folder.id}
     shortName: fw-policy
-
----
-
-apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
-kind: Folder
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
-  labels:
-    testing.upbound.io/example-name: folder
-  name: folder
-  namespace: upbound-system
-spec:
-  forProvider:
-    deletionProtection: false
-    displayName: folder
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-
----
-
-apiVersion: networksecurity.gcp.m.upbound.io/v1beta1
-kind: AddressGroup
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
-  labels:
-    testing.upbound.io/example-name: basic_global_networksecurity_address_group
-  name: basic-global-networksecurity-address-group
-  namespace: upbound-system
-spec:
-  forProvider:
-    capacity: 100
-    description: Sample global networksecurity_address_group
-    items:
-    - 208.80.154.224/32
-    location: global
-    parent: organizations/123456789
-    type: IPV4
-
----
-
-apiVersion: tags.gcp.m.upbound.io/v1beta1
-kind: TagKey
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
-  labels:
-    testing.upbound.io/example-name: basic_key
-  name: basic-key
-  namespace: upbound-system
-spec:
-  forProvider:
-    description: For keyname resources.
-    parent: organizations/123456789
-    purpose: GCE_FIREWALL
-    purposeData:
-      organization: auto
-    shortName: tag-key
-
----
-
-apiVersion: tags.gcp.m.upbound.io/v1beta1
-kind: TagValue
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/firewallpolicyrule
-  labels:
-    testing.upbound.io/example-name: basic_value
-  name: basic-value
-  namespace: upbound-system
-spec:
-  forProvider:
-    description: For valuename resources.
-    parentSelector:
-      matchLabels:
-        testing.upbound.io/example-name: basic_key
-    shortName: tag-value

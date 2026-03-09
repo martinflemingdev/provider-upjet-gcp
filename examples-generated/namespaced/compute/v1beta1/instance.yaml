@@ -29,27 +29,10 @@ spec:
     scratchDisk:
     - interface: NVME
     serviceAccount:
-    - emailSelector:
-        matchLabels:
-          testing.upbound.io/example-name: default
+    - email: ${google_service_account.default.email}
       scopes:
       - cloud-platform
     tags:
     - foo
     - bar
     zone: us-central1-a
-
----
-
-apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
-kind: ServiceAccount
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/instance
-  labels:
-    testing.upbound.io/example-name: default
-  name: default
-  namespace: upbound-system
-spec:
-  forProvider:
-    displayName: Custom SA for VM Instance

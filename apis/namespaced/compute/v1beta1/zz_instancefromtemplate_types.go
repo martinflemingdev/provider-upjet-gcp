@@ -570,6 +570,8 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
@@ -605,6 +607,8 @@ type InstanceFromTemplateNetworkInterfaceInitParameters struct {
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkInterfaceObservation struct {
@@ -617,6 +621,8 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 	IPv6AccessType *string `json:"ipv6AccessType,omitempty" tf:"ipv6_access_type,omitempty"`
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
+
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
 
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
@@ -632,6 +638,10 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
+	// A unique name for the resource, required by GCE.
+	// Changing this forces a new resource to be created.
+	ParentNicName *string `json:"parentNicName,omitempty" tf:"parent_nic_name,omitempty"`
+
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
 
 	StackType *string `json:"stackType,omitempty" tf:"stack_type,omitempty"`
@@ -639,6 +649,8 @@ type InstanceFromTemplateNetworkInterfaceObservation struct {
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkInterfaceParameters struct {
@@ -656,6 +668,9 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Network
@@ -699,6 +714,9 @@ type InstanceFromTemplateNetworkInterfaceParameters struct {
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// +kubebuilder:validation:Optional
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceFromTemplateNetworkPerformanceConfigInitParameters struct {

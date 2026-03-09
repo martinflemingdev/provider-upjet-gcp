@@ -61,23 +61,23 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 		}
 	})
 
-	p.AddResourceConfigurator("google_compute_shared_vpc_host_project", func(r *config.Resource) {
-		r.References["project"] = config.Reference{
-			TerraformName: "google_project",
-			Extractor:     common.ExtractProjectIDFuncPath,
-		}
-	})
+	// p.AddResourceConfigurator("google_compute_shared_vpc_host_project", func(r *config.Resource) {
+	// 	r.References["project"] = config.Reference{
+	// 		TerraformName: "google_project",
+	// 		Extractor:     common.ExtractProjectIDFuncPath,
+	// 	}
+	// })
 
-	p.AddResourceConfigurator("google_compute_shared_vpc_service_project", func(r *config.Resource) {
-		r.References["host_project"] = config.Reference{
-			TerraformName: "google_project",
-			Extractor:     common.ExtractProjectIDFuncPath,
-		}
-		r.References["service_project"] = config.Reference{
-			TerraformName: "google_project",
-			Extractor:     common.ExtractProjectIDFuncPath,
-		}
-	})
+	// p.AddResourceConfigurator("google_compute_shared_vpc_service_project", func(r *config.Resource) {
+	// 	r.References["host_project"] = config.Reference{
+	// 		TerraformName: "google_project",
+	// 		Extractor:     common.ExtractProjectIDFuncPath,
+	// 	}
+	// 	r.References["service_project"] = config.Reference{
+	// 		TerraformName: "google_project",
+	// 		Extractor:     common.ExtractProjectIDFuncPath,
+	// 	}
+	// })
 
 	p.AddResourceConfigurator("google_compute_subnetwork", func(r *config.Resource) {
 		r.References["network"] = config.Reference{
@@ -511,10 +511,20 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_region_ssl_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 	})
-	p.AddResourceConfigurator("google_compute_network_firewall_policy_rule", func(r *config.Resource) {
-		r.References["match.src_secure_tags.name"] = config.Reference{
-			TerraformName: "google_tags_tag_value",
+	// p.AddResourceConfigurator("google_compute_network_firewall_policy_rule", func(r *config.Resource) {
+	// 	r.References["match.src_secure_tags.name"] = config.Reference{
+	// 		TerraformName: "google_tags_tag_value",
+	// 	}
+	// })
+
+	p.AddResourceConfigurator("google_compute_network_attachment", func(r *config.Resource) {
+		r.References["subnetworks"] = config.Reference{
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
 		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+		config.MarkAsRequired(r.TerraformResource, "connection_preference")
+		config.MarkAsRequired(r.TerraformResource, "subnetworks")
 	})
 
 }

@@ -270,17 +270,7 @@ type Layer4ConfigsParameters struct {
 type MatchInitParameters struct {
 
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate destAddressGroups.
-	// +kubebuilder:validation:Optional
-	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate destAddressGroups.
-	// +kubebuilder:validation:Optional
-	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	DestFqdns []*string `json:"destFqdns,omitempty" tf:"dest_fqdns,omitempty"`
@@ -362,18 +352,8 @@ type MatchObservation struct {
 type MatchParameters struct {
 
 	// Address groups which should be matched against the traffic destination. Maximum number of destination address groups is 10.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networksecurity/v1beta1.AddressGroup
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	DestAddressGroups []*string `json:"destAddressGroups,omitempty" tf:"dest_address_groups,omitempty"`
-
-	// References to AddressGroup in networksecurity to populate destAddressGroups.
-	// +kubebuilder:validation:Optional
-	DestAddressGroupsRefs []v1.Reference `json:"destAddressGroupsRefs,omitempty" tf:"-"`
-
-	// Selector for a list of AddressGroup in networksecurity to populate destAddressGroups.
-	// +kubebuilder:validation:Optional
-	DestAddressGroupsSelector *v1.Selector `json:"destAddressGroupsSelector,omitempty" tf:"-"`
 
 	// Fully Qualified Domain Name (FQDN) which should be matched against traffic destination. Maximum number of destination fqdn allowed is 100.
 	// +kubebuilder:validation:Optional
@@ -425,17 +405,7 @@ type MatchParameters struct {
 type SrcSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type SrcSecureTagsObservation struct {
@@ -451,34 +421,14 @@ type SrcSecureTagsObservation struct {
 type SrcSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type TargetSecureTagsInitParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 type TargetSecureTagsObservation struct {
@@ -494,18 +444,8 @@ type TargetSecureTagsObservation struct {
 type TargetSecureTagsParameters struct {
 
 	// Name of the secure tag, created with TagManager's TagValue API.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/tags/v1beta1.TagValue
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// Reference to a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameRef *v1.Reference `json:"nameRef,omitempty" tf:"-"`
-
-	// Selector for a TagValue in tags to populate name.
-	// +kubebuilder:validation:Optional
-	NameSelector *v1.Selector `json:"nameSelector,omitempty" tf:"-"`
 }
 
 // FirewallPolicyRuleSpec defines the desired state of FirewallPolicyRule

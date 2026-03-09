@@ -65,9 +65,7 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    bucketNameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
+    bucketName: static-asset-bucket
     enableCdn: true
 
 ---
@@ -105,18 +103,3 @@ spec:
     checkIntervalSec: 1
     requestPath: /
     timeoutSec: 1
-
----
-
-apiVersion: storage.gcp.m.upbound.io/v1beta1
-kind: Bucket
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/urlmap
-  labels:
-    testing.upbound.io/example-name: static
-  name: static
-  namespace: upbound-system
-spec:
-  forProvider:
-    location: US

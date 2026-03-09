@@ -235,6 +235,11 @@ type PacketMirroringInitParameters struct {
 	// A human-readable description of the rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
+
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
 	Filter *FilterInitParameters `json:"filter,omitempty" tf:"filter,omitempty"`
@@ -270,6 +275,11 @@ type PacketMirroringObservation struct {
 
 	// A human-readable description of the rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
@@ -316,6 +326,12 @@ type PacketMirroringParameters struct {
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	// +kubebuilder:validation:Optional
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
+
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -353,7 +369,17 @@ type PacketMirroringParameters struct {
 type SubnetworksInitParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 type SubnetworksObservation struct {
@@ -365,8 +391,18 @@ type SubnetworksObservation struct {
 type SubnetworksParameters struct {
 
 	// The URL of the subnetwork where this rule should be active.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta2.Subnetwork
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	URL *string `json:"url" tf:"url,omitempty"`
+	URL *string `json:"url,omitempty" tf:"url,omitempty"`
+
+	// Reference to a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLRef *v1.Reference `json:"urlRef,omitempty" tf:"-"`
+
+	// Selector for a Subnetwork in compute to populate url.
+	// +kubebuilder:validation:Optional
+	URLSelector *v1.Selector `json:"urlSelector,omitempty" tf:"-"`
 }
 
 // PacketMirroringSpec defines the desired state of PacketMirroring

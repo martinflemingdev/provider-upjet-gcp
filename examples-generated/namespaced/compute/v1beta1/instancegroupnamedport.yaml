@@ -47,29 +47,3 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     region: us-central1
-
----
-
-apiVersion: container.gcp.m.upbound.io/v1beta1
-kind: Cluster
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/instancegroupnamedport
-  labels:
-    testing.upbound.io/example-name: my_cluster
-  name: my-cluster
-  namespace: upbound-system
-spec:
-  forProvider:
-    deletionProtection: true
-    initialNodeCount: 1
-    ipAllocationPolicy:
-    - clusterIpv4CidrBlock: /19
-      servicesIpv4CidrBlock: /22
-    location: us-central1-a
-    networkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example
-    subnetworkSelector:
-      matchLabels:
-        testing.upbound.io/example-name: example

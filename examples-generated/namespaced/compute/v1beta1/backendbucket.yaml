@@ -9,23 +9,6 @@ metadata:
   namespace: upbound-system
 spec:
   forProvider:
-    bucketNameSelector:
-      matchLabels:
-        testing.upbound.io/example-name: image_bucket
+    bucketName: ${google_storage_bucket.image_bucket.name}
     description: Contains beautiful images
     enableCdn: true
-
----
-
-apiVersion: storage.gcp.m.upbound.io/v1beta1
-kind: Bucket
-metadata:
-  annotations:
-    meta.upbound.io/example-id: compute/v1beta1/backendbucket
-  labels:
-    testing.upbound.io/example-name: image_bucket
-  name: image-bucket
-  namespace: upbound-system
-spec:
-  forProvider:
-    location: EU
