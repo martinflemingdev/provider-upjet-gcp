@@ -94,5 +94,8 @@
   "google_compute_target_tcp_proxy",
   "google_compute_url_map",
   "google_compute_vpn_gateway",
-  "google_compute_vpn_tunnel"
+  "google_compute_vpn_tunnel",
+  "google_folder_access_approval_settings",
+  "google_organization_access_approval_settings",
+  "google_project_access_approval_settings"
 ]

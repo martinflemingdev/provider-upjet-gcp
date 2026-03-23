@@ -9,6 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	foldersettings "github.com/upbound/provider-gcp/internal/controller/cluster/accessapproval/foldersettings"
+	organizationsettings "github.com/upbound/provider-gcp/internal/controller/cluster/accessapproval/organizationsettings"
+	projectsettings "github.com/upbound/provider-gcp/internal/controller/cluster/accessapproval/projectsettings"
 	address "github.com/upbound/provider-gcp/internal/controller/cluster/compute/address"
 	attacheddisk "github.com/upbound/provider-gcp/internal/controller/cluster/compute/attacheddisk"
 	autoscaler "github.com/upbound/provider-gcp/internal/controller/cluster/compute/autoscaler"
@@ -112,6 +115,9 @@ import (
 // the supplied manager.
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		foldersettings.Setup,
+		organizationsettings.Setup,
+		projectsettings.Setup,
 		address.Setup,
 		attacheddisk.Setup,
 		autoscaler.Setup,
@@ -221,6 +227,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		foldersettings.SetupGated,
+		organizationsettings.SetupGated,
+		projectsettings.SetupGated,
 		address.SetupGated,
 		attacheddisk.SetupGated,
 		autoscaler.SetupGated,

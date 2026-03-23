@@ -13,11 +13,17 @@ import (
 func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_folder_access_approval_settings", func(r *config.Resource) {
 		r.Kind = "FolderSettings"
+		config.MarkAsRequired(r.TerraformResource, "folder_id")
+		config.MarkAsRequired(r.TerraformResource, "enrolled_services")
 	})
 	p.AddResourceConfigurator("google_organization_access_approval_settings", func(r *config.Resource) {
 		r.Kind = "OrganizationSettings"
+		config.MarkAsRequired(r.TerraformResource, "organization_id")
+		config.MarkAsRequired(r.TerraformResource, "enrolled_services")
 	})
 	p.AddResourceConfigurator("google_project_access_approval_settings", func(r *config.Resource) {
 		r.Kind = "ProjectSettings"
+		config.MarkAsRequired(r.TerraformResource, "project_id")
+		config.MarkAsRequired(r.TerraformResource, "enrolled_services")
 	})
 }
