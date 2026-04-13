@@ -39,4 +39,9 @@ func Configure(p *config.Provider) {
 	p.AddResourceConfigurator("google_kms_secret_ciphertext", func(r *config.Resource) {
 		r.TerraformResource.Schema["plaintext"].Sensitive = false
 	})
+
+	p.AddResourceConfigurator("google_kms_key_handle", func(r *config.Resource) {
+		config.MarkAsRequired(r.TerraformResource, "resource_type_selector")
+		config.MarkAsRequired(r.TerraformResource, "location")
+	})
 }
