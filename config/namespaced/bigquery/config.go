@@ -103,4 +103,12 @@ func Configure(p *config.Provider) {
 			return diff, nil
 		}
 	})
+	p.AddResourceConfigurator("google_bigquery_analytics_hub_listing_iam_member", func(r *config.Resource) {
+		r.References["listing_id"] = config.Reference{
+			TerraformName: "google_bigquery_analytics_hub_listing",
+		}
+		r.References["data_exchange_id"] = config.Reference{
+			TerraformName: "google_bigquery_analytics_hub_data_exchange",
+		}
+	})
 }

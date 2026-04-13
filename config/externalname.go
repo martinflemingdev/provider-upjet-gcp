@@ -1065,6 +1065,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_bigquery_analytics_hub_data_exchange_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/subscriptions/{{subscription_id}}
 	"google_bigquery_analytics_hub_listing_subscription": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{location}}/dataExchanges/{{data_exchange_id}}/listings/{{listing_id}} roles/viewer user:jane@example.com
+	"google_bigquery_analytics_hub_listing_iam_member": config.IdentifierFromProvider,
 
 	// tpu
 	//
