@@ -519,6 +519,15 @@ func Configure(p *config.Provider) { //nolint: gocyclo
 	p.AddResourceConfigurator("google_compute_region_security_policy", func(r *config.Resource) {
 		r.MarkAsRequired("region")
 	})
+	p.AddResourceConfigurator("google_compute_network_attachment", func(r *config.Resource) {
+		r.References["subnetworks"] = config.Reference{
+			TerraformName: "google_compute_subnetwork",
+			Extractor:     common.PathSelfLinkExtractor,
+		}
+		config.MarkAsRequired(r.TerraformResource, "region")
+		config.MarkAsRequired(r.TerraformResource, "connection_preference")
+		config.MarkAsRequired(r.TerraformResource, "subnetworks")
+	})
 }
 
 // InstanceGroupExtractor extracts Instance Group from

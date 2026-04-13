@@ -203,6 +203,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_compute_network_peering": config.TemplatedStringAsIdentifier("name", "{{ .setup.configuration.project }}/{{ .parameters.network }}/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/global/networks/{{network}}/networkPeerings/{{peering}}
 	"google_compute_network_peering_routes_config": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/regions/{{region}}/networkAttachments/{{name}}
+	"google_compute_network_attachment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/regions/{{ .parameters.region }}/networkAttachments/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/zones/{{zone}}/nodeGroups/{{name}}
 	"google_compute_node_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/zones/{{ .parameters.zone }}/nodeGroups/{{ .external_name }}"),
 	// Imported by using the following format: projects/{{project}}/regions/{{region}}/nodeTemplates/{{name}}
