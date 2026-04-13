@@ -69,6 +69,30 @@ func (mg *Instance) ResolveReferences( // ResolveReferences of this Instance.
 		mg.Spec.ForProvider.EventPublishConfig.TopicRef = rsp.ResolvedReference
 
 	}
+	if mg.Spec.ForProvider.NetworkConfig != nil {
+		if mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "NetworkAttachment", "NetworkAttachmentList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentRef,
+					Selector:     mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment")
+			}
+			mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.InitProvider.CryptoKeyConfig != nil {
 		{
 			m, l, err = apisresolver.GetManagedResource("kms.gcp.m.upbound.io", "v1beta1", "CryptoKey", "CryptoKeyList")
@@ -112,6 +136,30 @@ func (mg *Instance) ResolveReferences( // ResolveReferences of this Instance.
 		mg.Spec.InitProvider.EventPublishConfig.Topic = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EventPublishConfig.TopicRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.NetworkConfig != nil {
+		if mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "NetworkAttachment", "NetworkAttachmentList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentRef,
+					Selector:     mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment")
+			}
+			mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig.PrivateServiceConnectConfig.NetworkAttachmentRef = rsp.ResolvedReference
+
+		}
 	}
 
 	return nil

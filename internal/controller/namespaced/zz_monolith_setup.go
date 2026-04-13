@@ -47,6 +47,7 @@ import (
 	analyticshubdataexchange "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshublisting"
+	analyticshublistingiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshublistingiammember"
 	analyticshublistingsubscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/connection"
 	dataset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/bigquery/dataset"
@@ -149,6 +150,7 @@ import (
 	interconnectattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/managedsslcertificate"
 	network "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/network"
+	networkattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkattachment"
 	networkendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpoint"
 	networkendpointgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpointgroup"
 	networkfirewallpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkfirewallpolicy"
@@ -304,6 +306,7 @@ import (
 	cryptokey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokey"
 	cryptokeyiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokeyiammember"
 	cryptokeyversion "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/cryptokeyversion"
+	keyhandle "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyhandle"
 	keyring "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyring"
 	keyringiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyringiammember"
 	keyringimportjob "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/kms/keyringimportjob"
@@ -403,7 +406,6 @@ import (
 	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagvalue"
-	node "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestoreentitytype"
@@ -454,6 +456,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
+		analyticshublistingiammember.Setup,
 		analyticshublistingsubscription.Setup,
 		connection.Setup,
 		dataset.Setup,
@@ -556,6 +559,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,
 		network.Setup,
+		networkattachment.Setup,
 		networkendpoint.Setup,
 		networkendpointgroup.Setup,
 		networkfirewallpolicy.Setup,
@@ -711,6 +715,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		cryptokey.Setup,
 		cryptokeyiammember.Setup,
 		cryptokeyversion.Setup,
+		keyhandle.Setup,
 		keyring.Setup,
 		keyringiammember.Setup,
 		keyringimportjob.Setup,
@@ -810,7 +815,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
-		node.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
@@ -867,6 +871,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshubdataexchange.SetupGated,
 		analyticshubdataexchangeiammember.SetupGated,
 		analyticshublisting.SetupGated,
+		analyticshublistingiammember.SetupGated,
 		analyticshublistingsubscription.SetupGated,
 		connection.SetupGated,
 		dataset.SetupGated,
@@ -969,6 +974,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		interconnectattachment.SetupGated,
 		managedsslcertificate.SetupGated,
 		network.SetupGated,
+		networkattachment.SetupGated,
 		networkendpoint.SetupGated,
 		networkendpointgroup.SetupGated,
 		networkfirewallpolicy.SetupGated,
@@ -1124,6 +1130,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		cryptokey.SetupGated,
 		cryptokeyiammember.SetupGated,
 		cryptokeyversion.SetupGated,
+		keyhandle.SetupGated,
 		keyring.SetupGated,
 		keyringiammember.SetupGated,
 		keyringimportjob.SetupGated,
@@ -1223,7 +1230,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
-		node.SetupGated,
 		datasetvertexai.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,

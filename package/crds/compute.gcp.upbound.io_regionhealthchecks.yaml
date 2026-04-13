@@ -1264,6 +1264,27 @@ spec:
                           following values:
                         type: string
                     type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
                   healthyThreshold:
                     description: |-
                       A so-far unhealthy instance will be marked healthy after this many
@@ -1565,6 +1586,27 @@ spec:
                           Port name as defined in InstanceGroup#NamedPort#name. If both port and
                           port_name are defined, port takes precedence.
                         type: string
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
                       portSpecification:
                         description: |-
                           Specifies how port is selected for health checking, can be one of the
@@ -1946,6 +1988,27 @@ spec:
                           Port name as defined in InstanceGroup#NamedPort#name. If both port and
                           port_name are defined, port takes precedence.
                         type: string
+                      portSpecification:
+                        description: |-
+                          Specifies how port is selected for health checking, can be one of the
+                          following values:
+                        type: string
+                    type: object
+                  grpcTlsHealthCheck:
+                    description: |-
+                      A nested object resource.
+                      Structure is documented below.
+                    properties:
+                      grpcServiceName:
+                        description: |-
+                          The gRPC service name for the health check.
+                          The value of grpcServiceName has the following meanings by convention:
+                        type: string
+                      port:
+                        description: |-
+                          The port number for the health check request.
+                          Must be specified if port_specification is USE_FIXED_PORT. Valid values are 1 through 65535.
+                        type: number
                       portSpecification:
                         description: |-
                           Specifies how port is selected for health checking, can be one of the

@@ -137,7 +137,7 @@ type FunctionInitParameters struct {
 	// If specified, you must also provide an artifact registry repository using the docker_repository field that was created with the same KMS crypto key. Before deploying, please complete all pre-requisites described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The limit on the maximum number of function instances that may coexist at a given time.
@@ -261,7 +261,7 @@ type FunctionObservation struct {
 	// If specified, you must also provide an artifact registry repository using the docker_repository field that was created with the same KMS crypto key. Before deploying, please complete all pre-requisites described in https://cloud.google.com/functions/docs/securing/cmek#granting_service_accounts_access_to_the_key
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The limit on the maximum number of function instances that may coexist at a given time.
@@ -387,7 +387,7 @@ type FunctionParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKeyName *string `json:"kmsKeyName,omitempty" tf:"kms_key_name,omitempty"`
 
-	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the function. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	// +kubebuilder:validation:Optional
 	Labels map[string]string `json:"labels,omitempty" tf:"labels,omitempty"`
 

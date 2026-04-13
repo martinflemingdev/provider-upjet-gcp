@@ -2331,8 +2331,8 @@ func (in *TableIAMBindingInitParameters) DeepCopyInto(out *TableIAMBindingInitPa
 		*out = new(TableIAMBindingConditionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2414,8 +2414,8 @@ func (in *TableIAMBindingObservation) DeepCopyInto(out *TableIAMBindingObservati
 		*out = new(string)
 		**out = **in
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2465,8 +2465,8 @@ func (in *TableIAMBindingParameters) DeepCopyInto(out *TableIAMBindingParameters
 		*out = new(TableIAMBindingConditionParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2668,8 +2668,8 @@ func (in *TableIAMMemberInitParameters) DeepCopyInto(out *TableIAMMemberInitPara
 		*out = new(TableIAMMemberConditionInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2740,8 +2740,8 @@ func (in *TableIAMMemberObservation) DeepCopyInto(out *TableIAMMemberObservation
 		*out = new(string)
 		**out = **in
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}
@@ -2785,8 +2785,8 @@ func (in *TableIAMMemberParameters) DeepCopyInto(out *TableIAMMemberParameters) 
 		*out = new(TableIAMMemberConditionParameters)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Instance != nil {
-		in, out := &in.Instance, &out.Instance
+	if in.InstanceName != nil {
+		in, out := &in.InstanceName, &out.InstanceName
 		*out = new(string)
 		**out = **in
 	}

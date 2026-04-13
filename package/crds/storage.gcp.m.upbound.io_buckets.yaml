@@ -143,9 +143,13 @@ spec:
                         type: string
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -171,14 +175,12 @@ spec:
                           bucket's IP filter configuration.
                         type: boolean
                       mode:
-                        description: 'The state of the IP filter configuration. Valid
+                        description: The state of the IP filter configuration. Valid
                           values are Enabled and Disabled. When set to Enabled, IP
                           filtering rules are applied to a bucket and all incoming
                           requests to the bucket are evaluated against these rules.
                           When set to Disabled, IP filtering rules are not applied
-                          to a bucket. Note: allow_all_service_agent_access must be
-                          supplied when mode is set to Enabled, it can be ommited
-                          for other values.'
+                          to a bucket.
                         type: string
                       publicNetworkSource:
                         description: The public network IP address ranges that can
@@ -388,8 +390,8 @@ spec:
                       retentionPeriod:
                         description: The period of time, in seconds, that objects
                           in the bucket must be retained and cannot be deleted, overwritten,
-                          or archived. The value must be less than 2,147,483,647 seconds.
-                        type: number
+                          or archived. The value must be less than 3,155,760,000 seconds.
+                        type: string
                     type: object
                   rpo:
                     description: The recovery point objective for cross-region replication
@@ -545,9 +547,13 @@ spec:
                         type: string
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -573,14 +579,12 @@ spec:
                           bucket's IP filter configuration.
                         type: boolean
                       mode:
-                        description: 'The state of the IP filter configuration. Valid
+                        description: The state of the IP filter configuration. Valid
                           values are Enabled and Disabled. When set to Enabled, IP
                           filtering rules are applied to a bucket and all incoming
                           requests to the bucket are evaluated against these rules.
                           When set to Disabled, IP filtering rules are not applied
-                          to a bucket. Note: allow_all_service_agent_access must be
-                          supplied when mode is set to Enabled, it can be ommited
-                          for other values.'
+                          to a bucket.
                         type: string
                       publicNetworkSource:
                         description: The public network IP address ranges that can
@@ -790,8 +794,8 @@ spec:
                       retentionPeriod:
                         description: The period of time, in seconds, that objects
                           in the bucket must be retained and cannot be deleted, overwritten,
-                          or archived. The value must be less than 2,147,483,647 seconds.
-                        type: number
+                          or archived. The value must be less than 3,155,760,000 seconds.
+                        type: string
                     type: object
                   rpo:
                     description: The recovery point objective for cross-region replication
@@ -1008,9 +1012,13 @@ spec:
                         type: string
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -1038,14 +1046,12 @@ spec:
                           bucket's IP filter configuration.
                         type: boolean
                       mode:
-                        description: 'The state of the IP filter configuration. Valid
+                        description: The state of the IP filter configuration. Valid
                           values are Enabled and Disabled. When set to Enabled, IP
                           filtering rules are applied to a bucket and all incoming
                           requests to the bucket are evaluated against these rules.
                           When set to Disabled, IP filtering rules are not applied
-                          to a bucket. Note: allow_all_service_agent_access must be
-                          supplied when mode is set to Enabled, it can be ommited
-                          for other values.'
+                          to a bucket.
                         type: string
                       publicNetworkSource:
                         description: The public network IP address ranges that can
@@ -1257,8 +1263,8 @@ spec:
                       retentionPeriod:
                         description: The period of time, in seconds, that objects
                           in the bucket must be retained and cannot be deleted, overwritten,
-                          or archived. The value must be less than 2,147,483,647 seconds.
-                        type: number
+                          or archived. The value must be less than 3,155,760,000 seconds.
+                        type: string
                     type: object
                   rpo:
                     description: The recovery point objective for cross-region replication

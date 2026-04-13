@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  backupdrBackup:
+                    description: |-
+                      The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    type: string
                   clone:
                     description: |-
                       The context needed to create this instance as a clone of another instance. The
@@ -88,6 +93,10 @@ spec:
                           Clone to an instance in the specified zone. If no zone is
                           specified, clone to the same zone as the source instance.
                           clone-unavailable-instance
+                        type: string
+                      sourceInstanceDeletionTime:
+                        description: The timestamp of when the source instance was
+                          deleted for a clone from a deleted instance.
                         type: string
                       sourceInstanceName:
                         description: Name of the source instance which will be cloned.
@@ -119,6 +128,10 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  finalBackupDescription:
+                    description: The description of final backup. Only set this field
+                      when final_backup_config.enabled is true.
+                    type: string
                   maintenanceVersion:
                     description: The current software version on the instance. This
                       attribute can not be set during creation. Refer to available_maintenance_versions
@@ -133,6 +146,41 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool. For read pools with auto scaling enabled, this
+                      field is read only.
+                    type: number
+                  pointInTimeRestoreContext:
+                    description: |-
+                      The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    properties:
+                      allocatedIpRange:
+                        description: 'The name of the allocated ip range for the private
+                          ip CloudSQL instance. For example: "google-managed-services-default".
+                          If set, the cloned instance ip will be created in the allocated
+                          range. The range name must comply with RFC 1035. Specifically,
+                          the name must be 1-63 characters long and match the regular
+                          expression a-z?.'
+                        type: string
+                      datasource:
+                        description: The Google Cloud Backup and Disaster Recovery
+                          Datasource URI.
+                        type: string
+                      pointInTime:
+                        description: The timestamp of the point in time that should
+                          be restored.
+                        type: string
+                      preferredZone:
+                        description: Point-in-time recovery of an instance to the
+                          specified zone. If no zone is specified, then clone to the
+                          same primary zone as the source instance.
+                        type: string
+                      targetInstance:
+                        description: The name of the target instance.
+                        type: string
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -227,6 +275,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -258,6 +317,16 @@ spec:
                     - key
                     - name
                     type: object
+                  rootPasswordWo:
+                    description: 'Initial root password. Can be updated. Required
+                      for MS SQL Server. Note: This property is write-only and will
+                      not be read from the API.'
+                    type: string
+                  rootPasswordWoVersion:
+                    description: Triggers update of root_password_wo write-only. Increment
+                      this value when an update to root_password_wo is needed. For
+                      more info see updating write-only arguments
+                    type: string
                   settings:
                     description: |-
                       The settings to use for the database. The
@@ -288,11 +357,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -377,8 +448,9 @@ spec:
                         properties:
                           dataCacheEnabled:
                             description: Whether data cache is enabled for the instance.
-                              Defaults to false. Can be used with MYSQL and PostgreSQL
-                              only.
+                              Defaults to true for MYSQL Enterprise Plus and PostgreSQL
+                              Enterprise Plus instances only. For SQL Server Enterprise
+                              Plus instances it defaults to false.
                             type: boolean
                         type: object
                       databaseFlags:
@@ -460,6 +532,18 @@ spec:
                           AI and pass requests for real-time predictions and insights.
                           Defaults to false.
                         type: boolean
+                      finalBackupConfig:
+                        properties:
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          retentionDays:
+                            description: The number of days we retain the final backup
+                              after instance deletion. The valid range is between
+                              1 and 365. For instances managed by BackupDR, the valid
+                              range is between 1 day and 99 years.
+                            type: number
+                        type: object
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:
@@ -639,6 +723,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -748,6 +837,45 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      readPoolAutoScaleConfig:
+                        properties:
+                          disableScaleIn:
+                            description: True if auto scale in is disabled.
+                            type: boolean
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          maxNodeCount:
+                            description: Maximum number of nodes in the read pool.
+                              If set to lower than current node count, node count
+                              will be updated.
+                            type: number
+                          minNodeCount:
+                            description: Minimum number of nodes in the read pool.
+                              If set to higher than current node count, node count
+                              will be updated.
+                            type: number
+                          scaleInCooldownSeconds:
+                            description: The cooldown period for scale in operations.
+                            type: number
+                          scaleOutCooldownSeconds:
+                            description: The cooldown period for scale out operations.
+                            type: number
+                          targetMetrics:
+                            description: Target metrics for Read Pool Auto Scale.
+                              Must specify target_metrics.metric and target_metrics.target_value
+                              in subblock.
+                            items:
+                              properties:
+                                metric:
+                                  description: Metric name for Read Pool Auto Scale.
+                                  type: string
+                                targetValue:
+                                  description: Target value for Read Pool Auto Scale.
+                                  type: number
+                              type: object
+                            type: array
+                        type: object
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance
@@ -805,6 +933,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  backupdrBackup:
+                    description: |-
+                      The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    type: string
                   clone:
                     description: |-
                       The context needed to create this instance as a clone of another instance. The
@@ -834,6 +967,10 @@ spec:
                           Clone to an instance in the specified zone. If no zone is
                           specified, clone to the same zone as the source instance.
                           clone-unavailable-instance
+                        type: string
+                      sourceInstanceDeletionTime:
+                        description: The timestamp of when the source instance was
+                          deleted for a clone from a deleted instance.
                         type: string
                       sourceInstanceName:
                         description: Name of the source instance which will be cloned.
@@ -865,6 +1002,10 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  finalBackupDescription:
+                    description: The description of final backup. Only set this field
+                      when final_backup_config.enabled is true.
+                    type: string
                   maintenanceVersion:
                     description: The current software version on the instance. This
                       attribute can not be set during creation. Refer to available_maintenance_versions
@@ -879,6 +1020,41 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool. For read pools with auto scaling enabled, this
+                      field is read only.
+                    type: number
+                  pointInTimeRestoreContext:
+                    description: |-
+                      The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    properties:
+                      allocatedIpRange:
+                        description: 'The name of the allocated ip range for the private
+                          ip CloudSQL instance. For example: "google-managed-services-default".
+                          If set, the cloned instance ip will be created in the allocated
+                          range. The range name must comply with RFC 1035. Specifically,
+                          the name must be 1-63 characters long and match the regular
+                          expression a-z?.'
+                        type: string
+                      datasource:
+                        description: The Google Cloud Backup and Disaster Recovery
+                          Datasource URI.
+                        type: string
+                      pointInTime:
+                        description: The timestamp of the point in time that should
+                          be restored.
+                        type: string
+                      preferredZone:
+                        description: Point-in-time recovery of an instance to the
+                          specified zone. If no zone is specified, then clone to the
+                          same primary zone as the source instance.
+                        type: string
+                      targetInstance:
+                        description: The name of the target instance.
+                        type: string
+                    type: object
                   project:
                     description: |-
                       The ID of the project in which the resource belongs. If it
@@ -973,6 +1149,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -1004,6 +1191,16 @@ spec:
                     - key
                     - name
                     type: object
+                  rootPasswordWo:
+                    description: 'Initial root password. Can be updated. Required
+                      for MS SQL Server. Note: This property is write-only and will
+                      not be read from the API.'
+                    type: string
+                  rootPasswordWoVersion:
+                    description: Triggers update of root_password_wo write-only. Increment
+                      this value when an update to root_password_wo is needed. For
+                      more info see updating write-only arguments
+                    type: string
                   settings:
                     description: |-
                       The settings to use for the database. The
@@ -1034,11 +1231,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -1123,8 +1322,9 @@ spec:
                         properties:
                           dataCacheEnabled:
                             description: Whether data cache is enabled for the instance.
-                              Defaults to false. Can be used with MYSQL and PostgreSQL
-                              only.
+                              Defaults to true for MYSQL Enterprise Plus and PostgreSQL
+                              Enterprise Plus instances only. For SQL Server Enterprise
+                              Plus instances it defaults to false.
                             type: boolean
                         type: object
                       databaseFlags:
@@ -1206,6 +1406,18 @@ spec:
                           AI and pass requests for real-time predictions and insights.
                           Defaults to false.
                         type: boolean
+                      finalBackupConfig:
+                        properties:
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          retentionDays:
+                            description: The number of days we retain the final backup
+                              after instance deletion. The valid range is between
+                              1 and 365. For instances managed by BackupDR, the valid
+                              range is between 1 day and 99 years.
+                            type: number
+                        type: object
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:
@@ -1385,6 +1597,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -1494,6 +1711,45 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      readPoolAutoScaleConfig:
+                        properties:
+                          disableScaleIn:
+                            description: True if auto scale in is disabled.
+                            type: boolean
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          maxNodeCount:
+                            description: Maximum number of nodes in the read pool.
+                              If set to lower than current node count, node count
+                              will be updated.
+                            type: number
+                          minNodeCount:
+                            description: Minimum number of nodes in the read pool.
+                              If set to higher than current node count, node count
+                              will be updated.
+                            type: number
+                          scaleInCooldownSeconds:
+                            description: The cooldown period for scale in operations.
+                            type: number
+                          scaleOutCooldownSeconds:
+                            description: The cooldown period for scale out operations.
+                            type: number
+                          targetMetrics:
+                            description: Target metrics for Read Pool Auto Scale.
+                              Must specify target_metrics.metric and target_metrics.target_value
+                              in subblock.
+                            items:
+                              properties:
+                                metric:
+                                  description: Metric name for Read Pool Auto Scale.
+                                  type: string
+                                targetValue:
+                                  description: Target value for Read Pool Auto Scale.
+                                  type: number
+                              type: object
+                            type: array
+                        type: object
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance
@@ -1612,6 +1868,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  backupdrBackup:
+                    description: |-
+                      The backupdr_backup needed to restore the database to a backup run. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    type: string
                   clone:
                     description: |-
                       The context needed to create this instance as a clone of another instance. The
@@ -1641,6 +1902,10 @@ spec:
                           Clone to an instance in the specified zone. If no zone is
                           specified, clone to the same zone as the source instance.
                           clone-unavailable-instance
+                        type: string
+                      sourceInstanceDeletionTime:
+                        description: The timestamp of when the source instance was
+                          deleted for a clone from a deleted instance.
                         type: string
                       sourceInstanceName:
                         description: Name of the source instance which will be cloned.
@@ -1700,22 +1965,25 @@ spec:
                       That service account needs the Cloud KMS > Cloud KMS CryptoKey Encrypter/Decrypter role on your
                       key - please see this step.
                     type: string
+                  finalBackupDescription:
+                    description: The description of final backup. Only set this field
+                      when final_backup_config.enabled is true.
+                    type: string
                   firstIpAddress:
                     description: The first IPv4 address of any type assigned.
                     type: string
                   id:
                     type: string
                   instanceType:
-                    description: The type of the instance. The supported values are
-                      SQL_INSTANCE_TYPE_UNSPECIFIED, CLOUD_SQL_INSTANCE, ON_PREMISES_INSTANCE
-                      and READ_REPLICA_INSTANCE.
+                    description: The type of the instance. See API reference for SqlInstanceType
+                      for supported values.
                     type: string
                   ipAddress:
-                    description: The IPv4 address assigned.
+                    description: (Output) The IP address of the consumer endpoint.
                     items:
                       properties:
                         ipAddress:
-                          description: The IPv4 address assigned.
+                          description: (Output) The IP address of the consumer endpoint.
                           type: string
                         timeToRetire:
                           description: |-
@@ -1741,6 +2009,41 @@ spec:
                       act as the master in the replication setup. Note, this requires the master to
                       have binary_log_enabled set, as well as existing backups.
                     type: string
+                  nodeCount:
+                    description: For a read pool instance, the number of nodes in
+                      the read pool. For read pools with auto scaling enabled, this
+                      field is read only.
+                    type: number
+                  pointInTimeRestoreContext:
+                    description: |-
+                      The point_in_time_restore_context needed for performing a point-in-time recovery of an instance managed by Google Cloud Backup and Disaster Recovery. The configuration is detailed below. Adding or modifying this
+                      block during resource creation/update will trigger the restore action after the resource is created/updated.
+                    properties:
+                      allocatedIpRange:
+                        description: 'The name of the allocated ip range for the private
+                          ip CloudSQL instance. For example: "google-managed-services-default".
+                          If set, the cloned instance ip will be created in the allocated
+                          range. The range name must comply with RFC 1035. Specifically,
+                          the name must be 1-63 characters long and match the regular
+                          expression a-z?.'
+                        type: string
+                      datasource:
+                        description: The Google Cloud Backup and Disaster Recovery
+                          Datasource URI.
+                        type: string
+                      pointInTime:
+                        description: The timestamp of the point in time that should
+                          be restored.
+                        type: string
+                      preferredZone:
+                        description: Point-in-time recovery of an instance to the
+                          specified zone. If no zone is specified, then clone to the
+                          same primary zone as the source instance.
+                        type: string
+                      targetInstance:
+                        description: The name of the target instance.
+                        type: string
+                    type: object
                   privateIpAddress:
                     description: The first private (PRIVATE) IPv4 address assigned.
                     type: string
@@ -1837,6 +2140,17 @@ spec:
                           field to "your-instance", but cloud SQL backend will convert
                           it to the aforementioned standard format.
                         type: string
+                      psaWriteEndpoint:
+                        description: only field which if set, indicates this instance
+                          has a private service access (PSA) DNS endpoint that is
+                          pointing to the primary instance of the cluster. If this
+                          instance is the primary, then the DNS endpoint points to
+                          this instance. After a switchover or replica failover operation,
+                          this DNS endpoint points to the promoted instance. This
+                          is a read-only field, returned to the user as information.
+                          This field can exist even if a standalone instance doesn't
+                          have a DR replica yet or the DR replica is deleted.
+                        type: string
                     type: object
                   restoreBackupContext:
                     description: |-
@@ -1855,6 +2169,16 @@ spec:
                         description: The full project ID of the source instance.`
                         type: string
                     type: object
+                  rootPasswordWo:
+                    description: 'Initial root password. Can be updated. Required
+                      for MS SQL Server. Note: This property is write-only and will
+                      not be read from the API.'
+                    type: string
+                  rootPasswordWoVersion:
+                    description: Triggers update of root_password_wo write-only. Increment
+                      this value when an update to root_password_wo is needed. For
+                      more info see updating write-only arguments
+                    type: string
                   selfLink:
                     description: The URI of the created resource.
                     type: string
@@ -1893,11 +2217,13 @@ spec:
                       availabilityType:
                         description: |-
                           The availability type of the Cloud SQL
-                          instance, high availability (REGIONAL) or single zone (ZONAL).' For all instances, ensure that
+                          instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
                           settings.backup_configuration.enabled is set to true.
                           For MySQL instances, ensure that settings.backup_configuration.binary_log_enabled is set to true.
                           For Postgres and SQL Server instances, ensure that settings.backup_configuration.point_in_time_recovery_enabled
                           is set to true. Defaults to ZONAL.
+                          For read pool instances, this field is read-only. The availability type is changed by specifying
+                          the number of nodes (node_count).
                         type: string
                       backupConfiguration:
                         properties:
@@ -1915,6 +2241,10 @@ spec:
                                   Defaults to COUNT.
                                 type: string
                             type: object
+                          backupTier:
+                            description: (Computed) The backup tier that manages the
+                              backups for the instance.
+                            type: string
                           binaryLogEnabled:
                             description: |-
                               True if binary logging is enabled.
@@ -1982,8 +2312,9 @@ spec:
                         properties:
                           dataCacheEnabled:
                             description: Whether data cache is enabled for the instance.
-                              Defaults to false. Can be used with MYSQL and PostgreSQL
-                              only.
+                              Defaults to true for MYSQL Enterprise Plus and PostgreSQL
+                              Enterprise Plus instances only. For SQL Server Enterprise
+                              Plus instances it defaults to false.
                             type: boolean
                         type: object
                       databaseFlags:
@@ -2055,6 +2386,14 @@ spec:
                         description: The edition of the instance, can be ENTERPRISE
                           or ENTERPRISE_PLUS.
                         type: string
+                      effectiveAvailabilityType:
+                        description: |-
+                          (Computed) The availability type of
+                          the Cloud SQL instance, high availability (REGIONAL) or single zone
+                          (ZONAL). This field always contains the value that is reported by the API (for
+                          read pools, settings.0.effective_availability_type may differ from
+                          settings.0.availability_type).
+                        type: string
                       enableDataplexIntegration:
                         description: Enables Cloud SQL instance integration with Dataplex.
                           MySQL, Postgres and SQL Server instances are supported for
@@ -2065,6 +2404,18 @@ spec:
                           AI and pass requests for real-time predictions and insights.
                           Defaults to false.
                         type: boolean
+                      finalBackupConfig:
+                        properties:
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          retentionDays:
+                            description: The number of days we retain the final backup
+                              after instance deletion. The valid range is between
+                              1 and 365. For instances managed by BackupDR, the valid
+                              range is between 1 day and 99 years.
+                            type: number
+                        type: object
                       insightsConfig:
                         properties:
                           queryInsightsEnabled:
@@ -2162,6 +2513,11 @@ spec:
                                     type: string
                                   type: array
                                   x-kubernetes-list-type: set
+                                networkAttachmentUri:
+                                  description: Network Attachment URI in the format
+                                    projects/project1/regions/region1/networkAttachments/networkAttachment1
+                                    to enable outbound connectivity on PSC instance.
+                                  type: string
                                 pscAutoConnections:
                                   description: A comma-separated list of networks
                                     or a comma-separated list of network-project pairs.
@@ -2181,9 +2537,21 @@ spec:
                                           might be different from the consumer service
                                           project."'
                                         type: string
+                                      consumerNetworkStatus:
+                                        description: (Output) The connection policy
+                                          status of the consumer network.
+                                        type: string
                                       consumerServiceProjectId:
                                         description: The project ID of consumer service
                                           project of this consumer endpoint.
+                                        type: string
+                                      ipAddress:
+                                        description: (Output) The IP address of the
+                                          consumer endpoint.
+                                        type: string
+                                      status:
+                                        description: (Output) The connection status
+                                          of the consumer endpoint.
                                         type: string
                                     type: object
                                   type: array
@@ -2271,6 +2639,45 @@ spec:
                       pricingPlan:
                         description: Pricing plan for this instance, can only be PER_USE.
                         type: string
+                      readPoolAutoScaleConfig:
+                        properties:
+                          disableScaleIn:
+                            description: True if auto scale in is disabled.
+                            type: boolean
+                          enabled:
+                            description: True if Read Pool Auto Scale is enabled.
+                            type: boolean
+                          maxNodeCount:
+                            description: Maximum number of nodes in the read pool.
+                              If set to lower than current node count, node count
+                              will be updated.
+                            type: number
+                          minNodeCount:
+                            description: Minimum number of nodes in the read pool.
+                              If set to higher than current node count, node count
+                              will be updated.
+                            type: number
+                          scaleInCooldownSeconds:
+                            description: The cooldown period for scale in operations.
+                            type: number
+                          scaleOutCooldownSeconds:
+                            description: The cooldown period for scale out operations.
+                            type: number
+                          targetMetrics:
+                            description: Target metrics for Read Pool Auto Scale.
+                              Must specify target_metrics.metric and target_metrics.target_value
+                              in subblock.
+                            items:
+                              properties:
+                                metric:
+                                  description: Metric name for Read Pool Auto Scale.
+                                  type: string
+                                targetValue:
+                                  description: Target value for Read Pool Auto Scale.
+                                  type: number
+                              type: object
+                            type: array
+                        type: object
                       retainBackupsOnDelete:
                         description: When this parameter is set to true, Cloud SQL
                           retains backups of the instance even after the instance

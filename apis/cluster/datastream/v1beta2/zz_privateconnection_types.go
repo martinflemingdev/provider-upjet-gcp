@@ -158,7 +158,17 @@ type PscInterfaceConfigInitParameters struct {
 	// gcloud datastream private-connections create [PC ID] --location=[LOCATION] --network-attachment=[NA URI] --validate-only --display-name=[ANY STRING]
 	// Add Datastream project to the attachment accepted list:
 	// gcloud compute network-attachments update [NA URI] --region=[NA region] --producer-accept-list=[TP from prev command]
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentRef *v1.Reference `json:"networkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentSelector *v1.Selector `json:"networkAttachmentSelector,omitempty" tf:"-"`
 }
 
 type PscInterfaceConfigObservation struct {
@@ -180,8 +190,18 @@ type PscInterfaceConfigParameters struct {
 	// gcloud datastream private-connections create [PC ID] --location=[LOCATION] --network-attachment=[NA URI] --validate-only --display-name=[ANY STRING]
 	// Add Datastream project to the attachment accepted list:
 	// gcloud compute network-attachments update [NA URI] --region=[NA region] --producer-accept-list=[TP from prev command]
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
-	NetworkAttachment *string `json:"networkAttachment" tf:"network_attachment,omitempty"`
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentRef *v1.Reference `json:"networkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentSelector *v1.Selector `json:"networkAttachmentSelector,omitempty" tf:"-"`
 }
 
 type VPCPeeringConfigInitParameters struct {

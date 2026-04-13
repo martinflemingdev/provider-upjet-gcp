@@ -1543,6 +1543,16 @@ func (in *NodeConfigInitParameters) DeepCopyInto(out *NodeConfigInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.ComposerNetworkAttachmentRef != nil {
+		in, out := &in.ComposerNetworkAttachmentRef, &out.ComposerNetworkAttachmentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ComposerNetworkAttachmentSelector != nil {
+		in, out := &in.ComposerNetworkAttachmentSelector, &out.ComposerNetworkAttachmentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb
 		*out = new(float64)
@@ -1746,6 +1756,16 @@ func (in *NodeConfigParameters) DeepCopyInto(out *NodeConfigParameters) {
 		in, out := &in.ComposerNetworkAttachment, &out.ComposerNetworkAttachment
 		*out = new(string)
 		**out = **in
+	}
+	if in.ComposerNetworkAttachmentRef != nil {
+		in, out := &in.ComposerNetworkAttachmentRef, &out.ComposerNetworkAttachmentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ComposerNetworkAttachmentSelector != nil {
+		in, out := &in.ComposerNetworkAttachmentSelector, &out.ComposerNetworkAttachmentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DiskSizeGb != nil {
 		in, out := &in.DiskSizeGb, &out.DiskSizeGb

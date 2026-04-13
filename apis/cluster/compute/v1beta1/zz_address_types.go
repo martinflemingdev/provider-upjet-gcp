@@ -29,6 +29,12 @@ type AddressInitParameters struct {
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
@@ -117,6 +123,12 @@ type AddressObservation struct {
 	// an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
+
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.
 	IPVersion *string `json:"ipVersion,omitempty" tf:"ip_version,omitempty"`
@@ -196,6 +208,13 @@ type AddressParameters struct {
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+	// The PDP must support enhanced IPv4 allocations.
+	// Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+	// Full resource URL, as in:
+	// +kubebuilder:validation:Optional
+	IPCollection *string `json:"ipCollection,omitempty" tf:"ip_collection,omitempty"`
 
 	// The IP Version that will be used by this address. The default value is IPV4.
 	// Possible values are: IPV4, IPV6.

@@ -192,7 +192,7 @@ type DiskInitParameters struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *ParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -356,7 +356,7 @@ type DiskObservation struct {
 
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
-	Params *ParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -552,7 +552,7 @@ type DiskParameters struct {
 	// Additional params passed with the request, but not persisted as part of resource payload
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	Params *ParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
+	Params *DiskParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// Physical block size of the persistent disk, in bytes. If not present
 	// in a request, a default value is used. Currently supported sizes
@@ -644,6 +644,34 @@ type DiskParameters struct {
 	Zone *string `json:"zone" tf:"zone,omitempty"`
 }
 
+type DiskParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type DiskParamsObservation struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type DiskParamsParameters struct {
+
+	// Resource manager tags to be bound to the disk. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
 type GuestOsFeaturesInitParameters struct {
 
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
@@ -661,34 +689,6 @@ type GuestOsFeaturesParameters struct {
 	// The type of supported feature. Read Enabling guest operating system features to see a list of available options.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
-}
-
-type ParamsInitParameters struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsObservation struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
-}
-
-type ParamsParameters struct {
-
-	// Resource manager tags to be bound to the disk. Tag keys and values have the
-	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
-	// and values are in the format tagValues/456.
-	// +kubebuilder:validation:Optional
-	// +mapType=granular
-	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type SourceImageEncryptionKeyInitParameters struct {

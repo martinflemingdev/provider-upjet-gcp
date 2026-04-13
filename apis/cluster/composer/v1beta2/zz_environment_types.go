@@ -841,7 +841,17 @@ type NodeConfigInitParameters struct {
 	// PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
 	// and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
 	// provided enough IP addresses are available.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ComposerNetworkAttachment *string `json:"composerNetworkAttachment,omitempty" tf:"composer_network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate composerNetworkAttachment.
+	// +kubebuilder:validation:Optional
+	ComposerNetworkAttachmentRef *v1.Reference `json:"composerNetworkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate composerNetworkAttachment.
+	// +kubebuilder:validation:Optional
+	ComposerNetworkAttachmentSelector *v1.Selector `json:"composerNetworkAttachmentSelector,omitempty" tf:"-"`
 
 	// The disk size in GB used for node VMs. Minimum size is 20GB.
 	// If unspecified, defaults to 100GB. Cannot be updated.
@@ -1012,8 +1022,18 @@ type NodeConfigParameters struct {
 	// PSC (Private Service Connect) Network entry point. Customers can pre-create the Network Attachment
 	// and point Cloud Composer environment to use. It is possible to share network attachment among many environments,
 	// provided enough IP addresses are available.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ComposerNetworkAttachment *string `json:"composerNetworkAttachment,omitempty" tf:"composer_network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate composerNetworkAttachment.
+	// +kubebuilder:validation:Optional
+	ComposerNetworkAttachmentRef *v1.Reference `json:"composerNetworkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate composerNetworkAttachment.
+	// +kubebuilder:validation:Optional
+	ComposerNetworkAttachmentSelector *v1.Selector `json:"composerNetworkAttachmentSelector,omitempty" tf:"-"`
 
 	// The disk size in GB used for node VMs. Minimum size is 20GB.
 	// If unspecified, defaults to 100GB. Cannot be updated.

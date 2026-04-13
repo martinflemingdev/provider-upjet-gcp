@@ -212,6 +212,12 @@ type AutoscalingTargetsInitParameters struct {
 	// should be trying to achieve for the instance.
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type AutoscalingTargetsObservation struct {
@@ -225,6 +231,12 @@ type AutoscalingTargetsObservation struct {
 	// should be trying to achieve for the instance.
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type AutoscalingTargetsParameters struct {
@@ -240,6 +252,13 @@ type AutoscalingTargetsParameters struct {
 	// This number is on a scale from 0 (no utilization) to 100 (full utilization).
 	// +kubebuilder:validation:Optional
 	StorageUtilizationPercent *float64 `json:"storageUtilizationPercent,omitempty" tf:"storage_utilization_percent,omitempty"`
+
+	// The target total cpu utilization percentage that the autoscaler should be trying to achieve for the instance.
+	// This number is on a scale from 0 (no utilization) to 100 (full utilization). The valid range is [10, 90] inclusive.
+	// If not specified or set to 0, the autoscaler will skip scaling based on total cpu utilization.
+	// The value should be higher than high_priority_cpu_utilization_percent if present.
+	// +kubebuilder:validation:Optional
+	TotalCPUUtilizationPercent *float64 `json:"totalCpuUtilizationPercent,omitempty" tf:"total_cpu_utilization_percent,omitempty"`
 }
 
 type InstanceInitParameters struct {

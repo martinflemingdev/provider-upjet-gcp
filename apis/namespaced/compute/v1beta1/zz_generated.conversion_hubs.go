@@ -115,6 +115,9 @@ func (tr *ManagedSSLCertificate) Hub() {}
 func (tr *Network) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *NetworkAttachment) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *NetworkEndpoint) Hub() {}
 
 // Hub marks this type as a conversion hub.

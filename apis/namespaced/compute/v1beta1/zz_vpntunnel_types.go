@@ -14,7 +14,134 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type CipherSuiteInitParameters struct {
+
+	// Cipher configuration for phase 1 of the IKE protocol.
+	// Structure is documented below.
+	Phase1 *Phase1InitParameters `json:"phase1,omitempty" tf:"phase1,omitempty"`
+
+	// Cipher configuration for phase 2 of the IKE protocol.
+	// Structure is documented below.
+	Phase2 *Phase2InitParameters `json:"phase2,omitempty" tf:"phase2,omitempty"`
+}
+
+type CipherSuiteObservation struct {
+
+	// Cipher configuration for phase 1 of the IKE protocol.
+	// Structure is documented below.
+	Phase1 *Phase1Observation `json:"phase1,omitempty" tf:"phase1,omitempty"`
+
+	// Cipher configuration for phase 2 of the IKE protocol.
+	// Structure is documented below.
+	Phase2 *Phase2Observation `json:"phase2,omitempty" tf:"phase2,omitempty"`
+}
+
+type CipherSuiteParameters struct {
+
+	// Cipher configuration for phase 1 of the IKE protocol.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Phase1 *Phase1Parameters `json:"phase1,omitempty" tf:"phase1,omitempty"`
+
+	// Cipher configuration for phase 2 of the IKE protocol.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Phase2 *Phase2Parameters `json:"phase2,omitempty" tf:"phase2,omitempty"`
+}
+
+type Phase1InitParameters struct {
+
+	// Diffie-Hellman groups.
+	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
+
+	// Encryption algorithms.
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Pseudo-random functions.
+	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
+}
+
+type Phase1Observation struct {
+
+	// Diffie-Hellman groups.
+	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
+
+	// Encryption algorithms.
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Pseudo-random functions.
+	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
+}
+
+type Phase1Parameters struct {
+
+	// Diffie-Hellman groups.
+	// +kubebuilder:validation:Optional
+	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
+
+	// Encryption algorithms.
+	// +kubebuilder:validation:Optional
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	// +kubebuilder:validation:Optional
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Pseudo-random functions.
+	// +kubebuilder:validation:Optional
+	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
+}
+
+type Phase2InitParameters struct {
+
+	// Encryption algorithms.
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Perfect forward secrecy groups.
+	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
+}
+
+type Phase2Observation struct {
+
+	// Encryption algorithms.
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Perfect forward secrecy groups.
+	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
+}
+
+type Phase2Parameters struct {
+
+	// Encryption algorithms.
+	// +kubebuilder:validation:Optional
+	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
+
+	// Integrity algorithms.
+	// +kubebuilder:validation:Optional
+	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
+
+	// Perfect forward secrecy groups.
+	// +kubebuilder:validation:Optional
+	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
+}
+
 type VPNTunnelInitParameters struct {
+
+	// User specified list of ciphers to use for the phase 1 and phase 2 of the IKE protocol.
+	// Structure is documented below.
+	CipherSuite *CipherSuiteInitParameters `json:"cipherSuite,omitempty" tf:"cipher_suite,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -87,7 +214,15 @@ type VPNTunnelInitParameters struct {
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
-	SharedSecretSecretRef v1.LocalSecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
+	SharedSecretSecretRef *v1.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
+
+	// Shared secret used to set the secure session between the Cloud VPN
+	// gateway and the peer VPN gateway.
+	// Note: This property is write-only and will not be read from the API.
+	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
+
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
+	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
@@ -122,6 +257,10 @@ type VPNTunnelInitParameters struct {
 }
 
 type VPNTunnelObservation struct {
+
+	// User specified list of ciphers to use for the phase 1 and phase 2 of the IKE protocol.
+	// Structure is documented below.
+	CipherSuite *CipherSuiteObservation `json:"cipherSuite,omitempty" tf:"cipher_suite,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
@@ -198,6 +337,14 @@ type VPNTunnelObservation struct {
 	// Hash of the shared secret.
 	SharedSecretHash *string `json:"sharedSecretHash,omitempty" tf:"shared_secret_hash,omitempty"`
 
+	// Shared secret used to set the secure session between the Cloud VPN
+	// gateway and the peer VPN gateway.
+	// Note: This property is write-only and will not be read from the API.
+	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
+
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
+	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
+
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
 	TargetVPNGateway *string `json:"targetVpnGateway,omitempty" tf:"target_vpn_gateway,omitempty"`
@@ -220,6 +367,11 @@ type VPNTunnelObservation struct {
 }
 
 type VPNTunnelParameters struct {
+
+	// User specified list of ciphers to use for the phase 1 and phase 2 of the IKE protocol.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CipherSuite *CipherSuiteParameters `json:"cipherSuite,omitempty" tf:"cipher_suite,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -308,7 +460,17 @@ type VPNTunnelParameters struct {
 	// gateway and the peer VPN gateway.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	SharedSecretSecretRef v1.LocalSecretKeySelector `json:"sharedSecretSecretRef" tf:"-"`
+	SharedSecretSecretRef *v1.LocalSecretKeySelector `json:"sharedSecretSecretRef,omitempty" tf:"-"`
+
+	// Shared secret used to set the secure session between the Cloud VPN
+	// gateway and the peer VPN gateway.
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
+
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
 	// associated.
@@ -381,9 +543,8 @@ type VPNTunnelStatus struct {
 type VPNTunnel struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.sharedSecretSecretRef)",message="spec.forProvider.sharedSecretSecretRef is a required parameter"
-	Spec   VPNTunnelSpec   `json:"spec"`
-	Status VPNTunnelStatus `json:"status,omitempty"`
+	Spec              VPNTunnelSpec   `json:"spec"`
+	Status            VPNTunnelStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

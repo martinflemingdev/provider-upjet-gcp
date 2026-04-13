@@ -183,6 +183,9 @@ type InstanceInitParameters struct {
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
 
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
+
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
 	// able to access the public internet.
@@ -275,6 +278,9 @@ type InstanceObservation struct {
 
 	// P4 service account for the customer project.
 	P4ServiceAccount *string `json:"p4ServiceAccount,omitempty" tf:"p4_service_account,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -384,6 +390,10 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Options map[string]*string `json:"options,omitempty" tf:"options,omitempty"`
+
+	// Current patch revision of the Data Fusion.
+	// +kubebuilder:validation:Optional
+	PatchRevision *string `json:"patchRevision,omitempty" tf:"patch_revision,omitempty"`
 
 	// Specifies whether the Data Fusion instance should be private. If set to
 	// true, all Data Fusion nodes will have private IP addresses and will not be
@@ -500,7 +510,17 @@ type PrivateServiceConnectConfigInitParameters struct {
 	// Optional. The reference to the network attachment used to establish private connectivity.
 	// It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
 	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentRef *v1.Reference `json:"networkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentSelector *v1.Selector `json:"networkAttachmentSelector,omitempty" tf:"-"`
 
 	// Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
 	// The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.
@@ -533,8 +553,18 @@ type PrivateServiceConnectConfigParameters struct {
 	// Optional. The reference to the network attachment used to establish private connectivity.
 	// It will be of the form projects/{project-id}/regions/{region}/networkAttachments/{network-attachment-id}.
 	// This is required only when using connection type PRIVATE_SERVICE_CONNECT_INTERFACES.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.NetworkAttachment
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
+	// Reference to a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentRef *v1.Reference `json:"networkAttachmentRef,omitempty" tf:"-"`
+
+	// Selector for a NetworkAttachment in compute to populate networkAttachment.
+	// +kubebuilder:validation:Optional
+	NetworkAttachmentSelector *v1.Selector `json:"networkAttachmentSelector,omitempty" tf:"-"`
 
 	// Optional. Input only. The CIDR block to which the CDF instance can't route traffic to in the consumer project VPC.
 	// The size of this block should be at least /25. This range should not overlap with the primary address range of any subnetwork used by the network attachment.

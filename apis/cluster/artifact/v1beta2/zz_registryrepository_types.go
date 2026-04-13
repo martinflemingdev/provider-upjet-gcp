@@ -689,6 +689,9 @@ type RegistryRepositoryObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The repository endpoint, for example: us-docker.pkg.dev/my-proj/my-repo.
+	RegistryURI *string `json:"registryUri,omitempty" tf:"registry_uri,omitempty"`
+
 	// Configuration specific for a Remote Repository.
 	// Structure is documented below.
 	RemoteRepositoryConfig *RemoteRepositoryConfigObservation `json:"remoteRepositoryConfig,omitempty" tf:"remote_repository_config,omitempty"`

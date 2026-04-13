@@ -404,7 +404,6 @@ type InstanceInitParameters struct {
 	// Immutable. User inputs for the auto-created endpoints connections.
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsInitParameters `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsInitParameters `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
 	// Optional. User-provided engine configurations for the instance.
@@ -430,6 +429,10 @@ type InstanceInitParameters struct {
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Managed backup source for the instance.
 	// Structure is documented below.
@@ -486,6 +489,9 @@ type InstanceObservation struct {
 	// Structure is documented below.
 	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
 
+	// This field is used to determine the available maintenance versions for the self service update.
+	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
+
 	// The backup collection full resource name.
 	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
 	BackupCollection *string `json:"backupCollection,omitempty" tf:"backup_collection,omitempty"`
@@ -503,7 +509,6 @@ type InstanceObservation struct {
 	// Immutable. User inputs for the auto-created endpoints connections.
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsObservation `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsObservation `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
 	// (Deprecated)
@@ -513,6 +518,9 @@ type InstanceObservation struct {
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// This field represents the actual maintenance version of the cluster.
+	EffectiveMaintenanceVersion *string `json:"effectiveMaintenanceVersion,omitempty" tf:"effective_maintenance_version,omitempty"`
 
 	// Endpoints for the instance.
 	// Structure is documented below.
@@ -551,6 +559,10 @@ type InstanceObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Managed backup source for the instance.
 	// Structure is documented below.
@@ -666,7 +678,6 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	DesiredAutoCreatedEndpoints []DesiredAutoCreatedEndpointsParameters `json:"desiredAutoCreatedEndpoints,omitempty" tf:"desired_auto_created_endpoints,omitempty"`
 
-	// desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints instead.
 	// +kubebuilder:validation:Optional
 	DesiredPscAutoConnections []DesiredPscAutoConnectionsParameters `json:"desiredPscAutoConnections,omitempty" tf:"desired_psc_auto_connections,omitempty"`
 
@@ -703,6 +714,11 @@ type InstanceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Managed backup source for the instance.
 	// Structure is documented below.

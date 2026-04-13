@@ -10,6 +10,9 @@ package v1beta1
 func (tr *AnalyticsHubDataExchange) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *AnalyticsHubListingIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *AnalyticsHubListingSubscription) Hub() {}
 
 // Hub marks this type as a conversion hub.

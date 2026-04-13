@@ -45,6 +45,7 @@ import (
 	interconnectattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/interconnectattachment"
 	managedsslcertificate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/managedsslcertificate"
 	network "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/network"
+	networkattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkattachment"
 	networkendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpoint"
 	networkendpointgroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkendpointgroup"
 	networkfirewallpolicy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/networkfirewallpolicy"
@@ -147,6 +148,7 @@ func Setup_compute(mgr ctrl.Manager, o controller.Options) error {
 		interconnectattachment.Setup,
 		managedsslcertificate.Setup,
 		network.Setup,
+		networkattachment.Setup,
 		networkendpoint.Setup,
 		networkendpointgroup.Setup,
 		networkfirewallpolicy.Setup,
@@ -255,6 +257,7 @@ func SetupGated_compute(mgr ctrl.Manager, o controller.Options) error {
 		interconnectattachment.SetupGated,
 		managedsslcertificate.SetupGated,
 		network.SetupGated,
+		networkattachment.SetupGated,
 		networkendpoint.SetupGated,
 		networkendpointgroup.SetupGated,
 		networkfirewallpolicy.SetupGated,

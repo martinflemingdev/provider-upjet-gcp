@@ -28,6 +28,30 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	if mg.Spec.ForProvider.Config != nil {
 		if mg.Spec.ForProvider.Config.NodeConfig != nil {
 			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "NetworkAttachment", "NetworkAttachmentList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachment),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachmentRef,
+					Selector:     mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachmentSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachment")
+			}
+			mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Config.NodeConfig.ComposerNetworkAttachmentRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Config != nil {
+		if mg.Spec.ForProvider.Config.NodeConfig != nil {
+			{
 				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -117,6 +141,30 @@ func (mg *Environment) ResolveReferences( // ResolveReferences of this Environme
 	mg.Spec.ForProvider.Project = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ProjectRef = rsp.ResolvedReference
 
+	if mg.Spec.InitProvider.Config != nil {
+		if mg.Spec.InitProvider.Config.NodeConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "NetworkAttachment", "NetworkAttachmentList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachment),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachmentRef,
+					Selector:     mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachmentSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachment")
+			}
+			mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachment = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Config.NodeConfig.ComposerNetworkAttachmentRef = rsp.ResolvedReference
+
+		}
+	}
 	if mg.Spec.InitProvider.Config != nil {
 		if mg.Spec.InitProvider.Config.NodeConfig != nil {
 			{

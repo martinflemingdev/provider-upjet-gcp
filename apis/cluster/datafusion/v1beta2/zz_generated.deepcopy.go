@@ -377,6 +377,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance
 		*out = new(bool)
@@ -590,6 +595,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance
 		*out = new(bool)
@@ -775,6 +785,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
 	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance
@@ -982,6 +997,16 @@ func (in *PrivateServiceConnectConfigInitParameters) DeepCopyInto(out *PrivateSe
 		*out = new(string)
 		**out = **in
 	}
+	if in.NetworkAttachmentRef != nil {
+		in, out := &in.NetworkAttachmentRef, &out.NetworkAttachmentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkAttachmentSelector != nil {
+		in, out := &in.NetworkAttachmentSelector, &out.NetworkAttachmentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.UnreachableCidrBlock != nil {
 		in, out := &in.UnreachableCidrBlock, &out.UnreachableCidrBlock
 		*out = new(string)
@@ -1036,6 +1061,16 @@ func (in *PrivateServiceConnectConfigParameters) DeepCopyInto(out *PrivateServic
 		in, out := &in.NetworkAttachment, &out.NetworkAttachment
 		*out = new(string)
 		**out = **in
+	}
+	if in.NetworkAttachmentRef != nil {
+		in, out := &in.NetworkAttachmentRef, &out.NetworkAttachmentRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.NetworkAttachmentSelector != nil {
+		in, out := &in.NetworkAttachmentSelector, &out.NetworkAttachmentSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.UnreachableCidrBlock != nil {
 		in, out := &in.UnreachableCidrBlock, &out.UnreachableCidrBlock

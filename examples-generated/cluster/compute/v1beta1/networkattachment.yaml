@@ -1,0 +1,91 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: NetworkAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    connectionPreference: ACCEPT_MANUAL
+    description: basic network attachment description
+    producerAcceptListsRefs:
+    - name: accepted_producer_project
+    producerRejectListsRefs:
+    - name: rejected_producer_project
+    region: us-central1
+    subnetworksRefs:
+    - name: default
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkattachment
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: us-central1
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkattachment
+  labels:
+    testing.upbound.io/example-name: accepted_producer_project
+  name: accepted-producer-project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    name: prj-accepted
+    orgId: "123456789"
+    projectId: prj-accepted
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1beta1/networkattachment
+  labels:
+    testing.upbound.io/example-name: rejected_producer_project
+  name: rejected-producer-project
+spec:
+  forProvider:
+    billingAccount: 000000-0000000-0000000-000000
+    deletionPolicy: DELETE
+    name: prj-rejected
+    orgId: "123456789"
+    projectId: prj-rejected

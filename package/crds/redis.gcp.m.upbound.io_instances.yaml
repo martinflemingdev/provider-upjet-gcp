@@ -249,6 +249,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: An arbitrary and optional user-provided name for
                       the instance.
@@ -613,6 +617,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: An arbitrary and optional user-provided name for
                       the instance.
@@ -880,6 +888,10 @@ spec:
                       Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
                       instance. If this is provided, CMEK is enabled.
                     type: string
+                  deletionProtection:
+                    description: When the field is set to false, deleting the instance
+                      is allowed.
+                    type: boolean
                   displayName:
                     description: An arbitrary and optional user-provided name for
                       the instance.
