@@ -19,7 +19,6 @@ import (
 	envreferences "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envreferences"
 	instance "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instance"
 	instanceattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instanceattachment"
-	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/keystoresaliaseskeycertfile"
 	nataddress "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/organization"
 	syncauthorization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/syncauthorization"
@@ -40,7 +39,6 @@ func Setup_apigee(mgr ctrl.Manager, o controller.Options) error {
 		envreferences.Setup,
 		instance.Setup,
 		instanceattachment.Setup,
-		keystoresaliaseskeycertfile.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		syncauthorization.Setup,
@@ -67,7 +65,6 @@ func SetupGated_apigee(mgr ctrl.Manager, o controller.Options) error {
 		envreferences.SetupGated,
 		instance.SetupGated,
 		instanceattachment.SetupGated,
-		keystoresaliaseskeycertfile.SetupGated,
 		nataddress.SetupGated,
 		organization.SetupGated,
 		syncauthorization.SetupGated,

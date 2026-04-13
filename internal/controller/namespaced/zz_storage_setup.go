@@ -20,7 +20,6 @@ import (
 	hmackey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/hmackey"
 	managedfolder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolder"
 	managedfolderiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolderiammember"
-	notification "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectacl"
 )
@@ -40,7 +39,6 @@ func Setup_storage(mgr ctrl.Manager, o controller.Options) error {
 		hmackey.Setup,
 		managedfolder.Setup,
 		managedfolderiammember.Setup,
-		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 	} {
@@ -66,7 +64,6 @@ func SetupGated_storage(mgr ctrl.Manager, o controller.Options) error {
 		hmackey.SetupGated,
 		managedfolder.SetupGated,
 		managedfolderiammember.SetupGated,
-		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,
 	} {

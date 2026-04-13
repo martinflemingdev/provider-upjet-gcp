@@ -35,13 +35,15 @@ func Configure(p *config.Provider) { //nolint:gocyclo
 			Extractor:     common.ExtractResourceIDFuncPath,
 		}
 	})
-	p.AddResourceConfigurator("google_apigee_keystores_aliases_key_cert_file", func(r *config.Resource) {
-		// org_id requires Organization ID without organization/ prefix, so extract name attribute
-		r.References["org_id"] = config.Reference{
-			TerraformName: "google_apigee_organization",
-			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
-		}
-	})
+	// Migrated to Terraform Plugin Framework in TF provider v7.0.0.
+	// Requires WithTerraformPluginFrameworkProvider/WithTerraformPluginFrameworkIncludeList (not yet implemented in this provider).
+	// p.AddResourceConfigurator("google_apigee_keystores_aliases_key_cert_file", func(r *config.Resource) {
+	// 	// org_id requires Organization ID without organization/ prefix, so extract name attribute
+	// 	r.References["org_id"] = config.Reference{
+	// 		TerraformName: "google_apigee_organization",
+	// 		Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("name",true)`,
+	// 	}
+	// })
 	p.AddResourceConfigurator("google_apigee_addons_config", func(r *config.Resource) {
 		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, state *terraform.InstanceState, config *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
 			if diff == nil || diff.Empty() || diff.Destroy || diff.Attributes == nil {

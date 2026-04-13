@@ -40,9 +40,6 @@ func (tr *ManagedFolder) Hub() {}
 func (tr *ManagedFolderIAMMember) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Notification) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *ObjectAccessControl) Hub() {}
 
 // Hub marks this type as a conversion hub.

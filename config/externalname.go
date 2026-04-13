@@ -850,7 +850,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following {{project}}/{{name}}
 	"google_storage_transfer_job": config.IdentifierFromProvider,
 	// Imported by using the following {{bucketbucket_name}}/notificationConfigs/{{id}}
-	"google_storage_notification": config.IdentifierFromProvider,
+	// Migrated to Terraform Plugin Framework in TF provider v7.0.0.
+	// Cannot be in terraformPluginSDKExternalNameConfigs - must use TerraformPluginFrameworkExternalNameConfigs
+	// with WithTerraformPluginFrameworkProvider and WithTerraformPluginFrameworkIncludeList (not yet implemented in this provider).
+	// "google_storage_notification": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/hmacKeys/{{access_id}}
 	"google_storage_hmac_key": config.IdentifierFromProvider,
 	// Imported by using the following format: {{bucket}}/managedFolders/{{name}}
@@ -964,8 +967,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_apigee_env_references": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/references/{{ .external_name }}"),
 	// Imported by using the following format: {{env_id}}/targetservers/{{name}}
 	"google_apigee_target_server": config.TemplatedStringAsIdentifier("name", "{{ .parameters.env_id }}/targetservers/{{ .external_name }}"),
-	// Imported by using the following format: organizations/{{org_id}}/environments/{{environment}}/keystores/{{keystore}}/aliases/{{alias}}
-	"google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
+	// Migrated to Terraform Plugin Framework in TF provider v7.0.0.
+	// Cannot be in terraformPluginSDKExternalNameConfigs - must use TerraformPluginFrameworkExternalNameConfigs
+	// with WithTerraformPluginFrameworkProvider and WithTerraformPluginFrameworkIncludeList (not yet implemented in this provider).
+	// "google_apigee_keystores_aliases_key_cert_file": config.TemplatedStringAsIdentifier("alias", "organizations/{{ .parameters.org_id }}/environments/{{ .parameters.environment }}/keystores/{{ .parameters.keystore }}/aliases/{{ .external_name }}"),
 
 	// binaryauthorization
 	//
