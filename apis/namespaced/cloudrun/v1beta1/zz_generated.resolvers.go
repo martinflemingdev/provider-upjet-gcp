@@ -576,6 +576,58 @@ func (mg *V2Job) ResolveReferences(ctx context.Context, c client.Reader) error {
 	return nil
 }
 
+// ResolveReferences of this V2JobIAMMember.
+func (mg *V2JobIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2Job", "V2JobList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.NameRef,
+			Selector:     mg.Spec.ForProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2Job", "V2JobList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.NameRef,
+			Selector:     mg.Spec.InitProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Name")
+	}
+	mg.Spec.InitProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this V2Service.
 func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
@@ -802,6 +854,444 @@ func (mg *V2Service) ResolveReferences(ctx context.Context, c client.Reader) err
 			}
 		}
 	}
+
+	return nil
+}
+
+// ResolveReferences of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2Service", "V2ServiceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.NameRef,
+			Selector:     mg.Spec.ForProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2Service", "V2ServiceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.NameRef,
+			Selector:     mg.Spec.InitProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Name")
+	}
+	mg.Spec.InitProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NameRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this V2WorkerPool.
+func (mg *V2WorkerPool) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var mrsp reference.MultiNamespacedResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template.Containers); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template.Containers[i4].Env); i5++ {
+				if mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource != nil {
+					if mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef != nil {
+						{
+							m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+							if err != nil {
+								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+							}
+							rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+								CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
+								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
+								Reference:    mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
+								Selector:     mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
+								To:           reference.To{List: l, Managed: m},
+							})
+						}
+						if err != nil {
+							return errors.Wrap(err, "mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret")
+						}
+						mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.ForProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
+
+					}
+				}
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		if mg.Spec.ForProvider.Template.VPCAccess != nil {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Network),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkRef,
+						Selector:     mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Network")
+				}
+				mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Network = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		if mg.Spec.ForProvider.Template.VPCAccess != nil {
+			for i5 := 0; i5 < len(mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkRef,
+						Selector:     mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork")
+				}
+				mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template.Volumes); i4++ {
+			if mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("sql.gcp.m.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+						CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						Extract:       resource.ExtractParamPath("connection_name", true),
+						Namespace:     mg.GetNamespace(),
+						References:    mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
+						Selector:      mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
+						To:            reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
+				}
+				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.ForProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template.Volumes); i4++ {
+			if mg.Spec.ForProvider.Template.Volumes[i4].Gcs != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketRef,
+						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket")
+				}
+				mg.Spec.ForProvider.Template.Volumes[i4].Gcs.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.Volumes[i4].Gcs.BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.ForProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.Template.Volumes); i4++ {
+			if mg.Spec.ForProvider.Template.Volumes[i4].Secret != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretRef,
+						Selector:     mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret")
+				}
+				mg.Spec.ForProvider.Template.Volumes[i4].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.ForProvider.Template.Volumes[i4].Secret.SecretRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template.Containers); i4++ {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template.Containers[i4].Env); i5++ {
+				if mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource != nil {
+					if mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef != nil {
+						{
+							m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+							if err != nil {
+								return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+							}
+							rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+								CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret),
+								Extract:      reference.ExternalName(),
+								Namespace:    mg.GetNamespace(),
+								Reference:    mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef,
+								Selector:     mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretSelector,
+								To:           reference.To{List: l, Managed: m},
+							})
+						}
+						if err != nil {
+							return errors.Wrap(err, "mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret")
+						}
+						mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+						mg.Spec.InitProvider.Template.Containers[i4].Env[i5].ValueSource.SecretKeyRef.SecretRef = rsp.ResolvedReference
+
+					}
+				}
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		if mg.Spec.InitProvider.Template.VPCAccess != nil {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Network),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkRef,
+						Selector:     mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Network")
+				}
+				mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Network = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].NetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		if mg.Spec.InitProvider.Template.VPCAccess != nil {
+			for i5 := 0; i5 < len(mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces); i5++ {
+				{
+					m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Subnetwork", "SubnetworkList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork),
+						Extract:      resource.ExtractResourceID(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkRef,
+						Selector:     mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork")
+				}
+				mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].Subnetwork = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.VPCAccess.NetworkInterfaces[i5].SubnetworkRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template.Volumes); i4++ {
+			if mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("sql.gcp.m.upbound.io", "v1beta1", "DatabaseInstance", "DatabaseInstanceList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+						CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances),
+						Extract:       resource.ExtractParamPath("connection_name", true),
+						Namespace:     mg.GetNamespace(),
+						References:    mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs,
+						Selector:      mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesSelector,
+						To:            reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances")
+				}
+				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.Instances = reference.ToPtrValues(mrsp.ResolvedValues)
+				mg.Spec.InitProvider.Template.Volumes[i4].CloudSQLInstance.InstancesRefs = mrsp.ResolvedReferences
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template.Volumes); i4++ {
+			if mg.Spec.InitProvider.Template.Volumes[i4].Gcs != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("storage.gcp.m.upbound.io", "v1beta1", "Bucket", "BucketList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketRef,
+						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket")
+				}
+				mg.Spec.InitProvider.Template.Volumes[i4].Gcs.Bucket = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.Volumes[i4].Gcs.BucketRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+	if mg.Spec.InitProvider.Template != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.Template.Volumes); i4++ {
+			if mg.Spec.InitProvider.Template.Volumes[i4].Secret != nil {
+				{
+					m, l, err = apisresolver.GetManagedResource("secretmanager.gcp.m.upbound.io", "v1beta1", "Secret", "SecretList")
+					if err != nil {
+						return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+					}
+					rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+						CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret),
+						Extract:      reference.ExternalName(),
+						Namespace:    mg.GetNamespace(),
+						Reference:    mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretRef,
+						Selector:     mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretSelector,
+						To:           reference.To{List: l, Managed: m},
+					})
+				}
+				if err != nil {
+					return errors.Wrap(err, "mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret")
+				}
+				mg.Spec.InitProvider.Template.Volumes[i4].Secret.Secret = reference.ToPtrValue(rsp.ResolvedValue)
+				mg.Spec.InitProvider.Template.Volumes[i4].Secret.SecretRef = rsp.ResolvedReference
+
+			}
+		}
+	}
+
+	return nil
+}
+
+// ResolveReferences of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2WorkerPool", "V2WorkerPoolList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.NameRef,
+			Selector:     mg.Spec.ForProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Name")
+	}
+	mg.Spec.ForProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NameRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudrun.gcp.m.upbound.io", "v1beta1", "V2WorkerPool", "V2WorkerPoolList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Name),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.NameRef,
+			Selector:     mg.Spec.InitProvider.NameSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Name")
+	}
+	mg.Spec.InitProvider.Name = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NameRef = rsp.ResolvedReference
 
 	return nil
 }

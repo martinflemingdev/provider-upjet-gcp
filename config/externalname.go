@@ -121,8 +121,16 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_cloud_run_service_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/jobs/{{name}}
 	"google_cloud_run_v2_job": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/jobs/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/jobs/{{job}} roles/viewer user:jane@example.com
+	"google_cloud_run_v2_job_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{location}}/services/{{name}}
 	"google_cloud_run_v2_service": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/services/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/services/{{service}} roles/viewer user:jane@example.com
+	"google_cloud_run_v2_service_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workerPools/{{name}}
+	"google_cloud_run_v2_worker_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/workerPools/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{location}}/workerPools/{{worker_pool}} roles/viewer user:jane@example.com
+	"google_cloud_run_v2_worker_pool_iam_member": config.IdentifierFromProvider,
 
 	// cloudscheduler
 	//

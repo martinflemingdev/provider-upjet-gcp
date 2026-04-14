@@ -34,6 +34,15 @@ func (l *ServiceList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this V2JobIAMMemberList.
+func (l *V2JobIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this V2JobList.
 func (l *V2JobList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -43,8 +52,35 @@ func (l *V2JobList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this V2ServiceIAMMemberList.
+func (l *V2ServiceIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this V2ServiceList.
 func (l *V2ServiceList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this V2WorkerPoolIAMMemberList.
+func (l *V2WorkerPoolIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this V2WorkerPoolList.
+func (l *V2WorkerPoolList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

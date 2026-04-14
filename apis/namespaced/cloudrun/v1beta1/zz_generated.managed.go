@@ -167,6 +167,46 @@ func (mg *V2Job) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReferenc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this V2JobIAMMember.
+func (mg *V2JobIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this V2JobIAMMember.
+func (mg *V2JobIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this V2JobIAMMember.
+func (mg *V2JobIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this V2JobIAMMember.
+func (mg *V2JobIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this V2JobIAMMember.
+func (mg *V2JobIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this V2JobIAMMember.
+func (mg *V2JobIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this V2JobIAMMember.
+func (mg *V2JobIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this V2JobIAMMember.
+func (mg *V2JobIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this V2Service.
 func (mg *V2Service) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -204,5 +244,125 @@ func (mg *V2Service) SetProviderConfigReference(r *xpv1.ProviderConfigReference)
 
 // SetWriteConnectionSecretToReference of this V2Service.
 func (mg *V2Service) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this V2ServiceIAMMember.
+func (mg *V2ServiceIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this V2WorkerPool.
+func (mg *V2WorkerPool) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this V2WorkerPool.
+func (mg *V2WorkerPool) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this V2WorkerPool.
+func (mg *V2WorkerPool) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this V2WorkerPool.
+func (mg *V2WorkerPool) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this V2WorkerPool.
+func (mg *V2WorkerPool) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this V2WorkerPool.
+func (mg *V2WorkerPool) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this V2WorkerPool.
+func (mg *V2WorkerPool) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this V2WorkerPool.
+func (mg *V2WorkerPool) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this V2WorkerPoolIAMMember.
+func (mg *V2WorkerPoolIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

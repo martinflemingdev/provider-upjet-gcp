@@ -115,7 +115,11 @@ import (
 	service "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/service"
 	serviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/serviceiammember"
 	v2job "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2job"
+	v2jobiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2jobiammember"
 	v2service "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2service"
+	v2serviceiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2serviceiammember"
+	v2workerpool "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2workerpool"
+	v2workerpooliammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudrun/v2workerpooliammember"
 	jobcloudscheduler "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudtasks/queue"
 	environmentcomposer "github.com/upbound/provider-gcp/v2/internal/controller/cluster/composer/environment"
@@ -568,7 +572,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.Setup,
 		serviceiammember.Setup,
 		v2job.Setup,
+		v2jobiammember.Setup,
 		v2service.Setup,
+		v2serviceiammember.Setup,
+		v2workerpool.Setup,
+		v2workerpooliammember.Setup,
 		jobcloudscheduler.Setup,
 		queue.Setup,
 		environmentcomposer.Setup,
@@ -1027,7 +1035,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		service.SetupGated,
 		serviceiammember.SetupGated,
 		v2job.SetupGated,
+		v2jobiammember.SetupGated,
 		v2service.SetupGated,
+		v2serviceiammember.SetupGated,
+		v2workerpool.SetupGated,
+		v2workerpooliammember.SetupGated,
 		jobcloudscheduler.SetupGated,
 		queue.SetupGated,
 		environmentcomposer.SetupGated,

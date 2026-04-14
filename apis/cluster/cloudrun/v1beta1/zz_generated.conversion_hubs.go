@@ -7,22 +7,7 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
-func (tr *DomainMapping) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *Service) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *ServiceIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *V2Job) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *V2JobIAMMember) Hub() {}
-
-// Hub marks this type as a conversion hub.
-func (tr *V2Service) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *V2ServiceIAMMember) Hub() {}

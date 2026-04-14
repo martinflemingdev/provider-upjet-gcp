@@ -76,8 +76,41 @@ func Configure(p *config.Provider) {
 			return diff, nil
 		}
 	})
+	p.AddResourceConfigurator("google_cloud_run_v2_job_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_job",
+		}
+	})
 	p.AddResourceConfigurator("google_cloud_run_v2_service", func(r *config.Resource) {
 		// This prevents an import cycle not allowed error
 		delete(r.References, "template.vpc_access.connector")
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_service_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_service",
+		}
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_worker_pool", func(r *config.Resource) {
+		// Upjet auto-generates a reference for vpc_access.connector
+		// pointing to google_vpc_access_connector, which lives in a
+		// different API group and creates a Go import cycle.
+		delete(r.References, "template.vpc_access.connector")
+		config.MarkAsRequired(r.TerraformResource, "location")
+		config.MarkAsRequired(r.TerraformResource, "template")
+		// The launch_stage attribute may differ from the configured
+		// value on read, causing perpetual drift. The upstream TF
+		// examples use ignore_changes to handle this; since Crossplane
+		// has no lifecycle block equivalent, we suppress it here.
+		r.TerraformCustomDiff = func(diff *terraform.InstanceDiff, _ *terraform.InstanceState, _ *terraform.ResourceConfig) (*terraform.InstanceDiff, error) {
+			if diff != nil {
+				delete(diff.Attributes, "launch_stage")
+			}
+			return diff, nil
+		}
+	})
+	p.AddResourceConfigurator("google_cloud_run_v2_worker_pool_iam_member", func(r *config.Resource) {
+		r.References["name"] = config.Reference{
+			TerraformName: "google_cloud_run_v2_worker_pool",
+		}
 	})
 }
