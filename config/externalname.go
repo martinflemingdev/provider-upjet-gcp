@@ -16,6 +16,15 @@ import (
 // belonging to Terraform resources to be reconciled under the no-fork
 // architecture for this provider.
 var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
+	// accessapproval
+	//
+	// Imported by using the following format: folders/{{folder_id}}/accessApprovalSettings
+	"google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
+	// Imported by using the following format: organizations/{{organization_id}}/accessApprovalSettings
+	"google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
+	// Imported by using the following format: projects/{{project_id}}/accessApprovalSettings
+	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
+
 	// activedirectory
 	//
 	// Imported by using the following format: {{name}}
@@ -1048,6 +1057,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}
 	"google_document_ai_processor": config.IdentifierFromProvider,
 
+	// modelarmor
+	//
+	// Imported by using the following {{parent}}/locations/{{location}}/floorSetting
+	"google_model_armor_floorsetting": config.TemplatedStringAsIdentifier("", "{{ .parameters.parent }}/locations/{{ .parameters.location }}/floorSetting"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/templates/{{template_id}}
+	"google_model_armor_template": config.TemplatedStringAsIdentifier("template_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/templates/{{ .external_name }}"),
+
 	// artifactregistry
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/repositories/{{repository_id}}
@@ -1139,6 +1155,16 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following: groups/<group_id>/memberships/<membership_id>
 	// Please see the cloudIdentity function for details.
 	"google_cloud_identity_group_membership": cloudIdentity(),
+
+	// cloud billing
+	//
+	// Imported by using "{{billing_account_id}} roles/billing.user user:jane@example.com"
+	"google_billing_account_iam_member": config.IdentifierFromProvider,
+	// Imported by using billingAccounts/{{billing_account}}/budgets/{{name}} but name is hash string and not deterministically computable
+	"google_billing_budget": config.IdentifierFromProvider,
+	// Imported by using projects/{{project}}
+	// The empty string indicates there is no separate name field; the resource identity is just the project.
+	"google_billing_project_info": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project }}"),
 }
 
 // cliReconciledExternalNameConfigs contains all external name configurations

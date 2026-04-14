@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: accessapproval.gcp.m.upbound.io/v1beta1
+kind: FolderSettings
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accessapproval/v1beta1/foldersettings
+  labels:
+    testing.upbound.io/example-name: folder_access_approval
+  name: folder-access-approval
+  namespace: upbound-system
+spec:
+  forProvider:
+    enrolledServices:
+    - cloudProduct: all
+    folderIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: my_folder
+    notificationEmails:
+    - testuser@example.com
+    - example.user@example.com
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: accessapproval/v1beta1/foldersettings
+  labels:
+    testing.upbound.io/example-name: my_folder
+  name: my-folder
+  namespace: upbound-system
+spec:
+  forProvider:
+    deletionProtection: false
+    displayName: folder-faaf
+    parentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

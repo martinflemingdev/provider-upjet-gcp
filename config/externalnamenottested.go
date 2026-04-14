@@ -28,12 +28,13 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 	// your-billing-account-id roles/billing.user
 	"google_billing_account_iam_binding": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }}"),
 	// your-billing-account-id roles/billing.user user:jane@example.com
-	"google_billing_account_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }} {{ .parameters.member }}"),
+	// Moved to externalname.go
+	// "google_billing_account_iam_member": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }} {{ .parameters.role }} {{ .parameters.member }}"),
 	// your-billing-account-id
 	"google_billing_account_iam_policy": config.TemplatedStringAsIdentifier("", "{{ .parameters.billing_account_id }}"),
 	// billingAccounts/{{billing_account}}/budgets/{{name}}
-	// TODO: For now API is not normalized. While testing resource we can check the actual ID and normalize the API.
-	"google_billing_budget": config.IdentifierFromProvider,
+	// Moved to externalname.go
+	// "google_billing_budget": config.IdentifierFromProvider,
 
 	// binaryauthorization
 	//
@@ -96,12 +97,10 @@ var ExternalNameNotTestedConfigs = map[string]config.ExternalName{
 
 	// accessapproval
 	//
-	// Imported by using the following format: folders/{{folder_id}}/accessApprovalSettings
-	"google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
-	// Imported by using the following format: organizations/{{organization_id}}/accessApprovalSettings
-	"google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
-	// Imported by using the following format: projects/{{project_id}}/accessApprovalSettings
-	"google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
+	// Moved to externalname.go
+	// "google_folder_access_approval_settings": config.TemplatedStringAsIdentifier("", "folders/{{ .parameters.folder_id }}/accessApprovalSettings"),
+	// "google_organization_access_approval_settings": config.TemplatedStringAsIdentifier("", "organizations/{{ .parameters.organization_id }}/accessApprovalSettings"),
+	// "google_project_access_approval_settings": config.TemplatedStringAsIdentifier("", "projects/{{ .parameters.project_id }}/accessApprovalSettings"),
 
 	// accesscontextmanager
 	//

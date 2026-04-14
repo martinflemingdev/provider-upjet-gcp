@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: billing.gcp.upbound.io/v1beta1
+kind: Budget
+metadata:
+  annotations:
+    meta.upbound.io/example-id: billing/v1beta1/budget
+  labels:
+    testing.upbound.io/example-name: budget
+  name: budget
+spec:
+  forProvider:
+    amount:
+      specifiedAmount:
+        currencyCode: USD
+        units: "100000"
+    billingAccount: ${data.google_billing_account.account.id}
+    displayName: Example Billing Budget
+    thresholdRules:
+    - thresholdPercent: 0.5

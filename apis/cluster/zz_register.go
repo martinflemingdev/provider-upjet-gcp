@@ -10,7 +10,8 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1beta1 "github.com/upbound/provider-gcp/v2/apis/cluster/accesscontextmanager/v1beta1"
+	v1beta1 "github.com/upbound/provider-gcp/v2/apis/cluster/accessapproval/v1beta1"
+	v1beta1accesscontextmanager "github.com/upbound/provider-gcp/v2/apis/cluster/accesscontextmanager/v1beta1"
 	v1beta2 "github.com/upbound/provider-gcp/v2/apis/cluster/accesscontextmanager/v1beta2"
 	v1beta1activedirectory "github.com/upbound/provider-gcp/v2/apis/cluster/activedirectory/v1beta1"
 	v1beta1alloydb "github.com/upbound/provider-gcp/v2/apis/cluster/alloydb/v1beta1"
@@ -27,6 +28,7 @@ import (
 	v1beta2bigquery "github.com/upbound/provider-gcp/v2/apis/cluster/bigquery/v1beta2"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v2/apis/cluster/bigtable/v1beta1"
 	v1beta2bigtable "github.com/upbound/provider-gcp/v2/apis/cluster/bigtable/v1beta2"
+	v1beta1billing "github.com/upbound/provider-gcp/v2/apis/cluster/billing/v1beta1"
 	v1beta1binaryauthorization "github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta1"
 	v1beta2binaryauthorization "github.com/upbound/provider-gcp/v2/apis/cluster/binaryauthorization/v1beta2"
 	v1beta1certificatemanager "github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta1"
@@ -110,6 +112,7 @@ import (
 	v1beta1memorystore "github.com/upbound/provider-gcp/v2/apis/cluster/memorystore/v1beta1"
 	v1beta1mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta1"
 	v1beta2mlengine "github.com/upbound/provider-gcp/v2/apis/cluster/mlengine/v1beta2"
+	v1beta1modelarmor "github.com/upbound/provider-gcp/v2/apis/cluster/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta1"
 	v1beta2monitoring "github.com/upbound/provider-gcp/v2/apis/cluster/monitoring/v1beta2"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/v2/apis/cluster/networkconnectivity/v1beta1"
@@ -157,6 +160,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1beta1accesscontextmanager.SchemeBuilder.AddToScheme,
 		v1beta2.SchemeBuilder.AddToScheme,
 		v1beta1activedirectory.SchemeBuilder.AddToScheme,
 		v1beta1alloydb.SchemeBuilder.AddToScheme,
@@ -173,6 +177,7 @@ func init() {
 		v1beta2bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
 		v1beta2bigtable.SchemeBuilder.AddToScheme,
+		v1beta1billing.SchemeBuilder.AddToScheme,
 		v1beta1binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta2binaryauthorization.SchemeBuilder.AddToScheme,
 		v1beta1certificatemanager.SchemeBuilder.AddToScheme,
@@ -256,6 +261,7 @@ func init() {
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
 		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta2mlengine.SchemeBuilder.AddToScheme,
+		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta2monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,

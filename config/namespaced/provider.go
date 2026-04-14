@@ -11,6 +11,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/beyondcorp"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/bigquery"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/bigtable"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/billing"
 	composer "github.com/upbound/provider-gcp/v2/config/namespaced/cloudcomposer"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudfunctions"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/cloudplatform"
@@ -37,6 +38,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/identityplatform"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/kms"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/logging"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/modelarmor"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/monitoring"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/networksecurity"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/notebooks"
@@ -63,6 +65,7 @@ func init() {
 	ProviderConfiguration.AddConfig(accesscontextmanager.Configure)
 	ProviderConfiguration.AddConfig(apigee.Configure)
 	ProviderConfiguration.AddConfig(bigtable.Configure)
+	ProviderConfiguration.AddConfig(billing.Configure)
 	ProviderConfiguration.AddConfig(composer.Configure)
 	ProviderConfiguration.AddConfig(cloudfunctions.Configure)
 	ProviderConfiguration.AddConfig(cloudplatform.Configure)
@@ -111,4 +114,5 @@ func init() {
 	ProviderConfiguration.AddConfig(healthcare.Configure)
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
+	ProviderConfiguration.AddConfig(modelarmor.Configure)
 }

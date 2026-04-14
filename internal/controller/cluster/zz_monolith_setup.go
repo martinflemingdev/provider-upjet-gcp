@@ -9,6 +9,9 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	foldersettings "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accessapproval/foldersettings"
+	organizationsettings "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accessapproval/organizationsettings"
+	projectsettings "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accessapproval/projectsettings"
 	accesslevel "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesslevel"
 	accesslevelcondition "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesslevelcondition"
 	accesspolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/accesscontextmanager/accesspolicy"
@@ -73,6 +76,9 @@ import (
 	tableiambindingbigtable "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiambinding"
 	tableiammemberbigtable "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiammember"
 	tableiampolicybigtable "github.com/upbound/provider-gcp/v2/internal/controller/cluster/bigtable/tableiampolicy"
+	accountiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/billing/accountiammember"
+	budget "github.com/upbound/provider-gcp/v2/internal/controller/cluster/billing/budget"
+	projectinfo "github.com/upbound/provider-gcp/v2/internal/controller/cluster/billing/projectinfo"
 	attestor "github.com/upbound/provider-gcp/v2/internal/controller/cluster/binaryauthorization/attestor"
 	policy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/binaryauthorization/policy"
 	certificate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/certificatemanager/certificate"
@@ -322,6 +328,8 @@ import (
 	instancememorystore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v2/internal/controller/cluster/memorystore/instancedesiredusercreatedendpoints"
 	model "github.com/upbound/provider-gcp/v2/internal/controller/cluster/mlengine/model"
+	floorsetting "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/floorsetting"
+	template "github.com/upbound/provider-gcp/v2/internal/controller/cluster/modelarmor/template"
 	alertpolicy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/alertpolicy"
 	customservice "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/customservice"
 	dashboard "github.com/upbound/provider-gcp/v2/internal/controller/cluster/monitoring/dashboard"
@@ -416,6 +424,9 @@ import (
 // the supplied manager.
 func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		foldersettings.Setup,
+		organizationsettings.Setup,
+		projectsettings.Setup,
 		accesslevel.Setup,
 		accesslevelcondition.Setup,
 		accesspolicy.Setup,
@@ -480,6 +491,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tableiambindingbigtable.Setup,
 		tableiammemberbigtable.Setup,
 		tableiampolicybigtable.Setup,
+		accountiammember.Setup,
+		budget.Setup,
+		projectinfo.Setup,
 		attestor.Setup,
 		policy.Setup,
 		certificate.Setup,
@@ -729,6 +743,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
 		model.Setup,
+		floorsetting.Setup,
+		template.Setup,
 		alertpolicy.Setup,
 		customservice.Setup,
 		dashboard.Setup,
@@ -829,6 +845,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		foldersettings.SetupGated,
+		organizationsettings.SetupGated,
+		projectsettings.SetupGated,
 		accesslevel.SetupGated,
 		accesslevelcondition.SetupGated,
 		accesspolicy.SetupGated,
@@ -893,6 +912,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tableiambindingbigtable.SetupGated,
 		tableiammemberbigtable.SetupGated,
 		tableiampolicybigtable.SetupGated,
+		accountiammember.SetupGated,
+		budget.SetupGated,
+		projectinfo.SetupGated,
 		attestor.SetupGated,
 		policy.SetupGated,
 		certificate.SetupGated,
@@ -1142,6 +1164,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
 		model.SetupGated,
+		floorsetting.SetupGated,
+		template.SetupGated,
 		alertpolicy.SetupGated,
 		customservice.SetupGated,
 		dashboard.SetupGated,
