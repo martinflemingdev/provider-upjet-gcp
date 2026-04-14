@@ -1,7 +1,7 @@
 # Implementing Terraform Plugin Framework Resources in Upjet Providers
 
 > **Status**: Research / Planning  
-> **Date**: 2025-07-23  
+> **Date**: 2026-04-13
 > **Branch**: `tf-7.20.0`  
 > **Context**: Bumping `hashicorp/terraform-provider-google` from v6.47.0 → v7.20.0 exposed that two resources migrated from Plugin SDK to Plugin Framework in v7.0.0, causing a runtime panic.
 
@@ -15,10 +15,11 @@
 4. [GCP TF Provider Framework Resources](#gcp-tf-provider-framework-resources)
 5. [Upjet v2 Framework Support](#upjet-v2-framework-support)
 6. [Working Reference: provider-upjet-aws](#working-reference-provider-upjet-aws)
-7. [Implementation Steps for provider-upjet-gcp](#implementation-steps-for-provider-upjet-gcp)
-8. [Blockers and Open Questions](#blockers-and-open-questions)
-9. [Temporary Workaround](#temporary-workaround)
-10. [File Reference Matrix](#file-reference-matrix)
+7. [Cross-Provider Comparison: AWS vs Azure vs GCP](#cross-provider-comparison-aws-vs-azure-vs-gcp)
+8. [Implementation Steps for provider-upjet-gcp](#implementation-steps-for-provider-upjet-gcp)
+9. [Blockers and Open Questions](#blockers-and-open-questions)
+10. [Temporary Workaround](#temporary-workaround)
+11. [File Reference Matrix](#file-reference-matrix)
 
 ---
 
@@ -265,6 +266,128 @@ func main() {
 
 ---
 
+## Cross-Provider Comparison: AWS vs Azure vs GCP
+
+Researching all three major Upjet providers reveals distinct architectural patterns. Only **AWS** has implemented Framework resource support. Understanding the differences informs what GCP needs to adopt.
+
+### Architecture Summary
+
+| Aspect | AWS | Azure | GCP (current) |
+|--------|-----|-------|---------------|
+| **TF Provider Version** | Latest | v4.54.0 | v7.20.0 |
+| **`go.mod replace`** | `upbound/terraform-provider-aws` | `upbound/terraform-provider-azurerm` | None (uses `hashicorp` directly) |
+| **`xpprovider` Package** | ✅ In Upbound's fork | ✅ In Upbound's fork (SDK-only) | ❌ None |
+| **`xpprovider` Returns** | `(fwProvider, sdkProvider, err)` | `(*schema.Provider, error)` | N/A — calls `provider.Provider()` |
+| **Framework Resources** | ✅ Full support | ❌ Not needed (all SDK at v4.54.0) | ❌ Not implemented (2 resources affected) |
+| **External Name Maps** | SDK + Framework + CLI | SDK + CLI | SDK only |
+| **Resource Tiers** | Framework > SDK > CLI | SDK > CLI | SDK only |
+| **Upjet Version** | v2.2.1-0.20251128 | v2.2.1-0.20251217 | v2.0.1 |
+
+### The `go.mod replace` Pattern
+
+All three providers import the upstream TF provider, but AWS and Azure redirect to **Upbound-maintained forks** via `go.mod replace`:
+
+**AWS** (`go.mod`):
+```
+replace github.com/hashicorp/terraform-provider-aws =>
+    github.com/upbound/terraform-provider-aws v0.0.0-20260305123303-f7691456b787
+```
+
+**Azure** (`go.mod`):
+```
+replace github.com/hashicorp/terraform-provider-azurerm =>
+    github.com/upbound/terraform-provider-azurerm v0.0.0-20251127122522-9029e3f708c4
+```
+
+**GCP** (`go.mod`):
+```
+github.com/hashicorp/terraform-provider-google v1.20.1-0.20260217183254-340083741c96
+```
+No `replace` directive — imports `hashicorp/terraform-provider-google` directly.
+
+The forks contain the `xpprovider` package that the Upjet provider imports. **GCP's lack of a fork means there's nowhere for an `xpprovider` package to live** (in the upstream-import style). This is why Step 1 in the implementation plan proposes creating a local wrapper.
+
+### Azure Deep Dive: `xpprovider` (SDK-Only)
+
+Azure's fork contains an `xpprovider` package generated from [`hack/provider.go.txt`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/hack/provider.go.txt):
+
+```go
+package xpprovider
+
+import (
+    "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+    "github.com/hashicorp/terraform-provider-azurerm/internal/provider"
+)
+
+func Provider() *schema.Provider {
+    return provider.AzureProvider()
+}
+```
+
+This wraps the SDK provider **only** — no Framework provider. The generated `zz_main.go` files call:
+
+```go
+sdkProvider, err := xpprovider.GetProviderSchema(context.Background())
+// ... only sdkProvider, no fwProvider
+clusterProvider, err := config.GetProvider(ctx, sdkProvider, false)
+```
+
+> Source: [`hack/main.go.tmpl`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/hack/main.go.tmpl)
+
+### Azure: CLI-Reconciled Resources
+
+A notable Azure pattern **not present in GCP** is the CLI-reconciled resource tier. Azure defines two external name maps:
+
+```go
+var TerraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{ /* ... */ }
+var CLIReconciledExternalNameConfigs = map[string]config.ExternalName{ /* ... */ }
+```
+
+And two corresponding resource list functions:
+
+```go
+func TerraformPluginSDKResourceList() []string { /* ... */ }
+func CLIReconciledResourceList() []string { /* ... */ }
+```
+
+The `ResourceConfigurator()` applies with **SDK > CLI** precedence:
+
+```go
+func ResourceConfigurator() config.ResourceOption {
+    return func(r *config.Resource) {
+        if e, ok := TerraformPluginSDKExternalNameConfigs[r.Name]; ok {
+            r.ExternalName = e
+        } else if e, ok := CLIReconciledExternalNameConfigs[r.Name]; ok {
+            r.ExternalName = e
+        }
+    }
+}
+```
+
+CLI-reconciled resources fall back to executing `terraform` CLI commands instead of direct SDK calls. This could be useful for GCP resources that are problematic with direct SDK reconciliation.
+
+> Source: [`config/externalname.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/externalname.go), [`config/registry_common.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/registry_common.go)
+
+### Azure: Other Notable Patterns
+
+| Pattern | Description | GCP Equivalent |
+|---------|-------------|----------------|
+| `hack/provider.go.txt` | Template placed into fork's `xpprovider/` dir | None — could adopt if GCP creates a fork |
+| `common.RemoveIndex(r.ExternalName.IdentifierFields, "field")` | Removes fields from external name identifier list | Not used in GCP |
+| `bumpVersionsWithEmbeddedLists()` | Singleton list → embedded object migration for API compatibility | GCP has `old-singleton-list-apis.txt` but different approach |
+| `SchemaElementOptions.SetInitProviderOverrides()` with `TagOverrides` | Fine-grained init provider overrides | Not used in GCP |
+
+### Key Takeaway
+
+To implement Framework support for GCP, the **AWS pattern is the model to follow** (not Azure). Specifically:
+
+1. **AWS** is the only Upjet provider with working Framework plumbing
+2. **Azure** is in the same boat as GCP (SDK-only) but hasn't needed Framework support yet because Azure TF provider v4.54.0 hasn't migrated any resources
+3. **GCP** is unique in having **no fork and no `xpprovider` package at all**, making it the least scaffolded of the three
+4. GCP could additionally adopt the **CLI-reconciled tier from Azure** as a third reconciliation strategy for problematic resources
+
+---
+
 ## Implementation Steps for provider-upjet-gcp
 
 ### Step 1: Create a `GetProvider` Function That Returns Both Providers
@@ -506,15 +629,16 @@ This means these 2 resources will not be generated as CRDs. They can be re-enabl
 
 ## File Reference Matrix
 
-| File (GCP) | File (AWS Reference) | What Changes |
-|------------|---------------------|-------------|
-| `config/externalname.go` | [`config/externalname.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/externalname.go) | Add `TerraformPluginFrameworkExternalNameConfigs` map |
-| `config/registry_common.go` | [`config/registry_common.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_common.go) | Add `TerraformPluginFrameworkResourceList()` |
-| `config/registry_cluster.go` | [`config/registry_cluster.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_cluster.go) | Add `fwProvider` param + Framework options |
-| `config/registry_namespaced.go` | [`config/registry_namespaced.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_namespaced.go) | Add `fwProvider` param + Framework options |
-| `hack/main.go.tmpl` | [`hack/main.go.tmpl`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/hack/main.go.tmpl) | Import xpprovider, call `GetProvider()` for both |
-| `cmd/generator/main.go` | [`cmd/generator/main.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/cmd/generator/main.go) | Import xpprovider, call `GetProvider()` for both |
-| *(new)* `internal/xpprovider/provider.go` | N/A (lives in TF provider for AWS) | Create local wrapper to construct both providers |
+| File (GCP) | File (AWS Reference) | File (Azure Reference) | What Changes |
+|------------|---------------------|----------------------|-------------|
+| `config/externalname.go` | [`config/externalname.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/externalname.go) | [`config/externalname.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/externalname.go) | Add `TerraformPluginFrameworkExternalNameConfigs` map |
+| `config/registry_common.go` | [`config/registry_common.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_common.go) | [`config/registry_common.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/registry_common.go) | Add `TerraformPluginFrameworkResourceList()` |
+| `config/registry_cluster.go` | [`config/registry_cluster.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_cluster.go) | [`config/registry_cluster.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/registry_cluster.go) | Add `fwProvider` param + Framework options |
+| `config/registry_namespaced.go` | [`config/registry_namespaced.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/config/registry_namespaced.go) | [`config/registry_namespaced.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/config/registry_namespaced.go) | Add `fwProvider` param + Framework options |
+| `hack/main.go.tmpl` | [`hack/main.go.tmpl`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/hack/main.go.tmpl) | [`hack/main.go.tmpl`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/hack/main.go.tmpl) | Import xpprovider, call `GetProvider()` for both |
+| `cmd/generator/main.go` | [`cmd/generator/main.go`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/cmd/generator/main.go) | [`cmd/generator/main.go`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/cmd/generator/main.go) | Import xpprovider, call `GetProvider()` for both |
+| `go.mod` | [`go.mod`](https://github.com/crossplane-contrib/provider-upjet-aws/blob/main/go.mod) | [`go.mod`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/go.mod) | Add `replace` directive to point to Upbound fork |
+| *(new)* `internal/xpprovider/provider.go` | N/A (lives in TF provider fork) | [`hack/provider.go.txt`](https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/hack/provider.go.txt) | Create local wrapper to construct both providers |
 
 ---
 
@@ -522,6 +646,10 @@ This means these 2 resources will not be generated as CRDs. They can be re-enabl
 
 - **Upjet Adding a New Resource**: https://github.com/crossplane/upjet/blob/main/docs/adding-new-resource.md
 - **provider-upjet-aws (working Framework impl)**: https://github.com/crossplane-contrib/provider-upjet-aws
+- **provider-upjet-azure (SDK + CLI, no Framework)**: https://github.com/crossplane-contrib/provider-upjet-azure
 - **Upjet Framework Connector Source**: https://github.com/crossplane/upjet/tree/main/pkg/controller
 - **GCP TF Provider Framework Resources**: https://github.com/hashicorp/terraform-provider-google/blob/main/google/fwprovider/framework_provider.go
 - **AWS TF Provider xpprovider Package**: https://github.com/hashicorp/terraform-provider-aws (search for `xpprovider/` directory)
+- **Azure hack/provider.go.txt**: https://github.com/crossplane-contrib/provider-upjet-azure/blob/main/hack/provider.go.txt
+- **Upbound AWS TF Fork (contains xpprovider)**: https://github.com/upbound/terraform-provider-aws
+- **Upbound Azure TF Fork (contains xpprovider, SDK-only)**: https://github.com/upbound/terraform-provider-azurerm
