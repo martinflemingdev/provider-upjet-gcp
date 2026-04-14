@@ -431,6 +431,8 @@ import (
 	reasoningengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/reasoningengine"
 	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/tensorboard"
 	connector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vpcaccess/connector"
+	instanceworkbench "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workbench/instance"
+	instanceiammemberworkbench "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workbench/instanceiammember"
 	workflow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workflows/workflow"
 )
 
@@ -860,6 +862,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengine.Setup,
 		tensorboard.Setup,
 		connector.Setup,
+		instanceworkbench.Setup,
+		instanceiammemberworkbench.Setup,
 		workflow.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -1295,6 +1299,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		reasoningengine.SetupGated,
 		tensorboard.SetupGated,
 		connector.SetupGated,
+		instanceworkbench.SetupGated,
+		instanceiammemberworkbench.SetupGated,
 		workflow.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

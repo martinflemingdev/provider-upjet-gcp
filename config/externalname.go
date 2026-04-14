@@ -1141,6 +1141,13 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using the following projects/{{project}}/locations/{{region}}/connectors/{{name}}
 	"google_vpc_access_connector": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/connectors/{{ .external_name }}"),
 
+	// workbench (Vertex AI Workbench)
+	//
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{name}}
+	"google_workbench_instance": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/instances/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/instances/{{name}} roles/viewer user:jane@example.com
+	"google_workbench_instance_iam_member": config.IdentifierFromProvider,
+
 	// workflows
 	//
 	// No import

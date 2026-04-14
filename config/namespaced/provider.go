@@ -58,6 +58,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/tpu"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vertexai"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/vpcaccess"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/workbench"
 )
 
 func init() {
@@ -115,4 +116,5 @@ func init() {
 	ProviderConfiguration.AddConfig(gkehub.Configure)
 	ProviderConfiguration.AddConfig(monitoring.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
+	ProviderConfiguration.AddConfig(workbench.Configure)
 }
