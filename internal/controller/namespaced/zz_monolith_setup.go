@@ -412,9 +412,23 @@ import (
 	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/tags/tagvalue"
+	cacheconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/cacheconfig"
 	datasetvertexai "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/dataset"
+	deploymentresourcepool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/deploymentresourcepool"
+	endpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/endpoint"
+	endpointwithmodelgardendeployment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/endpointwithmodelgardendeployment"
+	featuregroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featuregroup"
+	featuregroupfeature "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featuregroupfeature"
+	featureonlinestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featureonlinestore"
+	featureonlinestorefeatureview "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featureonlinestorefeatureview"
 	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestoreentitytype"
+	featurestoreentitytypefeature "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/featurestoreentitytypefeature"
+	index "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/index"
+	indexendpoint "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/indexendpoint"
+	indexendpointdeployedindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/indexendpointdeployedindex"
+	ragengineconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/ragengineconfig"
+	reasoningengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/reasoningengine"
 	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/tensorboard"
 	connector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vpcaccess/connector"
 	workflow "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/workflows/workflow"
@@ -827,9 +841,23 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
+		cacheconfig.Setup,
 		datasetvertexai.Setup,
+		deploymentresourcepool.Setup,
+		endpoint.Setup,
+		endpointwithmodelgardendeployment.Setup,
+		featuregroup.Setup,
+		featuregroupfeature.Setup,
+		featureonlinestore.Setup,
+		featureonlinestorefeatureview.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
+		featurestoreentitytypefeature.Setup,
+		index.Setup,
+		indexendpoint.Setup,
+		indexendpointdeployedindex.Setup,
+		ragengineconfig.Setup,
+		reasoningengine.Setup,
 		tensorboard.Setup,
 		connector.Setup,
 		workflow.Setup,
@@ -1248,9 +1276,23 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
+		cacheconfig.SetupGated,
 		datasetvertexai.SetupGated,
+		deploymentresourcepool.SetupGated,
+		endpoint.SetupGated,
+		endpointwithmodelgardendeployment.SetupGated,
+		featuregroup.SetupGated,
+		featuregroupfeature.SetupGated,
+		featureonlinestore.SetupGated,
+		featureonlinestorefeatureview.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,
+		featurestoreentitytypefeature.SetupGated,
+		index.SetupGated,
+		indexendpoint.SetupGated,
+		indexendpointdeployedindex.SetupGated,
+		ragengineconfig.SetupGated,
+		reasoningengine.SetupGated,
 		tensorboard.SetupGated,
 		connector.SetupGated,
 		workflow.SetupGated,

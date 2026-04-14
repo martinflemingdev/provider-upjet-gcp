@@ -7,13 +7,55 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
+func (tr *CacheConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Dataset) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DeploymentResourcePool) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Endpoint) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *EndpointWithModelGardenDeployment) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureGroupFeature) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureOnlineStore) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeatureOnlineStoreFeatureview) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Featurestore) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FeaturestoreEntitytype) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *FeaturestoreEntitytypeFeature) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Index) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IndexEndpoint) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IndexEndpointDeployedIndex) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *RagEngineConfig) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *ReasoningEngine) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Tensorboard) Hub() {}

@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: FeaturestoreEntitytypeFeature
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featurestoreentitytypefeature
+  labels:
+    testing.upbound.io/example-name: feature
+  name: feature
+spec:
+  forProvider:
+    entitytypeSelector:
+      matchLabels:
+        testing.upbound.io/example-name: entity
+    labels:
+      foo: bar
+    name: terraform
+    valueType: INT64_ARRAY
+
+---
+
+apiVersion: vertexai.gcp.upbound.io/v1beta2
+kind: Featurestore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featurestoreentitytypefeature
+  labels:
+    testing.upbound.io/example-name: featurestore
+  name: featurestore
+spec:
+  forProvider:
+    labels:
+      foo: bar
+    name: terraform
+    onlineServingConfig:
+      fixedNodeCount: 2
+    region: us-central1
+
+---
+
+apiVersion: vertexai.gcp.upbound.io/v1beta2
+kind: FeaturestoreEntitytype
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featurestoreentitytypefeature
+  labels:
+    testing.upbound.io/example-name: entity
+  name: entity
+spec:
+  forProvider:
+    featurestoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: featurestore
+    labels:
+      foo: bar
+    name: terraform

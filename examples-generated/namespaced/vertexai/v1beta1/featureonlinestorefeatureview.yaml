@@ -1,0 +1,103 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: FeatureOnlineStoreFeatureview
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featureonlinestorefeatureview
+  labels:
+    testing.upbound.io/example-name: featureview
+  name: featureview
+  namespace: upbound-system
+spec:
+  forProvider:
+    bigQuerySource:
+      entityIdColumns:
+      - test_entity_column
+      uri: bq://${google_bigquery_table.tf-test-table.project}.${google_bigquery_table.tf-test-table.dataset_id}.${google_bigquery_table.tf-test-table.table_id}
+    featureOnlineStoreSelector:
+      matchLabels:
+        testing.upbound.io/example-name: featureonlinestore
+    region: us-central1
+    syncConfig:
+      cron: 0 0 * * *
+
+---
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Dataset
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featureonlinestorefeatureview
+  labels:
+    testing.upbound.io/example-name: tf-test-dataset
+  name: tf-test-dataset
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: This is a test description
+    friendlyName: test
+    location: US
+
+---
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featureonlinestorefeatureview
+  labels:
+    testing.upbound.io/example-name: tf-test-table
+  name: tf-test-table
+  namespace: upbound-system
+spec:
+  forProvider:
+    datasetIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    deletionProtection: false
+    schema: |2
+        [
+        {
+          "name": "entity_id",
+          "mode": "NULLABLE",
+          "type": "STRING",
+          "description": "Test default entity_id"
+        },
+          {
+          "name": "test_entity_column",
+          "mode": "NULLABLE",
+          "type": "STRING",
+          "description": "test secondary entity column"
+        },
+        {
+          "name": "feature_timestamp",
+          "mode": "NULLABLE",
+          "type": "TIMESTAMP",
+          "description": "Default timestamp value"
+        }
+      ]
+
+---
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: FeatureOnlineStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/featureonlinestorefeatureview
+  labels:
+    testing.upbound.io/example-name: featureonlinestore
+  name: featureonlinestore
+  namespace: upbound-system
+spec:
+  forProvider:
+    bigtable:
+      autoScaling:
+        cpuUtilizationTarget: 80
+        maxNodeCount: 2
+        minNodeCount: 1
+    labels:
+      foo: bar
+    region: us-central1

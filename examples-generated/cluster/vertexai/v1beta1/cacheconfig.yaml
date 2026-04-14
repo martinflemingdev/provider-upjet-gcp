@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.upbound.io/v1beta1
+kind: CacheConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/cacheconfig
+  labels:
+    testing.upbound.io/example-name: cache_config
+  name: cache-config
+spec:
+  forProvider:
+    disableCache: true
+    project: my-project-name

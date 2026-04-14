@@ -1049,8 +1049,46 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_featurestore": config.IdentifierFromProvider,
 	// Imported by using the following {{featurestore}}/entityTypes/{{name}}
 	"google_vertex_ai_featurestore_entitytype": config.IdentifierFromProvider,
+	// Imported by using the following {{entitytype}}/features/{{name}}
+	"google_vertex_ai_featurestore_entitytype_feature": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/tensorboards/{{name}}
 	"google_vertex_ai_tensorboard": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/tensorboards/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/deploymentResourcePools/{{name}}
+	"google_vertex_ai_deployment_resource_pool": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/deploymentResourcePools/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{name}}
+	"google_vertex_ai_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.location }}/endpoints/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/endpoints/{{endpoint}} roles/viewer user:jane@example.com
+	"google_vertex_ai_endpoint_iam_member": config.IdentifierFromProvider,
+	// No Import
+	"google_vertex_ai_endpoint_with_model_garden_deployment": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/indexes/{{name}}
+	"google_vertex_ai_index": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/indexes/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/indexEndpoints/{{name}}
+	"google_vertex_ai_index_endpoint": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/indexEndpoints/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/indexEndpoints/{{index_endpoint}}/deployedIndex/{{deployed_index_id}}
+	"google_vertex_ai_index_endpoint_deployed_index": config.TemplatedStringAsIdentifier("deployed_index_id", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/indexEndpoints/{{ .parameters.index_endpoint }}/deployedIndex/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/metadataStores/{{name}}
+	"google_vertex_ai_metadata_store": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/metadataStores/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/ragEngineConfig
+	"google_vertex_ai_rag_engine_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/ragEngineConfig"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{name}}
+	"google_vertex_ai_feature_group": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureGroups/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{feature_group}}/features/{{name}}
+	"google_vertex_ai_feature_group_feature": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureGroups/{{ .parameters.feature_group }}/features/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureGroups/{{feature_group}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_group_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{name}}
+	"google_vertex_ai_feature_online_store": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureOnlineStores/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}}/featureViews/{{name}}
+	"google_vertex_ai_feature_online_store_featureview": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/featureOnlineStores/{{ .parameters.feature_online_store }}/featureViews/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}}/featureViews/{{featureview}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_online_store_featureview_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}} roles/viewer user:jane@example.com
+	"google_vertex_ai_feature_online_store_iam_member": config.IdentifierFromProvider,
+	// Imported by using the following projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
+	"google_vertex_ai_reasoning_engine": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/reasoningEngines/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/cacheConfig
+	"google_vertex_ai_cache_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/cacheConfig"),
 
 	// documentai
 	//

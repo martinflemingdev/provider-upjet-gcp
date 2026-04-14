@@ -1,0 +1,134 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: IndexEndpointDeployedIndex
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: basic_deployed_index
+  name: basic-deployed-index
+  namespace: upbound-system
+spec:
+  forProvider:
+    deployedIndexAuthConfig:
+      authProvider:
+        allowedIssuers:
+        - ${google_service_account.sa.email}
+        audiences:
+        - 123456-my-app
+    displayName: vertex-deployed-index
+    enableAccessLogging: false
+    indexEndpointSelector:
+      matchLabels:
+        testing.upbound.io/example-name: vertex_index_endpoint_deployed
+    indexSelector:
+      matchLabels:
+        testing.upbound.io/example-name: index
+    region: us-central1
+    reservedIpRanges:
+    - vertex-ai-range
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: sa
+  name: sa
+  namespace: upbound-system
+spec:
+  forProvider: {}
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: Bucket
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: bucket
+  name: bucket
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: us-central1
+    uniformBucketLevelAccess: true
+
+---
+
+apiVersion: storage.gcp.m.upbound.io/v1beta1
+kind: BucketObject
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: data
+  name: data
+  namespace: upbound-system
+spec:
+  forProvider:
+    bucketSelector:
+      matchLabels:
+        testing.upbound.io/example-name: bucket
+    content: |
+      {"id": "42", "embedding": [0.5, 1.0], "restricts": [{"namespace": "class", "allow": ["cat", "pet"]},{"namespace": "category", "allow": ["feline"]}]}
+      {"id": "43", "embedding": [0.6, 1.0], "restricts": [{"namespace": "class", "allow": ["dog", "pet"]},{"namespace": "category", "allow": ["canine"]}]}
+    name: contents/data.json
+
+---
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: Index
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: index
+  name: index
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: index for test
+    displayName: test-index
+    indexUpdateMethod: BATCH_UPDATE
+    labels:
+      foo: bar
+    metadata:
+      config:
+        algorithmConfig:
+          treeAhConfig:
+            leafNodeEmbeddingCount: 500
+            leafNodesToSearchPercent: 7
+        approximateNeighborsCount: 150
+        dimensions: 2
+        distanceMeasureType: DOT_PRODUCT_DISTANCE
+        shardSize: SHARD_SIZE_SMALL
+      contentsDeltaUri: bucket-name
+    region: us-central1
+
+---
+
+apiVersion: vertexai.gcp.m.upbound.io/v1beta1
+kind: IndexEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: vertexai/v1beta1/indexendpointdeployedindex
+  labels:
+    testing.upbound.io/example-name: vertex_index_endpoint_deployed
+  name: vertex-index-endpoint-deployed
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A sample vertex endpoint
+    displayName: sample-endpoint
+    labels:
+      label-one: value-one
+    network: projects/${data.google_project.project.number}/global/networks/${data.google_compute_network.vertex_network.name}
+    region: us-central1
