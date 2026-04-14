@@ -32,6 +32,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/namespaced/endpoints"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/firebaserules"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/gameservices"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/gemini"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/gkehub"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/healthcare"
 	"github.com/upbound/provider-gcp/v2/config/namespaced/iap"
@@ -117,4 +118,5 @@ func init() {
 	ProviderConfiguration.AddConfig(monitoring.Configure)
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(workbench.Configure)
+	ProviderConfiguration.AddConfig(gemini.Configure)
 }

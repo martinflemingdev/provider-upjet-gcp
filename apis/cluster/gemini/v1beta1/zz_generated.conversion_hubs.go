@@ -13,16 +13,34 @@ func (tr *CodeRepositoryIndex) Hub() {}
 func (tr *CodeToolsSetting) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *CodeToolsSettingBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *DataSharingWithGoogleSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataSharingWithGoogleSettingBinding) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *GeminiGCPEnablementSetting) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *GeminiGCPEnablementSettingBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *LoggingSetting) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *LoggingSettingBinding) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *ReleaseChannelSetting) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ReleaseChannelSettingBinding) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *RepositoryGroup) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *RepositoryGroupIAMMember) Hub() {}

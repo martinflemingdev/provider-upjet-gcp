@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: gemini.gcp.m.upbound.io/v1beta1
+kind: LoggingSettingBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/loggingsettingbinding
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: upbound-system
+spec:
+  forProvider:
+    location: global
+    loggingSettingIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic
+    target: projects/980109375338
+
+---
+
+apiVersion: gemini.gcp.m.upbound.io/v1beta1
+kind: LoggingSetting
+metadata:
+  annotations:
+    meta.upbound.io/example-id: gemini/v1beta1/loggingsettingbinding
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    labels:
+      my_key: my_value
+    location: global
+    logPromptsAndResponses: true

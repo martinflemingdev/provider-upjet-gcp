@@ -16,8 +16,26 @@ func (l *CodeRepositoryIndexList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this CodeToolsSettingBindingList.
+func (l *CodeToolsSettingBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this CodeToolsSettingList.
 func (l *CodeToolsSettingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DataSharingWithGoogleSettingBindingList.
+func (l *DataSharingWithGoogleSettingBindingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -34,8 +52,26 @@ func (l *DataSharingWithGoogleSettingList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this GeminiGCPEnablementSettingBindingList.
+func (l *GeminiGCPEnablementSettingBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this GeminiGCPEnablementSettingList.
 func (l *GeminiGCPEnablementSettingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this LoggingSettingBindingList.
+func (l *LoggingSettingBindingList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -52,8 +88,26 @@ func (l *LoggingSettingList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this ReleaseChannelSettingBindingList.
+func (l *ReleaseChannelSettingBindingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this ReleaseChannelSettingList.
 func (l *ReleaseChannelSettingList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this RepositoryGroupIAMMemberList.
+func (l *RepositoryGroupIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

@@ -111,8 +111,17 @@ type RepositoryGroupObservation struct {
 type RepositoryGroupParameters struct {
 
 	// Required. Id of the Code Repository Index.
-	// +kubebuilder:validation:Required
-	CodeRepositoryIndex *string `json:"codeRepositoryIndex" tf:"code_repository_index,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/gemini/v1beta1.CodeRepositoryIndex
+	// +kubebuilder:validation:Optional
+	CodeRepositoryIndex *string `json:"codeRepositoryIndex,omitempty" tf:"code_repository_index,omitempty"`
+
+	// Reference to a CodeRepositoryIndex in gemini to populate codeRepositoryIndex.
+	// +kubebuilder:validation:Optional
+	CodeRepositoryIndexRef *v1.Reference `json:"codeRepositoryIndexRef,omitempty" tf:"-"`
+
+	// Selector for a CodeRepositoryIndex in gemini to populate codeRepositoryIndex.
+	// +kubebuilder:validation:Optional
+	CodeRepositoryIndexSelector *v1.Selector `json:"codeRepositoryIndexSelector,omitempty" tf:"-"`
 
 	// Optional. Labels as key value pairs.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.

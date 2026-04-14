@@ -87,6 +87,46 @@ func (mg *CodeToolsSetting) SetWriteConnectionSecretToReference(r *xpv1.LocalSec
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this CodeToolsSettingBinding.
+func (mg *CodeToolsSettingBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this DataSharingWithGoogleSetting.
 func (mg *DataSharingWithGoogleSetting) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -124,6 +164,46 @@ func (mg *DataSharingWithGoogleSetting) SetProviderConfigReference(r *xpv1.Provi
 
 // SetWriteConnectionSecretToReference of this DataSharingWithGoogleSetting.
 func (mg *DataSharingWithGoogleSetting) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this DataSharingWithGoogleSettingBinding.
+func (mg *DataSharingWithGoogleSettingBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
@@ -167,6 +247,46 @@ func (mg *GeminiGCPEnablementSetting) SetWriteConnectionSecretToReference(r *xpv
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this GeminiGCPEnablementSettingBinding.
+func (mg *GeminiGCPEnablementSettingBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this LoggingSetting.
 func (mg *LoggingSetting) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -204,6 +324,46 @@ func (mg *LoggingSetting) SetProviderConfigReference(r *xpv1.ProviderConfigRefer
 
 // SetWriteConnectionSecretToReference of this LoggingSetting.
 func (mg *LoggingSetting) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this LoggingSettingBinding.
+func (mg *LoggingSettingBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
@@ -247,6 +407,46 @@ func (mg *ReleaseChannelSetting) SetWriteConnectionSecretToReference(r *xpv1.Loc
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this ReleaseChannelSettingBinding.
+func (mg *ReleaseChannelSettingBinding) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this RepositoryGroup.
 func (mg *RepositoryGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -284,5 +484,45 @@ func (mg *RepositoryGroup) SetProviderConfigReference(r *xpv1.ProviderConfigRefe
 
 // SetWriteConnectionSecretToReference of this RepositoryGroup.
 func (mg *RepositoryGroup) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this RepositoryGroupIAMMember.
+func (mg *RepositoryGroupIAMMember) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

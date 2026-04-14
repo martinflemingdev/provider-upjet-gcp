@@ -280,11 +280,17 @@ import (
 	ruleset "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/firebaserules/ruleset"
 	coderepositoryindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/coderepositoryindex"
 	codetoolssetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssetting"
+	codetoolssettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssettingbinding"
 	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	datasharingwithgooglesettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesettingbinding"
 	geminigcpenablementsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	geminigcpenablementsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/geminigcpenablementsettingbinding"
 	loggingsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/loggingsetting"
+	loggingsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/loggingsettingbinding"
 	releasechannelsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/releasechannelsetting"
+	releasechannelsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/releasechannelsettingbinding"
 	repositorygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/repositorygroup"
+	repositorygroupiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/repositorygroupiammember"
 	backupbackupplan "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gke/backupbackupplan"
 	membership "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gkehub/membership"
 	membershipiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gkehub/membershipiammember"
@@ -711,11 +717,17 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		ruleset.Setup,
 		coderepositoryindex.Setup,
 		codetoolssetting.Setup,
+		codetoolssettingbinding.Setup,
 		datasharingwithgooglesetting.Setup,
+		datasharingwithgooglesettingbinding.Setup,
 		geminigcpenablementsetting.Setup,
+		geminigcpenablementsettingbinding.Setup,
 		loggingsetting.Setup,
+		loggingsettingbinding.Setup,
 		releasechannelsetting.Setup,
+		releasechannelsettingbinding.Setup,
 		repositorygroup.Setup,
+		repositorygroupiammember.Setup,
 		backupbackupplan.Setup,
 		membership.Setup,
 		membershipiammember.Setup,
@@ -1148,11 +1160,17 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		ruleset.SetupGated,
 		coderepositoryindex.SetupGated,
 		codetoolssetting.SetupGated,
+		codetoolssettingbinding.SetupGated,
 		datasharingwithgooglesetting.SetupGated,
+		datasharingwithgooglesettingbinding.SetupGated,
 		geminigcpenablementsetting.SetupGated,
+		geminigcpenablementsettingbinding.SetupGated,
 		loggingsetting.SetupGated,
+		loggingsettingbinding.SetupGated,
 		releasechannelsetting.SetupGated,
+		releasechannelsettingbinding.SetupGated,
 		repositorygroup.SetupGated,
+		repositorygroupiammember.SetupGated,
 		backupbackupplan.SetupGated,
 		membership.SetupGated,
 		membershipiammember.SetupGated,

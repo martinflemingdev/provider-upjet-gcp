@@ -11,11 +11,17 @@ import (
 
 	coderepositoryindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/coderepositoryindex"
 	codetoolssetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssetting"
+	codetoolssettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/codetoolssettingbinding"
 	datasharingwithgooglesetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesetting"
+	datasharingwithgooglesettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/datasharingwithgooglesettingbinding"
 	geminigcpenablementsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/geminigcpenablementsetting"
+	geminigcpenablementsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/geminigcpenablementsettingbinding"
 	loggingsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/loggingsetting"
+	loggingsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/loggingsettingbinding"
 	releasechannelsetting "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/releasechannelsetting"
+	releasechannelsettingbinding "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/releasechannelsettingbinding"
 	repositorygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/repositorygroup"
+	repositorygroupiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/gemini/repositorygroupiammember"
 )
 
 // Setup_gemini creates all controllers with the supplied logger and adds them to
@@ -24,11 +30,17 @@ func Setup_gemini(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		coderepositoryindex.Setup,
 		codetoolssetting.Setup,
+		codetoolssettingbinding.Setup,
 		datasharingwithgooglesetting.Setup,
+		datasharingwithgooglesettingbinding.Setup,
 		geminigcpenablementsetting.Setup,
+		geminigcpenablementsettingbinding.Setup,
 		loggingsetting.Setup,
+		loggingsettingbinding.Setup,
 		releasechannelsetting.Setup,
+		releasechannelsettingbinding.Setup,
 		repositorygroup.Setup,
+		repositorygroupiammember.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -43,11 +55,17 @@ func SetupGated_gemini(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		coderepositoryindex.SetupGated,
 		codetoolssetting.SetupGated,
+		codetoolssettingbinding.SetupGated,
 		datasharingwithgooglesetting.SetupGated,
+		datasharingwithgooglesettingbinding.SetupGated,
 		geminigcpenablementsetting.SetupGated,
+		geminigcpenablementsettingbinding.SetupGated,
 		loggingsetting.SetupGated,
+		loggingsettingbinding.SetupGated,
 		releasechannelsetting.SetupGated,
+		releasechannelsettingbinding.SetupGated,
 		repositorygroup.SetupGated,
+		repositorygroupiammember.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
