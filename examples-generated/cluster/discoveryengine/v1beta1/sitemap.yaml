@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: Sitemap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/sitemap
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    dataStoreIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: advanced
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: advanced
+    uri: https://www.test.com/sitemap.xml
+
+---
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: DataStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/sitemap
+  labels:
+    testing.upbound.io/example-name: advanced
+  name: advanced
+spec:
+  forProvider:
+    contentConfig: PUBLIC_WEBSITE
+    createAdvancedSiteSearch: true
+    displayName: tf-test-advanced-site-search-datastore
+    industryVertical: GENERIC
+    location: global
+    skipDefaultSchemaCreation: false
+    solutionTypes:
+    - SOLUTION_TYPE_SEARCH

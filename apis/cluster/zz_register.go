@@ -80,6 +80,7 @@ import (
 	v1beta1developerconnect "github.com/upbound/provider-gcp/v2/apis/cluster/developerconnect/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta1"
 	v1beta2dialogflowcx "github.com/upbound/provider-gcp/v2/apis/cluster/dialogflowcx/v1beta2"
+	v1beta1discoveryengine "github.com/upbound/provider-gcp/v2/apis/cluster/discoveryengine/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/v2/apis/cluster/dns/v1beta1"
 	v1beta2dns "github.com/upbound/provider-gcp/v2/apis/cluster/dns/v1beta2"
 	v1beta1documentai "github.com/upbound/provider-gcp/v2/apis/cluster/documentai/v1beta1"
@@ -230,6 +231,7 @@ func init() {
 		v1beta1developerconnect.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
 		v1beta2dialogflowcx.SchemeBuilder.AddToScheme,
+		v1beta1discoveryengine.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta2dns.SchemeBuilder.AddToScheme,
 		v1beta1documentai.SchemeBuilder.AddToScheme,

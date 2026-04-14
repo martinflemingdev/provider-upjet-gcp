@@ -28,6 +28,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/dataproc"
 	"github.com/upbound/provider-gcp/v2/config/cluster/datastream"
 	"github.com/upbound/provider-gcp/v2/config/cluster/developerconnect"
+	"github.com/upbound/provider-gcp/v2/config/cluster/discoveryengine"
 	"github.com/upbound/provider-gcp/v2/config/cluster/dns"
 	"github.com/upbound/provider-gcp/v2/config/cluster/endpoints"
 	"github.com/upbound/provider-gcp/v2/config/cluster/firebaserules"
@@ -119,4 +120,5 @@ func init() {
 	ProviderConfiguration.AddConfig(modelarmor.Configure)
 	ProviderConfiguration.AddConfig(workbench.Configure)
 	ProviderConfiguration.AddConfig(gemini.Configure)
+	ProviderConfiguration.AddConfig(discoveryengine.Configure)
 }

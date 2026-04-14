@@ -49,6 +49,7 @@ import (
 	v1beta1datastream "github.com/upbound/provider-gcp/v2/apis/namespaced/datastream/v1beta1"
 	v1beta1developerconnect "github.com/upbound/provider-gcp/v2/apis/namespaced/developerconnect/v1beta1"
 	v1beta1dialogflowcx "github.com/upbound/provider-gcp/v2/apis/namespaced/dialogflowcx/v1beta1"
+	v1beta1discoveryengine "github.com/upbound/provider-gcp/v2/apis/namespaced/discoveryengine/v1beta1"
 	v1beta1dns "github.com/upbound/provider-gcp/v2/apis/namespaced/dns/v1beta1"
 	v1beta1documentai "github.com/upbound/provider-gcp/v2/apis/namespaced/documentai/v1beta1"
 	v1beta1essentialcontacts "github.com/upbound/provider-gcp/v2/apis/namespaced/essentialcontacts/v1beta1"
@@ -138,6 +139,7 @@ func init() {
 		v1beta1datastream.SchemeBuilder.AddToScheme,
 		v1beta1developerconnect.SchemeBuilder.AddToScheme,
 		v1beta1dialogflowcx.SchemeBuilder.AddToScheme,
+		v1beta1discoveryengine.SchemeBuilder.AddToScheme,
 		v1beta1dns.SchemeBuilder.AddToScheme,
 		v1beta1documentai.SchemeBuilder.AddToScheme,
 		v1beta1essentialcontacts.SchemeBuilder.AddToScheme,

@@ -79,6 +79,7 @@ var groupMap = map[string]GroupKindCalculator{
 	"google_container_azure.+":              ReplaceGroupWords("", 2),
 	"google_deployment_manager.+":           ReplaceGroupWords("", 2),
 	"google_dialogflow_cx.+":                ReplaceGroupWords("", 2),
+	"google_discovery_engine.+":             ReplaceGroupWords("", 2),
 	"google_essential_contacts.+":           ReplaceGroupWords("", 2),
 	"google_game_services.+":                ReplaceGroupWords("", 2),
 	"google_gke_hub.+":                      ReplaceGroupWords("", 2),

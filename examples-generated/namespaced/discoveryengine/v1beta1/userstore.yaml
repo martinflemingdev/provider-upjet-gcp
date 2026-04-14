@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.m.upbound.io/v1beta1
+kind: UserStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/userstore
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    defaultLicenseConfig: projects/${data.google_project.project.number}/locations/${google_discovery_engine_license_config.basic.location}/licenseConfigs/${google_discovery_engine_license_config.basic.license_config_id}
+    enableLicenseAutoRegister: true
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic
+
+---
+
+apiVersion: discoveryengine.gcp.m.upbound.io/v1beta1
+kind: LicenseConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/userstore
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: upbound-system
+spec:
+  forProvider:
+    endDate:
+      day: 1
+      month: 1
+      year: 2100
+    licenseCount: 50
+    location: us
+    startDate:
+      day: 1
+      month: 1
+      year: 2099
+    subscriptionTerm: SUBSCRIPTION_TERM_ONE_YEAR
+    subscriptionTier: SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT

@@ -1,0 +1,72 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: WidgetConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/widgetconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    accessSettings:
+      enableWebApp: true
+      workforceIdentityPoolProvider: locations/global/workforcePools/workforce-pool-id/providers/workforce-pool-provider
+    engineIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: basic
+    uiSettings:
+      enableAutocomplete: true
+      enableQualityFeedback: true
+      generativeAnswerConfig:
+        resultCount: 5
+      interactionType: SEARCH_WITH_ANSWER
+
+---
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: DataStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/widgetconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    contentConfig: NO_CONTENT
+    createAdvancedSiteSearch: false
+    displayName: tf-test-datastore
+    industryVertical: GENERIC
+    location: global
+    solutionTypes:
+    - SOLUTION_TYPE_SEARCH
+
+---
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: SearchEngine
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/widgetconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    appType: APP_TYPE_INTRANET
+    collectionId: default_collection
+    dataStoreIdsRefs:
+    - name: basic
+    displayName: tf-test-engine
+    industryVertical: GENERIC
+    locationSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    searchEngineConfig: {}

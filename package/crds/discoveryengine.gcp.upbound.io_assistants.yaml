@@ -1,0 +1,646 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: assistants.discoveryengine.gcp.upbound.io
+spec:
+  group: discoveryengine.gcp.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: Assistant
+    listKind: AssistantList
+    plural: assistants
+    singular: assistant
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: Assistant is the Schema for the Assistants API. Assistant
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: AssistantSpec defines the desired state of Assistant
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  collectionId:
+                    description: The unique id of the collection.
+                    type: string
+                  customerPolicy:
+                    description: |-
+                      Customer policy for the assistant.
+                      Structure is documented below.
+                    properties:
+                      bannedPhrases:
+                        description: |-
+                          List of banned phrases.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ignoreDiacritics:
+                              description: |-
+                                If true, diacritical marks (e.g., accents, umlauts) are ignored when
+                                matching banned phrases. For example, "cafe" would match "café".
+                              type: boolean
+                            matchType:
+                              description: |-
+                                Match type for the banned phrase.
+                                The supported values: 'SIMPLE_STRING_MATCH', 'WORD_BOUNDARY_STRING_MATCH'.
+                              type: string
+                            phrase:
+                              description: The raw string content to be banned.
+                              type: string
+                          type: object
+                        type: array
+                      modelArmorConfig:
+                        description: |-
+                          Model Armor configuration to be used for sanitizing user prompts and assistant responses.
+                          Structure is documented below.
+                        properties:
+                          failureMode:
+                            description: |-
+                              Defines the failure mode for Model Armor sanitization.
+                              The supported values: 'FAIL_OPEN', 'FAIL_CLOSED'.
+                            type: string
+                          responseTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing assistant
+                              responses. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the assistant
+                              response.
+                            type: string
+                          userPromptTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing user
+                              prompts. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the user prompt.
+                            type: string
+                        type: object
+                    type: object
+                  description:
+                    description: |-
+                      Description for additional information. Expected to be shown on the
+                      configuration UI, not to the users of the assistant.
+                    type: string
+                  displayName:
+                    description: |-
+                      The assistant display name.
+                      It must be a UTF-8 encoded string with a length limit of 128 characters.
+                    type: string
+                  engineId:
+                    description: The unique id of the engine.
+                    type: string
+                  engineIdRef:
+                    description: Reference to a SearchEngine in discoveryengine to
+                      populate engineId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  engineIdSelector:
+                    description: Selector for a SearchEngine in discoveryengine to
+                      populate engineId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  generationConfig:
+                    description: |-
+                      Configuration for the generation of the assistant response.
+                      Structure is documented below.
+                    properties:
+                      defaultLanguage:
+                        description: |-
+                          The default language to use for the generation of the assistant response.
+                          Use an ISO 639-1 language code such as en.
+                          If not specified, the language will be automatically detected.
+                        type: string
+                      systemInstruction:
+                        description: |-
+                          System instruction, also known as the prompt preamble for LLM calls.
+                          See also https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/system-instructions
+                          Structure is documented below.
+                        properties:
+                          additionalSystemInstruction:
+                            description: Additional system instruction that will be
+                              added to the default system instruction.
+                            type: string
+                        type: object
+                    type: object
+                  location:
+                    description: |-
+                      The geographic location where the data store should reside. The value can
+                      only be one of "global", "us" and "eu".
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  webGroundingType:
+                    description: |-
+                      The type of web grounding to use.
+                      The supported values: 'WEB_GROUNDING_TYPE_DISABLED', 'WEB_GROUNDING_TYPE_GOOGLE_SEARCH', 'WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH'.
+                    type: string
+                required:
+                - collectionId
+                - location
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  customerPolicy:
+                    description: |-
+                      Customer policy for the assistant.
+                      Structure is documented below.
+                    properties:
+                      bannedPhrases:
+                        description: |-
+                          List of banned phrases.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ignoreDiacritics:
+                              description: |-
+                                If true, diacritical marks (e.g., accents, umlauts) are ignored when
+                                matching banned phrases. For example, "cafe" would match "café".
+                              type: boolean
+                            matchType:
+                              description: |-
+                                Match type for the banned phrase.
+                                The supported values: 'SIMPLE_STRING_MATCH', 'WORD_BOUNDARY_STRING_MATCH'.
+                              type: string
+                            phrase:
+                              description: The raw string content to be banned.
+                              type: string
+                          type: object
+                        type: array
+                      modelArmorConfig:
+                        description: |-
+                          Model Armor configuration to be used for sanitizing user prompts and assistant responses.
+                          Structure is documented below.
+                        properties:
+                          failureMode:
+                            description: |-
+                              Defines the failure mode for Model Armor sanitization.
+                              The supported values: 'FAIL_OPEN', 'FAIL_CLOSED'.
+                            type: string
+                          responseTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing assistant
+                              responses. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the assistant
+                              response.
+                            type: string
+                          userPromptTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing user
+                              prompts. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the user prompt.
+                            type: string
+                        type: object
+                    type: object
+                  description:
+                    description: |-
+                      Description for additional information. Expected to be shown on the
+                      configuration UI, not to the users of the assistant.
+                    type: string
+                  displayName:
+                    description: |-
+                      The assistant display name.
+                      It must be a UTF-8 encoded string with a length limit of 128 characters.
+                    type: string
+                  generationConfig:
+                    description: |-
+                      Configuration for the generation of the assistant response.
+                      Structure is documented below.
+                    properties:
+                      defaultLanguage:
+                        description: |-
+                          The default language to use for the generation of the assistant response.
+                          Use an ISO 639-1 language code such as en.
+                          If not specified, the language will be automatically detected.
+                        type: string
+                      systemInstruction:
+                        description: |-
+                          System instruction, also known as the prompt preamble for LLM calls.
+                          See also https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/system-instructions
+                          Structure is documented below.
+                        properties:
+                          additionalSystemInstruction:
+                            description: Additional system instruction that will be
+                              added to the default system instruction.
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  webGroundingType:
+                    description: |-
+                      The type of web grounding to use.
+                      The supported values: 'WEB_GROUNDING_TYPE_DISABLED', 'WEB_GROUNDING_TYPE_GOOGLE_SEARCH', 'WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH'.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.displayName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.displayName)
+                || (has(self.initProvider) && has(self.initProvider.displayName))'
+          status:
+            description: AssistantStatus defines the observed state of Assistant.
+            properties:
+              atProvider:
+                properties:
+                  collectionId:
+                    description: The unique id of the collection.
+                    type: string
+                  customerPolicy:
+                    description: |-
+                      Customer policy for the assistant.
+                      Structure is documented below.
+                    properties:
+                      bannedPhrases:
+                        description: |-
+                          List of banned phrases.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            ignoreDiacritics:
+                              description: |-
+                                If true, diacritical marks (e.g., accents, umlauts) are ignored when
+                                matching banned phrases. For example, "cafe" would match "café".
+                              type: boolean
+                            matchType:
+                              description: |-
+                                Match type for the banned phrase.
+                                The supported values: 'SIMPLE_STRING_MATCH', 'WORD_BOUNDARY_STRING_MATCH'.
+                              type: string
+                            phrase:
+                              description: The raw string content to be banned.
+                              type: string
+                          type: object
+                        type: array
+                      modelArmorConfig:
+                        description: |-
+                          Model Armor configuration to be used for sanitizing user prompts and assistant responses.
+                          Structure is documented below.
+                        properties:
+                          failureMode:
+                            description: |-
+                              Defines the failure mode for Model Armor sanitization.
+                              The supported values: 'FAIL_OPEN', 'FAIL_CLOSED'.
+                            type: string
+                          responseTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing assistant
+                              responses. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the assistant
+                              response.
+                            type: string
+                          userPromptTemplate:
+                            description: |-
+                              The resource name of the Model Armor template for sanitizing user
+                              prompts. Format:
+                              projects/{project}/locations/{location}/templates/{template_id}
+                              If not specified, no sanitization will be applied to the user prompt.
+                            type: string
+                        type: object
+                    type: object
+                  description:
+                    description: |-
+                      Description for additional information. Expected to be shown on the
+                      configuration UI, not to the users of the assistant.
+                    type: string
+                  displayName:
+                    description: |-
+                      The assistant display name.
+                      It must be a UTF-8 encoded string with a length limit of 128 characters.
+                    type: string
+                  engineId:
+                    description: The unique id of the engine.
+                    type: string
+                  generationConfig:
+                    description: |-
+                      Configuration for the generation of the assistant response.
+                      Structure is documented below.
+                    properties:
+                      defaultLanguage:
+                        description: |-
+                          The default language to use for the generation of the assistant response.
+                          Use an ISO 639-1 language code such as en.
+                          If not specified, the language will be automatically detected.
+                        type: string
+                      systemInstruction:
+                        description: |-
+                          System instruction, also known as the prompt preamble for LLM calls.
+                          See also https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/system-instructions
+                          Structure is documented below.
+                        properties:
+                          additionalSystemInstruction:
+                            description: Additional system instruction that will be
+                              added to the default system instruction.
+                            type: string
+                        type: object
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/assistants/{{assistant_id}}
+                    type: string
+                  location:
+                    description: |-
+                      The geographic location where the data store should reside. The value can
+                      only be one of "global", "us" and "eu".
+                    type: string
+                  name:
+                    description: |-
+                      Resource name of the assistant.
+                      Format:
+                      projects/{project}/locations/{location}/collections/{collection}/engines/{engine}/assistants/{assistant}
+                      It must be a UTF-8 encoded string with a length limit of 1024 characters.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  webGroundingType:
+                    description: |-
+                      The type of web grounding to use.
+                      The supported values: 'WEB_GROUNDING_TYPE_DISABLED', 'WEB_GROUNDING_TYPE_GOOGLE_SEARCH', 'WEB_GROUNDING_TYPE_ENTERPRISE_WEB_SEARCH'.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

@@ -262,6 +262,22 @@ import (
 	page "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/page"
 	version "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/version"
 	webhook "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dialogflowcx/webhook"
+	aclconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/aclconfig"
+	assistant "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/assistant"
+	chatengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/chatengine"
+	cmekconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/cmekconfig"
+	control "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/control"
+	dataconnector "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/dataconnector"
+	datastore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/datastore"
+	licenseconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/licenseconfig"
+	recommendationengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/recommendationengine"
+	schema "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/schema"
+	searchengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/searchengine"
+	servingconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/servingconfig"
+	sitemap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/sitemap"
+	targetsite "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/targetsite"
+	userstore "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/userstore"
+	widgetconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/discoveryengine/widgetconfig"
 	managedzone "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/managedzone"
 	managedzoneiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/managedzoneiammember"
 	policydns "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/dns/policy"
@@ -376,7 +392,7 @@ import (
 	litereservation "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litereservation"
 	litesubscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litesubscription"
 	litetopic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/litetopic"
-	schema "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/schema"
+	schemapubsub "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/schema"
 	subscription "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscription"
 	subscriptioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/subscriptioniammember"
 	topic "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/pubsub/topic"
@@ -699,6 +715,22 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		page.Setup,
 		version.Setup,
 		webhook.Setup,
+		aclconfig.Setup,
+		assistant.Setup,
+		chatengine.Setup,
+		cmekconfig.Setup,
+		control.Setup,
+		dataconnector.Setup,
+		datastore.Setup,
+		licenseconfig.Setup,
+		recommendationengine.Setup,
+		schema.Setup,
+		searchengine.Setup,
+		servingconfig.Setup,
+		sitemap.Setup,
+		targetsite.Setup,
+		userstore.Setup,
+		widgetconfig.Setup,
 		managedzone.Setup,
 		managedzoneiammember.Setup,
 		policydns.Setup,
@@ -813,7 +845,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		litereservation.Setup,
 		litesubscription.Setup,
 		litetopic.Setup,
-		schema.Setup,
+		schemapubsub.Setup,
 		subscription.Setup,
 		subscriptioniammember.Setup,
 		topic.Setup,
@@ -1142,6 +1174,22 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		page.SetupGated,
 		version.SetupGated,
 		webhook.SetupGated,
+		aclconfig.SetupGated,
+		assistant.SetupGated,
+		chatengine.SetupGated,
+		cmekconfig.SetupGated,
+		control.SetupGated,
+		dataconnector.SetupGated,
+		datastore.SetupGated,
+		licenseconfig.SetupGated,
+		recommendationengine.SetupGated,
+		schema.SetupGated,
+		searchengine.SetupGated,
+		servingconfig.SetupGated,
+		sitemap.SetupGated,
+		targetsite.SetupGated,
+		userstore.SetupGated,
+		widgetconfig.SetupGated,
 		managedzone.SetupGated,
 		managedzoneiammember.SetupGated,
 		policydns.SetupGated,
@@ -1256,7 +1304,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		litereservation.SetupGated,
 		litesubscription.SetupGated,
 		litetopic.SetupGated,
-		schema.SetupGated,
+		schemapubsub.SetupGated,
 		subscription.SetupGated,
 		subscriptioniammember.SetupGated,
 		topic.SetupGated,

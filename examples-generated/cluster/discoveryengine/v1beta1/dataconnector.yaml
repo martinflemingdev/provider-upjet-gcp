@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: DataConnector
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/dataconnector
+  labels:
+    testing.upbound.io/example-name: servicenow-basic
+  name: servicenow-basic
+spec:
+  forProvider:
+    collectionDisplayName: tf-test-dataconnector-servicenow
+    connectorModes:
+    - DATA_INGESTION
+    dataSource: servicenow
+    entities:
+    - entityName: catalog
+      params: |-
+        ${jsonencode({
+              "inclusion_filters": {
+                "knowledgeBaseSysId": [
+                  "123"
+                ]
+              }
+            })}
+    - entityName: incident
+      params: |-
+        ${jsonencode({
+              "inclusion_filters": {
+                "knowledgeBaseSysId": [
+                  "123"
+                ]
+              }
+            })}
+    - entityName: knowledge_base
+      params: |-
+        ${jsonencode({
+              "inclusion_filters": {
+                "knowledgeBaseSysId": [
+                  "123"
+                ]
+              }
+            })}
+    incrementalRefreshInterval: 21600s
+    location: global
+    params:
+      auth_type: OAUTH_PASSWORD_GRANT
+      client_id: SECRET_MANAGER_RESOURCE_NAME
+      client_secret: SECRET_MANAGER_RESOURCE_NAME
+      instance_uri: https://gcpconnector1.service-now.com/
+      password: SECRET_MANAGER_RESOURCE_NAME
+      static_ip_enabled: "false"
+      user_account: connectorsuserqa@google.com
+    refreshInterval: 86400s
+    staticIpEnabled: false
+    syncMode: PERIODIC

@@ -1,0 +1,26 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: LicenseConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/licenseconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    endDate:
+      day: 1
+      month: 1
+      year: 2100
+    licenseCount: 50
+    location: global
+    startDate:
+      day: 1
+      month: 1
+      year: 2099
+    subscriptionTerm: SUBSCRIPTION_TERM_ONE_YEAR
+    subscriptionTier: SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT

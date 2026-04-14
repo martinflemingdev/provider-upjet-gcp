@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: ACLConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: discoveryengine/v1beta1/aclconfig
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+spec:
+  forProvider:
+    idpConfig:
+      externalIdpConfig:
+        workforcePoolName: locations/global/workforcePools/cloud-console-pool-manual
+      idpType: THIRD_PARTY
+    location: global

@@ -1,0 +1,1124 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: widgetconfigs.discoveryengine.gcp.m.upbound.io
+spec:
+  group: discoveryengine.gcp.m.upbound.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - gcp
+    kind: WidgetConfig
+    listKind: WidgetConfigList
+    plural: widgetconfigs
+    singular: widgetconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1beta1
+    schema:
+      openAPIV3Schema:
+        description: WidgetConfig is the Schema for the WidgetConfigs API. Represents
+          a WidgetConfig.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WidgetConfigSpec defines the desired state of WidgetConfig
+            properties:
+              forProvider:
+                properties:
+                  accessSettings:
+                    description: |-
+                      Describes widget access settings.
+                      Structure is documented below.
+                    properties:
+                      allowPublicAccess:
+                        description: Whether public unauthenticated access is allowed.
+                        type: boolean
+                      allowlistedDomains:
+                        description: List of domains that are allowed to integrate
+                          the search widget.
+                        items:
+                          type: string
+                        type: array
+                      enableWebApp:
+                        description: Whether web app access is enabled.
+                        type: boolean
+                      languageCode:
+                        description: |-
+                          Language code for user interface. Use language tags defined by
+                          BCP47. If unset, the
+                          default language code is "en-US".
+                        type: string
+                      workforceIdentityPoolProvider:
+                        description: The workforce identity pool provider used to
+                          access the widget.
+                        type: string
+                    type: object
+                  collectionId:
+                    description: The collection ID.
+                    type: string
+                  engineId:
+                    description: The engine ID.
+                    type: string
+                  engineIdRef:
+                    description: Reference to a SearchEngine in discoveryengine to
+                      populate engineId.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  engineIdSelector:
+                    description: Selector for a SearchEngine in discoveryengine to
+                      populate engineId.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  homepageSetting:
+                    description: |-
+                      Describes the homepage setting of the widget. It includes all homepage related settings
+                      and configurations, such as shortcuts.
+                      Structure is documented below.
+                    properties:
+                      shortcuts:
+                        description: |-
+                          The shortcuts to display on the homepage.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            destinationUri:
+                              description: Destination URL of shortcut.
+                              type: string
+                            icon:
+                              description: |-
+                                Icon URL of shortcut.
+                                Structure is documented below.
+                              properties:
+                                url:
+                                  description: Image URL.
+                                  type: string
+                              type: object
+                            title:
+                              description: Title of the shortcut.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  location:
+                    description: |-
+                      The geographic location where the data store should reside. The value can
+                      only be one of "global", "us" and "eu".
+                    type: string
+                  locationRef:
+                    description: Reference to a SearchEngine in discoveryengine to
+                      populate location.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      namespace:
+                        description: Namespace of the referenced object
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  locationSelector:
+                    description: Selector for a SearchEngine in discoveryengine to
+                      populate location.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      namespace:
+                        description: Namespace for the selector
+                        type: string
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  uiBranding:
+                    description: |-
+                      Describes search widget UI branding settings, such as the widget title, logo,
+                      favicons, and colors.
+                      Structure is documented below.
+                    properties:
+                      logo:
+                        description: |-
+                          Logo image.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: Image URL.
+                            type: string
+                        type: object
+                    type: object
+                  uiSettings:
+                    description: |-
+                      Describes general widget (or web app) UI settings as seen in the cloud console UI configuration page.
+                      Structure is documented below.
+                    properties:
+                      dataStoreUiConfigs:
+                        description: |-
+                          Per data store configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            facetField:
+                              description: Structure is documented below.
+                              items:
+                                properties:
+                                  displayName:
+                                    description: The field name that end users will
+                                      see.
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                type: object
+                              type: array
+                            fieldsUiComponentsMap:
+                              description: |-
+                                'The key is the UI component. Currently supported title, thumbnail,
+                                url, custom1, custom2, custom3. The value is the name of
+                                the field along with its device visibility. The 3 custom fields are optional
+                                and can be added or removed.
+                                title, thumbnail, url are required UI components that cannot be removed.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  deviceVisibility:
+                                    description: 'Each value may be one of: MOBILE,
+                                      DESKTOP.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  displayTemplate:
+                                    description: |-
+                                      The template to customize how the field is displayed.
+                                      An example value would be a string that looks like: "Price: {value}".
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                  uiComponent:
+                                    description: The identifier for this object. Format
+                                      specified above.
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                The full resource name of the widget config. Format:
+                                projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/widgetConfigs/{widget_config_id}.
+                              type: string
+                          type: object
+                        type: array
+                      defaultSearchRequestOrderBy:
+                        description: |-
+                          The default ordering for search results if specified.
+                          Used to set SearchRequest#orderBy on applicable requests.
+                        type: string
+                      disableUserEventsCollection:
+                        description: If set to true, the widget will not collect user
+                          events.
+                        type: boolean
+                      enableAutocomplete:
+                        description: Whether or not to enable autocomplete.
+                        type: boolean
+                      enableCreateAgentButton:
+                        description: If set to true, the widget will enable the create
+                          agent button.
+                        type: boolean
+                      enablePeopleSearch:
+                        description: If set to true, the widget will enable people
+                          search.
+                        type: boolean
+                      enableQualityFeedback:
+                        description: Turn on or off collecting the search result quality
+                          feedback from end users.
+                        type: boolean
+                      enableSafeSearch:
+                        description: Whether to enable safe search.
+                        type: boolean
+                      enableSearchAsYouType:
+                        description: Whether to enable search-as-you-type behavior
+                          for the search widget.
+                        type: boolean
+                      enableVisualContentSummary:
+                        description: |-
+                          If set to true, the widget will enable visual content summary on applicable
+                          search requests. Only used by healthcare search.
+                        type: boolean
+                      generativeAnswerConfig:
+                        description: |-
+                          Describes generative answer configuration.
+                          Structure is documented below.
+                        properties:
+                          disableRelatedQuestions:
+                            description: Whether generated answer contains suggested
+                              related questions.
+                            type: boolean
+                          ignoreAdversarialQuery:
+                            description: Specifies whether to filter out queries that
+                              are adversarial.
+                            type: boolean
+                          ignoreLowRelevantContent:
+                            description: Specifies whether to filter out queries that
+                              are not relevant to the content.
+                            type: boolean
+                          ignoreNonAnswerSeekingQuery:
+                            description: |-
+                              Specifies whether to filter out queries that are not answer-seeking.
+                              The default value is false. No answer is returned if the search query
+                              is classified as a non-answer seeking query.
+                              If this field is set to true, we skip generating answers for
+                              non-answer seeking queries and return fallback messages instead.
+                            type: boolean
+                          imageSource:
+                            description: |-
+                              Source of image returned in the answer.
+                              Possible values are: ALL_AVAILABLE_SOURCES, CORPUS_IMAGE_ONLY, FIGURE_GENERATION_ONLY.
+                            type: string
+                          languageCode:
+                            description: |-
+                              Language code for Summary. Use language tags defined by
+                              BCP47. Note: This
+                              is an experimental feature.
+                            type: string
+                          maxRephraseSteps:
+                            description: |-
+                              Max rephrase steps. The max number is 5 steps. If not set or
+                              set to < 1, it will be set to 1 by default.
+                            type: number
+                          modelPromptPreamble:
+                            description: Text at the beginning of the prompt that
+                              instructs the model that generates the answer.
+                            type: string
+                          modelVersion:
+                            description: The model version used to generate the answer.
+                            type: string
+                          resultCount:
+                            description: The number of top results to generate the
+                              answer from. Up to 10.
+                            type: number
+                        type: object
+                      interactionType:
+                        description: |-
+                          Describes widget (or web app) interaction type
+                          Possible values are: SEARCH_ONLY, SEARCH_WITH_ANSWER, SEARCH_WITH_FOLLOW_UPS.
+                        type: string
+                      resultDescriptionType:
+                        description: |-
+                          Controls whether result extract is display and how (snippet or extractive answer).
+                          Default to no result if unspecified.
+                          Possible values are: SNIPPET, EXTRACTIVE_ANSWER.
+                        type: string
+                    type: object
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  accessSettings:
+                    description: |-
+                      Describes widget access settings.
+                      Structure is documented below.
+                    properties:
+                      allowPublicAccess:
+                        description: Whether public unauthenticated access is allowed.
+                        type: boolean
+                      allowlistedDomains:
+                        description: List of domains that are allowed to integrate
+                          the search widget.
+                        items:
+                          type: string
+                        type: array
+                      enableWebApp:
+                        description: Whether web app access is enabled.
+                        type: boolean
+                      languageCode:
+                        description: |-
+                          Language code for user interface. Use language tags defined by
+                          BCP47. If unset, the
+                          default language code is "en-US".
+                        type: string
+                      workforceIdentityPoolProvider:
+                        description: The workforce identity pool provider used to
+                          access the widget.
+                        type: string
+                    type: object
+                  homepageSetting:
+                    description: |-
+                      Describes the homepage setting of the widget. It includes all homepage related settings
+                      and configurations, such as shortcuts.
+                      Structure is documented below.
+                    properties:
+                      shortcuts:
+                        description: |-
+                          The shortcuts to display on the homepage.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            destinationUri:
+                              description: Destination URL of shortcut.
+                              type: string
+                            icon:
+                              description: |-
+                                Icon URL of shortcut.
+                                Structure is documented below.
+                              properties:
+                                url:
+                                  description: Image URL.
+                                  type: string
+                              type: object
+                            title:
+                              description: Title of the shortcut.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  uiBranding:
+                    description: |-
+                      Describes search widget UI branding settings, such as the widget title, logo,
+                      favicons, and colors.
+                      Structure is documented below.
+                    properties:
+                      logo:
+                        description: |-
+                          Logo image.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: Image URL.
+                            type: string
+                        type: object
+                    type: object
+                  uiSettings:
+                    description: |-
+                      Describes general widget (or web app) UI settings as seen in the cloud console UI configuration page.
+                      Structure is documented below.
+                    properties:
+                      dataStoreUiConfigs:
+                        description: |-
+                          Per data store configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            facetField:
+                              description: Structure is documented below.
+                              items:
+                                properties:
+                                  displayName:
+                                    description: The field name that end users will
+                                      see.
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                type: object
+                              type: array
+                            fieldsUiComponentsMap:
+                              description: |-
+                                'The key is the UI component. Currently supported title, thumbnail,
+                                url, custom1, custom2, custom3. The value is the name of
+                                the field along with its device visibility. The 3 custom fields are optional
+                                and can be added or removed.
+                                title, thumbnail, url are required UI components that cannot be removed.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  deviceVisibility:
+                                    description: 'Each value may be one of: MOBILE,
+                                      DESKTOP.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  displayTemplate:
+                                    description: |-
+                                      The template to customize how the field is displayed.
+                                      An example value would be a string that looks like: "Price: {value}".
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                  uiComponent:
+                                    description: The identifier for this object. Format
+                                      specified above.
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                The full resource name of the widget config. Format:
+                                projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/widgetConfigs/{widget_config_id}.
+                              type: string
+                          type: object
+                        type: array
+                      defaultSearchRequestOrderBy:
+                        description: |-
+                          The default ordering for search results if specified.
+                          Used to set SearchRequest#orderBy on applicable requests.
+                        type: string
+                      disableUserEventsCollection:
+                        description: If set to true, the widget will not collect user
+                          events.
+                        type: boolean
+                      enableAutocomplete:
+                        description: Whether or not to enable autocomplete.
+                        type: boolean
+                      enableCreateAgentButton:
+                        description: If set to true, the widget will enable the create
+                          agent button.
+                        type: boolean
+                      enablePeopleSearch:
+                        description: If set to true, the widget will enable people
+                          search.
+                        type: boolean
+                      enableQualityFeedback:
+                        description: Turn on or off collecting the search result quality
+                          feedback from end users.
+                        type: boolean
+                      enableSafeSearch:
+                        description: Whether to enable safe search.
+                        type: boolean
+                      enableSearchAsYouType:
+                        description: Whether to enable search-as-you-type behavior
+                          for the search widget.
+                        type: boolean
+                      enableVisualContentSummary:
+                        description: |-
+                          If set to true, the widget will enable visual content summary on applicable
+                          search requests. Only used by healthcare search.
+                        type: boolean
+                      generativeAnswerConfig:
+                        description: |-
+                          Describes generative answer configuration.
+                          Structure is documented below.
+                        properties:
+                          disableRelatedQuestions:
+                            description: Whether generated answer contains suggested
+                              related questions.
+                            type: boolean
+                          ignoreAdversarialQuery:
+                            description: Specifies whether to filter out queries that
+                              are adversarial.
+                            type: boolean
+                          ignoreLowRelevantContent:
+                            description: Specifies whether to filter out queries that
+                              are not relevant to the content.
+                            type: boolean
+                          ignoreNonAnswerSeekingQuery:
+                            description: |-
+                              Specifies whether to filter out queries that are not answer-seeking.
+                              The default value is false. No answer is returned if the search query
+                              is classified as a non-answer seeking query.
+                              If this field is set to true, we skip generating answers for
+                              non-answer seeking queries and return fallback messages instead.
+                            type: boolean
+                          imageSource:
+                            description: |-
+                              Source of image returned in the answer.
+                              Possible values are: ALL_AVAILABLE_SOURCES, CORPUS_IMAGE_ONLY, FIGURE_GENERATION_ONLY.
+                            type: string
+                          languageCode:
+                            description: |-
+                              Language code for Summary. Use language tags defined by
+                              BCP47. Note: This
+                              is an experimental feature.
+                            type: string
+                          maxRephraseSteps:
+                            description: |-
+                              Max rephrase steps. The max number is 5 steps. If not set or
+                              set to < 1, it will be set to 1 by default.
+                            type: number
+                          modelPromptPreamble:
+                            description: Text at the beginning of the prompt that
+                              instructs the model that generates the answer.
+                            type: string
+                          modelVersion:
+                            description: The model version used to generate the answer.
+                            type: string
+                          resultCount:
+                            description: The number of top results to generate the
+                              answer from. Up to 10.
+                            type: number
+                        type: object
+                      interactionType:
+                        description: |-
+                          Describes widget (or web app) interaction type
+                          Possible values are: SEARCH_ONLY, SEARCH_WITH_ANSWER, SEARCH_WITH_FOLLOW_UPS.
+                        type: string
+                      resultDescriptionType:
+                        description: |-
+                          Controls whether result extract is display and how (snippet or extractive answer).
+                          Default to no result if unspecified.
+                          Possible values are: SNIPPET, EXTRACTIVE_ANSWER.
+                        type: string
+                    type: object
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: WidgetConfigStatus defines the observed state of WidgetConfig.
+            properties:
+              atProvider:
+                properties:
+                  accessSettings:
+                    description: |-
+                      Describes widget access settings.
+                      Structure is documented below.
+                    properties:
+                      allowPublicAccess:
+                        description: Whether public unauthenticated access is allowed.
+                        type: boolean
+                      allowlistedDomains:
+                        description: List of domains that are allowed to integrate
+                          the search widget.
+                        items:
+                          type: string
+                        type: array
+                      enableWebApp:
+                        description: Whether web app access is enabled.
+                        type: boolean
+                      languageCode:
+                        description: |-
+                          Language code for user interface. Use language tags defined by
+                          BCP47. If unset, the
+                          default language code is "en-US".
+                        type: string
+                      workforceIdentityPoolProvider:
+                        description: The workforce identity pool provider used to
+                          access the widget.
+                        type: string
+                    type: object
+                  collectionId:
+                    description: The collection ID.
+                    type: string
+                  engineId:
+                    description: The engine ID.
+                    type: string
+                  homepageSetting:
+                    description: |-
+                      Describes the homepage setting of the widget. It includes all homepage related settings
+                      and configurations, such as shortcuts.
+                      Structure is documented below.
+                    properties:
+                      shortcuts:
+                        description: |-
+                          The shortcuts to display on the homepage.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            destinationUri:
+                              description: Destination URL of shortcut.
+                              type: string
+                            icon:
+                              description: |-
+                                Icon URL of shortcut.
+                                Structure is documented below.
+                              properties:
+                                url:
+                                  description: Image URL.
+                                  type: string
+                              type: object
+                            title:
+                              description: Title of the shortcut.
+                              type: string
+                          type: object
+                        type: array
+                    type: object
+                  id:
+                    description: an identifier for the resource with format projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/widgetConfigs/{{widget_config_id}}
+                    type: string
+                  location:
+                    description: |-
+                      The geographic location where the data store should reside. The value can
+                      only be one of "global", "us" and "eu".
+                    type: string
+                  name:
+                    description: |-
+                      The full resource name of the widget config. Format:
+                      projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/widgetConfigs/{widget_config_id}.
+                    type: string
+                  project:
+                    description: |-
+                      The ID of the project in which the resource belongs.
+                      If it is not provided, the provider project is used.
+                    type: string
+                  uiBranding:
+                    description: |-
+                      Describes search widget UI branding settings, such as the widget title, logo,
+                      favicons, and colors.
+                      Structure is documented below.
+                    properties:
+                      logo:
+                        description: |-
+                          Logo image.
+                          Structure is documented below.
+                        properties:
+                          url:
+                            description: Image URL.
+                            type: string
+                        type: object
+                    type: object
+                  uiSettings:
+                    description: |-
+                      Describes general widget (or web app) UI settings as seen in the cloud console UI configuration page.
+                      Structure is documented below.
+                    properties:
+                      dataStoreUiConfigs:
+                        description: |-
+                          Per data store configuration.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            facetField:
+                              description: Structure is documented below.
+                              items:
+                                properties:
+                                  displayName:
+                                    description: The field name that end users will
+                                      see.
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                type: object
+                              type: array
+                            fieldsUiComponentsMap:
+                              description: |-
+                                'The key is the UI component. Currently supported title, thumbnail,
+                                url, custom1, custom2, custom3. The value is the name of
+                                the field along with its device visibility. The 3 custom fields are optional
+                                and can be added or removed.
+                                title, thumbnail, url are required UI components that cannot be removed.
+                                Structure is documented below.
+                              items:
+                                properties:
+                                  deviceVisibility:
+                                    description: 'Each value may be one of: MOBILE,
+                                      DESKTOP.'
+                                    items:
+                                      type: string
+                                    type: array
+                                  displayTemplate:
+                                    description: |-
+                                      The template to customize how the field is displayed.
+                                      An example value would be a string that looks like: "Price: {value}".
+                                    type: string
+                                  field:
+                                    description: Registered field name. The format
+                                      is field.abc.
+                                    type: string
+                                  uiComponent:
+                                    description: The identifier for this object. Format
+                                      specified above.
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                The full resource name of the widget config. Format:
+                                projects/{project}/locations/{location}/collections/{collection_id}/engines/{engine_id}/widgetConfigs/{widget_config_id}.
+                              type: string
+                          type: object
+                        type: array
+                      defaultSearchRequestOrderBy:
+                        description: |-
+                          The default ordering for search results if specified.
+                          Used to set SearchRequest#orderBy on applicable requests.
+                        type: string
+                      disableUserEventsCollection:
+                        description: If set to true, the widget will not collect user
+                          events.
+                        type: boolean
+                      enableAutocomplete:
+                        description: Whether or not to enable autocomplete.
+                        type: boolean
+                      enableCreateAgentButton:
+                        description: If set to true, the widget will enable the create
+                          agent button.
+                        type: boolean
+                      enablePeopleSearch:
+                        description: If set to true, the widget will enable people
+                          search.
+                        type: boolean
+                      enableQualityFeedback:
+                        description: Turn on or off collecting the search result quality
+                          feedback from end users.
+                        type: boolean
+                      enableSafeSearch:
+                        description: Whether to enable safe search.
+                        type: boolean
+                      enableSearchAsYouType:
+                        description: Whether to enable search-as-you-type behavior
+                          for the search widget.
+                        type: boolean
+                      enableVisualContentSummary:
+                        description: |-
+                          If set to true, the widget will enable visual content summary on applicable
+                          search requests. Only used by healthcare search.
+                        type: boolean
+                      generativeAnswerConfig:
+                        description: |-
+                          Describes generative answer configuration.
+                          Structure is documented below.
+                        properties:
+                          disableRelatedQuestions:
+                            description: Whether generated answer contains suggested
+                              related questions.
+                            type: boolean
+                          ignoreAdversarialQuery:
+                            description: Specifies whether to filter out queries that
+                              are adversarial.
+                            type: boolean
+                          ignoreLowRelevantContent:
+                            description: Specifies whether to filter out queries that
+                              are not relevant to the content.
+                            type: boolean
+                          ignoreNonAnswerSeekingQuery:
+                            description: |-
+                              Specifies whether to filter out queries that are not answer-seeking.
+                              The default value is false. No answer is returned if the search query
+                              is classified as a non-answer seeking query.
+                              If this field is set to true, we skip generating answers for
+                              non-answer seeking queries and return fallback messages instead.
+                            type: boolean
+                          imageSource:
+                            description: |-
+                              Source of image returned in the answer.
+                              Possible values are: ALL_AVAILABLE_SOURCES, CORPUS_IMAGE_ONLY, FIGURE_GENERATION_ONLY.
+                            type: string
+                          languageCode:
+                            description: |-
+                              Language code for Summary. Use language tags defined by
+                              BCP47. Note: This
+                              is an experimental feature.
+                            type: string
+                          maxRephraseSteps:
+                            description: |-
+                              Max rephrase steps. The max number is 5 steps. If not set or
+                              set to < 1, it will be set to 1 by default.
+                            type: number
+                          modelPromptPreamble:
+                            description: Text at the beginning of the prompt that
+                              instructs the model that generates the answer.
+                            type: string
+                          modelVersion:
+                            description: The model version used to generate the answer.
+                            type: string
+                          resultCount:
+                            description: The number of top results to generate the
+                              answer from. Up to 10.
+                            type: number
+                        type: object
+                      interactionType:
+                        description: |-
+                          Describes widget (or web app) interaction type
+                          Possible values are: SEARCH_ONLY, SEARCH_WITH_ANSWER, SEARCH_WITH_FOLLOW_UPS.
+                        type: string
+                      resultDescriptionType:
+                        description: |-
+                          Controls whether result extract is display and how (snippet or extractive answer).
+                          Default to no result if unspecified.
+                          Possible values are: SNIPPET, EXTRACTIVE_ANSWER.
+                        type: string
+                    type: object
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

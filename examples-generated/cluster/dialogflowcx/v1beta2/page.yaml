@@ -499,3 +499,20 @@ spec:
     parentSelector:
       matchLabels:
         testing.upbound.io/example-name: agent
+
+---
+
+apiVersion: discoveryengine.gcp.upbound.io/v1beta1
+kind: DataStore
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dialogflowcx/v1beta2/page
+  labels:
+    testing.upbound.io/example-name: my_datastore
+  name: my-datastore
+spec:
+  forProvider:
+    contentConfig: NO_CONTENT
+    displayName: datastore-page-full
+    industryVertical: GENERIC
+    location: global

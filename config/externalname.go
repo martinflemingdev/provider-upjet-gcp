@@ -572,6 +572,41 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// Imported by using projects/{{project}}/locations/{{location}}/codeRepositoryIndexes/{{code_repository_index}}/repositoryGroups/{{repository_group_id}} roles/viewer user:jane@example.com
 	"google_gemini_repository_group_iam_member": config.IdentifierFromProvider,
 
+	// discovery_engine
+	//
+	// Imported by using projects/{{project}}/locations/{{location}}/aclConfig
+	"google_discovery_engine_acl_config": config.TemplatedStringAsIdentifier("", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/aclConfig"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/assistants/{{assistant_id}}
+	"google_discovery_engine_assistant": config.TemplatedStringAsIdentifier("assistant_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .parameters.engine_id }}/assistants/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}
+	"google_discovery_engine_chat_engine": config.TemplatedStringAsIdentifier("engine_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/cmekConfigs/{{cmek_config_id}}
+	"google_discovery_engine_cmek_config": config.TemplatedStringAsIdentifier("cmek_config_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/cmekConfigs/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/controls/{{control_id}}
+	"google_discovery_engine_control": config.TemplatedStringAsIdentifier("control_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .parameters.engine_id }}/controls/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/dataConnector
+	"google_discovery_engine_data_connector": config.TemplatedStringAsIdentifier("collection_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .external_name }}/dataConnector"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/default_collection/dataStores/{{data_store_id}}
+	"google_discovery_engine_data_store": config.TemplatedStringAsIdentifier("data_store_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/default_collection/dataStores/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/licenseConfigs/{{license_config_id}}
+	"google_discovery_engine_license_config": config.TemplatedStringAsIdentifier("license_config_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/licenseConfigs/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/default_collection/engines/{{engine_id}}
+	"google_discovery_engine_recommendation_engine": config.TemplatedStringAsIdentifier("engine_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/default_collection/engines/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/default_collection/dataStores/{{data_store_id}}/schemas/{{schema_id}}
+	"google_discovery_engine_schema": config.TemplatedStringAsIdentifier("schema_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/default_collection/dataStores/{{ .parameters.data_store_id }}/schemas/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}
+	"google_discovery_engine_search_engine": config.TemplatedStringAsIdentifier("engine_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/servingConfigs/{{serving_config_id}}
+	"google_discovery_engine_serving_config": config.TemplatedStringAsIdentifier("serving_config_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .parameters.engine_id }}/servingConfigs/{{ .external_name }}"),
+	// Imported by using {{name}} (server-generated ID)
+	"google_discovery_engine_sitemap": config.IdentifierFromProvider,
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/default_collection/dataStores/{{data_store_id}}/siteSearchEngine/targetSites/{{target_site_id}} (server-generated target_site_id)
+	"google_discovery_engine_target_site": config.IdentifierFromProvider,
+	// Imported by using projects/{{project}}/locations/{{location}}/userStores/{{user_store_id}}
+	"google_discovery_engine_user_store": config.TemplatedStringAsIdentifier("user_store_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/userStores/{{ .external_name }}"),
+	// Imported by using projects/{{project}}/locations/{{location}}/collections/{{collection_id}}/engines/{{engine_id}}/widgetConfigs/{{widget_config_id}}
+	"google_discovery_engine_widget_config": config.TemplatedStringAsIdentifier("widget_config_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/collections/{{ .parameters.collection_id }}/engines/{{ .parameters.engine_id }}/widgetConfigs/{{ .external_name }}"),
+
 	// gkehub
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{location}}/memberships/{{membership_id}}
