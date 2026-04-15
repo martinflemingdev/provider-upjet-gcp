@@ -540,3 +540,55 @@ func (mg *Function) ResolveReferences( // ResolveReferences of this Function.
 
 	return nil
 }
+
+// ResolveReferences of this FunctionIAMMember.
+func (mg *FunctionIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudfunctions2.gcp.m.upbound.io", "v1beta1", "Function", "FunctionList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CloudFunction),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.CloudFunctionRef,
+			Selector:     mg.Spec.ForProvider.CloudFunctionSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.CloudFunction")
+	}
+	mg.Spec.ForProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.CloudFunctionRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("cloudfunctions2.gcp.m.upbound.io", "v1beta1", "Function", "FunctionList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CloudFunction),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.CloudFunctionRef,
+			Selector:     mg.Spec.InitProvider.CloudFunctionSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.CloudFunction")
+	}
+	mg.Spec.InitProvider.CloudFunction = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.CloudFunctionRef = rsp.ResolvedReference
+
+	return nil
+}

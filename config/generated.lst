@@ -91,6 +91,7 @@
   "google_cloudbuild_trigger",
   "google_cloudbuild_worker_pool",
   "google_cloudfunctions2_function",
+  "google_cloudfunctions2_function_iam_member",
   "google_cloudfunctions_function",
   "google_cloudfunctions_function_iam_member",
   "google_composer_environment",

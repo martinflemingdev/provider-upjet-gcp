@@ -14,6 +14,7 @@ import (
 	"github.com/upbound/provider-gcp/v2/config/cluster/billing"
 	composer "github.com/upbound/provider-gcp/v2/config/cluster/cloudcomposer"
 	"github.com/upbound/provider-gcp/v2/config/cluster/cloudfunctions"
+	"github.com/upbound/provider-gcp/v2/config/cluster/cloudfunctions2"
 	"github.com/upbound/provider-gcp/v2/config/cluster/cloudplatform"
 	"github.com/upbound/provider-gcp/v2/config/cluster/cloudrun"
 	"github.com/upbound/provider-gcp/v2/config/cluster/cloudscheduler"
@@ -71,6 +72,7 @@ func init() {
 	ProviderConfiguration.AddConfig(billing.Configure)
 	ProviderConfiguration.AddConfig(composer.Configure)
 	ProviderConfiguration.AddConfig(cloudfunctions.Configure)
+	ProviderConfiguration.AddConfig(cloudfunctions2.Configure)
 	ProviderConfiguration.AddConfig(cloudplatform.Configure)
 	ProviderConfiguration.AddConfig(cloudrun.Configure)
 	ProviderConfiguration.AddConfig(cloudscheduler.Configure)

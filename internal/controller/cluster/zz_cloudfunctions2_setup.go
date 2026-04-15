@@ -10,6 +10,7 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	function "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions2/function"
+	functioniammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/cloudfunctions2/functioniammember"
 )
 
 // Setup_cloudfunctions2 creates all controllers with the supplied logger and adds them to
@@ -17,6 +18,7 @@ import (
 func Setup_cloudfunctions2(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		function.Setup,
+		functioniammember.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +32,7 @@ func Setup_cloudfunctions2(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_cloudfunctions2(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		function.SetupGated,
+		functioniammember.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

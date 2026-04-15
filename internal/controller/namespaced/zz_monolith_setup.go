@@ -92,6 +92,7 @@ import (
 	function "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions/function"
 	functioniammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions/functioniammember"
 	functioncloudfunctions2 "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions2/function"
+	functioniammembercloudfunctions2 "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudfunctions2/functioniammember"
 	group "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudidentity/group"
 	groupmembership "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudidentity/groupmembership"
 	folder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudplatform/folder"
@@ -549,6 +550,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		function.Setup,
 		functioniammember.Setup,
 		functioncloudfunctions2.Setup,
+		functioniammembercloudfunctions2.Setup,
 		group.Setup,
 		groupmembership.Setup,
 		folder.Setup,
@@ -1012,6 +1014,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		function.SetupGated,
 		functioniammember.SetupGated,
 		functioncloudfunctions2.SetupGated,
+		functioniammembercloudfunctions2.SetupGated,
 		group.SetupGated,
 		groupmembership.SetupGated,
 		folder.SetupGated,
