@@ -228,6 +228,11 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 		*out = new(string)
 		**out = **in
 	}
+	if in.ProtectedNamespaceCount != nil {
+		in, out := &in.ProtectedNamespaceCount, &out.ProtectedNamespaceCount
+		*out = new(float64)
+		**out = **in
+	}
 	if in.ProtectedPodCount != nil {
 		in, out := &in.ProtectedPodCount, &out.ProtectedPodCount
 		*out = new(float64)

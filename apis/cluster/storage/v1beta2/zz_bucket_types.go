@@ -570,29 +570,125 @@ type CustomPlacementConfigParameters struct {
 	DataLocations []*string `json:"dataLocations" tf:"data_locations,omitempty"`
 }
 
+type CustomerManagedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerManagedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerManagedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type CustomerSuppliedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
+}
+
 type EncryptionInitParameters struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigInitParameters `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigInitParameters `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigInitParameters `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
 }
 
 type EncryptionObservation struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigObservation `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigObservation `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigObservation `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
 }
 
 type EncryptionParameters struct {
 
-	// : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	CustomerManagedEncryptionEnforcementConfig *CustomerManagedEncryptionEnforcementConfigParameters `json:"customerManagedEncryptionEnforcementConfig,omitempty" tf:"customer_managed_encryption_enforcement_config,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	CustomerSuppliedEncryptionEnforcementConfig *CustomerSuppliedEncryptionEnforcementConfigParameters `json:"customerSuppliedEncryptionEnforcementConfig,omitempty" tf:"customer_supplied_encryption_enforcement_config,omitempty"`
+
+	// The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
 	// You must pay attention to whether the crypto key is available in the location that this bucket is created in.
 	// See the docs for more details.
 	// +kubebuilder:validation:Optional
-	DefaultKMSKeyName *string `json:"defaultKmsKeyName" tf:"default_kms_key_name,omitempty"`
+	DefaultKMSKeyName *string `json:"defaultKmsKeyName,omitempty" tf:"default_kms_key_name,omitempty"`
+
+	// type is allowed. If set, then new objects created in this bucket must comply with enforcement config. Changing this has no effect on existing objects; it applies to new objects only, Structure is documented below documented below.
+	// +kubebuilder:validation:Optional
+	GoogleManagedEncryptionEnforcementConfig *GoogleManagedEncryptionEnforcementConfigParameters `json:"googleManagedEncryptionEnforcementConfig,omitempty" tf:"google_managed_encryption_enforcement_config,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigInitParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigObservation struct {
+
+	// (Computed) Server-determined value that indicates the time from which the policy, or one with a greater retention, was effective. This value is in RFC 3339 format.
+	EffectiveTime *string `json:"effectiveTime,omitempty" tf:"effective_time,omitempty"`
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	RestrictionMode *string `json:"restrictionMode,omitempty" tf:"restriction_mode,omitempty"`
+}
+
+type GoogleManagedEncryptionEnforcementConfigParameters struct {
+
+	// Whether Google Managed Encryption (GMEK) is restricted for new objects within the bucket. If FullyRestricted, new objects can't be created using GMEK encryption. If NotRestricted or unset, creation of new objects with GMEK encryption is allowed.
+	// +kubebuilder:validation:Optional
+	RestrictionMode *string `json:"restrictionMode" tf:"restriction_mode,omitempty"`
 }
 
 type HierarchicalNamespaceInitParameters struct {

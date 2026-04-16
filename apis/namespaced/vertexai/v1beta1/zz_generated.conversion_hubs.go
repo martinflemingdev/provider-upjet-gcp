@@ -58,4 +58,7 @@ func (tr *RagEngineConfig) Hub() {}
 func (tr *ReasoningEngine) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *ReasoningEngineIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Tensorboard) Hub() {}

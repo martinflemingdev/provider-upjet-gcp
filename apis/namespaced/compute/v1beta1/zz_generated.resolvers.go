@@ -945,6 +945,28 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 
 	}
 	if mg.Spec.ForProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Match.SrcNetworks),
+				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
+				References:    mg.Spec.ForProvider.Match.SrcNetworksRefs,
+				Selector:      mg.Spec.ForProvider.Match.SrcNetworksSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Match.SrcNetworks")
+		}
+		mg.Spec.ForProvider.Match.SrcNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Match.SrcNetworksRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.ForProvider.Match != nil {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Match.SrcSecureTags); i4++ {
 			{
 				m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagValue", "TagValueList")
@@ -1030,6 +1052,28 @@ func (mg *FirewallPolicyRule) ResolveReferences(ctx context.Context, c client.Re
 		}
 		mg.Spec.InitProvider.Match.DestAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.Match.DestAddressGroupsRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.InitProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Match.SrcNetworks),
+				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
+				References:    mg.Spec.InitProvider.Match.SrcNetworksRefs,
+				Selector:      mg.Spec.InitProvider.Match.SrcNetworksSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Match.SrcNetworks")
+		}
+		mg.Spec.InitProvider.Match.SrcNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Match.SrcNetworksRefs = mrsp.ResolvedReferences
 
 	}
 	if mg.Spec.InitProvider.Match != nil {
@@ -3243,6 +3287,28 @@ func (mg *NetworkFirewallPolicyRule) ResolveReferences(ctx context.Context, c cl
 
 	}
 	if mg.Spec.ForProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.Match.SrcNetworks),
+				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
+				References:    mg.Spec.ForProvider.Match.SrcNetworksRefs,
+				Selector:      mg.Spec.ForProvider.Match.SrcNetworksSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.Match.SrcNetworks")
+		}
+		mg.Spec.ForProvider.Match.SrcNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.ForProvider.Match.SrcNetworksRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.ForProvider.Match != nil {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.Match.SrcSecureTags); i4++ {
 			{
 				m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagValue", "TagValueList")
@@ -3286,6 +3352,28 @@ func (mg *NetworkFirewallPolicyRule) ResolveReferences(ctx context.Context, c cl
 		}
 		mg.Spec.InitProvider.Match.SrcAddressGroups = reference.ToPtrValues(mrsp.ResolvedValues)
 		mg.Spec.InitProvider.Match.SrcAddressGroupsRefs = mrsp.ResolvedReferences
+
+	}
+	if mg.Spec.InitProvider.Match != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("compute.gcp.m.upbound.io", "v1beta1", "Network", "NetworkList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+				CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.Match.SrcNetworks),
+				Extract:       resource.ExtractResourceID(),
+				Namespace:     mg.GetNamespace(),
+				References:    mg.Spec.InitProvider.Match.SrcNetworksRefs,
+				Selector:      mg.Spec.InitProvider.Match.SrcNetworksSelector,
+				To:            reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.Match.SrcNetworks")
+		}
+		mg.Spec.InitProvider.Match.SrcNetworks = reference.ToPtrValues(mrsp.ResolvedValues)
+		mg.Spec.InitProvider.Match.SrcNetworksRefs = mrsp.ResolvedReferences
 
 	}
 	if mg.Spec.InitProvider.Match != nil {

@@ -739,3 +739,55 @@ func (mg *ReasoningEngine) ResolveReferences(ctx context.Context, c client.Reade
 
 	return nil
 }
+
+// ResolveReferences of this ReasoningEngineIAMMember.
+func (mg *ReasoningEngineIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ReasoningEngine),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.ReasoningEngineRef,
+			Selector:     mg.Spec.ForProvider.ReasoningEngineSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ReasoningEngine")
+	}
+	mg.Spec.ForProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ReasoningEngineRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("vertexai.gcp.upbound.io", "v1beta1", "ReasoningEngine", "ReasoningEngineList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ReasoningEngine),
+			Extract:      reference.ExternalName(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.ReasoningEngineRef,
+			Selector:     mg.Spec.InitProvider.ReasoningEngineSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ReasoningEngine")
+	}
+	mg.Spec.InitProvider.ReasoningEngine = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ReasoningEngineRef = rsp.ResolvedReference
+
+	return nil
+}

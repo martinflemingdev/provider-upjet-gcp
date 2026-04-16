@@ -23714,6 +23714,13 @@ func (in *InstanceGroupManagerInitParameters) DeepCopyInto(out *InstanceGroupMan
 		*out = new(float64)
 		**out = **in
 	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]TargetSizePolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
 		*out = new(float64)
@@ -23924,6 +23931,13 @@ func (in *InstanceGroupManagerObservation) DeepCopyInto(out *InstanceGroupManage
 		*out = new(float64)
 		**out = **in
 	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]TargetSizePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
 		*out = new(float64)
@@ -24076,6 +24090,13 @@ func (in *InstanceGroupManagerParameters) DeepCopyInto(out *InstanceGroupManager
 		in, out := &in.TargetSize, &out.TargetSize
 		*out = new(float64)
 		**out = **in
+	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]TargetSizePolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
@@ -26204,6 +26225,11 @@ func (in *InstanceTemplateDiskInitParameters) DeepCopyInto(out *InstanceTemplate
 		*out = new(DiskSourceSnapshotEncryptionKeyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.StoragePool != nil {
+		in, out := &in.StoragePool, &out.StoragePool
+		*out = new(string)
+		**out = **in
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)
@@ -26362,6 +26388,11 @@ func (in *InstanceTemplateDiskObservation) DeepCopyInto(out *InstanceTemplateDis
 		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
 		*out = new(DiskSourceSnapshotEncryptionKeyObservation)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StoragePool != nil {
+		in, out := &in.StoragePool, &out.StoragePool
+		*out = new(string)
+		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -26543,6 +26574,11 @@ func (in *InstanceTemplateDiskParameters) DeepCopyInto(out *InstanceTemplateDisk
 		in, out := &in.SourceSnapshotEncryptionKey, &out.SourceSnapshotEncryptionKey
 		*out = new(DiskSourceSnapshotEncryptionKeyParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.StoragePool != nil {
+		in, out := &in.StoragePool, &out.StoragePool
+		*out = new(string)
+		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -30466,6 +30502,11 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 			}
 		}
 	}
+	if in.DestNetworkContext != nil {
+		in, out := &in.DestNetworkContext, &out.DestNetworkContext
+		*out = new(string)
+		**out = **in
+	}
 	if in.DestRegionCodes != nil {
 		in, out := &in.DestRegionCodes, &out.DestRegionCodes
 		*out = make([]*string, len(*in))
@@ -30527,6 +30568,34 @@ func (in *MatchInitParameters) DeepCopyInto(out *MatchInitParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.SrcNetworkContext != nil {
+		in, out := &in.SrcNetworkContext, &out.SrcNetworkContext
+		*out = new(string)
+		**out = **in
+	}
+	if in.SrcNetworks != nil {
+		in, out := &in.SrcNetworks, &out.SrcNetworks
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SrcNetworksRefs != nil {
+		in, out := &in.SrcNetworksRefs, &out.SrcNetworksRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SrcNetworksSelector != nil {
+		in, out := &in.SrcNetworksSelector, &out.SrcNetworksSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SrcRegionCodes != nil {
 		in, out := &in.SrcRegionCodes, &out.SrcRegionCodes
@@ -30605,6 +30674,11 @@ func (in *MatchObservation) DeepCopyInto(out *MatchObservation) {
 			}
 		}
 	}
+	if in.DestNetworkContext != nil {
+		in, out := &in.DestNetworkContext, &out.DestNetworkContext
+		*out = new(string)
+		**out = **in
+	}
 	if in.DestRegionCodes != nil {
 		in, out := &in.DestRegionCodes, &out.DestRegionCodes
 		*out = make([]*string, len(*in))
@@ -30658,6 +30732,22 @@ func (in *MatchObservation) DeepCopyInto(out *MatchObservation) {
 	}
 	if in.SrcIPRanges != nil {
 		in, out := &in.SrcIPRanges, &out.SrcIPRanges
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SrcNetworkContext != nil {
+		in, out := &in.SrcNetworkContext, &out.SrcNetworkContext
+		*out = new(string)
+		**out = **in
+	}
+	if in.SrcNetworks != nil {
+		in, out := &in.SrcNetworks, &out.SrcNetworks
 		*out = make([]*string, len(*in))
 		for i := range *in {
 			if (*in)[i] != nil {
@@ -30756,6 +30846,11 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 			}
 		}
 	}
+	if in.DestNetworkContext != nil {
+		in, out := &in.DestNetworkContext, &out.DestNetworkContext
+		*out = new(string)
+		**out = **in
+	}
 	if in.DestRegionCodes != nil {
 		in, out := &in.DestRegionCodes, &out.DestRegionCodes
 		*out = make([]*string, len(*in))
@@ -30817,6 +30912,34 @@ func (in *MatchParameters) DeepCopyInto(out *MatchParameters) {
 				**out = **in
 			}
 		}
+	}
+	if in.SrcNetworkContext != nil {
+		in, out := &in.SrcNetworkContext, &out.SrcNetworkContext
+		*out = new(string)
+		**out = **in
+	}
+	if in.SrcNetworks != nil {
+		in, out := &in.SrcNetworks, &out.SrcNetworks
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
+	if in.SrcNetworksRefs != nil {
+		in, out := &in.SrcNetworksRefs, &out.SrcNetworksRefs
+		*out = make([]v1.Reference, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.SrcNetworksSelector != nil {
+		in, out := &in.SrcNetworksSelector, &out.SrcNetworksSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SrcRegionCodes != nil {
 		in, out := &in.SrcRegionCodes, &out.SrcRegionCodes
@@ -49612,6 +49735,13 @@ func (in *RegionInstanceGroupManagerInitParameters) DeepCopyInto(out *RegionInst
 		*out = new(float64)
 		**out = **in
 	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]RegionInstanceGroupManagerTargetSizePolicyInitParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
 		*out = new(float64)
@@ -49993,6 +50123,13 @@ func (in *RegionInstanceGroupManagerObservation) DeepCopyInto(out *RegionInstanc
 		*out = new(float64)
 		**out = **in
 	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]RegionInstanceGroupManagerTargetSizePolicyObservation, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
 		*out = new(float64)
@@ -50166,6 +50303,13 @@ func (in *RegionInstanceGroupManagerParameters) DeepCopyInto(out *RegionInstance
 		in, out := &in.TargetSize, &out.TargetSize
 		*out = new(float64)
 		**out = **in
+	}
+	if in.TargetSizePolicy != nil {
+		in, out := &in.TargetSizePolicy, &out.TargetSizePolicy
+		*out = make([]RegionInstanceGroupManagerTargetSizePolicyParameters, len(*in))
+		for i := range *in {
+			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
 	}
 	if in.TargetStoppedSize != nil {
 		in, out := &in.TargetStoppedSize, &out.TargetStoppedSize
@@ -50668,6 +50812,66 @@ func (in *RegionInstanceGroupManagerStatusParameters) DeepCopy() *RegionInstance
 		return nil
 	}
 	out := new(RegionInstanceGroupManagerStatusParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionInstanceGroupManagerTargetSizePolicyInitParameters) DeepCopyInto(out *RegionInstanceGroupManagerTargetSizePolicyInitParameters) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionInstanceGroupManagerTargetSizePolicyInitParameters.
+func (in *RegionInstanceGroupManagerTargetSizePolicyInitParameters) DeepCopy() *RegionInstanceGroupManagerTargetSizePolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionInstanceGroupManagerTargetSizePolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionInstanceGroupManagerTargetSizePolicyObservation) DeepCopyInto(out *RegionInstanceGroupManagerTargetSizePolicyObservation) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionInstanceGroupManagerTargetSizePolicyObservation.
+func (in *RegionInstanceGroupManagerTargetSizePolicyObservation) DeepCopy() *RegionInstanceGroupManagerTargetSizePolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionInstanceGroupManagerTargetSizePolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *RegionInstanceGroupManagerTargetSizePolicyParameters) DeepCopyInto(out *RegionInstanceGroupManagerTargetSizePolicyParameters) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new RegionInstanceGroupManagerTargetSizePolicyParameters.
+func (in *RegionInstanceGroupManagerTargetSizePolicyParameters) DeepCopy() *RegionInstanceGroupManagerTargetSizePolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(RegionInstanceGroupManagerTargetSizePolicyParameters)
 	in.DeepCopyInto(out)
 	return out
 }
@@ -66732,6 +66936,11 @@ func (in *SubnetworkInitParameters_2) DeepCopyInto(out *SubnetworkInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.ResolveSubnetMask != nil {
+		in, out := &in.ResolveSubnetMask, &out.ResolveSubnetMask
+		*out = new(string)
+		**out = **in
+	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
 		*out = new(string)
@@ -67091,6 +67300,11 @@ func (in *SubnetworkObservation_2) DeepCopyInto(out *SubnetworkObservation_2) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ResolveSubnetMask != nil {
+		in, out := &in.ResolveSubnetMask, &out.ResolveSubnetMask
+		*out = new(string)
+		**out = **in
+	}
 	if in.Role != nil {
 		in, out := &in.Role, &out.Role
 		*out = new(string)
@@ -67282,6 +67496,11 @@ func (in *SubnetworkParameters_2) DeepCopyInto(out *SubnetworkParameters_2) {
 	}
 	if in.ReservedInternalRange != nil {
 		in, out := &in.ReservedInternalRange, &out.ReservedInternalRange
+		*out = new(string)
+		**out = **in
+	}
+	if in.ResolveSubnetMask != nil {
+		in, out := &in.ResolveSubnetMask, &out.ResolveSubnetMask
 		*out = new(string)
 		**out = **in
 	}
@@ -68064,6 +68283,66 @@ func (in *TargetSizeParameters) DeepCopy() *TargetSizeParameters {
 		return nil
 	}
 	out := new(TargetSizeParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TargetSizePolicyInitParameters) DeepCopyInto(out *TargetSizePolicyInitParameters) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TargetSizePolicyInitParameters.
+func (in *TargetSizePolicyInitParameters) DeepCopy() *TargetSizePolicyInitParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(TargetSizePolicyInitParameters)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TargetSizePolicyObservation) DeepCopyInto(out *TargetSizePolicyObservation) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TargetSizePolicyObservation.
+func (in *TargetSizePolicyObservation) DeepCopy() *TargetSizePolicyObservation {
+	if in == nil {
+		return nil
+	}
+	out := new(TargetSizePolicyObservation)
+	in.DeepCopyInto(out)
+	return out
+}
+
+// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
+func (in *TargetSizePolicyParameters) DeepCopyInto(out *TargetSizePolicyParameters) {
+	*out = *in
+	if in.Mode != nil {
+		in, out := &in.Mode, &out.Mode
+		*out = new(string)
+		**out = **in
+	}
+}
+
+// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new TargetSizePolicyParameters.
+func (in *TargetSizePolicyParameters) DeepCopy() *TargetSizePolicyParameters {
+	if in == nil {
+		return nil
+	}
+	out := new(TargetSizePolicyParameters)
 	in.DeepCopyInto(out)
 	return out
 }

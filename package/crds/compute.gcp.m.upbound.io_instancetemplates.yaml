@@ -527,6 +527,11 @@ spec:
                               - name
                               type: object
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or
@@ -1692,6 +1697,11 @@ spec:
                               - name
                               type: object
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or
@@ -2688,6 +2698,11 @@ spec:
                                 default service account is used.
                               type: string
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or

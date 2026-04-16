@@ -90,6 +90,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.
@@ -435,6 +440,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.
@@ -906,6 +916,11 @@ spec:
                             The number of consumer forwarding rules the consumer project can
                             create.
                           type: number
+                        endpointUrl:
+                          description: |-
+                            The endpoint that is allowed to connect to this service attachment.
+                            Only one of project_id_or_num, network_url and endpoint_url may be set.
+                          type: string
                         networkUrl:
                           description: |-
                             The network that is allowed to connect to this service attachment.

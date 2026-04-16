@@ -155,6 +155,26 @@ type ClusterInitParameters struct {
 	// Optional. The number of replica nodes per shard.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -358,6 +378,16 @@ type ClusterObservation struct {
 	// Optional. The number of replica nodes per shard.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
 	// Required. Number of shards for the Redis cluster.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -481,6 +511,28 @@ type ClusterParameters struct {
 	// Optional. The number of replica nodes per shard.
 	// +kubebuilder:validation:Optional
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Redis cluster.
+	// If not provided, SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: SERVER_CA_MODE_GOOGLE_MANAGED_PER_INSTANCE_CA, SERVER_CA_MODE_GOOGLE_MANAGED_SHARED_CA, SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	// +kubebuilder:validation:Optional
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with SERVER_CA_MODE_CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/privateca/v1beta2.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.Reference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.Selector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the Redis cluster.
 	// +kubebuilder:validation:Optional

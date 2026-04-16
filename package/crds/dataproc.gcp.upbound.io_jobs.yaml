@@ -2623,6 +2623,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               initProvider:
                 description: |-
@@ -3219,6 +3221,8 @@ spec:
                         type: object
                         x-kubernetes-map-type: granular
                     type: object
+                  waitForCompletion:
+                    type: boolean
                 type: object
               managementPolicies:
                 default:
@@ -3796,6 +3800,8 @@ spec:
                       the resource and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  waitForCompletion:
+                    type: boolean
                 type: object
               conditions:
                 description: Conditions of the resource.

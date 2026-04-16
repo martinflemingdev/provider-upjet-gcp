@@ -225,6 +225,10 @@ type ClusterInitParameters struct {
 	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
 
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	DataplexConfig *DataplexConfigInitParameters `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
+
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
 	// Deleting a Secondary cluster with a secondary instance REQUIRES setting deletion_policy = "FORCE" otherwise an error is returned. This is needed as there is no support to delete just the secondary instance, and the only way to delete secondary instance is to delete the associated secondary cluster forcefully which also deletes the secondary instance.
@@ -336,6 +340,10 @@ type ClusterObservation struct {
 	// The database engine major version. This is an optional field and it's populated at the Cluster creation time.
 	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	DataplexConfig *DataplexConfigObservation `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
 
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
@@ -485,6 +493,11 @@ type ClusterParameters struct {
 	// Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
 	// +kubebuilder:validation:Optional
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
+
+	// Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DataplexConfig *DataplexConfigParameters `json:"dataplexConfig,omitempty" tf:"dataplex_config,omitempty"`
 
 	// Policy to determine if the cluster should be deleted forcefully.
 	// Deleting a cluster forcefully, deletes the cluster and all its associated instances within the cluster.
@@ -688,6 +701,25 @@ type ContinuousBackupInfoObservation struct {
 }
 
 type ContinuousBackupInfoParameters struct {
+}
+
+type DataplexConfigInitParameters struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataplexConfigObservation struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type DataplexConfigParameters struct {
+
+	// Indicates whether Dataplex integration is enabled for the cluster.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type InitialUserInitParameters struct {

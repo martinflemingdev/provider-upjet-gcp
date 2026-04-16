@@ -323,6 +323,9 @@ type PatchConfigInitParameters struct {
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
 
+	// Enables enhanced reporting for the patch job:
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
+
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
 	WindowsUpdate *WindowsUpdateInitParameters `json:"windowsUpdate,omitempty" tf:"windows_update,omitempty"`
@@ -360,6 +363,9 @@ type PatchConfigObservation struct {
 	// Post-patch reboot settings.
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
+
+	// Enables enhanced reporting for the patch job:
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.
@@ -404,6 +410,10 @@ type PatchConfigParameters struct {
 	// Possible values are: DEFAULT, ALWAYS, NEVER.
 	// +kubebuilder:validation:Optional
 	RebootConfig *string `json:"rebootConfig,omitempty" tf:"reboot_config,omitempty"`
+
+	// Enables enhanced reporting for the patch job:
+	// +kubebuilder:validation:Optional
+	SkipUnpatchableVms *bool `json:"skipUnpatchableVms,omitempty" tf:"skip_unpatchable_vms,omitempty"`
 
 	// Windows update settings. Use this setting to override the default Windows patch rules.
 	// Structure is documented below.

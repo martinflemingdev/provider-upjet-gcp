@@ -202,6 +202,16 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
@@ -902,6 +912,16 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.
@@ -1720,6 +1740,16 @@ spec:
                       The database engine major version. This is an optional field and it's populated at the Cluster creation time.
                       Note: Changing this field to a higer version results in upgrading the AlloyDB cluster which is an irreversible change.
                     type: string
+                  dataplexConfig:
+                    description: |-
+                      Configuration for Dataplex integration. This is an optional field. If not set, Dataplex integration will be enabled by default.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Indicates whether Dataplex integration is enabled
+                          for the cluster.
+                        type: boolean
+                    type: object
                   deletionPolicy:
                     description: |-
                       Policy to determine if the cluster should be deleted forcefully.

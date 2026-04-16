@@ -1328,6 +1328,12 @@ spec:
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
                           that this file share has been restored from.
                         type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+                          that this file share has been restored from.
+                        type: string
                     type: object
                   initialReplication:
                     description: |-
@@ -1689,6 +1695,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -2196,6 +2208,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object

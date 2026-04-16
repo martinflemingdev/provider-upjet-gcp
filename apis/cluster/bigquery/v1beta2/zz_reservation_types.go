@@ -96,6 +96,9 @@ type ReservationInitParameters struct {
 	// capacity specified above at most.
 	IgnoreIdleSlots *bool `json:"ignoreIdleSlots,omitempty" tf:"ignore_idle_slots,omitempty"`
 
+	// The reservation group that this reservation belongs to.
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
+
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create
 	// reservation calls to create a failover reservation or in update reservation calls to convert
@@ -153,6 +156,9 @@ type ReservationObservation struct {
 	// Structure is documented below.
 	ReplicationStatus []ReplicationStatusObservation `json:"replicationStatus,omitempty" tf:"replication_status,omitempty"`
 
+	// The reservation group that this reservation belongs to.
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
+
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create
 	// reservation calls to create a failover reservation or in update reservation calls to convert
@@ -194,6 +200,10 @@ type ReservationParameters struct {
 	// If it is not provided, the provider project is used.
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The reservation group that this reservation belongs to.
+	// +kubebuilder:validation:Optional
+	ReservationGroup *string `json:"reservationGroup,omitempty" tf:"reservation_group,omitempty"`
 
 	// The current location of the reservation's secondary replica. This field is only set for
 	// reservations using the managed disaster recovery feature. Users can set this in create

@@ -74,6 +74,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted
+                      regardless of child undeleted resources.
+                    type: string
                   description:
                     description: The description of the ReasoningEngine.
                     type: string
@@ -93,6 +98,14 @@ spec:
                           is created.
                         type: string
                     type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -115,6 +128,18 @@ spec:
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
                         type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
@@ -484,6 +509,13 @@ spec:
                               type: object
                             type: array
                         type: object
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
                       packageSpec:
                         description: |-
                           Optional. User provided package spec of the ReasoningEngine.
@@ -623,6 +655,19 @@ spec:
                                       SHA, or any Git ref.
                                     type: string
                                 type: object
+                            type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           inlineSource:
                             description: |-
@@ -685,6 +730,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted
+                      regardless of child undeleted resources.
+                    type: string
                   description:
                     description: The description of the ReasoningEngine.
                     type: string
@@ -704,6 +754,14 @@ spec:
                           is created.
                         type: string
                     type: object
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -723,6 +781,18 @@ spec:
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
                         type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
@@ -1092,6 +1162,13 @@ spec:
                               type: object
                             type: array
                         type: object
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
                       packageSpec:
                         description: |-
                           Optional. User provided package spec of the ReasoningEngine.
@@ -1231,6 +1308,19 @@ spec:
                                       SHA, or any Git ref.
                                     type: string
                                 type: object
+                            type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
                             type: object
                           inlineSource:
                             description: |-
@@ -1374,9 +1464,20 @@ spec:
                       The timestamp of when the Index was created in RFC3339 UTC "Zulu" format,
                       with nanosecond resolution and up to nine fractional digits.
                     type: string
+                  deletionPolicy:
+                    description: Optional. The deletion policy for the reasoning engine.
+                      Setting this to FORCE allows the reasoning engine to be deleted
+                      regardless of child undeleted resources.
+                    type: string
                   description:
                     description: The description of the ReasoningEngine.
                     type: string
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    description: for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   encryptionSpec:
                     description: |-
                       Optional. Customer-managed encryption key spec for a ReasoningEngine.
@@ -1396,6 +1497,14 @@ spec:
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The labels associated with this ReasoningEngine. You can use these to
+                      organize and group your ReasoningEngines.
+                    type: object
+                    x-kubernetes-map-type: granular
                   name:
                     description: |-
                       The generated name of the ReasoningEngine, in the format
@@ -1423,6 +1532,18 @@ spec:
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
                         type: string
+                      containerSpec:
+                        description: |-
+                          Deploy from a container image with a defined entrypoint and commands.
+                          Structure is documented below.
+                        properties:
+                          imageUri:
+                            description: |-
+                              The Artifact Registry Docker image URI (e.g.,
+                              us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+                              container image that is to be run on each worker replica.
+                            type: string
+                        type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
@@ -1564,6 +1685,18 @@ spec:
                               type: object
                             type: array
                         type: object
+                      effectiveIdentity:
+                        description: |-
+                          (Output)
+                          The identity to use for the Reasoning Engine.
+                        type: string
+                      identityType:
+                        description: |-
+                          Optional. The identity type to use for the Reasoning Engine.
+                          If not specified, the service_account field will be used if set,
+                          otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+                          Possible values:
+                        type: string
                       packageSpec:
                         description: |-
                           Optional. User provided package spec of the ReasoningEngine.
@@ -1628,6 +1761,19 @@ spec:
                                     type: string
                                 type: object
                             type: object
+                          imageSpec:
+                            description: |-
+                              Configuration for building an image with custom config file.
+                              Structure is documented below.
+                            properties:
+                              buildArgs:
+                                additionalProperties:
+                                  type: string
+                                description: Build arguments to be used. They will
+                                  be passed through --build-arg flags.
+                                type: object
+                                x-kubernetes-map-type: granular
+                            type: object
                           inlineSource:
                             description: |-
                               Source code is provided directly in the request.
@@ -1673,6 +1819,14 @@ spec:
                             type: object
                         type: object
                     type: object
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   updateTime:
                     description: |-
                       The timestamp of when the Index was last updated in RFC3339 UTC "Zulu"

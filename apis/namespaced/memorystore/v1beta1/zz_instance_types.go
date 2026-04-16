@@ -465,6 +465,26 @@ type InstanceInitParameters struct {
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
+
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -616,6 +636,16 @@ type InstanceObservation struct {
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
 
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
 	// Required. Number of shards for the instance.
 	ShardCount *float64 `json:"shardCount,omitempty" tf:"shard_count,omitempty"`
 
@@ -756,6 +786,28 @@ type InstanceParameters struct {
 	// Optional. Number of replica nodes per shard. If omitted the default is 0 replicas.
 	// +kubebuilder:validation:Optional
 	ReplicaCount *float64 `json:"replicaCount,omitempty" tf:"replica_count,omitempty"`
+
+	// The serverCaMode for the TLS enabled Memorystore instance.
+	// If not provided, GOOGLE_MANAGED_PER_INSTANCE_CA will be used as default
+	// Possible values are: GOOGLE_MANAGED_PER_INSTANCE_CA, GOOGLE_MANAGED_SHARED_CA, CUSTOMER_MANAGED_CAS_CA, SERVER_CA_MODE_UNSPECIFIED.
+	// +kubebuilder:validation:Optional
+	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
+
+	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA
+	// as the server_ca_mode.
+	// Format: projects/{project}/locations/{region}/caPools/{caPoolId}
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/privateca/v1beta1.CAPool
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Reference to a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolRef *v1.NamespacedReference `json:"serverCaPoolRef,omitempty" tf:"-"`
+
+	// Selector for a CAPool in privateca to populate serverCaPool.
+	// +kubebuilder:validation:Optional
+	ServerCAPoolSelector *v1.NamespacedSelector `json:"serverCaPoolSelector,omitempty" tf:"-"`
 
 	// Required. Number of shards for the instance.
 	// +kubebuilder:validation:Optional

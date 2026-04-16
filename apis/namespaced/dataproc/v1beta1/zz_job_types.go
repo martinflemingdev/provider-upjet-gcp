@@ -234,6 +234,8 @@ type JobInitParameters struct {
 	SparkConfig *SparkConfigInitParameters `json:"sparkConfig,omitempty" tf:"spark_config,omitempty"`
 
 	SparksqlConfig *SparksqlConfigInitParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobObservation struct {
@@ -293,6 +295,8 @@ type JobObservation struct {
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type JobParameters struct {
@@ -359,6 +363,9 @@ type JobParameters struct {
 
 	// +kubebuilder:validation:Optional
 	SparksqlConfig *SparksqlConfigParameters `json:"sparksqlConfig,omitempty" tf:"sparksql_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	WaitForCompletion *bool `json:"waitForCompletion,omitempty" tf:"wait_for_completion,omitempty"`
 }
 
 type LoggingConfigInitParameters struct {

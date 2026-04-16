@@ -14,6 +14,34 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type AIInferenceUnstructuredInferenceInitParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type AIInferenceUnstructuredInferenceObservation struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
+type AIInferenceUnstructuredInferenceParameters struct {
+
+	// A parameters object to be included in each inference request.
+	// The parameters object is combined with the data field of the Pub/Sub
+	// message to form the inference request.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Parameters map[string]*string `json:"parameters,omitempty" tf:"parameters,omitempty"`
+}
+
 type AvroFormatInitParameters struct {
 }
 
@@ -543,6 +571,80 @@ type MessageStoragePolicyParameters struct {
 	EnforceInTransit *bool `json:"enforceInTransit,omitempty" tf:"enforce_in_transit,omitempty"`
 }
 
+type MessageTransformsAIInferenceInitParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *AIInferenceUnstructuredInferenceInitParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type MessageTransformsAIInferenceObservation struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	UnstructuredInference *AIInferenceUnstructuredInferenceObservation `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
+type MessageTransformsAIInferenceParameters struct {
+
+	// The endpoint to a Vertex AI model of the form
+	// projects/{project}/locations/{location}/endpoints/{endpoint} or
+	// projects/{project}/locations/{location}/publishers/{publisher}/models/{model}.
+	// Vertex AI API requests will be sent to this endpoint.
+	// +kubebuilder:validation:Optional
+	Endpoint *string `json:"endpoint" tf:"endpoint,omitempty"`
+
+	// The service account to use to make prediction requests against
+	// endpoints.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailRef *v1.NamespacedReference `json:"serviceAccountEmailRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccountEmail.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmailSelector *v1.NamespacedSelector `json:"serviceAccountEmailSelector,omitempty" tf:"-"`
+
+	// Configuration for making inferences using arbitrary JSON payloads.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	UnstructuredInference *AIInferenceUnstructuredInferenceParameters `json:"unstructuredInference,omitempty" tf:"unstructured_inference,omitempty"`
+}
+
 type MessageTransformsJavascriptUdfInitParameters struct {
 
 	// JavaScript code that contains a function function_name with the
@@ -751,6 +853,12 @@ type TopicInitParameters struct {
 
 type TopicMessageTransformsInitParameters struct {
 
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *MessageTransformsAIInferenceInitParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
+
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -763,6 +871,12 @@ type TopicMessageTransformsInitParameters struct {
 
 type TopicMessageTransformsObservation struct {
 
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	AIInference *MessageTransformsAIInferenceObservation `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
+
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -774,6 +888,13 @@ type TopicMessageTransformsObservation struct {
 }
 
 type TopicMessageTransformsParameters struct {
+
+	// AI Inference. Specifies the Vertex AI endpoint that inference
+	// requests built from the Pub/Sub message data and provided parameters will
+	// be sent to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AIInference *MessageTransformsAIInferenceParameters `json:"aiInference,omitempty" tf:"ai_inference,omitempty"`
 
 	// Controls whether or not to use this transform. If not set or false,
 	// the transform will be applied to messages. Default: true.

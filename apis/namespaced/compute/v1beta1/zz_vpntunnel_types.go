@@ -164,6 +164,10 @@ type VPNTunnelInitParameters struct {
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *VPNTunnelParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
+
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ExternalVPNGateway
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
@@ -299,6 +303,10 @@ type VPNTunnelObservation struct {
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *VPNTunnelParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
 
@@ -397,6 +405,11 @@ type VPNTunnelParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *VPNTunnelParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.ExternalVPNGateway
@@ -505,6 +518,34 @@ type VPNTunnelParameters struct {
 	// Selector for a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
 	VPNGatewaySelector *v1.NamespacedSelector `json:"vpnGatewaySelector,omitempty" tf:"-"`
+}
+
+type VPNTunnelParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type VPNTunnelParamsObservation struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type VPNTunnelParamsParameters struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 // VPNTunnelSpec defines the desired state of VPNTunnel

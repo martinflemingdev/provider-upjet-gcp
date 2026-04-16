@@ -110,6 +110,18 @@ spec:
                                       diskConfig:
                                         description: Disk Config
                                         properties:
+                                          bootDiskProvisionedIops:
+                                            description: Indicates how many IOPS to
+                                              provision for the disk. This sets the
+                                              number of I/O operations per second
+                                              that the disk can handle.
+                                            type: number
+                                          bootDiskProvisionedThroughput:
+                                            description: Indicates how much throughput
+                                              to provision for the disk. This sets
+                                              the number of throughput mb per second
+                                              that the disk can handle.
+                                            type: number
                                           bootDiskSizeGb:
                                             description: |-
                                               Size of the primary disk attached to each node, specified
@@ -167,6 +179,8 @@ spec:
                         type: array
                       clusterTier:
                         description: The tier of the cluster.
+                        type: string
+                      clusterType:
                         type: string
                       dataprocMetricConfig:
                         description: |-
@@ -497,6 +511,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -591,6 +615,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -855,6 +889,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -1210,6 +1254,18 @@ spec:
                                       diskConfig:
                                         description: Disk Config
                                         properties:
+                                          bootDiskProvisionedIops:
+                                            description: Indicates how many IOPS to
+                                              provision for the disk. This sets the
+                                              number of I/O operations per second
+                                              that the disk can handle.
+                                            type: number
+                                          bootDiskProvisionedThroughput:
+                                            description: Indicates how much throughput
+                                              to provision for the disk. This sets
+                                              the number of throughput mb per second
+                                              that the disk can handle.
+                                            type: number
                                           bootDiskSizeGb:
                                             description: |-
                                               Size of the primary disk attached to each node, specified
@@ -1267,6 +1323,8 @@ spec:
                         type: array
                       clusterTier:
                         description: The tier of the cluster.
+                        type: string
+                      clusterType:
                         type: string
                       dataprocMetricConfig:
                         description: |-
@@ -1597,6 +1655,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -1691,6 +1759,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -1955,6 +2033,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -2370,6 +2458,18 @@ spec:
                                       diskConfig:
                                         description: Disk Config
                                         properties:
+                                          bootDiskProvisionedIops:
+                                            description: Indicates how many IOPS to
+                                              provision for the disk. This sets the
+                                              number of I/O operations per second
+                                              that the disk can handle.
+                                            type: number
+                                          bootDiskProvisionedThroughput:
+                                            description: Indicates how much throughput
+                                              to provision for the disk. This sets
+                                              the number of throughput mb per second
+                                              that the disk can handle.
+                                            type: number
                                           bootDiskSizeGb:
                                             description: |-
                                               Size of the primary disk attached to each node, specified
@@ -2440,6 +2540,8 @@ spec:
                         type: string
                       clusterTier:
                         description: The tier of the cluster.
+                        type: string
+                      clusterType:
                         type: string
                       dataprocMetricConfig:
                         description: |-
@@ -2701,6 +2803,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -2813,6 +2925,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified
@@ -3102,6 +3224,16 @@ spec:
                           diskConfig:
                             description: Disk Config
                             properties:
+                              bootDiskProvisionedIops:
+                                description: Indicates how many IOPS to provision
+                                  for the disk. This sets the number of I/O operations
+                                  per second that the disk can handle.
+                                type: number
+                              bootDiskProvisionedThroughput:
+                                description: Indicates how much throughput to provision
+                                  for the disk. This sets the number of throughput
+                                  mb per second that the disk can handle.
+                                type: number
                               bootDiskSizeGb:
                                 description: |-
                                   Size of the primary disk attached to each node, specified

@@ -8581,12 +8581,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -8651,6 +8657,10 @@ spec:
                           type: object
                         type: array
                       sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -8695,6 +8705,31 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        type: boolean
+                      noSystemImpersonation:
+                        type: boolean
+                      noSystemMutation:
+                        type: boolean
+                      noUnsafeWebhooks:
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -9307,6 +9342,18 @@ spec:
                           startTime:
                             type: string
                         type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
+                            type: string
+                        type: object
                       maintenanceExclusion:
                         description: structure documented below
                         items:
@@ -9863,8 +9910,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -10320,6 +10368,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -11300,12 +11359,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -11370,6 +11435,10 @@ spec:
                           type: object
                         type: array
                       sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -11414,6 +11483,31 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        type: boolean
+                      noSystemImpersonation:
+                        type: boolean
+                      noSystemMutation:
+                        type: boolean
+                      noUnsafeWebhooks:
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -12017,6 +12111,18 @@ spec:
                           startTime:
                             type: string
                         type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
+                            type: string
+                        type: object
                       maintenanceExclusion:
                         description: structure documented below
                         items:
@@ -12573,8 +12679,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -13030,6 +13137,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -14086,12 +14204,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -14156,6 +14280,10 @@ spec:
                           type: object
                         type: array
                       sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -14200,6 +14328,31 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        type: boolean
+                      noSystemImpersonation:
+                        type: boolean
+                      noSystemMutation:
+                        type: boolean
+                      noUnsafeWebhooks:
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -14853,6 +15006,26 @@ spec:
                           startTime:
                             type: string
                         type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          lastDisruptionTime:
+                            description: (Output) The last disruption time of the
+                              control plane.
+                            type: string
+                          lastMinorVersionDisruptionTime:
+                            description: (Output) The last minor version disruption
+                              time of the control plane.
+                            type: string
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
+                            type: string
+                        type: object
                       maintenanceExclusion:
                         description: structure documented below
                         items:
@@ -15356,8 +15529,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -15813,6 +15987,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -16381,8 +16566,9 @@ spec:
                                         type: number
                                     type: object
                                   type:
-                                    description: The accelerator type resource to
-                                      expose to this instance. E.g. nvidia-tesla-k80.
+                                    description: |-
+                                      Which sandbox to use for pods in the node pool.
+                                      Accepted values are:
                                     type: string
                                 type: object
                               type: array
@@ -16849,6 +17035,17 @@ spec:
                                 {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                               type: object
                               x-kubernetes-map-type: granular
+                            sandboxConfig:
+                              description: |-
+                                GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                                Structure is documented below.
+                              properties:
+                                type:
+                                  description: |-
+                                    Which sandbox to use for pods in the node pool.
+                                    Accepted values are:
+                                  type: string
+                              type: object
                             secondaryBootDisks:
                               description: Parameters for secondary boot disks to
                                 preload container images and data on new nodes. Structure
@@ -17010,8 +17207,9 @@ spec:
                             tpuTopology:
                               type: string
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         queuedProvisioning:
@@ -17552,6 +17750,11 @@ spec:
                         description: The Cloud KMS cryptoKey to use for Confidential
                           Hyperdisk on the control plane nodes.
                         type: string
+                      controlPlaneDiskEncryptionKeyVersions:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       etcdApiCa:
                         description: The Certificate Authority Service caPool to use
                           for the etcd API CA in this cluster.

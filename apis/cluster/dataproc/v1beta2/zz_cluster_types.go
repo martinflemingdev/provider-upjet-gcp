@@ -182,6 +182,8 @@ type ClusterConfigInitParameters struct {
 	// The tier of the cluster.
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig *DataprocMetricConfigInitParameters `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -264,6 +266,8 @@ type ClusterConfigObservation struct {
 	// The tier of the cluster.
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
 
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
+
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
 	DataprocMetricConfig *DataprocMetricConfigObservation `json:"dataprocMetricConfig,omitempty" tf:"dataproc_metric_config,omitempty"`
@@ -343,6 +347,9 @@ type ClusterConfigParameters struct {
 	// The tier of the cluster.
 	// +kubebuilder:validation:Optional
 	ClusterTier *string `json:"clusterTier,omitempty" tf:"cluster_tier,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	ClusterType *string `json:"clusterType,omitempty" tf:"cluster_type,omitempty"`
 
 	// The Compute Engine accelerator (GPU) configuration for these instances. Can be specified multiple times.
 	// Structure defined below.
@@ -790,6 +797,12 @@ type DataprocMetricConfigParameters struct {
 
 type DiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -814,6 +827,12 @@ type DiskConfigInitParameters struct {
 
 type DiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -837,6 +856,14 @@ type DiskConfigObservation struct {
 }
 
 type DiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -1756,6 +1783,12 @@ type MasterConfigAcceleratorsParameters struct {
 
 type MasterConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -1780,6 +1813,12 @@ type MasterConfigDiskConfigInitParameters struct {
 
 type MasterConfigDiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -1803,6 +1842,14 @@ type MasterConfigDiskConfigObservation struct {
 }
 
 type MasterConfigDiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -2216,6 +2263,12 @@ type NodePoolTargetParameters struct {
 
 type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2240,6 +2293,12 @@ type PreemptibleWorkerConfigDiskConfigInitParameters struct {
 
 type PreemptibleWorkerConfigDiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2263,6 +2322,14 @@ type PreemptibleWorkerConfigDiskConfigObservation struct {
 }
 
 type PreemptibleWorkerConfigDiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
@@ -2708,6 +2775,12 @@ type WorkerConfigAcceleratorsParameters struct {
 
 type WorkerConfigDiskConfigInitParameters struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2732,6 +2805,12 @@ type WorkerConfigDiskConfigInitParameters struct {
 
 type WorkerConfigDiskConfigObservation struct {
 
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the
 	// smallest allowed disk size is 10GB. GCP will default to a predetermined
@@ -2755,6 +2834,14 @@ type WorkerConfigDiskConfigObservation struct {
 }
 
 type WorkerConfigDiskConfigParameters struct {
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size of the primary disk attached to each node, specified
 	// in GB. The primary disk contains the boot volume and system libraries, and the

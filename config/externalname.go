@@ -1144,6 +1144,8 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_feature_online_store_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
 	"google_vertex_ai_reasoning_engine": config.TemplatedStringAsIdentifier("display_name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/reasoningEngines/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{region}}/reasoningEngines/{{reasoning_engine}} roles/viewer user:jane@example.com
+	"google_vertex_ai_reasoning_engine_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/cacheConfig
 	"google_vertex_ai_cache_config": config.TemplatedStringAsIdentifier("", "projects/{{ .setup.configuration.project }}/cacheConfig"),
 

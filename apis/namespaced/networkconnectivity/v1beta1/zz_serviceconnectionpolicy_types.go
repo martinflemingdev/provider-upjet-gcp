@@ -223,7 +223,8 @@ type ServiceConnectionPolicyInitParameters struct {
 	PscConfig *PscConfigInitParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass.
-	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, gcp-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// For a list of supported services, see Supported Services.
 	ServiceClass *string `json:"serviceClass,omitempty" tf:"service_class,omitempty"`
 }
 
@@ -271,7 +272,8 @@ type ServiceConnectionPolicyObservation struct {
 	PscConnections []PscConnectionsObservation `json:"pscConnections,omitempty" tf:"psc_connections,omitempty"`
 
 	// The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass.
-	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, gcp-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// For a list of supported services, see Supported Services.
 	ServiceClass *string `json:"serviceClass,omitempty" tf:"service_class,omitempty"`
 
 	// The combination of labels configured directly on the resource
@@ -323,7 +325,8 @@ type ServiceConnectionPolicyParameters struct {
 	PscConfig *PscConfigParameters `json:"pscConfig,omitempty" tf:"psc_config,omitempty"`
 
 	// The service class identifier for which this ServiceConnectionPolicy is for. The service class identifier is a unique, symbolic representation of a ServiceClass.
-	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, gcp-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// It is provided by the Service Producer. Google services have a prefix of gcp. For example, google-cloud-sql. 3rd party services do not. For example, test-service-a3dfcx.
+	// For a list of supported services, see Supported Services.
 	// +kubebuilder:validation:Optional
 	ServiceClass *string `json:"serviceClass,omitempty" tf:"service_class,omitempty"`
 }

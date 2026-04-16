@@ -1147,7 +1147,7 @@ type TemplateVolumesEmptyDirInitParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1158,7 +1158,7 @@ type TemplateVolumesEmptyDirObservation struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1169,7 +1169,7 @@ type TemplateVolumesEmptyDirParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	// +kubebuilder:validation:Optional
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
@@ -1429,6 +1429,9 @@ type V2ServiceInitParameters struct {
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// Used to enable/disable IAP for the cloud-run service.
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
+
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
@@ -1541,6 +1544,9 @@ type V2ServiceObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/services/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Used to enable/disable IAP for the cloud-run service.
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
@@ -1678,6 +1684,10 @@ type V2ServiceParameters struct {
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Used to enable/disable IAP for the cloud-run service.
+	// +kubebuilder:validation:Optional
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.

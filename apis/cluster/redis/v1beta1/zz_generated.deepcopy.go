@@ -404,6 +404,26 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPoolRef != nil {
+		in, out := &in.ServerCAPoolRef, &out.ServerCAPoolRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerCAPoolSelector != nil {
+		in, out := &in.ServerCAPoolSelector, &out.ServerCAPoolSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount
 		*out = new(float64)
@@ -798,6 +818,16 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount
 		*out = new(float64)
@@ -974,6 +1004,26 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(float64)
 		**out = **in
+	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPoolRef != nil {
+		in, out := &in.ServerCAPoolRef, &out.ServerCAPoolRef
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerCAPoolSelector != nil {
+		in, out := &in.ServerCAPoolSelector, &out.ServerCAPoolSelector
+		*out = new(v1.Selector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount

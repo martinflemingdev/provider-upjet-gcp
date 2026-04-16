@@ -258,6 +258,10 @@ type DestinationDatasetInitParameters struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetObservation struct {
@@ -280,6 +284,10 @@ type DestinationDatasetObservation struct {
 	// The geographic location where the dataset should reside.
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type DestinationDatasetParameters struct {
@@ -307,6 +315,11 @@ type DestinationDatasetParameters struct {
 	// See https://cloud.google.com/bigquery/docs/locations for supported locations.
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location" tf:"location,omitempty"`
+
+	// List of regions where the subscriber wants dataset replicas.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	ReplicaLocations []*string `json:"replicaLocations,omitempty" tf:"replica_locations,omitempty"`
 }
 
 type LinkedDatasetMapInitParameters struct {

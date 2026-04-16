@@ -1079,7 +1079,8 @@ type GcsDestinationConfigInitParameters struct {
 	AvroFileFormat *AvroFileFormatInitParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 
 	// The maximum file size to be saved in the bucket.
@@ -1099,7 +1100,8 @@ type GcsDestinationConfigObservation struct {
 	AvroFileFormat *AvroFileFormatParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 
 	// The maximum file size to be saved in the bucket.
@@ -1120,7 +1122,8 @@ type GcsDestinationConfigParameters struct {
 	AvroFileFormat *AvroFileFormatParameters `json:"avroFileFormat,omitempty" tf:"avro_file_format,omitempty"`
 
 	// The maximum duration for which new events are added before a file is closed and a new file is created.
-	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s". Defaults to 900s.
+	// Values within the range of 15-60 seconds are allowed.
+	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// +kubebuilder:validation:Optional
 	FileRotationInterval *string `json:"fileRotationInterval,omitempty" tf:"file_rotation_interval,omitempty"`
 

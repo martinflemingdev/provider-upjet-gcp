@@ -2739,6 +2739,13 @@ spec:
                           If create_pod_range is false, uses an existing secondary
                           range with this ID.
                         type: string
+                      subnetwork:
+                        description: 'The subnetwork path for the node pool. Format:
+                          projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                          If the cluster is associated with multiple subnetworks,
+                          the subnetwork for the node pool is picked based on the
+                          IP utilization during node pool creation and is immutable'
+                        type: string
                     type: object
                   nodeConfig:
                     description: |-
@@ -3127,6 +3134,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:
@@ -3572,6 +3588,13 @@ spec:
                           If create_pod_range is false, uses an existing secondary
                           range with this ID.
                         type: string
+                      subnetwork:
+                        description: 'The subnetwork path for the node pool. Format:
+                          projects/{project}/regions/{region}/subnetworks/{subnetwork}.
+                          If the cluster is associated with multiple subnetworks,
+                          the subnetwork for the node pool is picked based on the
+                          IP utilization during node pool creation and is immutable'
+                        type: string
                     type: object
                   nodeConfig:
                     description: |-
@@ -3960,6 +3983,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:
@@ -4915,6 +4947,15 @@ spec:
                           type: string
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        properties:
+                          type:
+                            description: |-
+                              The type of the policy. Supports a single value: COMPACT.
+                              Specifying COMPACT placement policy type places node pool's nodes in a closer
+                              physical proximity in order to reduce network latency between nodes.
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         items:
                           properties:

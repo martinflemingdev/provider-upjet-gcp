@@ -241,6 +241,9 @@ type CloneInitParameters struct {
 
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type CloneObservation struct {
@@ -262,6 +265,9 @@ type CloneObservation struct {
 
 	// Name of the source instance which will be cloned.
 	SourceInstanceName *string `json:"sourceInstanceName,omitempty" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type CloneParameters struct {
@@ -289,6 +295,10 @@ type CloneParameters struct {
 	// Name of the source instance which will be cloned.
 	// +kubebuilder:validation:Optional
 	SourceInstanceName *string `json:"sourceInstanceName" tf:"source_instance_name,omitempty"`
+
+	// Id of source project where source instances exits, required for cross project clone scenario.
+	// +kubebuilder:validation:Optional
+	SourceProject *string `json:"sourceProject,omitempty" tf:"source_project,omitempty"`
 }
 
 type ConnectionPoolConfigInitParameters struct {
@@ -402,10 +412,10 @@ type DatabaseInstanceInitParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
@@ -501,10 +511,10 @@ type DatabaseInstanceObservation struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	DatabaseVersion *string `json:"databaseVersion,omitempty" tf:"database_version,omitempty"`
@@ -613,10 +623,10 @@ type DatabaseInstanceParameters struct {
 	// The MySQL, PostgreSQL or
 	// SQL Server version to use. Supported values include MYSQL_5_6,
 	// MYSQL_5_7, MYSQL_8_0, MYSQL_8_4, POSTGRES_9_6,POSTGRES_10, POSTGRES_11,
-	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17,
-	// SQLSERVER_2017_STANDARD, SQLSERVER_2017_ENTERPRISE, SQLSERVER_2017_EXPRESS, SQLSERVER_2017_WEB.
-	// SQLSERVER_2019_STANDARD, SQLSERVER_2019_ENTERPRISE, SQLSERVER_2019_EXPRESS,
-	// SQLSERVER_2019_WEB.
+	// POSTGRES_12, POSTGRES_13, POSTGRES_14, POSTGRES_15, POSTGRES_16, POSTGRES_17, POSTGRES_18,
+	// SQLSERVER_2022_STANDARD, SQLSERVER_2022_ENTERPRISE, SQLSERVER_2022_EXPRESS,
+	// SQLSERVER_2022_WEB, SQLSERVER_2025_STANDARD, SQLSERVER_2025_ENTERPRISE,
+	// SQLSERVER_2025_EXPRESS, SQLSERVER_2025_WEB.
 	// Database Version Policies
 	// includes an up-to-date reference of supported versions.
 	// +kubebuilder:validation:Optional
@@ -867,11 +877,14 @@ type IPConfigurationInitParameters struct {
 	// Specify how SSL connection should be enforced in DB connections. Supported values are ALLOW_UNENCRYPTED_AND_ENCRYPTED, ENCRYPTED_ONLY, and TRUSTED_CLIENT_CERTIFICATE_REQUIRED (not supported for SQL Server). See API reference doc for details.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type IPConfigurationObservation struct {
@@ -905,11 +918,14 @@ type IPConfigurationObservation struct {
 	// Specify how SSL connection should be enforced in DB connections. Supported values are ALLOW_UNENCRYPTED_AND_ENCRYPTED, ENCRYPTED_ONLY, and TRUSTED_CLIENT_CERTIFICATE_REQUIRED (not supported for SQL Server). See API reference doc for details.
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type IPConfigurationParameters struct {
@@ -961,16 +977,23 @@ type IPConfigurationParameters struct {
 	// +kubebuilder:validation:Optional
 	SSLMode *string `json:"sslMode,omitempty" tf:"ssl_mode,omitempty"`
 
-	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA and GOOGLE_MANAGED_CAS_CA.
+	// Specify how the server certificate's Certificate Authority is hosted. Supported values are GOOGLE_MANAGED_INTERNAL_CA, GOOGLE_MANAGED_CAS_CA, and CUSTOMER_MANAGED_CAS_CA.
 	// +kubebuilder:validation:Optional
 	ServerCAMode *string `json:"serverCaMode,omitempty" tf:"server_ca_mode,omitempty"`
 
 	// The resource name of the server CA pool for an instance with CUSTOMER_MANAGED_CAS_CA as the server_ca_mode.
 	// +kubebuilder:validation:Optional
 	ServerCAPool *string `json:"serverCaPool,omitempty" tf:"server_ca_pool,omitempty"`
+
+	// Controls the automatic server certificate rotation feature. Supported values are NO_AUTOMATIC_ROTATIONand AUTOMATIC_ROTATION_DURING_MAINTENANCE. AUTOMATIC_ROTATION_DURING_MAINTENANCE can only be set if server_ca_mode is either GOOGLE_MANAGED_CAS_CA or CUSTOMER_MANAGED_CAS_CA. See API reference doc for details.
+	// +kubebuilder:validation:Optional
+	ServerCertificateRotationMode *string `json:"serverCertificateRotationMode,omitempty" tf:"server_certificate_rotation_mode,omitempty"`
 }
 
 type InsightsConfigInitParameters struct {
+
+	// True if Enhanced Query Insights feature is enabled.
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
 
 	// True if Query Insights feature is enabled.
 	QueryInsightsEnabled *bool `json:"queryInsightsEnabled,omitempty" tf:"query_insights_enabled,omitempty"`
@@ -990,6 +1013,9 @@ type InsightsConfigInitParameters struct {
 
 type InsightsConfigObservation struct {
 
+	// True if Enhanced Query Insights feature is enabled.
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
+
 	// True if Query Insights feature is enabled.
 	QueryInsightsEnabled *bool `json:"queryInsightsEnabled,omitempty" tf:"query_insights_enabled,omitempty"`
 
@@ -1007,6 +1033,10 @@ type InsightsConfigObservation struct {
 }
 
 type InsightsConfigParameters struct {
+
+	// True if Enhanced Query Insights feature is enabled.
+	// +kubebuilder:validation:Optional
+	EnhancedQueryInsightsEnabled *bool `json:"enhancedQueryInsightsEnabled,omitempty" tf:"enhanced_query_insights_enabled,omitempty"`
 
 	// True if Query Insights feature is enabled.
 	// +kubebuilder:validation:Optional
@@ -1196,6 +1226,9 @@ type PointInTimeRestoreContextInitParameters struct {
 	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
 
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
+
 	// The name of the target instance.
 	TargetInstance *string `json:"targetInstance,omitempty" tf:"target_instance,omitempty"`
 }
@@ -1213,6 +1246,9 @@ type PointInTimeRestoreContextObservation struct {
 
 	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The name of the target instance.
 	TargetInstance *string `json:"targetInstance,omitempty" tf:"target_instance,omitempty"`
@@ -1235,6 +1271,10 @@ type PointInTimeRestoreContextParameters struct {
 	// Point-in-time recovery of an instance to the specified zone. If no zone is specified, then clone to the same primary zone as the source instance.
 	// +kubebuilder:validation:Optional
 	PreferredZone *string `json:"preferredZone,omitempty" tf:"preferred_zone,omitempty"`
+
+	// The region of the target instance where the datasource will be restored. For example: "us-central1".
+	// +kubebuilder:validation:Optional
+	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
 	// The name of the target instance.
 	// +kubebuilder:validation:Optional
@@ -1720,6 +1760,14 @@ type SettingsInitParameters struct {
 
 	AdvancedMachineFeatures *AdvancedMachineFeaturesInitParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
 	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
@@ -1739,6 +1787,9 @@ type SettingsInitParameters struct {
 
 	// Control the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections, can be REQUIRED or NOT_REQUIRED. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
+
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
 
 	DataCacheConfig *DataCacheConfigInitParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
 
@@ -1815,6 +1866,14 @@ type SettingsObservation struct {
 
 	AdvancedMachineFeatures *AdvancedMachineFeaturesObservation `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
 	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
@@ -1834,6 +1893,9 @@ type SettingsObservation struct {
 
 	// Control the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections, can be REQUIRED or NOT_REQUIRED. If enabled, all the direct connections are rejected.
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
+
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
 
 	DataCacheConfig *DataCacheConfigObservation `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`
 
@@ -1924,6 +1986,15 @@ type SettingsParameters struct {
 	// +kubebuilder:validation:Optional
 	AdvancedMachineFeatures *AdvancedMachineFeaturesParameters `json:"advancedMachineFeatures,omitempty" tf:"advanced_machine_features,omitempty"`
 
+	// Enables
+	// Automatic Version Upgrade
+	// feature. When this field is set to true, Automatic Upgrade is enabled for
+	// MYSQL_8_0 based minor versions. The database_version must be
+	// MYSQL_8_0_35 or higher. Can be used with MySQL only. Can't be unset or
+	// changed if set to true.
+	// +kubebuilder:validation:Optional
+	AutoUpgradeEnabled *bool `json:"autoUpgradeEnabled,omitempty" tf:"auto_upgrade_enabled,omitempty"`
+
 	// The availability type of the Cloud SQL
 	// instance, high availability (REGIONAL) or single zone (ZONAL). For all instances, ensure that
 	// settings.backup_configuration.enabled is set to true.
@@ -1948,6 +2019,10 @@ type SettingsParameters struct {
 	// Control the enforcement of Cloud SQL Auth Proxy or Cloud SQL connectors for all the connections, can be REQUIRED or NOT_REQUIRED. If enabled, all the direct connections are rejected.
 	// +kubebuilder:validation:Optional
 	ConnectorEnforcement *string `json:"connectorEnforcement,omitempty" tf:"connector_enforcement,omitempty"`
+
+	// Configures ExecuteSql API's access to the instance. connections, can be ALLOW_DATA_API or DISALLOW_DATA_API (default). ALLOW_DATA_API allows using ExecuteSql API to connect to the instance. For private IP instances, this allows authorized users to access the instance from the public internet using ExecuteSql API.
+	// +kubebuilder:validation:Optional
+	DataAPIAccess *string `json:"dataApiAccess,omitempty" tf:"data_api_access,omitempty"`
 
 	// +kubebuilder:validation:Optional
 	DataCacheConfig *DataCacheConfigParameters `json:"dataCacheConfig,omitempty" tf:"data_cache_config,omitempty"`

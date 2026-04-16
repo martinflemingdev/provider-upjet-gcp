@@ -3189,6 +3189,11 @@ func (in *PatchConfigInitParameters) DeepCopyInto(out *PatchConfigInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WindowsUpdate != nil {
 		in, out := &in.WindowsUpdate, &out.WindowsUpdate
 		*out = new(WindowsUpdateInitParameters)
@@ -3249,6 +3254,11 @@ func (in *PatchConfigObservation) DeepCopyInto(out *PatchConfigObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
+		**out = **in
+	}
 	if in.WindowsUpdate != nil {
 		in, out := &in.WindowsUpdate, &out.WindowsUpdate
 		*out = new(WindowsUpdateObservation)
@@ -3307,6 +3317,11 @@ func (in *PatchConfigParameters) DeepCopyInto(out *PatchConfigParameters) {
 	if in.RebootConfig != nil {
 		in, out := &in.RebootConfig, &out.RebootConfig
 		*out = new(string)
+		**out = **in
+	}
+	if in.SkipUnpatchableVms != nil {
+		in, out := &in.SkipUnpatchableVms, &out.SkipUnpatchableVms
+		*out = new(bool)
 		**out = **in
 	}
 	if in.WindowsUpdate != nil {

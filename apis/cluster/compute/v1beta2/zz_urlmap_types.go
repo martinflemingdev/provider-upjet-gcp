@@ -289,38 +289,29 @@ type DefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -365,38 +356,29 @@ type DefaultRouteActionFaultInjectionPolicyDelayParameters struct {
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type DefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -1135,38 +1117,29 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -1252,38 +1225,29 @@ type PathMatcherDefaultRouteActionFaultInjectionPolicyParameters struct {
 
 type PathMatcherDefaultRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -1377,76 +1341,58 @@ type PathMatcherDefaultRouteActionRetryPolicyParameters struct {
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherDefaultRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
@@ -2648,76 +2594,58 @@ type PathMatcherRouteRulesRouteActionRetryPolicyParameters struct {
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathMatcherRouteRulesRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -3296,38 +3224,29 @@ type PathRuleRouteActionFaultInjectionPolicyAbortParameters struct {
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -3688,76 +3607,58 @@ type PathRuleRouteActionRetryPolicyParameters struct {
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionRetryPolicyPerTryTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type PathRuleRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -4171,38 +4072,29 @@ type PathRuleURLRedirectParameters struct {
 
 type RouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -4536,76 +4428,58 @@ type RouteRulesMatchRulesParameters struct {
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionFaultInjectionPolicyDelayFixedDelayParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type RouteRulesRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -4814,38 +4688,29 @@ type URLMapDefaultRouteActionInitParameters struct {
 
 type URLMapDefaultRouteActionMaxStreamDurationInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionMaxStreamDurationObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionMaxStreamDurationParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds" tf:"seconds,omitempty"`
 }
@@ -5055,38 +4920,29 @@ type URLMapDefaultRouteActionRetryPolicyParameters struct {
 
 type URLMapDefaultRouteActionTimeoutInitParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionTimeoutObservation struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }
 
 type URLMapDefaultRouteActionTimeoutParameters struct {
 
-	// Span of time that's a fraction of a second at nanosecond resolution. Durations
-	// less than one second are represented with a 0 seconds field and a positive
-	// nanos field. Must be from 0 to 999,999,999 inclusive.
+	// Span of time that's a fraction of a second at nanosecond resolution.
 	// +kubebuilder:validation:Optional
 	Nanos *float64 `json:"nanos,omitempty" tf:"nanos,omitempty"`
 
-	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000
-	// inclusive.
+	// Span of time at a resolution of a second. Must be from 0 to 315,576,000,000 inclusive.
 	// +kubebuilder:validation:Optional
 	Seconds *string `json:"seconds,omitempty" tf:"seconds,omitempty"`
 }

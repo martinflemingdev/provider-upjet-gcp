@@ -2593,6 +2593,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.
@@ -3196,6 +3199,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.
@@ -3821,6 +3827,9 @@ spec:
                           Post-patch reboot settings.
                           Possible values are: DEFAULT, ALWAYS, NEVER.
                         type: string
+                      skipUnpatchableVms:
+                        description: 'Enables enhanced reporting for the patch job:'
+                        type: boolean
                       windowsUpdate:
                         description: |-
                           Windows update settings. Use this setting to override the default Windows patch rules.

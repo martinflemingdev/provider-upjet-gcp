@@ -165,10 +165,8 @@ type AddonsConfigInitParameters struct {
 	// which allows the usage of a Lustre instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
 	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
-	// Lustre CSI Driver Config has optional subfield
-	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
+	// Lustre CSI Driver Config has optional subfields:
 	LustreCsiDriverConfig *LustreCsiDriverConfigInitParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
@@ -192,6 +190,9 @@ type AddonsConfigInitParameters struct {
 	// cluster version to enable Ray is 1.30.0-gke.1747000.
 	RayOperatorConfig []RayOperatorConfigInitParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
+	// .
+	// The status of the slice controller addon.
+	// It is disabled by default. Set enabled = true to enable.
 	SliceControllerConfig *SliceControllerConfigInitParameters `json:"sliceControllerConfig,omitempty" tf:"slice_controller_config,omitempty"`
 
 	// .
@@ -250,10 +251,8 @@ type AddonsConfigObservation struct {
 	// which allows the usage of a Lustre instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
 	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
-	// Lustre CSI Driver Config has optional subfield
-	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
+	// Lustre CSI Driver Config has optional subfields:
 	LustreCsiDriverConfig *LustreCsiDriverConfigObservation `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
 	// Whether we should enable the network policy addon
@@ -277,6 +276,9 @@ type AddonsConfigObservation struct {
 	// cluster version to enable Ray is 1.30.0-gke.1747000.
 	RayOperatorConfig []RayOperatorConfigObservation `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
+	// .
+	// The status of the slice controller addon.
+	// It is disabled by default. Set enabled = true to enable.
 	SliceControllerConfig *SliceControllerConfigObservation `json:"sliceControllerConfig,omitempty" tf:"slice_controller_config,omitempty"`
 
 	// .
@@ -344,10 +346,8 @@ type AddonsConfigParameters struct {
 	// which allows the usage of a Lustre instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
 	// It is disabled by default for Autopilot clusters; set enabled = true to enable.
-	// Lustre CSI Driver Config has optional subfield
-	// enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-	// This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
 	// See Enable Lustre CSI driver for more information.
+	// Lustre CSI Driver Config has optional subfields:
 	// +kubebuilder:validation:Optional
 	LustreCsiDriverConfig *LustreCsiDriverConfigParameters `json:"lustreCsiDriverConfig,omitempty" tf:"lustre_csi_driver_config,omitempty"`
 
@@ -375,6 +375,9 @@ type AddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	RayOperatorConfig []RayOperatorConfigParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
+	// .
+	// The status of the slice controller addon.
+	// It is disabled by default. Set enabled = true to enable.
 	// +kubebuilder:validation:Optional
 	SliceControllerConfig *SliceControllerConfigParameters `json:"sliceControllerConfig,omitempty" tf:"slice_controller_config,omitempty"`
 
@@ -672,6 +675,41 @@ type AutoProvisioningDefaultsParameters struct {
 	// Specifies the upgrade settings for NAP created node pools. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UpgradeSettings *UpgradeSettingsParameters `json:"upgradeSettings,omitempty" tf:"upgrade_settings,omitempty"`
+}
+
+type AutopilotClusterPolicyConfigInitParameters struct {
+	NoStandardNodePools *bool `json:"noStandardNodePools,omitempty" tf:"no_standard_node_pools,omitempty"`
+
+	NoSystemImpersonation *bool `json:"noSystemImpersonation,omitempty" tf:"no_system_impersonation,omitempty"`
+
+	NoSystemMutation *bool `json:"noSystemMutation,omitempty" tf:"no_system_mutation,omitempty"`
+
+	NoUnsafeWebhooks *bool `json:"noUnsafeWebhooks,omitempty" tf:"no_unsafe_webhooks,omitempty"`
+}
+
+type AutopilotClusterPolicyConfigObservation struct {
+	NoStandardNodePools *bool `json:"noStandardNodePools,omitempty" tf:"no_standard_node_pools,omitempty"`
+
+	NoSystemImpersonation *bool `json:"noSystemImpersonation,omitempty" tf:"no_system_impersonation,omitempty"`
+
+	NoSystemMutation *bool `json:"noSystemMutation,omitempty" tf:"no_system_mutation,omitempty"`
+
+	NoUnsafeWebhooks *bool `json:"noUnsafeWebhooks,omitempty" tf:"no_unsafe_webhooks,omitempty"`
+}
+
+type AutopilotClusterPolicyConfigParameters struct {
+
+	// +kubebuilder:validation:Optional
+	NoStandardNodePools *bool `json:"noStandardNodePools,omitempty" tf:"no_standard_node_pools,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NoSystemImpersonation *bool `json:"noSystemImpersonation,omitempty" tf:"no_system_impersonation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NoSystemMutation *bool `json:"noSystemMutation,omitempty" tf:"no_system_mutation,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	NoUnsafeWebhooks *bool `json:"noUnsafeWebhooks,omitempty" tf:"no_unsafe_webhooks,omitempty"`
 }
 
 type AutoscalingInitParameters struct {
@@ -1150,6 +1188,17 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	AuthenticatorGroupsConfig *AuthenticatorGroupsConfigInitParameters `json:"authenticatorGroupsConfig,omitempty" tf:"authenticator_groups_config,omitempty"`
 
+	// Per-cluster configuration of Autopilot cluster policies in GKE clusters. This field can only be configured in non Autopilot clusters. Structure is documented below.
+	AutopilotClusterPolicyConfig *AutopilotClusterPolicyConfigInitParameters `json:"autopilotClusterPolicyConfig,omitempty" tf:"autopilot_cluster_policy_config,omitempty"`
+
+	// The customer
+	// allowlist Cloud Storage paths for the cluster. These paths are used with the
+	// --autopilot-privileged-admission flag to authorize privileged workloads in
+	// Autopilot clusters. See the Cluster API's
+	// PrivilegedAdmissionConfig
+	// documentation for more details.
+	AutopilotPrivilegedAdmission []*string `json:"autopilotPrivilegedAdmission,omitempty" tf:"autopilot_privileged_admission,omitempty"`
+
 	// Configuration options for the Binary
 	// Authorization feature. Structure is documented below.
 	BinaryAuthorization *BinaryAuthorizationInitParameters `json:"binaryAuthorization,omitempty" tf:"binary_authorization,omitempty"`
@@ -1486,6 +1535,17 @@ type ClusterObservation struct {
 	// Google Groups for GKE feature.
 	// Structure is documented below.
 	AuthenticatorGroupsConfig *AuthenticatorGroupsConfigObservation `json:"authenticatorGroupsConfig,omitempty" tf:"authenticator_groups_config,omitempty"`
+
+	// Per-cluster configuration of Autopilot cluster policies in GKE clusters. This field can only be configured in non Autopilot clusters. Structure is documented below.
+	AutopilotClusterPolicyConfig *AutopilotClusterPolicyConfigObservation `json:"autopilotClusterPolicyConfig,omitempty" tf:"autopilot_cluster_policy_config,omitempty"`
+
+	// The customer
+	// allowlist Cloud Storage paths for the cluster. These paths are used with the
+	// --autopilot-privileged-admission flag to authorize privileged workloads in
+	// Autopilot clusters. See the Cluster API's
+	// PrivilegedAdmissionConfig
+	// documentation for more details.
+	AutopilotPrivilegedAdmission []*string `json:"autopilotPrivilegedAdmission,omitempty" tf:"autopilot_privileged_admission,omitempty"`
 
 	// Configuration options for the Binary
 	// Authorization feature. Structure is documented below.
@@ -1847,6 +1907,19 @@ type ClusterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AuthenticatorGroupsConfig *AuthenticatorGroupsConfigParameters `json:"authenticatorGroupsConfig,omitempty" tf:"authenticator_groups_config,omitempty"`
+
+	// Per-cluster configuration of Autopilot cluster policies in GKE clusters. This field can only be configured in non Autopilot clusters. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AutopilotClusterPolicyConfig *AutopilotClusterPolicyConfigParameters `json:"autopilotClusterPolicyConfig,omitempty" tf:"autopilot_cluster_policy_config,omitempty"`
+
+	// The customer
+	// allowlist Cloud Storage paths for the cluster. These paths are used with the
+	// --autopilot-privileged-admission flag to authorize privileged workloads in
+	// Autopilot clusters. See the Cluster API's
+	// PrivilegedAdmissionConfig
+	// documentation for more details.
+	// +kubebuilder:validation:Optional
+	AutopilotPrivilegedAdmission []*string `json:"autopilotPrivilegedAdmission,omitempty" tf:"autopilot_privileged_admission,omitempty"`
 
 	// Configuration options for the Binary
 	// Authorization feature. Structure is documented below.
@@ -2667,6 +2740,41 @@ type DefaultSnatStatusParameters struct {
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
 
+type DisruptionBudgetInitParameters struct {
+
+	// The minimum duration between two minor version upgrades of the control plane.
+	MinorVersionDisruptionInterval *string `json:"minorVersionDisruptionInterval,omitempty" tf:"minor_version_disruption_interval,omitempty"`
+
+	// The minimum duration between two patch version upgrades of the control plane.
+	PatchVersionDisruptionInterval *string `json:"patchVersionDisruptionInterval,omitempty" tf:"patch_version_disruption_interval,omitempty"`
+}
+
+type DisruptionBudgetObservation struct {
+
+	// (Output) The last disruption time of the control plane.
+	LastDisruptionTime *string `json:"lastDisruptionTime,omitempty" tf:"last_disruption_time,omitempty"`
+
+	// (Output) The last minor version disruption time of the control plane.
+	LastMinorVersionDisruptionTime *string `json:"lastMinorVersionDisruptionTime,omitempty" tf:"last_minor_version_disruption_time,omitempty"`
+
+	// The minimum duration between two minor version upgrades of the control plane.
+	MinorVersionDisruptionInterval *string `json:"minorVersionDisruptionInterval,omitempty" tf:"minor_version_disruption_interval,omitempty"`
+
+	// The minimum duration between two patch version upgrades of the control plane.
+	PatchVersionDisruptionInterval *string `json:"patchVersionDisruptionInterval,omitempty" tf:"patch_version_disruption_interval,omitempty"`
+}
+
+type DisruptionBudgetParameters struct {
+
+	// The minimum duration between two minor version upgrades of the control plane.
+	// +kubebuilder:validation:Optional
+	MinorVersionDisruptionInterval *string `json:"minorVersionDisruptionInterval,omitempty" tf:"minor_version_disruption_interval,omitempty"`
+
+	// The minimum duration between two patch version upgrades of the control plane.
+	// +kubebuilder:validation:Optional
+	PatchVersionDisruptionInterval *string `json:"patchVersionDisruptionInterval,omitempty" tf:"patch_version_disruption_interval,omitempty"`
+}
+
 type EffectiveTaintsInitParameters struct {
 }
 
@@ -3326,7 +3434,8 @@ type GuestAcceleratorInitParameters struct {
 	// Configuration for GPU sharing. Structure is documented below.
 	GpuSharingConfig *GpuSharingConfigInitParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -3344,7 +3453,8 @@ type GuestAcceleratorObservation struct {
 	// Configuration for GPU sharing. Structure is documented below.
 	GpuSharingConfig *GpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -3366,7 +3476,8 @@ type GuestAcceleratorParameters struct {
 	// +kubebuilder:validation:Optional
 	GpuSharingConfig *GpuSharingConfigParameters `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type" tf:"type,omitempty"`
 }
@@ -4363,6 +4474,11 @@ type LoggingConfigParameters struct {
 }
 
 type LustreCsiDriverConfigInitParameters struct {
+
+	// NIC support for the Lustre CSI driver. By default, GKE enables multi-NIC support, which allows the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node to maximize I/O performance for demanding workloads.
+	DisableMultiNic *bool `json:"disableMultiNic,omitempty" tf:"disable_multi_nic,omitempty"`
+
+	// metadata-server on GKE nodes.
 	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -4370,6 +4486,11 @@ type LustreCsiDriverConfigInitParameters struct {
 }
 
 type LustreCsiDriverConfigObservation struct {
+
+	// NIC support for the Lustre CSI driver. By default, GKE enables multi-NIC support, which allows the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node to maximize I/O performance for demanding workloads.
+	DisableMultiNic *bool `json:"disableMultiNic,omitempty" tf:"disable_multi_nic,omitempty"`
+
+	// metadata-server on GKE nodes.
 	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -4378,6 +4499,11 @@ type LustreCsiDriverConfigObservation struct {
 
 type LustreCsiDriverConfigParameters struct {
 
+	// NIC support for the Lustre CSI driver. By default, GKE enables multi-NIC support, which allows the Lustre CSI driver to automatically detect and configure all suitable network interfaces on a node to maximize I/O performance for demanding workloads.
+	// +kubebuilder:validation:Optional
+	DisableMultiNic *bool `json:"disableMultiNic,omitempty" tf:"disable_multi_nic,omitempty"`
+
+	// metadata-server on GKE nodes.
 	// +kubebuilder:validation:Optional
 	EnableLegacyLustrePort *bool `json:"enableLegacyLustrePort,omitempty" tf:"enable_legacy_lustre_port,omitempty"`
 
@@ -4436,6 +4562,9 @@ type MaintenancePolicyInitParameters struct {
 	DailyMaintenanceWindow *DailyMaintenanceWindowInitParameters `json:"dailyMaintenanceWindow,omitempty" tf:"daily_maintenance_window,omitempty"`
 
 	// structure documented below
+	DisruptionBudget *DisruptionBudgetInitParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
+
+	// structure documented below
 	MaintenanceExclusion []MaintenanceExclusionInitParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
 
 	// structure documented below
@@ -4446,6 +4575,9 @@ type MaintenancePolicyObservation struct {
 
 	// structure documented below.
 	DailyMaintenanceWindow *DailyMaintenanceWindowObservation `json:"dailyMaintenanceWindow,omitempty" tf:"daily_maintenance_window,omitempty"`
+
+	// structure documented below
+	DisruptionBudget *DisruptionBudgetObservation `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
 
 	// structure documented below
 	MaintenanceExclusion []MaintenanceExclusionObservation `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
@@ -4459,6 +4591,10 @@ type MaintenancePolicyParameters struct {
 	// structure documented below.
 	// +kubebuilder:validation:Optional
 	DailyMaintenanceWindow *DailyMaintenanceWindowParameters `json:"dailyMaintenanceWindow,omitempty" tf:"daily_maintenance_window,omitempty"`
+
+	// structure documented below
+	// +kubebuilder:validation:Optional
+	DisruptionBudget *DisruptionBudgetParameters `json:"disruptionBudget,omitempty" tf:"disruption_budget,omitempty"`
 
 	// structure documented below
 	// +kubebuilder:validation:Optional
@@ -5248,7 +5384,8 @@ type NodeConfigGuestAcceleratorObservation struct {
 	// Configuration for GPU sharing. Structure is documented below.
 	GpuSharingConfig *GuestAcceleratorGpuSharingConfigObservation `json:"gpuSharingConfig,omitempty" tf:"gpu_sharing_config,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -5422,6 +5559,10 @@ type NodeConfigInitParameters struct {
 	// A map of resource manager tag keys and values to be attached to the nodes for managing Compute Engine firewalls using Network Firewall Policies. Tags must be according to specifications found here. A maximum of 5 tag key-value pairs can be specified. Existing tags will be replaced with new values. Tags must be in one of the following formats ([KEY]=[VALUE]) 1. tagKeys/{tag_key_id}=tagValues/{tag_value_id} 2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+
+	// GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+	// Structure is documented below.
+	SandboxConfig *SandboxConfigInitParameters `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
 
 	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
 	SecondaryBootDisks []SecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
@@ -5749,6 +5890,10 @@ type NodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+	// Structure is documented below.
+	SandboxConfig *SandboxConfigObservation `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
 	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
 	SecondaryBootDisks []SecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
@@ -5966,6 +6111,11 @@ type NodeConfigParameters struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SandboxConfig *SandboxConfigParameters `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
 	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
 	// +kubebuilder:validation:Optional
 	SecondaryBootDisks []SecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
@@ -6042,6 +6192,19 @@ type NodeConfigReservationAffinityObservation struct {
 }
 
 type NodeConfigReservationAffinityParameters struct {
+}
+
+type NodeConfigSandboxConfigInitParameters struct {
+}
+
+type NodeConfigSandboxConfigObservation struct {
+
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type NodeConfigSandboxConfigParameters struct {
 }
 
 type NodeConfigSecondaryBootDisksInitParameters struct {
@@ -6497,6 +6660,10 @@ type NodePoolNodeConfigObservation struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	// GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+	// Structure is documented below.
+	SandboxConfig *NodeConfigSandboxConfigObservation `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
 	// Parameters for secondary boot disks to preload container images and data on new nodes. Structure is documented below. gcfs_config must be enabled=true for this feature to work. min_master_version must also be set to use GKE 1.28.3-gke.106700 or later versions.
 	SecondaryBootDisks []NodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
@@ -6678,7 +6845,8 @@ type PlacementPolicyObservation struct {
 
 	TpuTopology *string `json:"tpuTopology,omitempty" tf:"tpu_topology,omitempty"`
 
-	// The accelerator type resource to expose to this instance. E.g. nvidia-tesla-k80.
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
@@ -7399,6 +7567,28 @@ type RotationConfigParameters struct {
 	RotationInterval *string `json:"rotationInterval,omitempty" tf:"rotation_interval,omitempty"`
 }
 
+type SandboxConfigInitParameters struct {
+
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type SandboxConfigObservation struct {
+
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type SandboxConfigParameters struct {
+
+	// Which sandbox to use for pods in the node pool.
+	// Accepted values are:
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
+}
+
 type SecondaryBootDisksInitParameters struct {
 
 	// Path to disk image to create the secondary boot disk from. After using the gke-disk-image-builder, this argument should be global/images/DISK_IMAGE_NAME.
@@ -7851,6 +8041,9 @@ type UserManagedKeysConfigObservation struct {
 
 	// The Cloud KMS cryptoKey to use for Confidential Hyperdisk on the control plane nodes.
 	ControlPlaneDiskEncryptionKey *string `json:"controlPlaneDiskEncryptionKey,omitempty" tf:"control_plane_disk_encryption_key,omitempty"`
+
+	// +listType=set
+	ControlPlaneDiskEncryptionKeyVersions []*string `json:"controlPlaneDiskEncryptionKeyVersions,omitempty" tf:"control_plane_disk_encryption_key_versions,omitempty"`
 
 	// The Certificate Authority Service caPool to use for the etcd API CA in this cluster.
 	EtcdAPICA *string `json:"etcdApiCa,omitempty" tf:"etcd_api_ca,omitempty"`

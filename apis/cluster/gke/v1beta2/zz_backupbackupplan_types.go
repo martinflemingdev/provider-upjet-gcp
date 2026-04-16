@@ -110,6 +110,9 @@ type BackupBackupPlanObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// The number of Kubernetes Namespaces backed up in the last successful Backup created via this BackupPlan.
+	ProtectedNamespaceCount *float64 `json:"protectedNamespaceCount,omitempty" tf:"protected_namespace_count,omitempty"`
+
 	// The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan.
 	ProtectedPodCount *float64 `json:"protectedPodCount,omitempty" tf:"protected_pod_count,omitempty"`
 

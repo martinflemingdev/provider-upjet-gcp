@@ -100,6 +100,7 @@ type UserInitParameters struct {
 	// you can assign them. You can create roles using the CREATE ROLE
 	// statement for both MySQL and PostgreSQL.
 	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
 	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
 
 	// The deletion policy for the user.
@@ -165,6 +166,7 @@ type UserObservation struct {
 	// you can assign them. You can create roles using the CREATE ROLE
 	// statement for both MySQL and PostgreSQL.
 	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
 	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
 
 	// The deletion policy for the user.
@@ -222,6 +224,7 @@ type UserParameters struct {
 	// you can assign them. You can create roles using the CREATE ROLE
 	// statement for both MySQL and PostgreSQL.
 	// Note: This property is write-only and will not be read from the API.
+	// Caution: Existing database roles will be overwriten with new values from this field.
 	// +kubebuilder:validation:Optional
 	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
 

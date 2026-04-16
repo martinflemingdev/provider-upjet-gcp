@@ -165,6 +165,10 @@ type SubnetworkInitParameters_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
+
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
 	// The value can be set to ACTIVE or BACKUP.
@@ -407,6 +411,10 @@ type SubnetworkObservation_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
+
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
 	// The value can be set to ACTIVE or BACKUP.
@@ -557,6 +565,11 @@ type SubnetworkParameters_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	// +kubebuilder:validation:Optional
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
+	// +kubebuilder:validation:Optional
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.

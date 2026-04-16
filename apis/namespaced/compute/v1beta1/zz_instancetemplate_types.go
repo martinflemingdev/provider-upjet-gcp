@@ -399,6 +399,10 @@ type InstanceTemplateDiskInitParameters struct {
 	// documented below.
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -496,6 +500,10 @@ type InstanceTemplateDiskObservation struct {
 	// key of the source snapshot. Structure
 	// documented below.
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
@@ -634,6 +642,11 @@ type InstanceTemplateDiskParameters struct {
 	// documented below.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".

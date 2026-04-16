@@ -496,6 +496,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.
@@ -1150,6 +1162,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.
@@ -1795,6 +1819,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.

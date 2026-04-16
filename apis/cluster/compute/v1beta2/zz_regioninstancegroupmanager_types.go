@@ -256,6 +256,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyInitParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
 
@@ -444,6 +447,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyObservation `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
 
@@ -582,6 +588,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// lifecycle. Defaults to 0.
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
 
 	// The target number of stopped instances for this managed instance group.
 	// +kubebuilder:validation:Optional
@@ -764,6 +774,25 @@ type RegionInstanceGroupManagerStatusObservation struct {
 }
 
 type RegionInstanceGroupManagerStatusParameters struct {
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyInitParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyObservation struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type RegionInstanceGroupManagerUpdatePolicyInitParameters struct {

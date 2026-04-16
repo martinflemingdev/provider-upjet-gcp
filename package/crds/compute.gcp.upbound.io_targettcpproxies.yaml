@@ -75,7 +75,9 @@ spec:
               forProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
                     type: string
                   backendServiceRef:
                     description: Reference to a BackendService in compute to populate
@@ -188,7 +190,9 @@ spec:
                   autoscaler.
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
                     type: string
                   backendServiceRef:
                     description: Reference to a BackendService in compute to populate
@@ -379,7 +383,9 @@ spec:
               atProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is set to INTERNAL_MANAGED.
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.

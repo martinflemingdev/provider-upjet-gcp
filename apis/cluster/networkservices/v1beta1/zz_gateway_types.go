@@ -21,6 +21,12 @@ type GatewayInitParameters struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
 
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
+
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/certificatemanager/v1beta2.Certificate
@@ -87,7 +93,7 @@ type GatewayInitParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -134,6 +140,12 @@ type GatewayObservation struct {
 	// This field only applies to gateways of type 'SECURE_WEB_GATEWAY'.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
+
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -185,7 +197,7 @@ type GatewayObservation struct {
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
 
@@ -234,6 +246,13 @@ type GatewayParameters struct {
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6.
 	// +kubebuilder:validation:Optional
 	Addresses []*string `json:"addresses,omitempty" tf:"addresses,omitempty"`
+
+	// Configures this gateway to ​listen on all ports.
+	// By enabling the wildcard ports feature on​ ​your Secure Web Proxy Gateway,
+	// it will accept traffic destined for any port (1-65535) on its​ assigned IP address.​
+	// This field is configurable only for gateways of type SECURE_WEB_GATEWAY.
+	// +kubebuilder:validation:Optional
+	AllPorts *bool `json:"allPorts,omitempty" tf:"all_ports,omitempty"`
 
 	// A fully-qualified Certificates URL reference. The proxy presents a Certificate (selected based on SNI) when establishing a TLS connection.
 	// This feature only applies to gateways of type 'SECURE_WEB_GATEWAY'.
@@ -314,7 +333,7 @@ type GatewayParameters struct {
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
 	// One or more port numbers (1-65535), on which the Gateway will receive traffic.
-	// The proxy binds to the specified ports. Gateways of type 'SECURE_WEB_GATEWAY' are limited to 1 port.
+	// The proxy binds to the specified ports.
 	// Gateways of type 'OPEN_MESH' listen on 0.0.0.0 for IPv4 and :: for IPv6 and support multiple ports.
 	// +kubebuilder:validation:Optional
 	Ports []*float64 `json:"ports,omitempty" tf:"ports,omitempty"`
@@ -397,7 +416,6 @@ type GatewayStatus struct {
 type Gateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.ports) || (has(self.initProvider) && has(self.initProvider.ports))",message="spec.forProvider.ports is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.type) || (has(self.initProvider) && has(self.initProvider.type))",message="spec.forProvider.type is a required parameter"
 	Spec   GatewaySpec   `json:"spec"`
 	Status GatewayStatus `json:"status,omitempty"`

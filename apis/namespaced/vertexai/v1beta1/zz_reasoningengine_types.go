@@ -345,6 +345,28 @@ type DeveloperConnectSourceParameters struct {
 	Config *DeveloperConnectSourceConfigParameters `json:"config" tf:"config,omitempty"`
 }
 
+type ImageSpecInitParameters struct {
+
+	// Build arguments to be used. They will be passed through --build-arg flags.
+	// +mapType=granular
+	BuildArgs map[string]*string `json:"buildArgs,omitempty" tf:"build_args,omitempty"`
+}
+
+type ImageSpecObservation struct {
+
+	// Build arguments to be used. They will be passed through --build-arg flags.
+	// +mapType=granular
+	BuildArgs map[string]*string `json:"buildArgs,omitempty" tf:"build_args,omitempty"`
+}
+
+type ImageSpecParameters struct {
+
+	// Build arguments to be used. They will be passed through --build-arg flags.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	BuildArgs map[string]*string `json:"buildArgs,omitempty" tf:"build_args,omitempty"`
+}
+
 type InlineSourceInitParameters struct {
 
 	// Required. Input only.
@@ -610,6 +632,9 @@ type ReasoningEngineEncryptionSpecParameters struct {
 
 type ReasoningEngineInitParameters struct {
 
+	// Optional. The deletion policy for the reasoning engine. Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the ReasoningEngine.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -618,6 +643,11 @@ type ReasoningEngineInitParameters struct {
 	// will be secured by this key.
 	// Structure is documented below.
 	EncryptionSpec *ReasoningEngineEncryptionSpecInitParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
+	// The labels associated with this ReasoningEngine. You can use these to
+	// organize and group your ReasoningEngines.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -634,8 +664,15 @@ type ReasoningEngineObservation struct {
 	// with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Optional. The deletion policy for the reasoning engine. Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the ReasoningEngine.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// for all of the labels present on the resource.
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
 
 	// Optional. Customer-managed encryption key spec for a ReasoningEngine.
 	// If set, this ReasoningEngine and all sub-resources of this ReasoningEngine
@@ -645,6 +682,11 @@ type ReasoningEngineObservation struct {
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/reasoningEngines/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The labels associated with this ReasoningEngine. You can use these to
+	// organize and group your ReasoningEngines.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The generated name of the ReasoningEngine, in the format
 	// projects/{project}/locations/{location}/reasoningEngines/{reasoningEngine}
@@ -661,12 +703,21 @@ type ReasoningEngineObservation struct {
 	// Structure is documented below.
 	Spec *SpecObservation `json:"spec,omitempty" tf:"spec,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// The timestamp of when the Index was last updated in RFC3339 UTC "Zulu"
 	// format, with nanosecond resolution and up to nine fractional digits.
 	UpdateTime *string `json:"updateTime,omitempty" tf:"update_time,omitempty"`
 }
 
 type ReasoningEngineParameters struct {
+
+	// Optional. The deletion policy for the reasoning engine. Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the ReasoningEngine.
 	// +kubebuilder:validation:Optional
@@ -678,6 +729,12 @@ type ReasoningEngineParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	EncryptionSpec *ReasoningEngineEncryptionSpecParameters `json:"encryptionSpec,omitempty" tf:"encryption_spec,omitempty"`
+
+	// The labels associated with this ReasoningEngine. You can use these to
+	// organize and group your ReasoningEngines.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -794,6 +851,10 @@ type SourceCodeSpecInitParameters struct {
 	// Structure is documented below.
 	DeveloperConnectSource *DeveloperConnectSourceInitParameters `json:"developerConnectSource,omitempty" tf:"developer_connect_source,omitempty"`
 
+	// Configuration for building an image with custom config file.
+	// Structure is documented below.
+	ImageSpec *ImageSpecInitParameters `json:"imageSpec,omitempty" tf:"image_spec,omitempty"`
+
 	// Source code is provided directly in the request.
 	// Structure is documented below.
 	InlineSource *InlineSourceInitParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
@@ -808,6 +869,10 @@ type SourceCodeSpecObservation struct {
 	// Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
 	// Structure is documented below.
 	DeveloperConnectSource *DeveloperConnectSourceObservation `json:"developerConnectSource,omitempty" tf:"developer_connect_source,omitempty"`
+
+	// Configuration for building an image with custom config file.
+	// Structure is documented below.
+	ImageSpec *ImageSpecObservation `json:"imageSpec,omitempty" tf:"image_spec,omitempty"`
 
 	// Source code is provided directly in the request.
 	// Structure is documented below.
@@ -825,6 +890,11 @@ type SourceCodeSpecParameters struct {
 	// +kubebuilder:validation:Optional
 	DeveloperConnectSource *DeveloperConnectSourceParameters `json:"developerConnectSource,omitempty" tf:"developer_connect_source,omitempty"`
 
+	// Configuration for building an image with custom config file.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ImageSpec *ImageSpecParameters `json:"imageSpec,omitempty" tf:"image_spec,omitempty"`
+
 	// Source code is provided directly in the request.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -836,6 +906,31 @@ type SourceCodeSpecParameters struct {
 	PythonSpec *PythonSpecParameters `json:"pythonSpec,omitempty" tf:"python_spec,omitempty"`
 }
 
+type SpecContainerSpecInitParameters struct {
+
+	// The Artifact Registry Docker image URI (e.g.,
+	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+	// container image that is to be run on each worker replica.
+	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+}
+
+type SpecContainerSpecObservation struct {
+
+	// The Artifact Registry Docker image URI (e.g.,
+	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+	// container image that is to be run on each worker replica.
+	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+}
+
+type SpecContainerSpecParameters struct {
+
+	// The Artifact Registry Docker image URI (e.g.,
+	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
+	// container image that is to be run on each worker replica.
+	// +kubebuilder:validation:Optional
+	ImageURI *string `json:"imageUri" tf:"image_uri,omitempty"`
+}
+
 type SpecInitParameters struct {
 
 	// Optional. The OSS agent framework used to develop the agent.
@@ -845,9 +940,19 @@ type SpecInitParameters struct {
 	// specification format.
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
+	// Deploy from a container image with a defined entrypoint and commands.
+	// Structure is documented below.
+	ContainerSpec *SpecContainerSpecInitParameters `json:"containerSpec,omitempty" tf:"container_spec,omitempty"`
+
 	// Optional. The specification of a Reasoning Engine deployment.
 	// Structure is documented below.
 	DeploymentSpec *DeploymentSpecInitParameters `json:"deploymentSpec,omitempty" tf:"deployment_spec,omitempty"`
+
+	// Optional. The identity type to use for the Reasoning Engine.
+	// If not specified, the service_account field will be used if set,
+	// otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+	// Possible values:
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 
 	// Optional. User provided package spec of the ReasoningEngine.
 	// Ignored when users directly specify a deployment image through
@@ -887,9 +992,23 @@ type SpecObservation struct {
 	// specification format.
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
+	// Deploy from a container image with a defined entrypoint and commands.
+	// Structure is documented below.
+	ContainerSpec *SpecContainerSpecObservation `json:"containerSpec,omitempty" tf:"container_spec,omitempty"`
+
 	// Optional. The specification of a Reasoning Engine deployment.
 	// Structure is documented below.
 	DeploymentSpec *DeploymentSpecObservation `json:"deploymentSpec,omitempty" tf:"deployment_spec,omitempty"`
+
+	// (Output)
+	// The identity to use for the Reasoning Engine.
+	EffectiveIdentity *string `json:"effectiveIdentity,omitempty" tf:"effective_identity,omitempty"`
+
+	// Optional. The identity type to use for the Reasoning Engine.
+	// If not specified, the service_account field will be used if set,
+	// otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+	// Possible values:
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 
 	// Optional. User provided package spec of the ReasoningEngine.
 	// Ignored when users directly specify a deployment image through
@@ -921,10 +1040,22 @@ type SpecParameters struct {
 	// +kubebuilder:validation:Optional
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
+	// Deploy from a container image with a defined entrypoint and commands.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ContainerSpec *SpecContainerSpecParameters `json:"containerSpec,omitempty" tf:"container_spec,omitempty"`
+
 	// Optional. The specification of a Reasoning Engine deployment.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DeploymentSpec *DeploymentSpecParameters `json:"deploymentSpec,omitempty" tf:"deployment_spec,omitempty"`
+
+	// Optional. The identity type to use for the Reasoning Engine.
+	// If not specified, the service_account field will be used if set,
+	// otherwise the default Vertex AI Reasoning Engine Service Agent in the project will be used.
+	// Possible values:
+	// +kubebuilder:validation:Optional
+	IdentityType *string `json:"identityType,omitempty" tf:"identity_type,omitempty"`
 
 	// Optional. User provided package spec of the ReasoningEngine.
 	// Ignored when users directly specify a deployment image through

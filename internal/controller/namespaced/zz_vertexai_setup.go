@@ -26,6 +26,7 @@ import (
 	indexendpointdeployedindex "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/indexendpointdeployedindex"
 	ragengineconfig "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/ragengineconfig"
 	reasoningengine "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/reasoningengine"
+	reasoningengineiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/reasoningengineiammember"
 	tensorboard "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/vertexai/tensorboard"
 )
 
@@ -50,6 +51,7 @@ func Setup_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		indexendpointdeployedindex.Setup,
 		ragengineconfig.Setup,
 		reasoningengine.Setup,
+		reasoningengineiammember.Setup,
 		tensorboard.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -80,6 +82,7 @@ func SetupGated_vertexai(mgr ctrl.Manager, o controller.Options) error {
 		indexendpointdeployedindex.SetupGated,
 		ragengineconfig.SetupGated,
 		reasoningengine.SetupGated,
+		reasoningengineiammember.SetupGated,
 		tensorboard.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

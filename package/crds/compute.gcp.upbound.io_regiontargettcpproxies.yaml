@@ -76,7 +76,9 @@ spec:
               forProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   backendServiceRef:
                     description: Reference to a RegionBackendService in compute to
@@ -196,7 +198,9 @@ spec:
                   autoscaler.
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   backendServiceRef:
                     description: Reference to a RegionBackendService in compute to
@@ -388,7 +392,9 @@ spec:
               atProvider:
                 properties:
                   backendService:
-                    description: A reference to the BackendService resource.
+                    description: |-
+                      A reference to the BackendService resource. This field is optional when
+                      the loadBalancingScheme (available in beta) is specified.
                     type: string
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.

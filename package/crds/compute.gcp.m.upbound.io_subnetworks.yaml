@@ -288,6 +288,11 @@ spec:
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -587,6 +592,11 @@ spec:
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
                     type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
+                    type: string
                   role:
                     description: |-
                       The role of subnetwork.
@@ -877,6 +887,11 @@ spec:
                     description: |-
                       The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
                       E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
+                    type: string
+                  resolveSubnetMask:
+                    description: |-
+                      'Configures subnet mask resolution for this subnetwork.'
+                      Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE.
                     type: string
                   role:
                     description: |-

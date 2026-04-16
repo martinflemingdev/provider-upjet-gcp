@@ -13076,6 +13076,11 @@ func (in *V2ServiceInitParameters) DeepCopyInto(out *V2ServiceInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IapEnabled != nil {
+		in, out := &in.IapEnabled, &out.IapEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Ingress != nil {
 		in, out := &in.Ingress, &out.Ingress
 		*out = new(string)
@@ -13317,6 +13322,11 @@ func (in *V2ServiceObservation) DeepCopyInto(out *V2ServiceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.IapEnabled != nil {
+		in, out := &in.IapEnabled, &out.IapEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Ingress != nil {
 		in, out := &in.Ingress, &out.Ingress
 		*out = new(string)
@@ -13536,6 +13546,11 @@ func (in *V2ServiceParameters) DeepCopyInto(out *V2ServiceParameters) {
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
+		**out = **in
+	}
+	if in.IapEnabled != nil {
+		in, out := &in.IapEnabled, &out.IapEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Ingress != nil {

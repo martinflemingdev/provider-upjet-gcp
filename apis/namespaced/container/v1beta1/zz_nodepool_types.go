@@ -817,6 +817,9 @@ type NodePoolNetworkConfigInitParameters struct {
 
 	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
+
+	// The subnetwork path for the node pool. Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}. If the cluster is associated with multiple subnetworks, the subnetwork for the node pool is picked based on the IP utilization during node pool creation and is immutable
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
 type NodePoolNetworkConfigNetworkPerformanceConfigInitParameters struct {
@@ -905,6 +908,10 @@ type NodePoolNetworkConfigParameters struct {
 	// The ID of the secondary range for pod IPs. If create_pod_range is true, this ID is used for the new range. If create_pod_range is false, uses an existing secondary range with this ID.
 	// +kubebuilder:validation:Optional
 	PodRange *string `json:"podRange,omitempty" tf:"pod_range,omitempty"`
+
+	// The subnetwork path for the node pool. Format: projects/{project}/regions/{region}/subnetworks/{subnetwork}. If the cluster is associated with multiple subnetworks, the subnetwork for the node pool is picked based on the IP utilization during node pool creation and is immutable
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 }
 
 type NodePoolNetworkConfigPodCidrOverprovisionConfigInitParameters struct {
@@ -1273,6 +1280,8 @@ type NodePoolNodeConfigInitParameters_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	SandboxConfig *NodePoolNodeConfigSandboxConfigInitParameters `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
 	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksInitParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
@@ -1595,6 +1604,8 @@ type NodePoolNodeConfigObservation_2 struct {
 	// +mapType=granular
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
+	SandboxConfig *NodePoolNodeConfigSandboxConfigObservation `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
 	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksObservation `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
@@ -1727,6 +1738,9 @@ type NodePoolNodeConfigParameters_2 struct {
 	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 
 	// +kubebuilder:validation:Optional
+	SandboxConfig *NodePoolNodeConfigSandboxConfigParameters `json:"sandboxConfig,omitempty" tf:"sandbox_config,omitempty"`
+
+	// +kubebuilder:validation:Optional
 	SecondaryBootDisks []NodePoolNodeConfigSecondaryBootDisksParameters `json:"secondaryBootDisks,omitempty" tf:"secondary_boot_disks,omitempty"`
 
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
@@ -1812,6 +1826,31 @@ type NodePoolNodeConfigReservationAffinityParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type NodePoolNodeConfigSandboxConfigInitParameters struct {
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type NodePoolNodeConfigSandboxConfigObservation struct {
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type NodePoolNodeConfigSandboxConfigParameters struct {
+
+	// The type of the policy. Supports a single value: COMPACT.
+	// Specifying COMPACT placement policy type places node pool's nodes in a closer
+	// physical proximity in order to reduce network latency between nodes.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type" tf:"type,omitempty"`
 }
 
 type NodePoolNodeConfigSecondaryBootDisksInitParameters struct {

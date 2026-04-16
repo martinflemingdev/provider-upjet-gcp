@@ -69,6 +69,11 @@ type FileSharesInitParameters struct {
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FileSharesObservation struct {
@@ -88,6 +93,11 @@ type FileSharesObservation struct {
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FileSharesParameters struct {
@@ -111,6 +121,12 @@ type FileSharesParameters struct {
 	// that this file share has been restored from.
 	// +kubebuilder:validation:Optional
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	// +kubebuilder:validation:Optional
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FixedIopsInitParameters struct {

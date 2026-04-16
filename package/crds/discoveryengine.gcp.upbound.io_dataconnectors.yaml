@@ -74,10 +74,55 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  actionConfig:
+                    description: |-
+                      Action configuration for the data connector. Configures action
+                      capabilities for connectors that support the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      actionParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Params needed to configure the actions in the format of
+                          String-to-String (Key, Value) pairs. Contains connection
+                          credentials and configuration for the action connector.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      createBapConnection:
+                        description: |-
+                          Whether to create a BAP (Business Application Platform) connection
+                          for this action connector.
+                        type: boolean
+                    type: object
                   autoRunDisabled:
                     description: Indicates whether full syncs are paused for this
                       connector
                     type: boolean
+                  bapConfig:
+                    description: |-
+                      BAP (Business Application Platform) configuration for the data
+                      connector. Controls which actions are enabled for connectors
+                      using the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      enabledActions:
+                        description: |-
+                          The list of enabled actions for this connector. Supported
+                          values include: create_issue, update_issue,
+                          change_issue_status, create_comment, update_comment,
+                          upload_attachment.
+                        items:
+                          type: string
+                        type: array
+                      supportedConnectorModes:
+                        description: |-
+                          The connector modes supported by the BAP configuration.
+                          The possible values include: ACTIONS.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   collectionDisplayName:
                     description: |-
                       The display name of the Collection.
@@ -97,6 +142,36 @@ spec:
                       The name of the data source.
                       Supported values: salesforce, jira, confluence, bigquery.
                     type: string
+                  dataSourceVersion:
+                    description: The version of the data source. For example, 3 for
+                      Jira v3.
+                    type: number
+                  destinationConfigs:
+                    description: |-
+                      Destination connector configurations for the data connector,
+                      used to configure where data is served.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        destinations:
+                          description: |-
+                            The list of destinations for this configuration.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              host:
+                                description: |-
+                                  The host of the destination, for example
+                                  https://example.atlassian.net.
+                                type: string
+                            type: object
+                          type: array
+                        key:
+                          description: The key of the destination configuration, for
+                            example url.
+                          type: string
+                      type: object
+                    type: array
                   entities:
                     description: |-
                       List of entities from the connected data source to ingest.
@@ -198,10 +273,55 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  actionConfig:
+                    description: |-
+                      Action configuration for the data connector. Configures action
+                      capabilities for connectors that support the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      actionParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Params needed to configure the actions in the format of
+                          String-to-String (Key, Value) pairs. Contains connection
+                          credentials and configuration for the action connector.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      createBapConnection:
+                        description: |-
+                          Whether to create a BAP (Business Application Platform) connection
+                          for this action connector.
+                        type: boolean
+                    type: object
                   autoRunDisabled:
                     description: Indicates whether full syncs are paused for this
                       connector
                     type: boolean
+                  bapConfig:
+                    description: |-
+                      BAP (Business Application Platform) configuration for the data
+                      connector. Controls which actions are enabled for connectors
+                      using the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      enabledActions:
+                        description: |-
+                          The list of enabled actions for this connector. Supported
+                          values include: create_issue, update_issue,
+                          change_issue_status, create_comment, update_comment,
+                          upload_attachment.
+                        items:
+                          type: string
+                        type: array
+                      supportedConnectorModes:
+                        description: |-
+                          The connector modes supported by the BAP configuration.
+                          The possible values include: ACTIONS.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   collectionDisplayName:
                     description: |-
                       The display name of the Collection.
@@ -221,6 +341,36 @@ spec:
                       The name of the data source.
                       Supported values: salesforce, jira, confluence, bigquery.
                     type: string
+                  dataSourceVersion:
+                    description: The version of the data source. For example, 3 for
+                      Jira v3.
+                    type: number
+                  destinationConfigs:
+                    description: |-
+                      Destination connector configurations for the data connector,
+                      used to configure where data is served.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        destinations:
+                          description: |-
+                            The list of destinations for this configuration.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              host:
+                                description: |-
+                                  The host of the destination, for example
+                                  https://example.atlassian.net.
+                                type: string
+                            type: object
+                          type: array
+                        key:
+                          description: The key of the destination configuration, for
+                            example url.
+                          type: string
+                      type: object
+                    type: array
                   entities:
                     description: |-
                       List of entities from the connected data source to ingest.
@@ -406,6 +556,33 @@ spec:
             properties:
               atProvider:
                 properties:
+                  actionConfig:
+                    description: |-
+                      Action configuration for the data connector. Configures action
+                      capabilities for connectors that support the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      actionParams:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Params needed to configure the actions in the format of
+                          String-to-String (Key, Value) pairs. Contains connection
+                          credentials and configuration for the action connector.
+                        type: object
+                        x-kubernetes-map-type: granular
+                      createBapConnection:
+                        description: |-
+                          Whether to create a BAP (Business Application Platform) connection
+                          for this action connector.
+                        type: boolean
+                      isActionConfigured:
+                        description: |-
+                          (Output)
+                          Whether the action connector is fully configured. Set by the system
+                          after the action configuration is validated.
+                        type: boolean
+                    type: object
                   actionState:
                     description: |-
                       State of the action connector. This reflects whether the action connector
@@ -417,6 +594,30 @@ spec:
                     description: Indicates whether full syncs are paused for this
                       connector
                     type: boolean
+                  bapConfig:
+                    description: |-
+                      BAP (Business Application Platform) configuration for the data
+                      connector. Controls which actions are enabled for connectors
+                      using the ACTIONS connector mode.
+                      Structure is documented below.
+                    properties:
+                      enabledActions:
+                        description: |-
+                          The list of enabled actions for this connector. Supported
+                          values include: create_issue, update_issue,
+                          change_issue_status, create_comment, update_comment,
+                          upload_attachment.
+                        items:
+                          type: string
+                        type: array
+                      supportedConnectorModes:
+                        description: |-
+                          The connector modes supported by the BAP configuration.
+                          The possible values include: ACTIONS.
+                        items:
+                          type: string
+                        type: array
+                    type: object
                   blockingReasons:
                     description: |-
                       User actions that must be completed before the connector can start syncing data.
@@ -455,6 +656,36 @@ spec:
                       The name of the data source.
                       Supported values: salesforce, jira, confluence, bigquery.
                     type: string
+                  dataSourceVersion:
+                    description: The version of the data source. For example, 3 for
+                      Jira v3.
+                    type: number
+                  destinationConfigs:
+                    description: |-
+                      Destination connector configurations for the data connector,
+                      used to configure where data is served.
+                      Structure is documented below.
+                    items:
+                      properties:
+                        destinations:
+                          description: |-
+                            The list of destinations for this configuration.
+                            Structure is documented below.
+                          items:
+                            properties:
+                              host:
+                                description: |-
+                                  The host of the destination, for example
+                                  https://example.atlassian.net.
+                                type: string
+                            type: object
+                          type: array
+                        key:
+                          description: The key of the destination configuration, for
+                            example url.
+                          type: string
+                      type: object
+                    type: array
                   entities:
                     description: |-
                       List of entities from the connected data source to ingest.

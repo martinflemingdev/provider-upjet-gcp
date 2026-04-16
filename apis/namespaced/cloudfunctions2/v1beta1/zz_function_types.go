@@ -214,6 +214,45 @@ type BuildConfigParameters struct {
 	WorkerPoolSelector *v1.NamespacedSelector `json:"workerPoolSelector,omitempty" tf:"-"`
 }
 
+type DirectVPCNetworkInterfaceInitParameters struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type DirectVPCNetworkInterfaceObservation struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
+type DirectVPCNetworkInterfaceParameters struct {
+
+	// The name of the VPC network to which the function will be connected. Specify either a VPC network or a subnet, or both. If you specify only a network, the subnet uses the same name as the network.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The name of the VPC subnetwork that the Cloud Function resource will get IPs from. Specify either a VPC network or a subnet, or both. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used.
+	// +kubebuilder:validation:Optional
+	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
+
+	// Network tags applied to this Cloud Function resource.
+	// +kubebuilder:validation:Optional
+	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+}
+
 type EventFiltersInitParameters struct {
 
 	// 'Required. The name of a CloudEvents attribute.
@@ -814,6 +853,14 @@ type ServiceConfigInitParameters struct {
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
 
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceInitParameters `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
+
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
 	EnvironmentVariables map[string]*string `json:"environmentVariables,omitempty" tf:"environment_variables,omitempty"`
@@ -883,6 +930,14 @@ type ServiceConfigObservation struct {
 
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceObservation `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +mapType=granular
@@ -959,6 +1014,16 @@ type ServiceConfigParameters struct {
 	// The binary authorization policy to be checked when deploying the Cloud Run service.
 	// +kubebuilder:validation:Optional
 	BinaryAuthorizationPolicy *string `json:"binaryAuthorizationPolicy,omitempty" tf:"binary_authorization_policy,omitempty"`
+
+	// Egress settings for direct VPC. If not provided, it defaults to VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// Possible values are: VPC_EGRESS_ALL_TRAFFIC, VPC_EGRESS_PRIVATE_RANGES_ONLY.
+	// +kubebuilder:validation:Optional
+	DirectVPCEgress *string `json:"directVpcEgress,omitempty" tf:"direct_vpc_egress,omitempty"`
+
+	// The Direct VPC network interface for the Cloud Function. Currently only a single Direct VPC is supported.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DirectVPCNetworkInterface []DirectVPCNetworkInterfaceParameters `json:"directVpcNetworkInterface,omitempty" tf:"direct_vpc_network_interface,omitempty"`
 
 	// Environment variables that shall be available during function execution.
 	// +kubebuilder:validation:Optional

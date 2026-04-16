@@ -55,6 +55,10 @@ type ConsumerAcceptListsInitParameters struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
+
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/cluster/compute/v1beta1.Network
@@ -80,6 +84,10 @@ type ConsumerAcceptListsObservation struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
+
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
@@ -95,6 +103,11 @@ type ConsumerAcceptListsParameters struct {
 	// create.
 	// +kubebuilder:validation:Optional
 	ConnectionLimit *float64 `json:"connectionLimit" tf:"connection_limit,omitempty"`
+
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	// +kubebuilder:validation:Optional
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.

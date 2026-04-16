@@ -136,6 +136,11 @@ type SearchEngineCommonConfigParameters struct {
 
 type SearchEngineConfigInitParameters struct {
 
+	// The required subscription tier of this engine.
+	// They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+	// Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+	RequiredSubscriptionTier *string `json:"requiredSubscriptionTier,omitempty" tf:"required_subscription_tier,omitempty"`
+
 	// The add-on that this search engine enables.
 	// Each value may be one of: SEARCH_ADD_ON_LLM.
 	SearchAddOns []*string `json:"searchAddOns,omitempty" tf:"search_add_ons,omitempty"`
@@ -148,6 +153,11 @@ type SearchEngineConfigInitParameters struct {
 
 type SearchEngineConfigObservation struct {
 
+	// The required subscription tier of this engine.
+	// They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+	// Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+	RequiredSubscriptionTier *string `json:"requiredSubscriptionTier,omitempty" tf:"required_subscription_tier,omitempty"`
+
 	// The add-on that this search engine enables.
 	// Each value may be one of: SEARCH_ADD_ON_LLM.
 	SearchAddOns []*string `json:"searchAddOns,omitempty" tf:"search_add_ons,omitempty"`
@@ -159,6 +169,12 @@ type SearchEngineConfigObservation struct {
 }
 
 type SearchEngineConfigParameters struct {
+
+	// The required subscription tier of this engine.
+	// They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+	// Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+	// +kubebuilder:validation:Optional
+	RequiredSubscriptionTier *string `json:"requiredSubscriptionTier,omitempty" tf:"required_subscription_tier,omitempty"`
 
 	// The add-on that this search engine enables.
 	// Each value may be one of: SEARCH_ADD_ON_LLM.
@@ -193,6 +209,9 @@ type SearchEngineInitParameters struct {
 	// Selector for a list of DataStore in discoveryengine to populate dataStoreIds.
 	// +kubebuilder:validation:Optional
 	DataStoreIdsSelector *v1.NamespacedSelector `json:"dataStoreIdsSelector,omitempty" tf:"-"`
+
+	// Whether to disable analytics for searches performed on this engine.
+	DisableAnalytics *bool `json:"disableAnalytics,omitempty" tf:"disable_analytics,omitempty"`
 
 	// Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -244,6 +263,9 @@ type SearchEngineObservation struct {
 
 	// The data stores associated with this engine. For SOLUTION_TYPE_SEARCH type of engines, they can only associate with at most one data store.
 	DataStoreIds []*string `json:"dataStoreIds,omitempty" tf:"data_store_ids,omitempty"`
+
+	// Whether to disable analytics for searches performed on this engine.
+	DisableAnalytics *bool `json:"disableAnalytics,omitempty" tf:"disable_analytics,omitempty"`
 
 	// Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -320,6 +342,10 @@ type SearchEngineParameters struct {
 	// Selector for a list of DataStore in discoveryengine to populate dataStoreIds.
 	// +kubebuilder:validation:Optional
 	DataStoreIdsSelector *v1.NamespacedSelector `json:"dataStoreIdsSelector,omitempty" tf:"-"`
+
+	// Whether to disable analytics for searches performed on this engine.
+	// +kubebuilder:validation:Optional
+	DisableAnalytics *bool `json:"disableAnalytics,omitempty" tf:"disable_analytics,omitempty"`
 
 	// Required. The display name of the engine. Should be human readable. UTF-8 encoded string with limit of 1024 characters.
 	// +kubebuilder:validation:Optional

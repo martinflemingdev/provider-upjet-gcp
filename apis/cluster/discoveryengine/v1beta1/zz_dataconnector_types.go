@@ -13,10 +13,108 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type ActionConfigInitParameters struct {
+
+	// Params needed to configure the actions in the format of
+	// String-to-String (Key, Value) pairs. Contains connection
+	// credentials and configuration for the action connector.
+	// +mapType=granular
+	ActionParams map[string]*string `json:"actionParams,omitempty" tf:"action_params,omitempty"`
+
+	// Whether to create a BAP (Business Application Platform) connection
+	// for this action connector.
+	CreateBapConnection *bool `json:"createBapConnection,omitempty" tf:"create_bap_connection,omitempty"`
+}
+
+type ActionConfigObservation struct {
+
+	// Params needed to configure the actions in the format of
+	// String-to-String (Key, Value) pairs. Contains connection
+	// credentials and configuration for the action connector.
+	// +mapType=granular
+	ActionParams map[string]*string `json:"actionParams,omitempty" tf:"action_params,omitempty"`
+
+	// Whether to create a BAP (Business Application Platform) connection
+	// for this action connector.
+	CreateBapConnection *bool `json:"createBapConnection,omitempty" tf:"create_bap_connection,omitempty"`
+
+	// (Output)
+	// Whether the action connector is fully configured. Set by the system
+	// after the action configuration is validated.
+	IsActionConfigured *bool `json:"isActionConfigured,omitempty" tf:"is_action_configured,omitempty"`
+}
+
+type ActionConfigParameters struct {
+
+	// Params needed to configure the actions in the format of
+	// String-to-String (Key, Value) pairs. Contains connection
+	// credentials and configuration for the action connector.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ActionParams map[string]*string `json:"actionParams,omitempty" tf:"action_params,omitempty"`
+
+	// Whether to create a BAP (Business Application Platform) connection
+	// for this action connector.
+	// +kubebuilder:validation:Optional
+	CreateBapConnection *bool `json:"createBapConnection,omitempty" tf:"create_bap_connection,omitempty"`
+}
+
+type BapConfigInitParameters struct {
+
+	// The list of enabled actions for this connector. Supported
+	// values include: create_issue, update_issue,
+	// change_issue_status, create_comment, update_comment,
+	// upload_attachment.
+	EnabledActions []*string `json:"enabledActions,omitempty" tf:"enabled_actions,omitempty"`
+
+	// The connector modes supported by the BAP configuration.
+	// The possible values include: ACTIONS.
+	SupportedConnectorModes []*string `json:"supportedConnectorModes,omitempty" tf:"supported_connector_modes,omitempty"`
+}
+
+type BapConfigObservation struct {
+
+	// The list of enabled actions for this connector. Supported
+	// values include: create_issue, update_issue,
+	// change_issue_status, create_comment, update_comment,
+	// upload_attachment.
+	EnabledActions []*string `json:"enabledActions,omitempty" tf:"enabled_actions,omitempty"`
+
+	// The connector modes supported by the BAP configuration.
+	// The possible values include: ACTIONS.
+	SupportedConnectorModes []*string `json:"supportedConnectorModes,omitempty" tf:"supported_connector_modes,omitempty"`
+}
+
+type BapConfigParameters struct {
+
+	// The list of enabled actions for this connector. Supported
+	// values include: create_issue, update_issue,
+	// change_issue_status, create_comment, update_comment,
+	// upload_attachment.
+	// +kubebuilder:validation:Optional
+	EnabledActions []*string `json:"enabledActions,omitempty" tf:"enabled_actions,omitempty"`
+
+	// The connector modes supported by the BAP configuration.
+	// The possible values include: ACTIONS.
+	// +kubebuilder:validation:Optional
+	SupportedConnectorModes []*string `json:"supportedConnectorModes,omitempty" tf:"supported_connector_modes,omitempty"`
+}
+
 type DataConnectorInitParameters struct {
+
+	// Action configuration for the data connector. Configures action
+	// capabilities for connectors that support the ACTIONS connector mode.
+	// Structure is documented below.
+	ActionConfig *ActionConfigInitParameters `json:"actionConfig,omitempty" tf:"action_config,omitempty"`
 
 	// Indicates whether full syncs are paused for this connector
 	AutoRunDisabled *bool `json:"autoRunDisabled,omitempty" tf:"auto_run_disabled,omitempty"`
+
+	// BAP (Business Application Platform) configuration for the data
+	// connector. Controls which actions are enabled for connectors
+	// using the ACTIONS connector mode.
+	// Structure is documented below.
+	BapConfig *BapConfigInitParameters `json:"bapConfig,omitempty" tf:"bap_config,omitempty"`
 
 	// The display name of the Collection.
 	// Should be human readable, used to display collections in the Console
@@ -31,6 +129,14 @@ type DataConnectorInitParameters struct {
 	// The name of the data source.
 	// Supported values: salesforce, jira, confluence, bigquery.
 	DataSource *string `json:"dataSource,omitempty" tf:"data_source,omitempty"`
+
+	// The version of the data source. For example, 3 for Jira v3.
+	DataSourceVersion *float64 `json:"dataSourceVersion,omitempty" tf:"data_source_version,omitempty"`
+
+	// Destination connector configurations for the data connector,
+	// used to configure where data is served.
+	// Structure is documented below.
+	DestinationConfigs []DestinationConfigsInitParameters `json:"destinationConfigs,omitempty" tf:"destination_configs,omitempty"`
 
 	// List of entities from the connected data source to ingest.
 	// Structure is documented below.
@@ -82,6 +188,11 @@ type DataConnectorInitParameters struct {
 
 type DataConnectorObservation struct {
 
+	// Action configuration for the data connector. Configures action
+	// capabilities for connectors that support the ACTIONS connector mode.
+	// Structure is documented below.
+	ActionConfig *ActionConfigObservation `json:"actionConfig,omitempty" tf:"action_config,omitempty"`
+
 	// State of the action connector. This reflects whether the action connector
 	// is initializing, active or has encountered errors. The possible value can be:
 	// 'STATE_UNSPECIFIED', 'CREATING', 'ACTIVE', 'FAILED', 'RUNNING', 'WARNING',
@@ -90,6 +201,12 @@ type DataConnectorObservation struct {
 
 	// Indicates whether full syncs are paused for this connector
 	AutoRunDisabled *bool `json:"autoRunDisabled,omitempty" tf:"auto_run_disabled,omitempty"`
+
+	// BAP (Business Application Platform) configuration for the data
+	// connector. Controls which actions are enabled for connectors
+	// using the ACTIONS connector mode.
+	// Structure is documented below.
+	BapConfig *BapConfigObservation `json:"bapConfig,omitempty" tf:"bap_config,omitempty"`
 
 	// User actions that must be completed before the connector can start syncing data.
 	// The possible values can be: 'ALLOWLIST_STATIC_IP', 'ALLOWLIST_IN_SERVICE_ATTACHMENT'.
@@ -119,6 +236,14 @@ type DataConnectorObservation struct {
 	// The name of the data source.
 	// Supported values: salesforce, jira, confluence, bigquery.
 	DataSource *string `json:"dataSource,omitempty" tf:"data_source,omitempty"`
+
+	// The version of the data source. For example, 3 for Jira v3.
+	DataSourceVersion *float64 `json:"dataSourceVersion,omitempty" tf:"data_source_version,omitempty"`
+
+	// Destination connector configurations for the data connector,
+	// used to configure where data is served.
+	// Structure is documented below.
+	DestinationConfigs []DestinationConfigsObservation `json:"destinationConfigs,omitempty" tf:"destination_configs,omitempty"`
 
 	// List of entities from the connected data source to ingest.
 	// Structure is documented below.
@@ -213,9 +338,22 @@ type DataConnectorObservation struct {
 
 type DataConnectorParameters struct {
 
+	// Action configuration for the data connector. Configures action
+	// capabilities for connectors that support the ACTIONS connector mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ActionConfig *ActionConfigParameters `json:"actionConfig,omitempty" tf:"action_config,omitempty"`
+
 	// Indicates whether full syncs are paused for this connector
 	// +kubebuilder:validation:Optional
 	AutoRunDisabled *bool `json:"autoRunDisabled,omitempty" tf:"auto_run_disabled,omitempty"`
+
+	// BAP (Business Application Platform) configuration for the data
+	// connector. Controls which actions are enabled for connectors
+	// using the ACTIONS connector mode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BapConfig *BapConfigParameters `json:"bapConfig,omitempty" tf:"bap_config,omitempty"`
 
 	// The display name of the Collection.
 	// Should be human readable, used to display collections in the Console
@@ -233,6 +371,16 @@ type DataConnectorParameters struct {
 	// Supported values: salesforce, jira, confluence, bigquery.
 	// +kubebuilder:validation:Optional
 	DataSource *string `json:"dataSource,omitempty" tf:"data_source,omitempty"`
+
+	// The version of the data source. For example, 3 for Jira v3.
+	// +kubebuilder:validation:Optional
+	DataSourceVersion *float64 `json:"dataSourceVersion,omitempty" tf:"data_source_version,omitempty"`
+
+	// Destination connector configurations for the data connector,
+	// used to configure where data is served.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DestinationConfigs []DestinationConfigsParameters `json:"destinationConfigs,omitempty" tf:"destination_configs,omitempty"`
 
 	// List of entities from the connected data source to ingest.
 	// Structure is documented below.
@@ -295,6 +443,60 @@ type DataConnectorParameters struct {
 	// 'PERIODIC', 'STREAMING'.
 	// +kubebuilder:validation:Optional
 	SyncMode *string `json:"syncMode,omitempty" tf:"sync_mode,omitempty"`
+}
+
+type DestinationConfigsInitParameters struct {
+
+	// The list of destinations for this configuration.
+	// Structure is documented below.
+	Destinations []DestinationsInitParameters `json:"destinations,omitempty" tf:"destinations,omitempty"`
+
+	// The key of the destination configuration, for example url.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type DestinationConfigsObservation struct {
+
+	// The list of destinations for this configuration.
+	// Structure is documented below.
+	Destinations []DestinationsObservation `json:"destinations,omitempty" tf:"destinations,omitempty"`
+
+	// The key of the destination configuration, for example url.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type DestinationConfigsParameters struct {
+
+	// The list of destinations for this configuration.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Destinations []DestinationsParameters `json:"destinations,omitempty" tf:"destinations,omitempty"`
+
+	// The key of the destination configuration, for example url.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+}
+
+type DestinationsInitParameters struct {
+
+	// The host of the destination, for example
+	// https://example.atlassian.net.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+}
+
+type DestinationsObservation struct {
+
+	// The host of the destination, for example
+	// https://example.atlassian.net.
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+}
+
+type DestinationsParameters struct {
+
+	// The host of the destination, for example
+	// https://example.atlassian.net.
+	// +kubebuilder:validation:Optional
+	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 }
 
 type EntitiesInitParameters struct {

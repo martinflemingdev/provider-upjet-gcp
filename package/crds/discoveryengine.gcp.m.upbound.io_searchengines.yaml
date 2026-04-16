@@ -171,6 +171,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  disableAnalytics:
+                    description: Whether to disable analytics for searches performed
+                      on this engine.
+                    type: boolean
                   displayName:
                     description: Required. The display name of the engine. Should
                       be human readable. UTF-8 encoded string with limit of 1024 characters.
@@ -332,6 +336,12 @@ spec:
                       Configurations for a Search Engine.
                       Structure is documented below.
                     properties:
+                      requiredSubscriptionTier:
+                        description: |-
+                          The required subscription tier of this engine.
+                          They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+                          Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+                        type: string
                       searchAddOns:
                         description: |-
                           The add-on that this search engine enables.
@@ -470,6 +480,10 @@ spec:
                             type: string
                         type: object
                     type: object
+                  disableAnalytics:
+                    description: Whether to disable analytics for searches performed
+                      on this engine.
+                    type: boolean
                   displayName:
                     description: Required. The display name of the engine. Should
                       be human readable. UTF-8 encoded string with limit of 1024 characters.
@@ -546,6 +560,12 @@ spec:
                       Configurations for a Search Engine.
                       Structure is documented below.
                     properties:
+                      requiredSubscriptionTier:
+                        description: |-
+                          The required subscription tier of this engine.
+                          They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+                          Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+                        type: string
                       searchAddOns:
                         description: |-
                           The add-on that this search engine enables.
@@ -662,6 +682,10 @@ spec:
                     items:
                       type: string
                     type: array
+                  disableAnalytics:
+                    description: Whether to disable analytics for searches performed
+                      on this engine.
+                    type: boolean
                   displayName:
                     description: Required. The display name of the engine. Should
                       be human readable. UTF-8 encoded string with limit of 1024 characters.
@@ -751,6 +775,12 @@ spec:
                       Configurations for a Search Engine.
                       Structure is documented below.
                     properties:
+                      requiredSubscriptionTier:
+                        description: |-
+                          The required subscription tier of this engine.
+                          They cannot be modified after engine creation. If the required subscription tier is search, user with higher license tier like assist can still access the standalone app associated with this engine.
+                          Possible values are: SUBSCRIPTION_TIER_UNSPECIFIED, SUBSCRIPTION_TIER_SEARCH, SUBSCRIPTION_TIER_SEARCH_AND_ASSISTANT, SUBSCRIPTION_TIER_FRONTLINE_WORKER, SUBSCRIPTION_TIER_AGENTSPACE_STARTER, SUBSCRIPTION_TIER_AGENTSPACE_BUSINESS, SUBSCRIPTION_TIER_ENTERPRISE, SUBSCRIPTION_TIER_ENTERPRISE_EMERGING, SUBSCRIPTION_TIER_EDU, SUBSCRIPTION_TIER_EDU_PRO, SUBSCRIPTION_TIER_EDU_EMERGING, SUBSCRIPTION_TIER_EDU_PRO_EMERGING, SUBSCRIPTION_TIER_FRONTLINE_STARTER.
+                        type: string
                       searchAddOns:
                         description: |-
                           The add-on that this search engine enables.

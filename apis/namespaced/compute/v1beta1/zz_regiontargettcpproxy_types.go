@@ -16,7 +16,8 @@ import (
 
 type RegionTargetTCPProxyInitParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
@@ -49,7 +50,8 @@ type RegionTargetTCPProxyInitParameters struct {
 
 type RegionTargetTCPProxyObservation struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	BackendService *string `json:"backendService,omitempty" tf:"backend_service,omitempty"`
 
 	// Creation timestamp in RFC3339 text format.
@@ -88,7 +90,8 @@ type RegionTargetTCPProxyObservation struct {
 
 type RegionTargetTCPProxyParameters struct {
 
-	// A reference to the BackendService resource.
+	// A reference to the BackendService resource. This field is optional when
+	// the loadBalancingScheme (available in beta) is specified.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/compute/v1beta1.RegionBackendService
 	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.SelfLinkExtractor()
 	// +kubebuilder:validation:Optional

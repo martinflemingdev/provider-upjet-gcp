@@ -115,6 +115,12 @@ func Configure(p *config.Provider) {
 		config.MarkAsRequired(r.TerraformResource, "region")
 	})
 
+	p.AddResourceConfigurator("google_vertex_ai_reasoning_engine_iam_member", func(r *config.Resource) {
+		r.References["reasoning_engine"] = config.Reference{
+			TerraformName: "google_vertex_ai_reasoning_engine",
+		}
+	})
+
 	p.AddResourceConfigurator("google_vertex_ai_cache_config", func(r *config.Resource) {
 		config.MarkAsRequired(r.TerraformResource, "disable_cache")
 	})
