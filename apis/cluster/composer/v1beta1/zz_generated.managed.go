@@ -56,3 +56,103 @@ func (mg *Environment) SetProviderConfigReference(r *xpv1.Reference) {
 func (mg *Environment) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}

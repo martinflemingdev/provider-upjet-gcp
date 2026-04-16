@@ -30,4 +30,26 @@ func Configure(p *config.Provider) {
 
 		r.MarkAsRequired("region")
 	})
+
+	p.AddResourceConfigurator("google_composer_user_workloads_config_map", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["environment"] = config.Reference{
+			TerraformName: "google_composer_environment",
+		}
+
+		r.MarkAsRequired("environment")
+	})
+
+	p.AddResourceConfigurator("google_composer_user_workloads_secret", func(r *config.Resource) {
+		r.References["project"] = config.Reference{
+			TerraformName: "google_project",
+		}
+		r.References["environment"] = config.Reference{
+			TerraformName: "google_composer_environment",
+		}
+
+		r.MarkAsRequired("environment")
+	})
 }

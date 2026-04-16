@@ -124,6 +124,8 @@ import (
 	jobcloudscheduler "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudscheduler/job"
 	queue "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/cloudtasks/queue"
 	environmentcomposer "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/environment"
+	userworkloadsconfigmap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/userworkloadsconfigmap"
+	userworkloadssecret "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/userworkloadssecret"
 	address "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/address"
 	attacheddisk "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/attacheddisk"
 	autoscaler "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/compute/autoscaler"
@@ -583,6 +585,8 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		jobcloudscheduler.Setup,
 		queue.Setup,
 		environmentcomposer.Setup,
+		userworkloadsconfigmap.Setup,
+		userworkloadssecret.Setup,
 		address.Setup,
 		attacheddisk.Setup,
 		autoscaler.Setup,
@@ -1048,6 +1052,8 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		jobcloudscheduler.SetupGated,
 		queue.SetupGated,
 		environmentcomposer.SetupGated,
+		userworkloadsconfigmap.SetupGated,
+		userworkloadssecret.SetupGated,
 		address.SetupGated,
 		attacheddisk.SetupGated,
 		autoscaler.SetupGated,

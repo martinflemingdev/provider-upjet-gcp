@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: composer.gcp.m.upbound.io/v1beta1
+kind: UserWorkloadsConfigMap
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/userworkloadsconfigmap
+  labels:
+    testing.upbound.io/example-name: config_map
+  name: config-map
+  namespace: upbound-system
+spec:
+  forProvider:
+    data:
+      api_host: apihost:443
+    environmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: environment
+    region: us-central1
+
+---
+
+apiVersion: composer.gcp.m.upbound.io/v1beta1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/userworkloadsconfigmap
+  labels:
+    testing.upbound.io/example-name: environment
+  name: environment
+  namespace: upbound-system
+spec:
+  forProvider:
+    config:
+      nodeConfig:
+        serviceAccountSelector:
+          matchLabels:
+            testing.upbound.io/example-name: test
+      softwareConfig:
+        imageVersion: composer-3-airflow-2
+    region: us-central1
+
+---
+
+apiVersion: cloudplatform.gcp.m.upbound.io/v1beta1
+kind: ServiceAccount
+metadata:
+  annotations:
+    meta.upbound.io/example-id: composer/v1beta1/userworkloadsconfigmap
+  labels:
+    testing.upbound.io/example-name: test
+  name: test
+  namespace: upbound-system
+spec:
+  forProvider:
+    displayName: Test Service Account for Composer Environment

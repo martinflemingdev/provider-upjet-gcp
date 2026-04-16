@@ -10,6 +10,8 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	environment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/environment"
+	userworkloadsconfigmap "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/userworkloadsconfigmap"
+	userworkloadssecret "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/composer/userworkloadssecret"
 )
 
 // Setup_composer creates all controllers with the supplied logger and adds them to
@@ -17,6 +19,8 @@ import (
 func Setup_composer(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		environment.Setup,
+		userworkloadsconfigmap.Setup,
+		userworkloadssecret.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -30,6 +34,8 @@ func Setup_composer(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated_composer(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		environment.SetupGated,
+		userworkloadsconfigmap.SetupGated,
+		userworkloadssecret.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

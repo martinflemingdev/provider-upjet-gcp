@@ -56,6 +56,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{name}}
 	"google_composer_environment": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/environments/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{environment}}/userWorkloadsConfigMaps/{{name}}
+	"google_composer_user_workloads_config_map": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/environments/{{ .parameters.environment }}/userWorkloadsConfigMaps/{{ .external_name }}"),
+	// Imported by using the following format: projects/{{project}}/locations/{{region}}/environments/{{environment}}/userWorkloadsSecrets/{{name}}
+	"google_composer_user_workloads_secret": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.region }}/environments/{{ .parameters.environment }}/userWorkloadsSecrets/{{ .external_name }}"),
 
 	// cloudfunctions
 	//

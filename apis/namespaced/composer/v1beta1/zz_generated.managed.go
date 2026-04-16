@@ -46,3 +46,83 @@ func (mg *Environment) SetProviderConfigReference(r *xpv1.ProviderConfigReferenc
 func (mg *Environment) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
+
+// GetCondition of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this UserWorkloadsConfigMap.
+func (mg *UserWorkloadsConfigMap) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetManagementPolicies of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetProviderConfigReference() *xpv1.ProviderConfigReference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) GetWriteConnectionSecretToReference() *xpv1.LocalSecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetManagementPolicies of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetProviderConfigReference(r *xpv1.ProviderConfigReference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this UserWorkloadsSecret.
+func (mg *UserWorkloadsSecret) SetWriteConnectionSecretToReference(r *xpv1.LocalSecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
