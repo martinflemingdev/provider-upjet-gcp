@@ -41,6 +41,7 @@ import (
 	"github.com/upbound/provider-gcp/v3/config/cluster/modelarmor"
 	"github.com/upbound/provider-gcp/v3/config/cluster/monitoring"
 	"github.com/upbound/provider-gcp/v3/config/cluster/networksecurity"
+	"github.com/upbound/provider-gcp/v3/config/cluster/networkservices"
 	"github.com/upbound/provider-gcp/v3/config/cluster/notebooks"
 	"github.com/upbound/provider-gcp/v3/config/cluster/oslogin"
 	"github.com/upbound/provider-gcp/v3/config/cluster/privateca"
@@ -88,6 +89,7 @@ func init() {
 	ProviderConfiguration.AddConfig(identityplatform.Configure)
 	ProviderConfiguration.AddConfig(logging.Configure)
 	ProviderConfiguration.AddConfig(kms.Configure)
+	ProviderConfiguration.AddConfig(networkservices.Configure)
 	ProviderConfiguration.AddConfig(networksecurity.Configure)
 	ProviderConfiguration.AddConfig(notebooks.Configure)
 	ProviderConfiguration.AddConfig(privateca.Configure)

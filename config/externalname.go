@@ -1191,6 +1191,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	//
 	// Imported by using projects/{{project}}/locations/{{location}}/gateways/{{name}}
 	"google_network_services_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/gateways/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/agentGateways/{{name}}
+	"google_network_services_agent_gateway": config.TemplatedStringAsIdentifier("name", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/agentGateways/{{ .external_name }}"),
+	// Imported by using the following projects/{{project}}/locations/{{location}}/agentConnectivityTemplates/{{agent_connectivity_template_id}}
+	"google_network_services_agent_connectivity_template": config.TemplatedStringAsIdentifier("agent_connectivity_template_id", "projects/{{ if .parameters.project }}{{ .parameters.project }}{{ else }}{{ .setup.configuration.project }}{{ end }}/locations/{{ .parameters.location }}/agentConnectivityTemplates/{{ .external_name }}"),
 
 	// memorystore
 	//
