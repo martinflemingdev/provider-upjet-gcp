@@ -175,6 +175,9 @@ type AddonsConfigInitParameters struct {
 	// cluster. It is enabled by default; set disabled = true to disable.
 	HTTPLoadBalancing *HTTPLoadBalancingInitParameters `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigInitParameters `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -198,6 +201,10 @@ type AddonsConfigInitParameters struct {
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigInitParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
 
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	NodeReadinessConfig *NodeReadinessConfigInitParameters `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
+
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
@@ -208,10 +215,10 @@ type AddonsConfigInitParameters struct {
 	// The status of the Pod Snapshot addon. It is disabled by default. Set enabled = true to enable.
 	PodSnapshotConfig *PodSnapshotConfigInitParameters `json:"podSnapshotConfig,omitempty" tf:"pod_snapshot_config,omitempty"`
 
-	// . The status of the Ray Operator
+	// The status of the Ray Operator
 	// addon.
 	// It is disabled by default. Set enabled = true to enable. The minimum
-	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	// cluster version to enable Ray is 1.30.0-gke.1747000. Structure is documented below.
 	RayOperatorConfig []RayOperatorConfigInitParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
 	// .
@@ -273,6 +280,9 @@ type AddonsConfigObservation struct {
 	// cluster. It is enabled by default; set disabled = true to disable.
 	HTTPLoadBalancing *HTTPLoadBalancingObservation `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigObservation `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -296,6 +306,10 @@ type AddonsConfigObservation struct {
 	// Defaults to disabled; set disabled = false to enable.
 	NetworkPolicyConfig *NetworkPolicyConfigObservation `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
 
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	NodeReadinessConfig *NodeReadinessConfigObservation `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
+
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
@@ -306,10 +320,10 @@ type AddonsConfigObservation struct {
 	// The status of the Pod Snapshot addon. It is disabled by default. Set enabled = true to enable.
 	PodSnapshotConfig *PodSnapshotConfigObservation `json:"podSnapshotConfig,omitempty" tf:"pod_snapshot_config,omitempty"`
 
-	// . The status of the Ray Operator
+	// The status of the Ray Operator
 	// addon.
 	// It is disabled by default. Set enabled = true to enable. The minimum
-	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	// cluster version to enable Ray is 1.30.0-gke.1747000. Structure is documented below.
 	RayOperatorConfig []RayOperatorConfigObservation `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
 	// .
@@ -380,6 +394,10 @@ type AddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	HTTPLoadBalancing *HTTPLoadBalancingParameters `json:"httpLoadBalancing,omitempty" tf:"http_load_balancing,omitempty"`
 
+	// The status of the High Scale Checkpointing addon, which enables Multi-Tier Checkpointing for Machine Learning workloads. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HighScaleCheckpointingConfig *HighScaleCheckpointingConfigParameters `json:"highScaleCheckpointingConfig,omitempty" tf:"high_scale_checkpointing_config,omitempty"`
+
 	// The status of the Horizontal Pod Autoscaling
 	// addon, which increases or decreases the number of replica pods a replication controller
 	// has based on the resource usage of the existing pods.
@@ -406,6 +424,11 @@ type AddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkPolicyConfig *NetworkPolicyConfigParameters `json:"networkPolicyConfig,omitempty" tf:"network_policy_config,omitempty"`
 
+	// The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	NodeReadinessConfig *NodeReadinessConfigParameters `json:"nodeReadinessConfig,omitempty" tf:"node_readiness_config,omitempty"`
+
 	// The status of the Parallelstore CSI driver addon,
 	// which allows the usage of a Parallelstore instances as volumes.
 	// It is disabled by default for Standard clusters; set enabled = true to enable.
@@ -418,10 +441,10 @@ type AddonsConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	PodSnapshotConfig *PodSnapshotConfigParameters `json:"podSnapshotConfig,omitempty" tf:"pod_snapshot_config,omitempty"`
 
-	// . The status of the Ray Operator
+	// The status of the Ray Operator
 	// addon.
 	// It is disabled by default. Set enabled = true to enable. The minimum
-	// cluster version to enable Ray is 1.30.0-gke.1747000.
+	// cluster version to enable Ray is 1.30.0-gke.1747000. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RayOperatorConfig []RayOperatorConfigParameters `json:"rayOperatorConfig,omitempty" tf:"ray_operator_config,omitempty"`
 
@@ -1000,29 +1023,39 @@ type BootDiskProfileParameters struct {
 }
 
 type CAInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CAParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type CertParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -1031,6 +1064,8 @@ type CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParame
 }
 
 type CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
 }
 
@@ -1038,22 +1073,30 @@ type CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters
 }
 
 type CertificateAuthorityDomainConfigInitParameters struct {
+
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type CertificateAuthorityDomainConfigObservation struct {
+
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type CertificateAuthorityDomainConfigParameters struct {
 
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	// +kubebuilder:validation:Optional
 	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerCertificateConfig *GCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
@@ -1094,6 +1137,8 @@ type ClientCertInitParameters struct {
 }
 
 type ClientCertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -1125,6 +1170,8 @@ type ClientKeyInitParameters struct {
 }
 
 type ClientKeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -1150,8 +1197,7 @@ type ClientParameters struct {
 
 type CloudrunConfigInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The load balancer type of CloudRun ingress service. It is external load balancer by default.
@@ -1161,8 +1207,7 @@ type CloudrunConfigInitParameters struct {
 
 type CloudrunConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 
 	// The load balancer type of CloudRun ingress service. It is external load balancer by default.
@@ -1172,8 +1217,7 @@ type CloudrunConfigObservation struct {
 
 type CloudrunConfigParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 
@@ -1369,6 +1413,9 @@ type ClusterInitParameters struct {
 
 	// Description of the cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
 
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	DisableL4LBFirewallReconciliation *bool `json:"disableL4LbFirewallReconciliation,omitempty" tf:"disable_l4_lb_firewall_reconciliation,omitempty"`
@@ -1604,6 +1651,9 @@ type ClusterInitParameters struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig *ResourceUsageExportConfigInitParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	RollbackSafeUpgrade *RollbackSafeUpgradeInitParameters `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
+
 	// Configuration for the
 	// SecretManagerConfig feature.
 	// Structure is documented below.
@@ -1637,7 +1687,7 @@ type ClusterInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// The custom keys configuration of the cluster Structure is documented below.
+	// The custom keys configuration of the cluster. Structure is documented below.
 	UserManagedKeysConfig *UserManagedKeysConfigInitParameters `json:"userManagedKeysConfig,omitempty" tf:"user_managed_keys_config,omitempty"`
 
 	// Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
@@ -1739,11 +1789,17 @@ type ClusterObservation struct {
 	// Description of the cluster.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
+
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	DisableL4LBFirewallReconciliation *bool `json:"disableL4LbFirewallReconciliation,omitempty" tf:"disable_l4_lb_firewall_reconciliation,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// The current emulated Kubernetes version running on the GKE cluster control plane.
+	EmulatedVersion *string `json:"emulatedVersion,omitempty" tf:"emulated_version,omitempty"`
 
 	// Enable Autopilot for this cluster. Defaults to false.
 	// Note that when this option is enabled, certain features of Standard GKE are not available.
@@ -1997,6 +2053,9 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	ResourceUsageExportConfig *ResourceUsageExportConfigObservation `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	RollbackSafeUpgrade *RollbackSafeUpgradeObservation `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
+
 	// Configuration for the
 	// SecretManagerConfig feature.
 	// Structure is documented below.
@@ -2038,7 +2097,7 @@ type ClusterObservation struct {
 	// notation (e.g. 1.2.3.4/29).
 	TpuIPv4CidrBlock *string `json:"tpuIpv4CidrBlock,omitempty" tf:"tpu_ipv4_cidr_block,omitempty"`
 
-	// The custom keys configuration of the cluster Structure is documented below.
+	// The custom keys configuration of the cluster. Structure is documented below.
 	UserManagedKeysConfig *UserManagedKeysConfigObservation `json:"userManagedKeysConfig,omitempty" tf:"user_managed_keys_config,omitempty"`
 
 	// Vertical Pod Autoscaling automatically adjusts the resources of pods controlled by it.
@@ -2155,6 +2214,10 @@ type ClusterParameters struct {
 	// Description of the cluster.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired emulated version for the cluster. Used to complete a rollback-safe upgrade after a soak period. Must be in major.minor format (e.g., "1.31"). To complete the upgrade declaratively, set this field to the target minor version. Removing this field from your configuration will not trigger completion.
+	// +kubebuilder:validation:Optional
+	DesiredEmulatedVersion *string `json:"desiredEmulatedVersion,omitempty" tf:"desired_emulated_version,omitempty"`
 
 	// Disable L4 load balancer VPC firewalls to enable firewall policies.
 	// +kubebuilder:validation:Optional
@@ -2449,6 +2512,10 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ResourceUsageExportConfig *ResourceUsageExportConfigParameters `json:"resourceUsageExportConfig,omitempty" tf:"resource_usage_export_config,omitempty"`
 
+	// Configuration for rollback-safe (two-step) upgrades. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RollbackSafeUpgrade *RollbackSafeUpgradeParameters `json:"rollbackSafeUpgrade,omitempty" tf:"rollback_safe_upgrade,omitempty"`
+
 	// Configuration for the
 	// SecretManagerConfig feature.
 	// Structure is documented below.
@@ -2488,7 +2555,7 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v2.NamespacedSelector `json:"subnetworkSelector,omitempty" tf:"-"`
 
-	// The custom keys configuration of the cluster Structure is documented below.
+	// The custom keys configuration of the cluster. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	UserManagedKeysConfig *UserManagedKeysConfigParameters `json:"userManagedKeysConfig,omitempty" tf:"user_managed_keys_config,omitempty"`
 
@@ -2563,7 +2630,7 @@ type ContainerdConfigInitParameters struct {
 	// Configuration for private container registries. There are two fields in this config:
 	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	RegistryHosts []RegistryHostsInitParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
 	// Configuration for writable cgroups. This allows containers to have a writable /sys/fs/cgroup directory, which is required for some workloads to create their own sub-cgroups. The writable_cgroups block supports:
@@ -2575,7 +2642,7 @@ type ContainerdConfigObservation struct {
 	// Configuration for private container registries. There are two fields in this config:
 	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	RegistryHosts []RegistryHostsObservation `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
 	// Configuration for writable cgroups. This allows containers to have a writable /sys/fs/cgroup directory, which is required for some workloads to create their own sub-cgroups. The writable_cgroups block supports:
@@ -2588,7 +2655,7 @@ type ContainerdConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateRegistryAccessConfig *PrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	// +kubebuilder:validation:Optional
 	RegistryHosts []RegistryHostsParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
@@ -2598,22 +2665,30 @@ type ContainerdConfigParameters struct {
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters struct {
+
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
 type ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struct {
 
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	// +kubebuilder:validation:Optional
 	Fqdns []*string `json:"fqdns" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerCertificateConfig *PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters `json:"gcpSecretManagerCertificateConfig" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
@@ -2623,7 +2698,7 @@ type ContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
 
 type ContainerdConfigPrivateRegistryAccessConfigObservation struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	CertificateAuthorityDomainConfig []PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -2634,57 +2709,80 @@ type ContainerdConfigPrivateRegistryAccessConfigParameters struct {
 }
 
 type ContainerdConfigRegistryHostsHostsInitParameters struct {
+
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	CA []RegistryHostsHostsCAInitParameters `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	Client []RegistryHostsHostsClientInitParameters `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	Header []RegistryHostsHostsHeaderInitParameters `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
 
 type ContainerdConfigRegistryHostsHostsObservation struct {
+
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	CA []RegistryHostsHostsCAObservation `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	Client []RegistryHostsHostsClientObservation `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	Header []RegistryHostsHostsHeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
 
 type ContainerdConfigRegistryHostsHostsParameters struct {
 
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	// +kubebuilder:validation:Optional
 	CA []RegistryHostsHostsCAParameters `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	// +kubebuilder:validation:Optional
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	// +kubebuilder:validation:Optional
 	Client []RegistryHostsHostsClientParameters `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	// +kubebuilder:validation:Optional
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	// +kubebuilder:validation:Optional
 	Header []RegistryHostsHostsHeaderParameters `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	// +kubebuilder:validation:Optional
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
@@ -2693,8 +2791,11 @@ type ContainerdConfigRegistryHostsInitParameters struct {
 }
 
 type ContainerdConfigRegistryHostsObservation struct {
+
+	// Configures a list of host-specific configurations for the server:
 	Hosts []RegistryHostsHostsObservation `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	Server *string `json:"server,omitempty" tf:"server,omitempty"`
 }
 
@@ -2778,6 +2879,43 @@ type CrashLoopBackOffParameters struct {
 	// The maximum duration the backoff delay can accrue to for container restarts. If not set, defaults to the internal crashloopbackoff maximum. The value must be a positive duration string no more than "5m" and no less than "1s", such as "30s", "1m30s", "2.5m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". See Configurable container restart delay for more details.
 	// +kubebuilder:validation:Optional
 	MaxContainerRestartPeriod *string `json:"maxContainerRestartPeriod,omitempty" tf:"max_container_restart_period,omitempty"`
+}
+
+type CustomNodeInitInitParameters struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *InitScriptInitParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type CustomNodeInitInitScriptInitParameters struct {
+}
+
+type CustomNodeInitInitScriptObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type CustomNodeInitInitScriptParameters struct {
+}
+
+type CustomNodeInitObservation struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *InitScriptObservation `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type CustomNodeInitParameters struct {
+
+	// The init script configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InitScript *InitScriptParameters `json:"initScript,omitempty" tf:"init_script,omitempty"`
 }
 
 type DNSCacheConfigInitParameters struct {
@@ -2898,6 +3036,8 @@ type DNSEndpointConfigParameters struct {
 }
 
 type DailyMaintenanceWindowInitParameters struct {
+
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
@@ -2908,11 +3048,13 @@ type DailyMaintenanceWindowObservation struct {
 	// Duration will be in RFC3339 format "PTnHnMnS".
 	Duration *string `json:"duration,omitempty" tf:"duration,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type DailyMaintenanceWindowParameters struct {
 
+	// The start time of the exclusion window, in RFC3339 format.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -2982,6 +3124,45 @@ type DefaultSnatStatusParameters struct {
 	// Whether the cluster disables default in-node sNAT rules. In-node sNAT rules will be disabled when defaultSnatStatus is disabled.When disabled is set to false, default IP masquerade rules will be applied to the nodes to prevent sNAT on cluster internal traffic
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
+}
+
+type DelayUntilInitParameters struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type DelayUntilObservation struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	Day *float64 `json:"day,omitempty" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	Month *float64 `json:"month,omitempty" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	Year *float64 `json:"year,omitempty" tf:"year,omitempty"`
+}
+
+type DelayUntilParameters struct {
+
+	// : The day of the month (integer value between 1 and 31).
+	// +kubebuilder:validation:Optional
+	Day *float64 `json:"day" tf:"day,omitempty"`
+
+	// : The month of the year (integer value between 1 and 12).
+	// +kubebuilder:validation:Optional
+	Month *float64 `json:"month" tf:"month,omitempty"`
+
+	// : The year (integer value).
+	// +kubebuilder:validation:Optional
+	Year *float64 `json:"year" tf:"year,omitempty"`
 }
 
 type DisruptionBudgetInitParameters struct {
@@ -3061,22 +3242,19 @@ type EnableK8SBetaApisParameters struct {
 
 type EncryptionConfigInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type EncryptionConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type EncryptionConfigParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
@@ -3406,6 +3584,24 @@ type ExclusionOptionsParameters struct {
 	Scope *string `json:"scope" tf:"scope,omitempty"`
 }
 
+type ExclusionUntilEndOfSupportInitParameters struct {
+}
+
+type ExclusionUntilEndOfSupportObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// The start time of the exclusion window, in RFC3339 format.
+	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
+}
+
+type ExclusionUntilEndOfSupportParameters struct {
+}
+
 type FastSocketInitParameters struct {
 
 	// Whether writable cgroups are enabled.
@@ -3467,6 +3663,7 @@ type FleetObservation struct {
 	// Sets the membership type of the cluster.  Available option is LIGHTWEIGHT to support only lightweight compatible features.  If unspecified, the membership_type will be a regular membership that supports all features.
 	MembershipType *string `json:"membershipType,omitempty" tf:"membership_type,omitempty"`
 
+	// Whether the cluster has been registered via the fleet API.
 	PreRegistered *bool `json:"preRegistered,omitempty" tf:"pre_registered,omitempty"`
 
 	// The name of the Fleet host project where this cluster will be registered.
@@ -3504,15 +3701,20 @@ type GCPFilestoreCsiDriverConfigParameters struct {
 }
 
 type GCPSecretManagerCertificateConfigInitParameters struct {
+
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
 }
 
 type GCPSecretManagerCertificateConfigObservation struct {
+
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
 }
 
 type GCPSecretManagerCertificateConfigParameters struct {
 
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	// +kubebuilder:validation:Optional
 	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
 }
@@ -3800,22 +4002,19 @@ type GvnicParameters struct {
 
 type HTTPLoadBalancingInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type HTTPLoadBalancingObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type HTTPLoadBalancingParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
@@ -3849,46 +4048,50 @@ type HeaderParameters struct {
 	Value []*string `json:"value" tf:"value,omitempty"`
 }
 
+type HighScaleCheckpointingConfigInitParameters struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HighScaleCheckpointingConfigObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type HighScaleCheckpointingConfigParameters struct {
+
+	// Whether writable cgroups are enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
+}
+
 type HorizontalPodAutoscalingInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type HorizontalPodAutoscalingObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type HorizontalPodAutoscalingParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
-}
-
-type HostMaintenancePolicyInitParameters struct {
-	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
-}
-
-type HostMaintenancePolicyObservation struct {
-	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
-}
-
-type HostMaintenancePolicyParameters struct {
-
-	// +kubebuilder:validation:Optional
-	MaintenanceInterval *string `json:"maintenanceInterval" tf:"maintenance_interval,omitempty"`
 }
 
 type HostsCAInitParameters struct {
 }
 
 type HostsCAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
@@ -3896,15 +4099,20 @@ type HostsCAParameters struct {
 }
 
 type HostsClientCertInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientCertObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientCertParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -3913,15 +4121,20 @@ type HostsClientInitParameters struct {
 }
 
 type HostsClientKeyInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientKeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type HostsClientKeyParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -3952,57 +4165,80 @@ type HostsHeaderParameters struct {
 }
 
 type HostsInitParameters struct {
+
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	CA []CAInitParameters `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	Client []ClientInitParameters `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	Header []HeaderInitParameters `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
 
 type HostsObservation struct {
+
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	CA []CAObservation `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	Client []ClientObservation `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	Header []HeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
 
 type HostsParameters struct {
 
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	// +kubebuilder:validation:Optional
 	CA []CAParameters `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	// +kubebuilder:validation:Optional
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	// +kubebuilder:validation:Optional
 	Client []ClientParameters `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	// +kubebuilder:validation:Optional
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	// +kubebuilder:validation:Optional
 	Header []HeaderParameters `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	// +kubebuilder:validation:Optional
 	Host *string `json:"host" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	// +kubebuilder:validation:Optional
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
@@ -4065,6 +4301,7 @@ type IPAllocationPolicyInitParameters struct {
 	// Contains network tier information. Structure is documented below
 	NetworkTierConfig *NetworkTierConfigInitParameters `json:"networkTierConfig,omitempty" tf:"network_tier_config,omitempty"`
 
+	// Configuration for cluster level pod cidr overprovision. Default is disabled = false. Structure is documented below.
 	PodCidrOverprovisionConfig *PodCidrOverprovisionConfigInitParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
 	// The IP address range of the services IPs in this cluster.
@@ -4115,6 +4352,7 @@ type IPAllocationPolicyObservation struct {
 	// Contains network tier information. Structure is documented below
 	NetworkTierConfig *NetworkTierConfigObservation `json:"networkTierConfig,omitempty" tf:"network_tier_config,omitempty"`
 
+	// Configuration for cluster level pod cidr overprovision. Default is disabled = false. Structure is documented below.
 	PodCidrOverprovisionConfig *PodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
 	// The IP address range of the services IPs in this cluster.
@@ -4171,6 +4409,7 @@ type IPAllocationPolicyParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkTierConfig *NetworkTierConfigParameters `json:"networkTierConfig,omitempty" tf:"network_tier_config,omitempty"`
 
+	// Configuration for cluster level pod cidr overprovision. Default is disabled = false. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PodCidrOverprovisionConfig *PodCidrOverprovisionConfigParameters `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
@@ -4234,16 +4473,60 @@ type IdentityServiceConfigParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 }
 
+type InitScriptInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type InitScriptObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
+type InitScriptParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
+	// +kubebuilder:validation:Optional
+	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
+
+	// The generation of the init script in Google Cloud Storage. If gcs_uri is used, gcs_generation is required.
+	// +kubebuilder:validation:Optional
+	GcsGeneration *float64 `json:"gcsGeneration,omitempty" tf:"gcs_generation,omitempty"`
+
+	// The Google Cloud Storage URI for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME. The service account on the nodepool must have read access to the object. Conflicts with gcp_secret_manager_secret_uri. If gcs_uri is used, gcs_generation is required.
+	// +kubebuilder:validation:Optional
+	GcsURI *string `json:"gcsUri,omitempty" tf:"gcs_uri,omitempty"`
+}
+
 type KeyInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type KeyObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type KeyParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -4663,6 +4946,18 @@ type LinuxNodeConfigAccurateTimeConfigObservation struct {
 type LinuxNodeConfigAccurateTimeConfigParameters struct {
 }
 
+type LinuxNodeConfigCustomNodeInitInitParameters struct {
+}
+
+type LinuxNodeConfigCustomNodeInitObservation struct {
+
+	// The init script configuration. Structure is documented below.
+	InitScript *CustomNodeInitInitScriptObservation `json:"initScript,omitempty" tf:"init_script,omitempty"`
+}
+
+type LinuxNodeConfigCustomNodeInitParameters struct {
+}
+
 type LinuxNodeConfigHugepagesConfigInitParameters struct {
 }
 
@@ -4686,6 +4981,9 @@ type LinuxNodeConfigInitParameters struct {
 	// Possible cgroup modes that can be used.
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *CustomNodeInitInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *HugepagesConfigInitParameters `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
@@ -4733,6 +5031,9 @@ type LinuxNodeConfigObservation struct {
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *CustomNodeInitObservation `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
+
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *HugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
@@ -4768,6 +5069,10 @@ type LinuxNodeConfigParameters struct {
 	// Accepted values are:
 	// +kubebuilder:validation:Optional
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
+
+	// Custom node init settings. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomNodeInit *CustomNodeInitParameters `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
 
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -4850,6 +5155,7 @@ type LoggingConfigInitParameters struct {
 
 	// The GKE components exposing logs. Supported values include:
 	// SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 }
 
@@ -4857,6 +5163,7 @@ type LoggingConfigObservation struct {
 
 	// The GKE components exposing logs. Supported values include:
 	// SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 }
 
@@ -4865,6 +5172,7 @@ type LoggingConfigParameters struct {
 	// The GKE components exposing logs. Supported values include:
 	// SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents" tf:"enable_components,omitempty"`
 }
 
@@ -4908,45 +5216,50 @@ type LustreCsiDriverConfigParameters struct {
 }
 
 type MaintenanceExclusionInitParameters struct {
+
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// The name of the cluster, unique within the project and
-	// location.
+	// The name of the maintenance exclusion.
 	ExclusionName *string `json:"exclusionName,omitempty" tf:"exclusion_name,omitempty"`
 
-	// MaintenanceExclusionOptions provides maintenance exclusion related options.
+	// MaintenanceExclusionOptions provides maintenance exclusion related options. Structure is documented below.
 	ExclusionOptions *ExclusionOptionsInitParameters `json:"exclusionOptions,omitempty" tf:"exclusion_options,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type MaintenanceExclusionObservation struct {
+
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// The name of the cluster, unique within the project and
-	// location.
+	// The name of the maintenance exclusion.
 	ExclusionName *string `json:"exclusionName,omitempty" tf:"exclusion_name,omitempty"`
 
-	// MaintenanceExclusionOptions provides maintenance exclusion related options.
+	// MaintenanceExclusionOptions provides maintenance exclusion related options. Structure is documented below.
 	ExclusionOptions *ExclusionOptionsObservation `json:"exclusionOptions,omitempty" tf:"exclusion_options,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type MaintenanceExclusionParameters struct {
 
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
 	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
-	// The name of the cluster, unique within the project and
-	// location.
+	// The name of the maintenance exclusion.
 	// +kubebuilder:validation:Optional
 	ExclusionName *string `json:"exclusionName" tf:"exclusion_name,omitempty"`
 
-	// MaintenanceExclusionOptions provides maintenance exclusion related options.
+	// MaintenanceExclusionOptions provides maintenance exclusion related options. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ExclusionOptions *ExclusionOptionsParameters `json:"exclusionOptions,omitempty" tf:"exclusion_options,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
@@ -4963,6 +5276,9 @@ type MaintenancePolicyInitParameters struct {
 	MaintenanceExclusion []MaintenanceExclusionInitParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
 
 	// structure documented below
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowInitParameters `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
+
+	// structure documented below
 	RecurringWindow *RecurringWindowInitParameters `json:"recurringWindow,omitempty" tf:"recurring_window,omitempty"`
 }
 
@@ -4976,6 +5292,9 @@ type MaintenancePolicyObservation struct {
 
 	// structure documented below
 	MaintenanceExclusion []MaintenanceExclusionObservation `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
+
+	// structure documented below
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowObservation `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
 
 	// structure documented below
 	RecurringWindow *RecurringWindowObservation `json:"recurringWindow,omitempty" tf:"recurring_window,omitempty"`
@@ -4994,6 +5313,10 @@ type MaintenancePolicyParameters struct {
 	// structure documented below
 	// +kubebuilder:validation:Optional
 	MaintenanceExclusion []MaintenanceExclusionParameters `json:"maintenanceExclusion,omitempty" tf:"maintenance_exclusion,omitempty"`
+
+	// structure documented below
+	// +kubebuilder:validation:Optional
+	RecurringMaintenanceWindow *RecurringMaintenanceWindowParameters `json:"recurringMaintenanceWindow,omitempty" tf:"recurring_maintenance_window,omitempty"`
 
 	// structure documented below
 	// +kubebuilder:validation:Optional
@@ -5199,6 +5522,7 @@ type MonitoringConfigInitParameters struct {
 	AdvancedDatapathObservabilityConfig *AdvancedDatapathObservabilityConfigInitParameters `json:"advancedDatapathObservabilityConfig,omitempty" tf:"advanced_datapath_observability_config,omitempty"`
 
 	// The GKE components exposing metrics. Supported values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER, CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT, STATEFULSET, KUBELET, CADVISOR, DCGM and JOBSET. In beta provider, WORKLOADS is supported on top of those 12 values. (WORKLOADS is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR are only supported in GKE 1.29.3-gke.1093000 and above. JOBSET is only supported in GKE 1.32.1-gke.1357001 and above.
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 
 	// Configuration for Managed Service for Prometheus. Structure is documented below.
@@ -5211,6 +5535,7 @@ type MonitoringConfigObservation struct {
 	AdvancedDatapathObservabilityConfig *AdvancedDatapathObservabilityConfigObservation `json:"advancedDatapathObservabilityConfig,omitempty" tf:"advanced_datapath_observability_config,omitempty"`
 
 	// The GKE components exposing metrics. Supported values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER, CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT, STATEFULSET, KUBELET, CADVISOR, DCGM and JOBSET. In beta provider, WORKLOADS is supported on top of those 12 values. (WORKLOADS is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR are only supported in GKE 1.29.3-gke.1093000 and above. JOBSET is only supported in GKE 1.32.1-gke.1357001 and above.
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 
 	// Configuration for Managed Service for Prometheus. Structure is documented below.
@@ -5225,6 +5550,7 @@ type MonitoringConfigParameters struct {
 
 	// The GKE components exposing metrics. Supported values include: SYSTEM_COMPONENTS, APISERVER, SCHEDULER, CONTROLLER_MANAGER, STORAGE, HPA, POD, DAEMONSET, DEPLOYMENT, STATEFULSET, KUBELET, CADVISOR, DCGM and JOBSET. In beta provider, WORKLOADS is supported on top of those 12 values. (WORKLOADS is deprecated and removed in GKE 1.24.) KUBELET and CADVISOR are only supported in GKE 1.29.3-gke.1093000 and above. JOBSET is only supported in GKE 1.32.1-gke.1357001 and above.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	EnableComponents []*string `json:"enableComponents,omitempty" tf:"enable_components,omitempty"`
 
 	// Configuration for Managed Service for Prometheus. Structure is documented below.
@@ -5265,6 +5591,7 @@ type NetworkConfigObservation struct {
 	// Network bandwidth tier configuration. Structure is documented below.
 	NetworkPerformanceConfig *NetworkConfigNetworkPerformanceConfigObservation `json:"networkPerformanceConfig,omitempty" tf:"network_performance_config,omitempty"`
 
+	// Configuration for cluster level pod cidr overprovision. Default is disabled = false. Structure is documented below.
 	PodCidrOverprovisionConfig *NetworkConfigPodCidrOverprovisionConfigObservation `json:"podCidrOverprovisionConfig,omitempty" tf:"pod_cidr_overprovision_config,omitempty"`
 
 	PodIPv4CidrBlock *string `json:"podIpv4CidrBlock,omitempty" tf:"pod_ipv4_cidr_block,omitempty"`
@@ -5284,8 +5611,7 @@ type NetworkConfigPodCidrOverprovisionConfigInitParameters struct {
 
 type NetworkConfigPodCidrOverprovisionConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
@@ -5313,22 +5639,19 @@ type NetworkPerformanceConfigParameters struct {
 
 type NetworkPolicyConfigInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type NetworkPolicyConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type NetworkPolicyConfigParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
@@ -5526,7 +5849,7 @@ type NodeConfigContainerdConfigObservation struct {
 	// Configuration for private container registries. There are two fields in this config:
 	PrivateRegistryAccessConfig *ContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	RegistryHosts []ContainerdConfigRegistryHostsObservation `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
 	// Configuration for writable cgroups. This allows containers to have a writable /sys/fs/cgroup directory, which is required for some workloads to create their own sub-cgroups. The writable_cgroups block supports:
@@ -5541,7 +5864,7 @@ type NodeConfigDefaultsContainerdConfigInitParameters struct {
 	// Configuration for private container registries. There are two fields in this config:
 	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	RegistryHosts []NodeConfigDefaultsContainerdConfigRegistryHostsInitParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
 	// Configuration for writable cgroups. This allows containers to have a writable /sys/fs/cgroup directory, which is required for some workloads to create their own sub-cgroups. The writable_cgroups block supports:
@@ -5553,7 +5876,7 @@ type NodeConfigDefaultsContainerdConfigObservation struct {
 	// Configuration for private container registries. There are two fields in this config:
 	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	RegistryHosts []NodeConfigDefaultsContainerdConfigRegistryHostsObservation `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
 	// Configuration for writable cgroups. This allows containers to have a writable /sys/fs/cgroup directory, which is required for some workloads to create their own sub-cgroups. The writable_cgroups block supports:
@@ -5566,7 +5889,7 @@ type NodeConfigDefaultsContainerdConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	PrivateRegistryAccessConfig *NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters `json:"privateRegistryAccessConfig,omitempty" tf:"private_registry_access_config,omitempty"`
 
-	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail. Example:
+	// Defines containerd registry host configuration. Each registry_hosts entry represents a hosts.toml file. See customize containerd configuration in GKE nodes for more detail.
 	// +kubebuilder:validation:Optional
 	RegistryHosts []NodeConfigDefaultsContainerdConfigRegistryHostsParameters `json:"registryHosts,omitempty" tf:"registry_hosts,omitempty"`
 
@@ -5577,7 +5900,7 @@ type NodeConfigDefaultsContainerdConfigParameters struct {
 
 type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -5586,7 +5909,7 @@ type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigInitParameters
 
 type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -5595,7 +5918,7 @@ type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigObservation st
 
 type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	// +kubebuilder:validation:Optional
 	CertificateAuthorityDomainConfig []ContainerdConfigPrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
@@ -5605,22 +5928,30 @@ type NodeConfigDefaultsContainerdConfigPrivateRegistryAccessConfigParameters str
 }
 
 type NodeConfigDefaultsContainerdConfigRegistryHostsInitParameters struct {
+
+	// Configures a list of host-specific configurations for the server:
 	Hosts []ContainerdConfigRegistryHostsHostsInitParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	Server *string `json:"server,omitempty" tf:"server,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigRegistryHostsObservation struct {
+
+	// Configures a list of host-specific configurations for the server:
 	Hosts []ContainerdConfigRegistryHostsHostsObservation `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	Server *string `json:"server,omitempty" tf:"server,omitempty"`
 }
 
 type NodeConfigDefaultsContainerdConfigRegistryHostsParameters struct {
 
+	// Configures a list of host-specific configurations for the server:
 	// +kubebuilder:validation:Optional
 	Hosts []ContainerdConfigRegistryHostsHostsParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	// +kubebuilder:validation:Optional
 	Server *string `json:"server" tf:"server,omitempty"`
 }
@@ -5807,16 +6138,6 @@ type NodeConfigGvnicObservation struct {
 type NodeConfigGvnicParameters struct {
 }
 
-type NodeConfigHostMaintenancePolicyInitParameters struct {
-}
-
-type NodeConfigHostMaintenancePolicyObservation struct {
-	MaintenanceInterval *string `json:"maintenanceInterval,omitempty" tf:"maintenance_interval,omitempty"`
-}
-
-type NodeConfigHostMaintenancePolicyParameters struct {
-}
-
 type NodeConfigInitParameters struct {
 
 	// Specifies options for controlling
@@ -5884,10 +6205,6 @@ type NodeConfigInitParameters struct {
 	// GKE node version 1.15.11-gke.15 or later
 	// Structure is documented below.
 	Gvnic *GvnicInitParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
-
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
-	HostMaintenancePolicy *HostMaintenancePolicyInitParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -6016,7 +6333,7 @@ type NodeConfigInitParameters struct {
 	// Taint configuration for the node pool. Structure is documented below.
 	TaintConfig *TaintConfigInitParameters `json:"taintConfig,omitempty" tf:"taint_config,omitempty"`
 
-	// Windows node configuration, currently supporting OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:
+	// Windows node configuration. Structure is documented below.
 	WindowsNodeConfig *WindowsNodeConfigInitParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	// Metadata configuration to expose to workloads on the node pool.
@@ -6128,6 +6445,9 @@ type NodeConfigLinuxNodeConfigObservation struct {
 	// Accepted values are:
 	CgroupMode *string `json:"cgroupMode,omitempty" tf:"cgroup_mode,omitempty"`
 
+	// Custom node init settings. Structure is documented below.
+	CustomNodeInit *LinuxNodeConfigCustomNodeInitObservation `json:"customNodeInit,omitempty" tf:"custom_node_init,omitempty"`
+
 	// Amounts for 2M and 1G hugepages. Structure is documented below.
 	HugepagesConfig *LinuxNodeConfigHugepagesConfigObservation `json:"hugepagesConfig,omitempty" tf:"hugepages_config,omitempty"`
 
@@ -6174,10 +6494,10 @@ type NodeConfigNodeImageConfigInitParameters struct {
 
 type NodeConfigNodeImageConfigObservation struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
@@ -6254,10 +6574,6 @@ type NodeConfigObservation struct {
 	// GKE node version 1.15.11-gke.15 or later
 	// Structure is documented below.
 	Gvnic *GvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
-
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
-	HostMaintenancePolicy *HostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -6376,7 +6692,7 @@ type NodeConfigObservation struct {
 	// Taint configuration for the node pool. Structure is documented below.
 	TaintConfig *TaintConfigObservation `json:"taintConfig,omitempty" tf:"taint_config,omitempty"`
 
-	// Windows node configuration, currently supporting OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:
+	// Windows node configuration. Structure is documented below.
 	WindowsNodeConfig *WindowsNodeConfigObservation `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	// Metadata configuration to expose to workloads on the node pool.
@@ -6466,11 +6782,6 @@ type NodeConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Gvnic *GvnicParameters `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
-
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
-	// +kubebuilder:validation:Optional
-	HostMaintenancePolicy *HostMaintenancePolicyParameters `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -6628,7 +6939,7 @@ type NodeConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	TaintConfig *TaintConfigParameters `json:"taintConfig,omitempty" tf:"taint_config,omitempty"`
 
-	// Windows node configuration, currently supporting OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:
+	// Windows node configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WindowsNodeConfig *WindowsNodeConfigParameters `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
@@ -6765,6 +7076,8 @@ type NodeConfigWindowsNodeConfigInitParameters struct {
 }
 
 type NodeConfigWindowsNodeConfigObservation struct {
+
+	// OSVersion attribute. The value must be one of OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, or OS_VERSION_LTSC2022.
 	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }
 
@@ -6819,29 +7132,29 @@ type NodeDrainConfigParameters struct {
 
 type NodeImageConfigInitParameters struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
 type NodeImageConfigObservation struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
 
 type NodeImageConfigParameters struct {
 
-	// The name of the image to use for this node.
+	// The Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The project containing the image to use for this node.
+	// The GCP project storing the Operating System image for the node pool. This is a private feature, please contact your Google account team for allowlisting this feature.
 	// +kubebuilder:validation:Optional
 	ImageProject *string `json:"imageProject,omitempty" tf:"image_project,omitempty"`
 }
@@ -7012,6 +7325,16 @@ type NodePoolDefaultsParameters struct {
 type NodePoolInitParameters struct {
 }
 
+type NodePoolMaintenancePolicyInitParameters struct {
+}
+
+type NodePoolMaintenancePolicyObservation struct {
+	ExclusionUntilEndOfSupport []ExclusionUntilEndOfSupportObservation `json:"exclusionUntilEndOfSupport,omitempty" tf:"exclusion_until_end_of_support,omitempty"`
+}
+
+type NodePoolMaintenancePolicyParameters struct {
+}
+
 type NodePoolManagementInitParameters struct {
 }
 
@@ -7111,10 +7434,6 @@ type NodePoolNodeConfigObservation struct {
 	// GKE node version 1.15.11-gke.15 or later
 	// Structure is documented below.
 	Gvnic *NodeConfigGvnicObservation `json:"gvnic,omitempty" tf:"gvnic,omitempty"`
-
-	// The maintenance policy to use for the cluster. Structure is
-	// documented below.
-	HostMaintenancePolicy *NodeConfigHostMaintenancePolicyObservation `json:"hostMaintenancePolicy,omitempty" tf:"host_maintenance_policy,omitempty"`
 
 	// The image type to use for this node. Note that changing the image type
 	// will delete and recreate all nodes in the node pool.
@@ -7231,7 +7550,7 @@ type NodePoolNodeConfigObservation struct {
 	// Taint configuration for the node pool. Structure is documented below.
 	TaintConfig *NodeConfigTaintConfigObservation `json:"taintConfig,omitempty" tf:"taint_config,omitempty"`
 
-	// Windows node configuration, currently supporting OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, OS_VERSION_LTSC2022]. For example:
+	// Windows node configuration. Structure is documented below.
 	WindowsNodeConfig *NodeConfigWindowsNodeConfigObservation `json:"windowsNodeConfig,omitempty" tf:"windows_node_config,omitempty"`
 
 	// Metadata configuration to expose to workloads on the node pool.
@@ -7272,6 +7591,10 @@ type NodePoolObservation struct {
 	InitialNodeCount *float64 `json:"initialNodeCount,omitempty" tf:"initial_node_count,omitempty"`
 
 	InstanceGroupUrls []*string `json:"instanceGroupUrls,omitempty" tf:"instance_group_urls,omitempty"`
+
+	// The maintenance policy to use for the cluster. Structure is
+	// documented below.
+	MaintenancePolicy []NodePoolMaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
 
 	ManagedInstanceGroupUrls []*string `json:"managedInstanceGroupUrls,omitempty" tf:"managed_instance_group_urls,omitempty"`
 
@@ -7334,6 +7657,25 @@ type NodePoolUpgradeSettingsObservation struct {
 }
 
 type NodePoolUpgradeSettingsParameters struct {
+}
+
+type NodeReadinessConfigInitParameters struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeReadinessConfigObservation struct {
+
+	// Whether writable cgroups are enabled.
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type NodeReadinessConfigParameters struct {
+
+	// Whether writable cgroups are enabled.
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
 type NotificationConfigInitParameters struct {
@@ -7417,22 +7759,19 @@ type PodAutoscalingParameters struct {
 
 type PodCidrOverprovisionConfigInitParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type PodCidrOverprovisionConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
 type PodCidrOverprovisionConfigParameters struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	// +kubebuilder:validation:Optional
 	Disabled *bool `json:"disabled" tf:"disabled,omitempty"`
 }
@@ -7584,15 +7923,20 @@ type PrivateClusterConfigParameters struct {
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigInitParameters struct {
+
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation struct {
+
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	SecretURI *string `json:"secretUri,omitempty" tf:"secret_uri,omitempty"`
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigParameters struct {
 
+	// URI for the secret that hosts a certificate. Must be in the format projects/PROJECT_NUM/secrets/SECRET_NAME/versions/VERSION_OR_LATEST.
 	// +kubebuilder:validation:Optional
 	SecretURI *string `json:"secretUri" tf:"secret_uri,omitempty"`
 }
@@ -7601,8 +7945,11 @@ type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigInitParameters s
 }
 
 type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigObservation struct {
+
+	// List of fully-qualified-domain-names. IPv4s and port specification are supported.
 	Fqdns []*string `json:"fqdns,omitempty" tf:"fqdns,omitempty"`
 
+	// Parameters for configuring a certificate hosted in GCP SecretManager:
 	GCPSecretManagerCertificateConfig *CertificateAuthorityDomainConfigGCPSecretManagerCertificateConfigObservation `json:"gcpSecretManagerCertificateConfig,omitempty" tf:"gcp_secret_manager_certificate_config,omitempty"`
 }
 
@@ -7611,7 +7958,7 @@ type PrivateRegistryAccessConfigCertificateAuthorityDomainConfigParameters struc
 
 type PrivateRegistryAccessConfigInitParameters struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigInitParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -7620,7 +7967,7 @@ type PrivateRegistryAccessConfigInitParameters struct {
 
 type PrivateRegistryAccessConfigObservation struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigObservation `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
 	// Whether writable cgroups are enabled.
@@ -7629,7 +7976,7 @@ type PrivateRegistryAccessConfigObservation struct {
 
 type PrivateRegistryAccessConfigParameters struct {
 
-	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail. Example:
+	// List of configuration objects for CA and domains. Each object identifies a certificate and its assigned domains. See how to configure for private container registries for more detail.
 	// +kubebuilder:validation:Optional
 	CertificateAuthorityDomainConfig []CertificateAuthorityDomainConfigParameters `json:"certificateAuthorityDomainConfig,omitempty" tf:"certificate_authority_domain_config,omitempty"`
 
@@ -7732,12 +8079,10 @@ type RayOperatorConfigInitParameters struct {
 	// Whether writable cgroups are enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Logging configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Logging, which scrapes Ray cluster logs to Cloud Logging. Structure is documented below.
 	RayClusterLoggingConfig *RayClusterLoggingConfigInitParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
-	// Monitoring configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Cluster monitoring, which shows Ray cluster metrics in Cloud Console. Structure is documented below.
 	RayClusterMonitoringConfig *RayClusterMonitoringConfigInitParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
@@ -7746,12 +8091,10 @@ type RayOperatorConfigObservation struct {
 	// Whether writable cgroups are enabled.
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
-	// Logging configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Logging, which scrapes Ray cluster logs to Cloud Logging. Structure is documented below.
 	RayClusterLoggingConfig *RayClusterLoggingConfigObservation `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
-	// Monitoring configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Cluster monitoring, which shows Ray cluster metrics in Cloud Console. Structure is documented below.
 	RayClusterMonitoringConfig *RayClusterMonitoringConfigObservation `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
 
@@ -7761,13 +8104,11 @@ type RayOperatorConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
-	// Logging configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Logging, which scrapes Ray cluster logs to Cloud Logging. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RayClusterLoggingConfig *RayClusterLoggingConfigParameters `json:"rayClusterLoggingConfig,omitempty" tf:"ray_cluster_logging_config,omitempty"`
 
-	// Monitoring configuration for the cluster.
-	// Structure is documented below.
+	// The status of Ray Cluster monitoring, which shows Ray cluster metrics in Cloud Console. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RayClusterMonitoringConfig *RayClusterMonitoringConfigParameters `json:"rayClusterMonitoringConfig,omitempty" tf:"ray_cluster_monitoring_config,omitempty"`
 }
@@ -7801,44 +8142,109 @@ type RbacBindingConfigParameters struct {
 	EnableInsecureBindingSystemUnauthenticated *bool `json:"enableInsecureBindingSystemUnauthenticated,omitempty" tf:"enable_insecure_binding_system_unauthenticated,omitempty"`
 }
 
-type RecurringWindowInitParameters struct {
-	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+type RecurringMaintenanceWindowInitParameters struct {
 
+	// :  Specifies the initial date when the recurring window can start.
+	DelayUntil *DelayUntilInitParameters `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
 
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	WindowDuration *string `json:"windowDuration,omitempty" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	WindowStartTime *WindowStartTimeInitParameters `json:"windowStartTime,omitempty" tf:"window_start_time,omitempty"`
+}
+
+type RecurringMaintenanceWindowObservation struct {
+
+	// :  Specifies the initial date when the recurring window can start.
+	DelayUntil *DelayUntilObservation `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	WindowDuration *string `json:"windowDuration,omitempty" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	WindowStartTime *WindowStartTimeObservation `json:"windowStartTime,omitempty" tf:"window_start_time,omitempty"`
+}
+
+type RecurringMaintenanceWindowParameters struct {
+
+	// :  Specifies the initial date when the recurring window can start.
+	// +kubebuilder:validation:Optional
+	DelayUntil *DelayUntilParameters `json:"delayUntil,omitempty" tf:"delay_until,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	// +kubebuilder:validation:Optional
+	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
+
+	// : The length of each maintenance window instance. Specified as a sequence of decimal numbers, each with an optional fraction and a unit suffix, such as "300s", "1.5m", and "2h45m". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". The value must be a positive duration.
+	// +kubebuilder:validation:Optional
+	WindowDuration *string `json:"windowDuration" tf:"window_duration,omitempty"`
+
+	// : The time of day when each maintenance window instance begins.
+	// +kubebuilder:validation:Optional
+	WindowStartTime *WindowStartTimeParameters `json:"windowStartTime" tf:"window_start_time,omitempty"`
+}
+
+type RecurringWindowInitParameters struct {
+
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
+	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
+
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
+	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
+
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type RecurringWindowObservation struct {
+
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
 	EndTime *string `json:"endTime,omitempty" tf:"end_time,omitempty"`
 
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	Recurrence *string `json:"recurrence,omitempty" tf:"recurrence,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	StartTime *string `json:"startTime,omitempty" tf:"start_time,omitempty"`
 }
 
 type RecurringWindowParameters struct {
 
+	// The end time of the exclusion window, in RFC3339 format. Exactly one of end_time and exclusion_options.end_time_behavior should be specified.
 	// +kubebuilder:validation:Optional
 	EndTime *string `json:"endTime" tf:"end_time,omitempty"`
 
+	// : Defines when the window recurs, using the RFC5545 RRULE format.
 	// +kubebuilder:validation:Optional
 	Recurrence *string `json:"recurrence" tf:"recurrence,omitempty"`
 
+	// The start time of the exclusion window, in RFC3339 format.
 	// +kubebuilder:validation:Optional
 	StartTime *string `json:"startTime" tf:"start_time,omitempty"`
 }
 
 type RegistryHostsHostsCAInitParameters struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type RegistryHostsHostsCAObservation struct {
+
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
 
 type RegistryHostsHostsCAParameters struct {
 
+	// The Google Cloud Secret Manager secret version URI for storing the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION. The service account on the nodepool must have access to the secret version. Conflicts with gcs_uri.
 	// +kubebuilder:validation:Optional
 	GCPSecretManagerSecretURI *string `json:"gcpSecretManagerSecretUri,omitempty" tf:"gcp_secret_manager_secret_uri,omitempty"`
 }
@@ -7900,18 +8306,26 @@ type RegistryHostsHostsInitParameters struct {
 }
 
 type RegistryHostsHostsObservation struct {
+
+	// Configures the registry host certificate. Contains gcp_secret_manager_secret_uri .
 	CA []HostsCAObservation `json:"ca,omitempty" tf:"ca,omitempty"`
 
+	// Represent the capabilities of the registry host, specifying what operations a host is capable of performing. Valid values include HOST_CAPABILITY_PULL, HOST_CAPABILITY_RESOLVE, HOST_CAPABILITY_PUSH.
 	Capabilities []*string `json:"capabilities,omitempty" tf:"capabilities,omitempty"`
 
+	// Configures the registry host client certificate and key. Contains cert  with gcp_secret_manager_secret_uri  and key  with gcp_secret_manager_secret_uri .
 	Client []HostsClientObservation `json:"client,omitempty" tf:"client,omitempty"`
 
+	// Specifies the maximum duration allowed for a connection attempt to complete.
 	DialTimeout *string `json:"dialTimeout,omitempty" tf:"dial_timeout,omitempty"`
 
+	// Configures the registry host headers. Each header contains key  and value .
 	Header []HostsHeaderObservation `json:"header,omitempty" tf:"header,omitempty"`
 
+	// Configures the registry host/mirror.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
 
+	// Indicates the host's API root endpoint is defined in the URL path rather than by the API specification.
 	OverridePath *bool `json:"overridePath,omitempty" tf:"override_path,omitempty"`
 }
 
@@ -7919,22 +8333,30 @@ type RegistryHostsHostsParameters struct {
 }
 
 type RegistryHostsInitParameters struct {
+
+	// Configures a list of host-specific configurations for the server:
 	Hosts []HostsInitParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	Server *string `json:"server,omitempty" tf:"server,omitempty"`
 }
 
 type RegistryHostsObservation struct {
+
+	// Configures a list of host-specific configurations for the server:
 	Hosts []HostsObservation `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	Server *string `json:"server,omitempty" tf:"server,omitempty"`
 }
 
 type RegistryHostsParameters struct {
 
+	// Configures a list of host-specific configurations for the server:
 	// +kubebuilder:validation:Optional
 	Hosts []HostsParameters `json:"hosts,omitempty" tf:"hosts,omitempty"`
 
+	// Defines the host name of the registry server.
 	// +kubebuilder:validation:Optional
 	Server *string `json:"server" tf:"server,omitempty"`
 }
@@ -8103,6 +8525,25 @@ type ResourceUsageExportConfigParameters struct {
 	// billing export. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableResourceConsumptionMetering *bool `json:"enableResourceConsumptionMetering,omitempty" tf:"enable_resource_consumption_metering,omitempty"`
+}
+
+type RollbackSafeUpgradeInitParameters struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
+}
+
+type RollbackSafeUpgradeObservation struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
+}
+
+type RollbackSafeUpgradeParameters struct {
+
+	// A user-defined period that the cluster remains in the rollbackable state. A duration in seconds with up to nine fractional digits, ending with 's'. Example: "604800s" for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted, the two-step upgrade is skipped and a standard one-step upgrade is performed.
+	// +kubebuilder:validation:Optional
+	ControlPlaneSoakDuration *string `json:"controlPlaneSoakDuration,omitempty" tf:"control_plane_soak_duration,omitempty"`
 }
 
 type RotationConfigInitParameters struct {
@@ -8527,8 +8968,7 @@ type SwapConfigEncryptionConfigInitParameters struct {
 
 type SwapConfigEncryptionConfigObservation struct {
 
-	// The status of the Istio addon, which makes it easy to set up Istio for services in a
-	// cluster. It is disabled by default. Set disabled = false to enable.
+	// Whether Pod CIDR overprovisioning is disabled.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
 }
 
@@ -8819,6 +9259,7 @@ type UserManagedKeysConfigObservation struct {
 	// The Cloud KMS cryptoKey to use for Confidential Hyperdisk on the control plane nodes.
 	ControlPlaneDiskEncryptionKey *string `json:"controlPlaneDiskEncryptionKey,omitempty" tf:"control_plane_disk_encryption_key,omitempty"`
 
+	// The Cloud KMS cryptoKey versions to use for Confidential Hyperdisk on the control plane nodes.
 	// +listType=set
 	ControlPlaneDiskEncryptionKeyVersions []*string `json:"controlPlaneDiskEncryptionKeyVersions,omitempty" tf:"control_plane_disk_encryption_key_versions,omitempty"`
 
@@ -8896,16 +9337,60 @@ type VerticalPodAutoscalingParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 }
 
+type WindowStartTimeInitParameters struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WindowStartTimeObservation struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	Hours *float64 `json:"hours,omitempty" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	Minutes *float64 `json:"minutes,omitempty" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	Seconds *float64 `json:"seconds,omitempty" tf:"seconds,omitempty"`
+}
+
+type WindowStartTimeParameters struct {
+
+	// : The hour of the day (integer value between 0 and 23).
+	// +kubebuilder:validation:Optional
+	Hours *float64 `json:"hours" tf:"hours,omitempty"`
+
+	// : The minute of the hour (integer value between 0 and 59).
+	// +kubebuilder:validation:Optional
+	Minutes *float64 `json:"minutes" tf:"minutes,omitempty"`
+
+	// : The second of the minute (integer value between 0 and 59).
+	// +kubebuilder:validation:Optional
+	Seconds *float64 `json:"seconds" tf:"seconds,omitempty"`
+}
+
 type WindowsNodeConfigInitParameters struct {
+
+	// OSVersion attribute. The value must be one of OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, or OS_VERSION_LTSC2022.
 	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }
 
 type WindowsNodeConfigObservation struct {
+
+	// OSVersion attribute. The value must be one of OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, or OS_VERSION_LTSC2022.
 	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }
 
 type WindowsNodeConfigParameters struct {
 
+	// OSVersion attribute. The value must be one of OS_VERSION_UNSPECIFIED, OS_VERSION_LTSC2019, or OS_VERSION_LTSC2022.
 	// +kubebuilder:validation:Optional
 	Osversion *string `json:"osversion,omitempty" tf:"osversion,omitempty"`
 }

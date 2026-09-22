@@ -392,6 +392,13 @@ spec:
                           INSPECT_ONLY
                           INSPECT_AND_BLOCK
                         type: string
+                      filterVersionSelector:
+                        properties:
+                          alias:
+                            type: string
+                          version:
+                            type: string
+                        type: object
                       ignorePartialInvocationFailures:
                         description: If true, partial detector failures should be
                           ignored.
@@ -743,6 +750,13 @@ spec:
                           INSPECT_ONLY
                           INSPECT_AND_BLOCK
                         type: string
+                      filterVersionSelector:
+                        properties:
+                          alias:
+                            type: string
+                          version:
+                            type: string
+                        type: object
                       ignorePartialInvocationFailures:
                         description: If true, partial detector failures should be
                           ignored.
@@ -1043,6 +1057,13 @@ spec:
                           INSPECT_ONLY
                           INSPECT_AND_BLOCK
                         type: string
+                      filterVersionSelector:
+                        properties:
+                          alias:
+                            type: string
+                          version:
+                            type: string
+                        type: object
                       ignorePartialInvocationFailures:
                         description: If true, partial detector failures should be
                           ignored.

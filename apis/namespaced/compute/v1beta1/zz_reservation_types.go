@@ -335,9 +335,6 @@ type ReservationObservation struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
-	// The number of reservation blocks associated with this reservation.
-	ReservationBlockCount *float64 `json:"reservationBlockCount,omitempty" tf:"reservation_block_count,omitempty"`
-
 	// Sharing policy for reservations with Google Cloud managed services.
 	// Structure is documented below.
 	ReservationSharingPolicy *ReservationSharingPolicyObservation `json:"reservationSharingPolicy,omitempty" tf:"reservation_sharing_policy,omitempty"`

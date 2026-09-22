@@ -26,9 +26,6 @@ type ActionsInitParameters struct {
 	// Structure is documented below.
 	PubSub *PubSubInitParameters `json:"pubSub,omitempty" tf:"pub_sub,omitempty"`
 
-	// Publish findings of a DlpJob to Data Catalog.
-	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogInitParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
-
 	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
 	PublishFindingsToDataplexCatalog *PublishFindingsToDataplexCatalogInitParameters `json:"publishFindingsToDataplexCatalog,omitempty" tf:"publish_findings_to_dataplex_catalog,omitempty"`
 
@@ -55,9 +52,6 @@ type ActionsObservation struct {
 	// Publish a message into a given Pub/Sub topic when the job completes.
 	// Structure is documented below.
 	PubSub *PubSubObservation `json:"pubSub,omitempty" tf:"pub_sub,omitempty"`
-
-	// Publish findings of a DlpJob to Data Catalog.
-	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
 
 	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
 	PublishFindingsToDataplexCatalog *PublishFindingsToDataplexCatalogParameters `json:"publishFindingsToDataplexCatalog,omitempty" tf:"publish_findings_to_dataplex_catalog,omitempty"`
@@ -88,10 +82,6 @@ type ActionsParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PubSub *PubSubParameters `json:"pubSub,omitempty" tf:"pub_sub,omitempty"`
-
-	// Publish findings of a DlpJob to Data Catalog.
-	// +kubebuilder:validation:Optional
-	PublishFindingsToCloudDataCatalog *PublishFindingsToCloudDataCatalogParameters `json:"publishFindingsToCloudDataCatalog,omitempty" tf:"publish_findings_to_cloud_data_catalog,omitempty"`
 
 	// Publish findings of a DlpJob as an aspect to Dataplex Universal Catalog.
 	// +kubebuilder:validation:Optional
@@ -2170,15 +2160,6 @@ type PubSubParameters struct {
 	// Cloud Pub/Sub topic to send notifications to.
 	// +kubebuilder:validation:Optional
 	Topic *string `json:"topic" tf:"topic,omitempty"`
-}
-
-type PublishFindingsToCloudDataCatalogInitParameters struct {
-}
-
-type PublishFindingsToCloudDataCatalogObservation struct {
-}
-
-type PublishFindingsToCloudDataCatalogParameters struct {
 }
 
 type PublishFindingsToDataplexCatalogInitParameters struct {

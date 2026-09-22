@@ -222,6 +222,10 @@ type SecretInitParameters struct {
 	// Structure is documented below.
 	Rotation *RotationInitParameters `json:"rotation,omitempty" tf:"rotation,omitempty"`
 
+	// This defines the type of the secret. Enforces certain structural requirements on the SecretVersions.
+	// For secret of type UNSPECIFIED, the SecretVersions can be of any type.
+	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
+
 	// The TTL for the Secret.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// Only one of ttl or expire_time can be provided.
@@ -324,6 +328,10 @@ type SecretObservation struct {
 	// Structure is documented below.
 	Rotation *RotationObservation `json:"rotation,omitempty" tf:"rotation,omitempty"`
 
+	// This defines the type of the secret. Enforces certain structural requirements on the SecretVersions.
+	// For secret of type UNSPECIFIED, the SecretVersions can be of any type.
+	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
+
 	// The TTL for the Secret.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".
 	// Only one of ttl or expire_time can be provided.
@@ -415,6 +423,11 @@ type SecretParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Rotation *RotationParameters `json:"rotation,omitempty" tf:"rotation,omitempty"`
+
+	// This defines the type of the secret. Enforces certain structural requirements on the SecretVersions.
+	// For secret of type UNSPECIFIED, the SecretVersions can be of any type.
+	// +kubebuilder:validation:Optional
+	SecretType *string `json:"secretType,omitempty" tf:"secret_type,omitempty"`
 
 	// The TTL for the Secret.
 	// A duration in seconds with up to nine fractional digits, terminated by 's'. Example: "3.5s".

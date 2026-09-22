@@ -18,7 +18,7 @@ spec:
         matchLabels:
           testing.upbound.io/example-name: producer_net
       projectId: ${data.google_project.project.project_id}
-    location: us-central1
+    location: us-west1
     maintenancePolicy:
       weeklyMaintenanceWindow:
       - day: MONDAY
@@ -59,7 +59,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: producer_net
-    region: us-central1
+    region: us-west1
 
 ---
 
@@ -74,7 +74,7 @@ metadata:
 spec:
   forProvider:
     description: my basic service connection policy
-    location: us-central1
+    location: us-west1
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: producer_net

@@ -27,6 +27,9 @@ type GeminiGCPEnablementSettingInitParameters struct {
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
+	// Whether resource mutations should be enabled.
+	MutationsEnabled *bool `json:"mutationsEnabled,omitempty" tf:"mutations_enabled,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -67,6 +70,9 @@ type GeminiGCPEnablementSettingObservation struct {
 
 	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Whether resource mutations should be enabled.
+	MutationsEnabled *bool `json:"mutationsEnabled,omitempty" tf:"mutations_enabled,omitempty"`
 
 	// Identifier. Name of the resource.
 	// Format:projects/{project}/locations/{location}/geminiGcpEnablementSettings/{geminiGcpEnablementSetting}
@@ -111,6 +117,10 @@ type GeminiGCPEnablementSettingParameters struct {
 	// Resource ID segment making up resource name. It identifies the resource within its parent collection as described in https://google.aip.dev/122.
 	// +kubebuilder:validation:Required
 	Location *string `json:"location" tf:"location,omitempty"`
+
+	// Whether resource mutations should be enabled.
+	// +kubebuilder:validation:Optional
+	MutationsEnabled *bool `json:"mutationsEnabled,omitempty" tf:"mutations_enabled,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

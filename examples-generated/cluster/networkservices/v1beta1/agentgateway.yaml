@@ -1,0 +1,124 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: AgentGateway
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    agentConnectivityTemplateSelector:
+      matchLabels:
+        testing.upbound.io/example-name: google_project
+    description: A full configuration for Agent Gateway
+    googleManaged:
+      governedAccessPath: AGENT_TO_ANYWHERE
+    labels:
+      env: test
+      tier: gold
+    location: us-central1
+    protocols:
+    - MCP
+    registries:
+    - //agentregistry.googleapis.com/projects/my-project-name/locations/us-central1
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    autoCreateSubnetworks: false
+
+---
+
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: Subnetwork
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    ipCidrRange: 10.0.0.0/16
+    networkSelector:
+      matchLabels:
+        testing.upbound.io/example-name: default
+    region: us-central1
+
+---
+
+apiVersion: dns.gcp.upbound.io/v1beta2
+kind: ManagedZone
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    description: Private zone used by AgentGateway DNS peering
+    dnsName: example.com.
+    privateVisibilityConfig:
+      networks:
+      - networkUrlSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
+    visibility: private
+
+---
+
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: AgentConnectivityTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accessPath: AGENT_TO_ANYWHERE
+    description: A basic configuration for Agent Connectivity Template
+    egressNetworkConfig:
+      dnsPeeringConfig:
+        domainSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
+        targetNetworkSelector:
+          matchLabels:
+            testing.upbound.io/example-name: default
+      networkAttachment: ${google_compute_network_attachment.default.id}
+    labels:
+      env: test
+      tier: gold
+    location: us-central1
+
+---
+
+apiVersion: cloudplatform.gcp.upbound.io/v1beta1
+kind: ProjectService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentgateway
+  labels:
+    testing.upbound.io/example-name: agent_registry
+  name: agent-registry
+spec:
+  forProvider:
+    disableOnDestroy: false
+    service: agentregistry.googleapis.com

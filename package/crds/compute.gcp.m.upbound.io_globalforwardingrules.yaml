@@ -206,7 +206,7 @@ spec:
                       Specifies the forwarding rule type.
                       For more information about forwarding rules, refer to
                       Forwarding rule concepts.
-                      Default value is EXTERNAL.
+                      Default value is EXTERNAL_MANAGED.
                       Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
                     type: string
                   metadataFilters:
@@ -837,7 +837,7 @@ spec:
                       Specifies the forwarding rule type.
                       For more information about forwarding rules, refer to
                       Forwarding rule concepts.
-                      Default value is EXTERNAL.
+                      Default value is EXTERNAL_MANAGED.
                       Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
                     type: string
                   metadataFilters:
@@ -1468,7 +1468,7 @@ spec:
                       Specifies the forwarding rule type.
                       For more information about forwarding rules, refer to
                       Forwarding rule concepts.
-                      Default value is EXTERNAL.
+                      Default value is EXTERNAL_MANAGED.
                       Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
                     type: string
                   metadataFilters:

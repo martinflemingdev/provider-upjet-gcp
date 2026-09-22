@@ -160,6 +160,7 @@ type ServiceAttachmentInitParameters struct {
 
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
+	// +listType=set
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
 
 	// An optional description of this resource.
@@ -178,6 +179,7 @@ type ServiceAttachmentInitParameters struct {
 
 	// An array of subnets that is provided for NAT in this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
+	// +listType=set
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// References to Subnetwork in compute to populate natSubnets.
@@ -247,6 +249,7 @@ type ServiceAttachmentObservation struct {
 
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
+	// +listType=set
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
 
 	// Defaults to DELETE.
@@ -275,6 +278,7 @@ type ServiceAttachmentObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// An array of subnets that is provided for NAT in this service attachment.
+	// +listType=set
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -334,6 +338,7 @@ type ServiceAttachmentParameters struct {
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
 
 	// An optional description of this resource.
@@ -356,6 +361,7 @@ type ServiceAttachmentParameters struct {
 	// An array of subnets that is provided for NAT in this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/compute/v1beta1.Subnetwork
 	// +kubebuilder:validation:Optional
+	// +listType=set
 	NATSubnets []*string `json:"natSubnets,omitempty" tf:"nat_subnets,omitempty"`
 
 	// References to Subnetwork in compute to populate natSubnets.

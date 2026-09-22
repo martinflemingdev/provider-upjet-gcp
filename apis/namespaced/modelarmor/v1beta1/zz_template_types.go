@@ -151,6 +151,27 @@ type FilterConfigSdpSettingsParameters struct {
 	BasicConfig *SdpSettingsBasicConfigParameters `json:"basicConfig,omitempty" tf:"basic_config,omitempty"`
 }
 
+type FilterVersionSelectorInitParameters struct {
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type FilterVersionSelectorObservation struct {
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type FilterVersionSelectorParameters struct {
+
+	// +kubebuilder:validation:Optional
+	Alias *string `json:"alias,omitempty" tf:"alias,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
 type RaiSettingsRaiFiltersInitParameters struct {
 
 	// Possible values:
@@ -445,6 +466,8 @@ type TemplateMetadataInitParameters struct {
 	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	FilterVersionSelector *FilterVersionSelectorInitParameters `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
+
 	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
@@ -501,6 +524,8 @@ type TemplateMetadataObservation struct {
 	// INSPECT_AND_BLOCK
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
 
+	FilterVersionSelector *FilterVersionSelectorObservation `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
+
 	// If true, partial detector failures should be ignored.
 	IgnorePartialInvocationFailures *bool `json:"ignorePartialInvocationFailures,omitempty" tf:"ignore_partial_invocation_failures,omitempty"`
 
@@ -542,6 +567,9 @@ type TemplateMetadataParameters struct {
 	// INSPECT_AND_BLOCK
 	// +kubebuilder:validation:Optional
 	EnforcementType *string `json:"enforcementType,omitempty" tf:"enforcement_type,omitempty"`
+
+	// +kubebuilder:validation:Optional
+	FilterVersionSelector *FilterVersionSelectorParameters `json:"filterVersionSelector,omitempty" tf:"filter_version_selector,omitempty"`
 
 	// If true, partial detector failures should be ignored.
 	// +kubebuilder:validation:Optional

@@ -489,7 +489,9 @@ type NetworkInterfacesInitParameters struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -505,7 +507,9 @@ type NetworkInterfacesObservation struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -523,7 +527,9 @@ type NetworkInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -667,6 +673,9 @@ type TemplateContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *ContainersResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
 	// succeeds. Container will not be added to service endpoints if the probe fails.
@@ -710,6 +719,9 @@ type TemplateContainersObservation struct {
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
 	Resources *ContainersResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -762,6 +774,10 @@ type TemplateContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *ContainersResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -1119,6 +1135,20 @@ type V2JobInitParameters struct {
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	Template *V2JobTemplateInitParameters `json:"template,omitempty" tf:"template,omitempty"`
@@ -1225,6 +1255,20 @@ type V2JobObservation struct {
 	// If reconciliation failed, observedGeneration and latest_succeeded_execution will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in terminalCondition and conditions
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	Template *V2JobTemplateObservation `json:"template,omitempty" tf:"template,omitempty"`
@@ -1301,6 +1345,23 @@ type V2JobParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1315,6 +1376,9 @@ type V2JobTemplateInitParameters struct {
 	// This field follows Kubernetes annotations' namespacing, limits, and rules.
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// If true, the system will start the execution within the next 12 hours depending on available capacity.
+	DelayExecution *bool `json:"delayExecution,omitempty" tf:"delay_execution,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
@@ -1344,6 +1408,9 @@ type V2JobTemplateObservation struct {
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
+	// If true, the system will start the execution within the next 12 hours depending on available capacity.
+	DelayExecution *bool `json:"delayExecution,omitempty" tf:"delay_execution,omitempty"`
+
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
@@ -1372,6 +1439,10 @@ type V2JobTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// If true, the system will start the execution within the next 12 hours depending on available capacity.
+	// +kubebuilder:validation:Optional
+	DelayExecution *bool `json:"delayExecution,omitempty" tf:"delay_execution,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
 	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or

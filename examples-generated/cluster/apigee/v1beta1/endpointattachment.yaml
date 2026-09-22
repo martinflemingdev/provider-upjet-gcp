@@ -11,7 +11,14 @@ metadata:
     testing.upbound.io/example-name: apigee_endpoint_attachment
   name: apigee-endpoint-attachment
 spec:
-  forProvider: {}
+  forProvider:
+    location: us-central1
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: apigee_org
+    serviceAttachmentSelector:
+      matchLabels:
+        testing.upbound.io/example-name: psc_ilb_service_attachment
 
 ---
 
@@ -50,12 +57,12 @@ spec:
     loadBalancingScheme: INTERNAL
     networkSelector:
       matchLabels:
-        testing.upbound.io/example-name: psc_ilb_network
+        testing.upbound.io/example-name: example
     project: ${google_project.project.project_id}
     region: us-central1
     subnetworkSelector:
       matchLabels:
-        testing.upbound.io/example-name: psc_ilb_producer_subnetwork
+        testing.upbound.io/example-name: example
 
 ---
 

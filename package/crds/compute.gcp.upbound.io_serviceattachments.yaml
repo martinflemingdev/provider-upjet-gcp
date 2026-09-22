@@ -190,6 +190,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -214,6 +215,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   natSubnetsRefs:
                     description: References to Subnetwork in compute to populate natSubnets.
                     items:
@@ -540,6 +542,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -564,6 +567,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   natSubnetsRefs:
                     description: References to Subnetwork in compute to populate natSubnets.
                     items:
@@ -940,6 +944,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   deletionPolicy:
                     description: |-
                       Defaults to DELETE.
@@ -977,6 +982,7 @@ spec:
                     items:
                       type: string
                     type: array
+                    x-kubernetes-list-type: set
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.

@@ -314,215 +314,275 @@ type ConfigMasterConfigAcceleratorsParameters struct {
 
 type ConfigMasterConfigDiskConfigInitParameters struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []MasterConfigDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigMasterConfigDiskConfigObservation struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []MasterConfigDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigMasterConfigDiskConfigParameters struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []MasterConfigDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigMasterConfigInitParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []ConfigMasterConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *ConfigMasterConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *MasterConfigInstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigMasterConfigObservation struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []ConfigMasterConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *ConfigMasterConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Output only. The list of instance names. Dataproc derives the names from cluster_name, num_instances, and the instance group.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *MasterConfigInstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// Output only. The list of instance names.
 	InstanceNames []*string `json:"instanceNames,omitempty" tf:"instance_names,omitempty"`
 
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
+	// Output only. The config for Compute Engine Instance Group Manager that manages this group.
 	ManagedGroupConfig []ManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigMasterConfigParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Accelerators []ConfigMasterConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DiskConfig *ConfigMasterConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy *MasterConfigInstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigSecondaryWorkerConfigInitParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []SecondaryWorkerConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *SecondaryWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *SecondaryWorkerConfigInstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigSecondaryWorkerConfigObservation struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []SecondaryWorkerConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *SecondaryWorkerConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Output only. The list of instance names. Dataproc derives the names from cluster_name, num_instances, and the instance group.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *SecondaryWorkerConfigInstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// Output only. The list of instance names.
 	InstanceNames []*string `json:"instanceNames,omitempty" tf:"instance_names,omitempty"`
 
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
+	// Output only. The config for Compute Engine Instance Group Manager that manages this group.
 	ManagedGroupConfig []SecondaryWorkerConfigManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigSecondaryWorkerConfigParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Accelerators []SecondaryWorkerConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DiskConfig *SecondaryWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy *SecondaryWorkerConfigInstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
@@ -617,129 +677,387 @@ type ConfigWorkerConfigAcceleratorsParameters struct {
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
+type ConfigWorkerConfigDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type ConfigWorkerConfigDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type ConfigWorkerConfigDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type ConfigWorkerConfigDiskConfigInitParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []ConfigWorkerConfigDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigWorkerConfigDiskConfigObservation struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []ConfigWorkerConfigDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigWorkerConfigDiskConfigParameters struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []ConfigWorkerConfigDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type ConfigWorkerConfigInitParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []ConfigWorkerConfigAcceleratorsInitParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *ConfigWorkerConfigDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *ConfigWorkerConfigInstanceFlexibilityPolicyInitParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DiskConfig *ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters struct {
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation struct {
+
+	// The Compute Engine machine type used for cluster instances.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Output only. Number of VM provisioned with the corresponding machine_type.
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters struct {
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyObservation struct {
+
+	// Output only. A map of instance names to their machine types.
+	// +mapType=granular
+	InstanceMachineTypes map[string]*string `json:"instanceMachineTypes,omitempty" tf:"instance_machine_types,omitempty"`
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Output only. A list of instance selection results that were successfully allocated. Structure is documented below.
+	InstanceSelectionResults []ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+}
+
+type ConfigWorkerConfigInstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []ConfigWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
 type ConfigWorkerConfigObservation struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	Accelerators []ConfigWorkerConfigAcceleratorsObservation `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	DiskConfig *ConfigWorkerConfigDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// Output only. The list of instance names. Dataproc derives the names from cluster_name, num_instances, and the instance group.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	InstanceFlexibilityPolicy *ConfigWorkerConfigInstanceFlexibilityPolicyObservation `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// Output only. The list of instance names.
 	InstanceNames []*string `json:"instanceNames,omitempty" tf:"instance_names,omitempty"`
 
 	// Output only. Specifies that this instance group contains preemptible instances.
 	IsPreemptible *bool `json:"isPreemptible,omitempty" tf:"is_preemptible,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// The Compute Engine machine type used for cluster instances.
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Output only. The config for Compute Engine Instance Group Manager that manages this group. This is only used for preemptible instance groups.
+	// Output only. The config for Compute Engine Instance Group Manager that manages this group.
 	ManagedGroupConfig []WorkerConfigManagedGroupConfigObservation `json:"managedGroupConfig,omitempty" tf:"managed_group_config,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
 
 type ConfigWorkerConfigParameters struct {
 
-	// The Compute Engine accelerator configuration for these instances.
+	// The Compute Engine accelerator configuration for these instances. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Accelerators []ConfigWorkerConfigAcceleratorsParameters `json:"accelerators,omitempty" tf:"accelerators,omitempty"`
 
-	// Disk option config settings.
+	// Disk option config settings. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DiskConfig *ConfigWorkerConfigDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
 
-	// The Compute Engine image resource used for cluster instances. The URI can represent an image or image family. Image examples: * https://www.googleapis.com/compute/beta/projects/ If the URI is unspecified, it will be inferred from SoftwareConfig.image_version or the system default.
+	// The Compute Engine image resource used for cluster instances.
 	// +kubebuilder:validation:Optional
 	Image *string `json:"image,omitempty" tf:"image,omitempty"`
 
-	// The Compute Engine machine type used for cluster instances. A full URL, partial URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement) feature, you must use the short name of the machine type resource, for example, n1-standard-2`.
+	// Instance flexibility Policy allowing a mixture of VM shapes. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceFlexibilityPolicy *ConfigWorkerConfigInstanceFlexibilityPolicyParameters `json:"instanceFlexibilityPolicy,omitempty" tf:"instance_flexibility_policy,omitempty"`
+
+	// The Compute Engine machine type used for cluster instances.
 	// +kubebuilder:validation:Optional
 	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
 
-	// Specifies the minimum cpu platform for the Instance Group. See Minimum CPU platform.
+	// The minimum CPU platform and architecture for the cluster.
 	// +kubebuilder:validation:Optional
 	MinCPUPlatform *string `json:"minCpuPlatform,omitempty" tf:"min_cpu_platform,omitempty"`
 
-	// The number of VM instances in the instance group. For master instance groups, must be set to 1.
+	// The number of worker instances in the cluster.
 	// +kubebuilder:validation:Optional
 	NumInstances *float64 `json:"numInstances,omitempty" tf:"num_instances,omitempty"`
 
-	// Specifies the preemptibility of the instance group. The default value for master and worker groups is NON_PREEMPTIBLE. This default cannot be changed. The default value for secondary instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED, NON_PREEMPTIBLE, PREEMPTIBLE
+	// Specifies the preemptibility of the secondary worker group.
 	// +kubebuilder:validation:Optional
 	Preemptibility *string `json:"preemptibility,omitempty" tf:"preemptibility,omitempty"`
 }
@@ -1059,6 +1377,35 @@ type InitializationActionsParameters struct {
 	ExecutionTimeout *string `json:"executionTimeout,omitempty" tf:"execution_timeout,omitempty"`
 }
 
+type InstanceFlexibilityPolicyProvisioningModelMixInitParameters struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of premature allocation.
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that will use Standard VMs above standardCapacityBase.
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
+}
+
+type InstanceFlexibilityPolicyProvisioningModelMixObservation struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of premature allocation.
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that will use Standard VMs above standardCapacityBase.
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
+}
+
+type InstanceFlexibilityPolicyProvisioningModelMixParameters struct {
+
+	// The base capacity that will always use Standard VMs to avoid risk of premature allocation.
+	// +kubebuilder:validation:Optional
+	StandardCapacityBase *float64 `json:"standardCapacityBase,omitempty" tf:"standard_capacity_base,omitempty"`
+
+	// The percentage of target capacity that will use Standard VMs above standardCapacityBase.
+	// +kubebuilder:validation:Optional
+	StandardCapacityPercentAboveBase *float64 `json:"standardCapacityPercentAboveBase,omitempty" tf:"standard_capacity_percent_above_base,omitempty"`
+}
+
 type JobsInitParameters struct {
 
 	// Job is a Hadoop job.
@@ -1240,10 +1587,10 @@ type ManagedClusterConfigInitParameters struct {
 	// Lifecycle setting for the cluster.
 	LifecycleConfig *ConfigLifecycleConfigInitParameters `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	MasterConfig *ConfigMasterConfigInitParameters `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	SecondaryWorkerConfig *ConfigSecondaryWorkerConfigInitParameters `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
 
 	// Security settings for the cluster.
@@ -1258,7 +1605,7 @@ type ManagedClusterConfigInitParameters struct {
 	// A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
 	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	WorkerConfig *ConfigWorkerConfigInitParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
@@ -1282,10 +1629,10 @@ type ManagedClusterConfigObservation struct {
 	// Lifecycle setting for the cluster.
 	LifecycleConfig *ConfigLifecycleConfigObservation `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	MasterConfig *ConfigMasterConfigObservation `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	SecondaryWorkerConfig *ConfigSecondaryWorkerConfigObservation `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
 
 	// Security settings for the cluster.
@@ -1300,7 +1647,7 @@ type ManagedClusterConfigObservation struct {
 	// A Cloud Storage bucket used to store ephemeral cluster and jobs data, such as Spark and MapReduce history files. If you do not specify a temp bucket, Dataproc will determine a Cloud Storage location (US, ASIA, or EU) for your cluster's temp bucket according to the Compute Engine zone where your cluster is deployed, and then create and manage this project-level, per-location bucket. The default bucket has a TTL of 90 days, but you can use any TTL (or none) if you specify a bucket.
 	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	WorkerConfig *ConfigWorkerConfigObservation `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
 
@@ -1330,11 +1677,11 @@ type ManagedClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	LifecycleConfig *ConfigLifecycleConfigParameters `json:"lifecycleConfig,omitempty" tf:"lifecycle_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MasterConfig *ConfigMasterConfigParameters `json:"masterConfig,omitempty" tf:"master_config,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecondaryWorkerConfig *ConfigSecondaryWorkerConfigParameters `json:"secondaryWorkerConfig,omitempty" tf:"secondary_worker_config,omitempty"`
 
@@ -1354,7 +1701,7 @@ type ManagedClusterConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	TempBucket *string `json:"tempBucket,omitempty" tf:"temp_bucket,omitempty"`
 
-	// The Compute Engine config settings for additional worker instances in a cluster.
+	// The Compute Engine config settings for additional worker instances in a cluster. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WorkerConfig *ConfigWorkerConfigParameters `json:"workerConfig,omitempty" tf:"worker_config,omitempty"`
 }
@@ -1364,7 +1711,7 @@ type ManagedClusterInitParameters struct {
 	// Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix. The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Required. The cluster configuration.
+	// Required. The cluster configuration. Structure is documented below.
 	Config *ManagedClusterConfigInitParameters `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
@@ -1377,7 +1724,7 @@ type ManagedClusterObservation struct {
 	// Required. The cluster name prefix. A unique cluster name will be formed by appending a random suffix. The name must contain only lower-case letters (a-z), numbers (0-9), and hyphens (-). Must begin with a letter. Cannot begin or end with hyphen. Must consist of between 2 and 35 characters.
 	ClusterName *string `json:"clusterName,omitempty" tf:"cluster_name,omitempty"`
 
-	// Required. The cluster configuration.
+	// Required. The cluster configuration. Structure is documented below.
 	Config *ManagedClusterConfigObservation `json:"config,omitempty" tf:"config,omitempty"`
 
 	// The labels to associate with this cluster. Label keys must be between 1 and 63 characters long, and must conform to the following PCRE regular expression: {0,63} No more than 32 labels can be associated with a given cluster.
@@ -1391,7 +1738,7 @@ type ManagedClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	ClusterName *string `json:"clusterName" tf:"cluster_name,omitempty"`
 
-	// Required. The cluster configuration.
+	// Required. The cluster configuration. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Config *ManagedClusterConfigParameters `json:"config" tf:"config,omitempty"`
 
@@ -1414,6 +1761,263 @@ type ManagedGroupConfigObservation struct {
 }
 
 type ManagedGroupConfigParameters struct {
+}
+
+type MasterConfigDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DiskConfig *MasterConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters struct {
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation struct {
+
+	// The Compute Engine machine type used for cluster instances.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Output only. Number of VM provisioned with the corresponding machine_type.
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters struct {
+}
+
+type MasterConfigInstanceFlexibilityPolicyObservation struct {
+
+	// Output only. A map of instance names to their machine types.
+	// +mapType=granular
+	InstanceMachineTypes map[string]*string `json:"instanceMachineTypes,omitempty" tf:"instance_machine_types,omitempty"`
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Output only. A list of instance selection results that were successfully allocated. Structure is documented below.
+	InstanceSelectionResults []MasterConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+}
+
+type MasterConfigInstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []MasterConfigInstanceFlexibilityPolicyInstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
 }
 
 type ParametersInitParameters struct {
@@ -1895,43 +2499,350 @@ type SecondaryWorkerConfigAcceleratorsParameters struct {
 	AcceleratorType *string `json:"acceleratorType,omitempty" tf:"accelerator_type,omitempty"`
 }
 
+type SecondaryWorkerConfigDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type SecondaryWorkerConfigDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type SecondaryWorkerConfigDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type SecondaryWorkerConfigDiskConfigInitParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []SecondaryWorkerConfigDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
 
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type SecondaryWorkerConfigDiskConfigObservation struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []SecondaryWorkerConfigDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
 }
 
 type SecondaryWorkerConfigDiskConfigParameters struct {
 
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []SecondaryWorkerConfigDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
 	// Size in GB of the boot disk (default is 500GB).
 	// +kubebuilder:validation:Optional
 	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
 
-	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive) or "pd-standard" (Persistent Disk Hard Disk Drive).
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
 	// +kubebuilder:validation:Optional
 	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
 
-	// Number of attached SSDs, from 0 to 4 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
 	// +kubebuilder:validation:Optional
 	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInitParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Strategy for provisioning model mix for secondary worker instances. Supported only for secondary_worker_config. Structure is documented below.
+	ProvisioningModelMix *InstanceFlexibilityPolicyProvisioningModelMixInitParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	AttachedDiskConfig []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters struct {
+
+	// Optional. Attached disk configuration. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AttachedDiskConfig []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters `json:"attachedDiskConfig,omitempty" tf:"attached_disk_config,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle. Values must be greater than or equal to 3000. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedIops *float64 `json:"bootDiskProvisionedIops,omitempty" tf:"boot_disk_provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle. Values must be greater than or equal to 140. Supported only if boot_disk_type is hyperdisk-balanced.
+	// +kubebuilder:validation:Optional
+	BootDiskProvisionedThroughput *float64 `json:"bootDiskProvisionedThroughput,omitempty" tf:"boot_disk_provisioned_throughput,omitempty"`
+
+	// Size in GB of the boot disk (default is 500GB).
+	// +kubebuilder:validation:Optional
+	BootDiskSizeGb *float64 `json:"bootDiskSizeGb,omitempty" tf:"boot_disk_size_gb,omitempty"`
+
+	// Type of the boot disk (default is "pd-standard"). Valid values: "pd-ssd" (Persistent Disk Solid State Drive), "pd-standard" (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".
+	// +kubebuilder:validation:Optional
+	BootDiskType *string `json:"bootDiskType,omitempty" tf:"boot_disk_type,omitempty"`
+
+	// Interface type of local SSDs (default is "scsi"). Valid values: "scsi" (Small Computer System Interface), "nvme" (Non-Volatile Memory Express).
+	// +kubebuilder:validation:Optional
+	LocalSsdInterface *string `json:"localSsdInterface,omitempty" tf:"local_ssd_interface,omitempty"`
+
+	// Number of attached SSDs, from 0 to 8 (default is 0). If SSDs are not attached, the boot disk is used to store runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html) data. If one or more SSDs are attached, this runtime bulk data is spread across them, and the boot disk contains only basic config and installed binaries.
+	// +kubebuilder:validation:Optional
+	NumLocalSsds *float64 `json:"numLocalSsds,omitempty" tf:"num_local_ssds,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListInitParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigInitParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation struct {
+
+	// Disk option config settings. Structure is documented below.
+	DiskConfig *SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigObservation `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters struct {
+
+	// Disk option config settings. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DiskConfig *SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigParameters `json:"diskConfig,omitempty" tf:"disk_config,omitempty"`
+
+	// Full machine-type names, e.g. n1-standard-16.
+	// +kubebuilder:validation:Optional
+	MachineTypes []*string `json:"machineTypes,omitempty" tf:"machine_types,omitempty"`
+
+	// Preference of this instance selection. Lower number means higher preference. Dataproc will first try to create a VM based on the machine-type with priority rank and fallback to next rank based on availability. Machine types and instance selections with the same priority have the same preference.
+	// +kubebuilder:validation:Optional
+	Rank *float64 `json:"rank,omitempty" tf:"rank,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsInitParameters struct {
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation struct {
+
+	// The Compute Engine machine type used for cluster instances.
+	MachineType *string `json:"machineType,omitempty" tf:"machine_type,omitempty"`
+
+	// Output only. Number of VM provisioned with the corresponding machine_type.
+	VMCount *float64 `json:"vmCount,omitempty" tf:"vm_count,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsParameters struct {
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyObservation struct {
+
+	// Output only. A map of instance names to their machine types.
+	// +mapType=granular
+	InstanceMachineTypes map[string]*string `json:"instanceMachineTypes,omitempty" tf:"instance_machine_types,omitempty"`
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	InstanceSelectionList []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListObservation `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Output only. A list of instance selection results that were successfully allocated. Structure is documented below.
+	InstanceSelectionResults []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionResultsObservation `json:"instanceSelectionResults,omitempty" tf:"instance_selection_results,omitempty"`
+
+	// Strategy for provisioning model mix for secondary worker instances. Supported only for secondary_worker_config. Structure is documented below.
+	ProvisioningModelMix *InstanceFlexibilityPolicyProvisioningModelMixObservation `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
+}
+
+type SecondaryWorkerConfigInstanceFlexibilityPolicyParameters struct {
+
+	// List of instance selection options that the group will use when creating new VMs. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InstanceSelectionList []SecondaryWorkerConfigInstanceFlexibilityPolicyInstanceSelectionListParameters `json:"instanceSelectionList,omitempty" tf:"instance_selection_list,omitempty"`
+
+	// Strategy for provisioning model mix for secondary worker instances. Supported only for secondary_worker_config. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ProvisioningModelMix *InstanceFlexibilityPolicyProvisioningModelMixParameters `json:"provisioningModelMix,omitempty" tf:"provisioning_model_mix,omitempty"`
 }
 
 type SecondaryWorkerConfigManagedGroupConfigInitParameters struct {
@@ -2480,6 +3391,55 @@ type ValuesParameters struct {
 	Values []*string `json:"values" tf:"values,omitempty"`
 }
 
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigInitParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigObservation struct {
+
+	// Size of the attached disk, specified in GB.
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
+type WorkerConfigInstanceFlexibilityPolicyInstanceSelectionListDiskConfigAttachedDiskConfigParameters struct {
+
+	// Size of the attached disk, specified in GB.
+	// +kubebuilder:validation:Optional
+	DiskSizeGb *float64 `json:"diskSizeGb,omitempty" tf:"disk_size_gb,omitempty"`
+
+	// The disk type of the attached disk. Currently only supports Hyperdisks: hyperdisk-balanced, hyperdisk-extreme, hyperdisk-ml, hyperdisk-throughput.
+	// +kubebuilder:validation:Optional
+	DiskType *string `json:"diskType,omitempty" tf:"disk_type,omitempty"`
+
+	// Indicates how many IOPS to provision for the disk. This sets the number of I/O operations per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedIops *float64 `json:"provisionedIops,omitempty" tf:"provisioned_iops,omitempty"`
+
+	// Indicates how much throughput to provision for the disk. This sets the number of throughput mb per second that the disk can handle.
+	// +kubebuilder:validation:Optional
+	ProvisionedThroughput *float64 `json:"provisionedThroughput,omitempty" tf:"provisioned_throughput,omitempty"`
+}
+
 type WorkerConfigManagedGroupConfigInitParameters struct {
 }
 
@@ -2532,7 +3492,7 @@ type WorkflowTemplateInitParameters struct {
 	// Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
 	Parameters []ParametersInitParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information. Structure is documented below.
 	Placement *WorkflowTemplatePlacementInitParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 
 	// The project for the resource
@@ -2576,7 +3536,7 @@ type WorkflowTemplateObservation struct {
 	// Template parameters whose values are substituted into the template. Values for parameters must be provided when the template is instantiated.
 	Parameters []ParametersObservation `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information. Structure is documented below.
 	Placement *WorkflowTemplatePlacementObservation `json:"placement,omitempty" tf:"placement,omitempty"`
 
 	// The project for the resource
@@ -2619,7 +3579,7 @@ type WorkflowTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	Parameters []ParametersParameters `json:"parameters,omitempty" tf:"parameters,omitempty"`
 
-	// WorkflowTemplate scheduling information.
+	// WorkflowTemplate scheduling information. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Placement *WorkflowTemplatePlacementParameters `json:"placement,omitempty" tf:"placement,omitempty"`
 
@@ -2634,29 +3594,29 @@ type WorkflowTemplateParameters struct {
 
 type WorkflowTemplatePlacementInitParameters struct {
 
-	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted.
+	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted. Structure is documented below.
 	ClusterSelector *ClusterSelectorInitParameters `json:"clusterSelector,omitempty" tf:"cluster_selector,omitempty"`
 
-	// A cluster that is managed by the workflow.
+	// A cluster that is managed by the workflow. Structure is documented below.
 	ManagedCluster *ManagedClusterInitParameters `json:"managedCluster,omitempty" tf:"managed_cluster,omitempty"`
 }
 
 type WorkflowTemplatePlacementObservation struct {
 
-	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted.
+	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted. Structure is documented below.
 	ClusterSelector *ClusterSelectorObservation `json:"clusterSelector,omitempty" tf:"cluster_selector,omitempty"`
 
-	// A cluster that is managed by the workflow.
+	// A cluster that is managed by the workflow. Structure is documented below.
 	ManagedCluster *ManagedClusterObservation `json:"managedCluster,omitempty" tf:"managed_cluster,omitempty"`
 }
 
 type WorkflowTemplatePlacementParameters struct {
 
-	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted.
+	// A selector that chooses target cluster for jobs based on metadata. The selector is evaluated at the time each job is submitted. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ClusterSelector *ClusterSelectorParameters `json:"clusterSelector,omitempty" tf:"cluster_selector,omitempty"`
 
-	// A cluster that is managed by the workflow.
+	// A cluster that is managed by the workflow. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	ManagedCluster *ManagedClusterParameters `json:"managedCluster,omitempty" tf:"managed_cluster,omitempty"`
 }

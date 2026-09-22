@@ -42,9 +42,6 @@ import (
 	standardappversion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/appengine/standardappversion"
 	registryrepository "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/artifact/registryrepository"
 	registryrepositoryiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/artifact/registryrepositoryiammember"
-	appconnection "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appconnection"
-	appconnector "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appconnector"
-	appgateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/beyondcorp/appgateway"
 	analyticshubdataexchange "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshubdataexchange"
 	analyticshubdataexchangeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshubdataexchangeiammember"
 	analyticshublisting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/bigquery/analyticshublisting"
@@ -323,7 +320,6 @@ import (
 	instancememcache "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memcache/instance"
 	instancememorystore "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instance"
 	instancedesiredusercreatedendpoints "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/memorystore/instancedesiredusercreatedendpoints"
-	model "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/mlengine/model"
 	floorsetting "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/modelarmor/floorsetting"
 	template "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/modelarmor/template"
 	alertpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/monitoring/alertpolicy"
@@ -350,12 +346,9 @@ import (
 	servertlspolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/servertlspolicy"
 	tlsinspectionpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/tlsinspectionpolicy"
 	urllists "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networksecurity/urllists"
+	agentconnectivitytemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkservices/agentconnectivitytemplate"
+	agentgateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkservices/agentgateway"
 	gateway "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/networkservices/gateway"
-	environmentnotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/environment"
-	instancenotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/instance"
-	instanceiammembernotebooks "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/instanceiammember"
-	runtime "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtime"
-	runtimeiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/notebooks/runtimeiammember"
 	policyorgpolicy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/orgpolicy/policy"
 	ospolicyassignment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/ospolicyassignment"
 	patchdeployment "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/osconfig/patchdeployment"
@@ -463,9 +456,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.Setup,
 		registryrepository.Setup,
 		registryrepositoryiammember.Setup,
-		appconnection.Setup,
-		appconnector.Setup,
-		appgateway.Setup,
 		analyticshubdataexchange.Setup,
 		analyticshubdataexchangeiammember.Setup,
 		analyticshublisting.Setup,
@@ -744,7 +734,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememcache.Setup,
 		instancememorystore.Setup,
 		instancedesiredusercreatedendpoints.Setup,
-		model.Setup,
 		floorsetting.Setup,
 		template.Setup,
 		alertpolicy.Setup,
@@ -771,12 +760,9 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servertlspolicy.Setup,
 		tlsinspectionpolicy.Setup,
 		urllists.Setup,
+		agentconnectivitytemplate.Setup,
+		agentgateway.Setup,
 		gateway.Setup,
-		environmentnotebooks.Setup,
-		instancenotebooks.Setup,
-		instanceiammembernotebooks.Setup,
-		runtime.Setup,
-		runtimeiammember.Setup,
 		policyorgpolicy.Setup,
 		ospolicyassignment.Setup,
 		patchdeployment.Setup,
@@ -890,9 +876,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		standardappversion.SetupGated,
 		registryrepository.SetupGated,
 		registryrepositoryiammember.SetupGated,
-		appconnection.SetupGated,
-		appconnector.SetupGated,
-		appgateway.SetupGated,
 		analyticshubdataexchange.SetupGated,
 		analyticshubdataexchangeiammember.SetupGated,
 		analyticshublisting.SetupGated,
@@ -1171,7 +1154,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		instancememcache.SetupGated,
 		instancememorystore.SetupGated,
 		instancedesiredusercreatedendpoints.SetupGated,
-		model.SetupGated,
 		floorsetting.SetupGated,
 		template.SetupGated,
 		alertpolicy.SetupGated,
@@ -1198,12 +1180,9 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		servertlspolicy.SetupGated,
 		tlsinspectionpolicy.SetupGated,
 		urllists.SetupGated,
+		agentconnectivitytemplate.SetupGated,
+		agentgateway.SetupGated,
 		gateway.SetupGated,
-		environmentnotebooks.SetupGated,
-		instancenotebooks.SetupGated,
-		instanceiammembernotebooks.SetupGated,
-		runtime.SetupGated,
-		runtimeiammember.SetupGated,
 		policyorgpolicy.SetupGated,
 		ospolicyassignment.SetupGated,
 		patchdeployment.SetupGated,
@@ -1316,9 +1295,6 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		standardappversion.SetupWebhookWithManager,
 		registryrepository.SetupWebhookWithManager,
 		registryrepositoryiammember.SetupWebhookWithManager,
-		appconnection.SetupWebhookWithManager,
-		appconnector.SetupWebhookWithManager,
-		appgateway.SetupWebhookWithManager,
 		analyticshubdataexchange.SetupWebhookWithManager,
 		analyticshubdataexchangeiammember.SetupWebhookWithManager,
 		analyticshublisting.SetupWebhookWithManager,
@@ -1597,7 +1573,6 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		instancememcache.SetupWebhookWithManager,
 		instancememorystore.SetupWebhookWithManager,
 		instancedesiredusercreatedendpoints.SetupWebhookWithManager,
-		model.SetupWebhookWithManager,
 		floorsetting.SetupWebhookWithManager,
 		template.SetupWebhookWithManager,
 		alertpolicy.SetupWebhookWithManager,
@@ -1624,12 +1599,9 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		servertlspolicy.SetupWebhookWithManager,
 		tlsinspectionpolicy.SetupWebhookWithManager,
 		urllists.SetupWebhookWithManager,
+		agentconnectivitytemplate.SetupWebhookWithManager,
+		agentgateway.SetupWebhookWithManager,
 		gateway.SetupWebhookWithManager,
-		environmentnotebooks.SetupWebhookWithManager,
-		instancenotebooks.SetupWebhookWithManager,
-		instanceiammembernotebooks.SetupWebhookWithManager,
-		runtime.SetupWebhookWithManager,
-		runtimeiammember.SetupWebhookWithManager,
 		policyorgpolicy.SetupWebhookWithManager,
 		ospolicyassignment.SetupWebhookWithManager,
 		patchdeployment.SetupWebhookWithManager,

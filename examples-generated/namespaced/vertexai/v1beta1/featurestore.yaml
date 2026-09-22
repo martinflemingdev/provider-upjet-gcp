@@ -18,7 +18,7 @@ spec:
     forceDestroy: true
     labels:
       foo: bar
-    name: terraform
+    name: terraform_featurestore
     onlineServingConfig:
       fixedNodeCount: 2
     region: us-central1

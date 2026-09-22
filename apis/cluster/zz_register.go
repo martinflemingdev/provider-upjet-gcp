@@ -20,8 +20,6 @@ import (
 	v1beta1appengine "github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta1"
 	v1beta2appengine "github.com/upbound/provider-gcp/v3/apis/cluster/appengine/v1beta2"
 	v1beta2artifact "github.com/upbound/provider-gcp/v3/apis/cluster/artifact/v1beta2"
-	v1beta1beyondcorp "github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta1"
-	v1beta2beyondcorp "github.com/upbound/provider-gcp/v3/apis/cluster/beyondcorp/v1beta2"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta1"
 	v1beta2bigquery "github.com/upbound/provider-gcp/v3/apis/cluster/bigquery/v1beta2"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v3/apis/cluster/bigtable/v1beta1"
@@ -91,7 +89,6 @@ import (
 	v1beta2logging "github.com/upbound/provider-gcp/v3/apis/cluster/logging/v1beta2"
 	v1beta2memcache "github.com/upbound/provider-gcp/v3/apis/cluster/memcache/v1beta2"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v3/apis/cluster/memorystore/v1beta1"
-	v1beta2mlengine "github.com/upbound/provider-gcp/v3/apis/cluster/mlengine/v1beta2"
 	v1beta1modelarmor "github.com/upbound/provider-gcp/v3/apis/cluster/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v3/apis/cluster/monitoring/v1beta1"
 	v1beta2monitoring "github.com/upbound/provider-gcp/v3/apis/cluster/monitoring/v1beta2"
@@ -100,7 +97,6 @@ import (
 	v1beta2networkmanagement "github.com/upbound/provider-gcp/v3/apis/cluster/networkmanagement/v1beta2"
 	v1beta1networksecurity "github.com/upbound/provider-gcp/v3/apis/cluster/networksecurity/v1beta1"
 	v1beta1networkservices "github.com/upbound/provider-gcp/v3/apis/cluster/networkservices/v1beta1"
-	v1beta2notebooks "github.com/upbound/provider-gcp/v3/apis/cluster/notebooks/v1beta2"
 	v1beta1orgpolicy "github.com/upbound/provider-gcp/v3/apis/cluster/orgpolicy/v1beta1"
 	v1beta2osconfig "github.com/upbound/provider-gcp/v3/apis/cluster/osconfig/v1beta2"
 	v1beta1oslogin "github.com/upbound/provider-gcp/v3/apis/cluster/oslogin/v1beta1"
@@ -145,8 +141,6 @@ func init() {
 		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta2appengine.SchemeBuilder.AddToScheme,
 		v1beta2artifact.SchemeBuilder.AddToScheme,
-		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
-		v1beta2beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta2bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
@@ -216,7 +210,6 @@ func init() {
 		v1beta2logging.SchemeBuilder.AddToScheme,
 		v1beta2memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
-		v1beta2mlengine.SchemeBuilder.AddToScheme,
 		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta2monitoring.SchemeBuilder.AddToScheme,
@@ -225,7 +218,6 @@ func init() {
 		v1beta2networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta1networksecurity.SchemeBuilder.AddToScheme,
 		v1beta1networkservices.SchemeBuilder.AddToScheme,
-		v1beta2notebooks.SchemeBuilder.AddToScheme,
 		v1beta1orgpolicy.SchemeBuilder.AddToScheme,
 		v1beta2osconfig.SchemeBuilder.AddToScheme,
 		v1beta1oslogin.SchemeBuilder.AddToScheme,

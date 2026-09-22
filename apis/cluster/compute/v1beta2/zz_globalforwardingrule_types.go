@@ -141,7 +141,7 @@ type GlobalForwardingRuleInitParameters struct {
 	// Specifies the forwarding rule type.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -335,7 +335,7 @@ type GlobalForwardingRuleObservation struct {
 	// Specifies the forwarding rule type.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -499,7 +499,7 @@ type GlobalForwardingRuleParameters struct {
 	// Specifies the forwarding rule type.
 	// For more information about forwarding rules, refer to
 	// Forwarding rule concepts.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, EXTERNAL_MANAGED, INTERNAL_MANAGED, INTERNAL_SELF_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`

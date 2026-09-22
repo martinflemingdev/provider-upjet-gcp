@@ -50,6 +50,7 @@ spec:
   forProvider:
     healthChecksRefs:
     - name: default
+    loadBalancingScheme: EXTERNAL
     protocol: SSL
 
 ---

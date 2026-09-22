@@ -15,7 +15,13 @@ import (
 
 type ConnectionInitParameters struct {
 
-	// Defaults to "DELETE".
+	// Defaults to "DELETE". The VPC
+	// peering created by the connection is left in place, which will block deletion
+	// of the network.
+	// When set to "REMOVE_PEERING", the connection is deleted, and if the API
+	// refuses because service producer resources still use it, the VPC peering is
+	// removed from the network so that the network can be deleted. See
+	// Deleting a connection below.
 	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -57,7 +63,13 @@ type ConnectionInitParameters struct {
 
 type ConnectionObservation struct {
 
-	// Defaults to "DELETE".
+	// Defaults to "DELETE". The VPC
+	// peering created by the connection is left in place, which will block deletion
+	// of the network.
+	// When set to "REMOVE_PEERING", the connection is deleted, and if the API
+	// refuses because service producer resources still use it, the VPC peering is
+	// removed from the network so that the network can be deleted. See
+	// Deleting a connection below.
 	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
@@ -85,7 +97,13 @@ type ConnectionObservation struct {
 
 type ConnectionParameters struct {
 
-	// Defaults to "DELETE".
+	// Defaults to "DELETE". The VPC
+	// peering created by the connection is left in place, which will block deletion
+	// of the network.
+	// When set to "REMOVE_PEERING", the connection is deleted, and if the API
+	// refuses because service producer resources still use it, the VPC peering is
+	// removed from the network so that the network can be deleted. See
+	// Deleting a connection below.
 	// When set to "DELETE" or any other value, deleting the resource is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`

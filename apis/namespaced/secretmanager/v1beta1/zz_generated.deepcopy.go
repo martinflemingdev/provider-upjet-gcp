@@ -839,6 +839,11 @@ func (in *SecretInitParameters) DeepCopyInto(out *SecretInitParameters) {
 		*out = new(RotationInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SecretType != nil {
+		in, out := &in.SecretType, &out.SecretType
+		*out = new(string)
+		**out = **in
+	}
 	if in.TTL != nil {
 		in, out := &in.TTL, &out.TTL
 		*out = new(string)
@@ -1044,6 +1049,11 @@ func (in *SecretObservation) DeepCopyInto(out *SecretObservation) {
 		*out = new(RotationObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.SecretType != nil {
+		in, out := &in.SecretType, &out.SecretType
+		*out = new(string)
+		**out = **in
+	}
 	if in.TTL != nil {
 		in, out := &in.TTL, &out.TTL
 		*out = new(string)
@@ -1180,6 +1190,11 @@ func (in *SecretParameters) DeepCopyInto(out *SecretParameters) {
 		in, out := &in.Rotation, &out.Rotation
 		*out = new(RotationParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.SecretType != nil {
+		in, out := &in.SecretType, &out.SecretType
+		*out = new(string)
+		**out = **in
 	}
 	if in.TTL != nil {
 		in, out := &in.TTL, &out.TTL

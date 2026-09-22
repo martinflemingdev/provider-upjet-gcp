@@ -689,12 +689,13 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information. Structure
+                      is documented below.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
                           based on metadata. The selector is evaluated at the time
-                          each job is submitted.
+                          each job is submitted. Structure is documented below.
                         properties:
                           clusterLabels:
                             additionalProperties:
@@ -715,7 +716,8 @@ spec:
                             type: string
                         type: object
                       managedCluster:
-                        description: A cluster that is managed by the workflow.
+                        description: A cluster that is managed by the workflow. Structure
+                          is documented below.
                         properties:
                           clusterName:
                             description: Required. The cluster name prefix. A unique
@@ -726,7 +728,8 @@ spec:
                               2 and 35 characters.
                             type: string
                           config:
-                            description: Required. The cluster configuration.
+                            description: Required. The cluster configuration. Structure
+                              is documented below.
                             properties:
                               autoscalingConfig:
                                 description: Autoscaling config for the policy associated
@@ -944,11 +947,13 @@ spec:
                                 type: object
                               masterConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -966,8 +971,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -975,12 +1026,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -990,46 +1047,155 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               secondaryWorkerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -1047,8 +1213,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -1056,12 +1268,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -1071,37 +1289,161 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      provisioningModelMix:
+                                        description: Strategy for provisioning model
+                                          mix for secondary worker instances. Supported
+                                          only for secondary_worker_config. Structure
+                                          is documented below.
+                                        properties:
+                                          standardCapacityBase:
+                                            description: The base capacity that will
+                                              always use Standard VMs to avoid risk
+                                              of premature allocation.
+                                            type: number
+                                          standardCapacityPercentAboveBase:
+                                            description: The percentage of target
+                                              capacity that will use Standard VMs
+                                              above standardCapacityBase.
+                                            type: number
+                                        type: object
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               securityConfig:
@@ -1251,11 +1593,13 @@ spec:
                                 type: string
                               workerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -1273,8 +1617,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -1282,12 +1672,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -1297,37 +1693,144 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                             type: object
@@ -1986,12 +2489,13 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information. Structure
+                      is documented below.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
                           based on metadata. The selector is evaluated at the time
-                          each job is submitted.
+                          each job is submitted. Structure is documented below.
                         properties:
                           clusterLabels:
                             additionalProperties:
@@ -2012,7 +2516,8 @@ spec:
                             type: string
                         type: object
                       managedCluster:
-                        description: A cluster that is managed by the workflow.
+                        description: A cluster that is managed by the workflow. Structure
+                          is documented below.
                         properties:
                           clusterName:
                             description: Required. The cluster name prefix. A unique
@@ -2023,7 +2528,8 @@ spec:
                               2 and 35 characters.
                             type: string
                           config:
-                            description: Required. The cluster configuration.
+                            description: Required. The cluster configuration. Structure
+                              is documented below.
                             properties:
                               autoscalingConfig:
                                 description: Autoscaling config for the policy associated
@@ -2241,11 +2747,13 @@ spec:
                                 type: object
                               masterConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -2263,8 +2771,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -2272,12 +2826,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -2287,46 +2847,155 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               secondaryWorkerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -2344,8 +3013,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -2353,12 +3068,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -2368,37 +3089,161 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      provisioningModelMix:
+                                        description: Strategy for provisioning model
+                                          mix for secondary worker instances. Supported
+                                          only for secondary_worker_config. Structure
+                                          is documented below.
+                                        properties:
+                                          standardCapacityBase:
+                                            description: The base capacity that will
+                                              always use Standard VMs to avoid risk
+                                              of premature allocation.
+                                            type: number
+                                          standardCapacityPercentAboveBase:
+                                            description: The percentage of target
+                                              capacity that will use Standard VMs
+                                              above standardCapacityBase.
+                                            type: number
+                                        type: object
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               securityConfig:
@@ -2548,11 +3393,13 @@ spec:
                                 type: string
                               workerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -2570,8 +3417,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -2579,12 +3472,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -2594,37 +3493,144 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                             type: object
@@ -3387,12 +4393,13 @@ spec:
                       type: object
                     type: array
                   placement:
-                    description: WorkflowTemplate scheduling information.
+                    description: WorkflowTemplate scheduling information. Structure
+                      is documented below.
                     properties:
                       clusterSelector:
                         description: A selector that chooses target cluster for jobs
                           based on metadata. The selector is evaluated at the time
-                          each job is submitted.
+                          each job is submitted. Structure is documented below.
                         properties:
                           clusterLabels:
                             additionalProperties:
@@ -3413,7 +4420,8 @@ spec:
                             type: string
                         type: object
                       managedCluster:
-                        description: A cluster that is managed by the workflow.
+                        description: A cluster that is managed by the workflow. Structure
+                          is documented below.
                         properties:
                           clusterName:
                             description: Required. The cluster name prefix. A unique
@@ -3424,7 +4432,8 @@ spec:
                               2 and 35 characters.
                             type: string
                           config:
-                            description: Required. The cluster configuration.
+                            description: Required. The cluster configuration. Structure
+                              is documented below.
                             properties:
                               autoscalingConfig:
                                 description: Autoscaling config for the policy associated
@@ -3657,11 +4666,13 @@ spec:
                                 type: object
                               masterConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -3679,8 +4690,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -3688,12 +4745,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -3703,18 +4766,156 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceMachineTypes:
+                                        additionalProperties:
+                                          type: string
+                                        description: Output only. A map of instance
+                                          names to their machine types.
+                                        type: object
+                                        x-kubernetes-map-type: granular
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      instanceSelectionResults:
+                                        description: Output only. A list of instance
+                                          selection results that were successfully
+                                          allocated. Structure is documented below.
+                                        items:
+                                          properties:
+                                            machineType:
+                                              description: The Compute Engine machine
+                                                type used for cluster instances.
+                                              type: string
+                                            vmCount:
+                                              description: Output only. Number of
+                                                VM provisioned with the corresponding
+                                                machine_type.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   instanceNames:
                                     description: Output only. The list of instance
-                                      names. Dataproc derives the names from cluster_name,
-                                      num_instances, and the instance group.
+                                      names.
                                     items:
                                       type: string
                                     type: array
@@ -3723,17 +4924,13 @@ spec:
                                       instance group contains preemptible instances.
                                     type: boolean
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   managedGroupConfig:
                                     description: Output only. The config for Compute
                                       Engine Instance Group Manager that manages this
-                                      group. This is only used for preemptible instance
-                                      groups.
+                                      group.
                                     items:
                                       properties:
                                         instanceGroupManagerName:
@@ -3759,30 +4956,27 @@ spec:
                                       type: object
                                     type: array
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               secondaryWorkerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -3800,8 +4994,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -3809,12 +5049,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -3824,18 +5070,173 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceMachineTypes:
+                                        additionalProperties:
+                                          type: string
+                                        description: Output only. A map of instance
+                                          names to their machine types.
+                                        type: object
+                                        x-kubernetes-map-type: granular
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      instanceSelectionResults:
+                                        description: Output only. A list of instance
+                                          selection results that were successfully
+                                          allocated. Structure is documented below.
+                                        items:
+                                          properties:
+                                            machineType:
+                                              description: The Compute Engine machine
+                                                type used for cluster instances.
+                                              type: string
+                                            vmCount:
+                                              description: Output only. Number of
+                                                VM provisioned with the corresponding
+                                                machine_type.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      provisioningModelMix:
+                                        description: Strategy for provisioning model
+                                          mix for secondary worker instances. Supported
+                                          only for secondary_worker_config. Structure
+                                          is documented below.
+                                        properties:
+                                          standardCapacityBase:
+                                            description: The base capacity that will
+                                              always use Standard VMs to avoid risk
+                                              of premature allocation.
+                                            type: number
+                                          standardCapacityPercentAboveBase:
+                                            description: The percentage of target
+                                              capacity that will use Standard VMs
+                                              above standardCapacityBase.
+                                            type: number
+                                        type: object
+                                    type: object
                                   instanceNames:
                                     description: Output only. The list of instance
-                                      names. Dataproc derives the names from cluster_name,
-                                      num_instances, and the instance group.
+                                      names.
                                     items:
                                       type: string
                                     type: array
@@ -3844,17 +5245,13 @@ spec:
                                       instance group contains preemptible instances.
                                     type: boolean
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   managedGroupConfig:
                                     description: Output only. The config for Compute
                                       Engine Instance Group Manager that manages this
-                                      group. This is only used for preemptible instance
-                                      groups.
+                                      group.
                                     items:
                                       properties:
                                         instanceGroupManagerName:
@@ -3880,21 +5277,16 @@ spec:
                                       type: object
                                     type: array
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                               securityConfig:
@@ -4044,11 +5436,13 @@ spec:
                                 type: string
                               workerConfig:
                                 description: The Compute Engine config settings for
-                                  additional worker instances in a cluster.
+                                  additional worker instances in a cluster. Structure
+                                  is documented below.
                                 properties:
                                   accelerators:
                                     description: The Compute Engine accelerator configuration
-                                      for these instances.
+                                      for these instances. Structure is documented
+                                      below.
                                     items:
                                       properties:
                                         acceleratorCount:
@@ -4066,8 +5460,54 @@ spec:
                                       type: object
                                     type: array
                                   diskConfig:
-                                    description: Disk option config settings.
+                                    description: Disk option config settings. Structure
+                                      is documented below.
                                     properties:
+                                      attachedDiskConfig:
+                                        description: Optional. Attached disk configuration.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskSizeGb:
+                                              description: Size of the attached disk,
+                                                specified in GB.
+                                              type: number
+                                            diskType:
+                                              description: 'The disk type of the attached
+                                                disk. Currently only supports Hyperdisks:
+                                                hyperdisk-balanced, hyperdisk-extreme,
+                                                hyperdisk-ml, hyperdisk-throughput.'
+                                              type: string
+                                            provisionedIops:
+                                              description: Indicates how many IOPS
+                                                to provision for the disk. This sets
+                                                the number of I/O operations per second
+                                                that the disk can handle.
+                                              type: number
+                                            provisionedThroughput:
+                                              description: Indicates how much throughput
+                                                to provision for the disk. This sets
+                                                the number of throughput mb per second
+                                                that the disk can handle.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      bootDiskProvisionedIops:
+                                        description: Indicates how many IOPS to provision
+                                          for the disk. This sets the number of I/O
+                                          operations per second that the disk can
+                                          handle. Values must be greater than or equal
+                                          to 3000. Supported only if boot_disk_type
+                                          is hyperdisk-balanced.
+                                        type: number
+                                      bootDiskProvisionedThroughput:
+                                        description: Indicates how much throughput
+                                          to provision for the disk. This sets the
+                                          number of throughput mb per second that
+                                          the disk can handle. Values must be greater
+                                          than or equal to 140. Supported only if
+                                          boot_disk_type is hyperdisk-balanced.
+                                        type: number
                                       bootDiskSizeGb:
                                         description: Size in GB of the boot disk (default
                                           is 500GB).
@@ -4075,12 +5515,18 @@ spec:
                                       bootDiskType:
                                         description: 'Type of the boot disk (default
                                           is "pd-standard"). Valid values: "pd-ssd"
-                                          (Persistent Disk Solid State Drive) or "pd-standard"
-                                          (Persistent Disk Hard Disk Drive).'
+                                          (Persistent Disk Solid State Drive), "pd-standard"
+                                          (Persistent Disk Hard Disk Drive), or "hyperdisk-balanced".'
+                                        type: string
+                                      localSsdInterface:
+                                        description: 'Interface type of local SSDs
+                                          (default is "scsi"). Valid values: "scsi"
+                                          (Small Computer System Interface), "nvme"
+                                          (Non-Volatile Memory Express).'
                                         type: string
                                       numLocalSsds:
                                         description: Number of attached SSDs, from
-                                          0 to 4 (default is 0). If SSDs are not attached,
+                                          0 to 8 (default is 0). If SSDs are not attached,
                                           the boot disk is used to store runtime logs
                                           and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
                                           data. If one or more SSDs are attached,
@@ -4090,18 +5536,156 @@ spec:
                                         type: number
                                     type: object
                                   image:
-                                    description: 'The Compute Engine image resource
-                                      used for cluster instances. The URI can represent
-                                      an image or image family. Image examples: *
-                                      https://www.googleapis.com/compute/beta/projects/
-                                      If the URI is unspecified, it will be inferred
-                                      from SoftwareConfig.image_version or the system
-                                      default.'
+                                    description: The Compute Engine image resource
+                                      used for cluster instances.
                                     type: string
+                                  instanceFlexibilityPolicy:
+                                    description: Instance flexibility Policy allowing
+                                      a mixture of VM shapes. Structure is documented
+                                      below.
+                                    properties:
+                                      instanceMachineTypes:
+                                        additionalProperties:
+                                          type: string
+                                        description: Output only. A map of instance
+                                          names to their machine types.
+                                        type: object
+                                        x-kubernetes-map-type: granular
+                                      instanceSelectionList:
+                                        description: List of instance selection options
+                                          that the group will use when creating new
+                                          VMs. Structure is documented below.
+                                        items:
+                                          properties:
+                                            diskConfig:
+                                              description: Disk option config settings.
+                                                Structure is documented below.
+                                              properties:
+                                                attachedDiskConfig:
+                                                  description: Optional. Attached
+                                                    disk configuration. Structure
+                                                    is documented below.
+                                                  items:
+                                                    properties:
+                                                      diskSizeGb:
+                                                        description: Size of the attached
+                                                          disk, specified in GB.
+                                                        type: number
+                                                      diskType:
+                                                        description: 'The disk type
+                                                          of the attached disk. Currently
+                                                          only supports Hyperdisks:
+                                                          hyperdisk-balanced, hyperdisk-extreme,
+                                                          hyperdisk-ml, hyperdisk-throughput.'
+                                                        type: string
+                                                      provisionedIops:
+                                                        description: Indicates how
+                                                          many IOPS to provision for
+                                                          the disk. This sets the
+                                                          number of I/O operations
+                                                          per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                      provisionedThroughput:
+                                                        description: Indicates how
+                                                          much throughput to provision
+                                                          for the disk. This sets
+                                                          the number of throughput
+                                                          mb per second that the disk
+                                                          can handle.
+                                                        type: number
+                                                    type: object
+                                                  type: array
+                                                bootDiskProvisionedIops:
+                                                  description: Indicates how many
+                                                    IOPS to provision for the disk.
+                                                    This sets the number of I/O operations
+                                                    per second that the disk can handle.
+                                                    Values must be greater than or
+                                                    equal to 3000. Supported only
+                                                    if boot_disk_type is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskProvisionedThroughput:
+                                                  description: Indicates how much
+                                                    throughput to provision for the
+                                                    disk. This sets the number of
+                                                    throughput mb per second that
+                                                    the disk can handle. Values must
+                                                    be greater than or equal to 140.
+                                                    Supported only if boot_disk_type
+                                                    is hyperdisk-balanced.
+                                                  type: number
+                                                bootDiskSizeGb:
+                                                  description: Size in GB of the boot
+                                                    disk (default is 500GB).
+                                                  type: number
+                                                bootDiskType:
+                                                  description: 'Type of the boot disk
+                                                    (default is "pd-standard"). Valid
+                                                    values: "pd-ssd" (Persistent Disk
+                                                    Solid State Drive), "pd-standard"
+                                                    (Persistent Disk Hard Disk Drive),
+                                                    or "hyperdisk-balanced".'
+                                                  type: string
+                                                localSsdInterface:
+                                                  description: 'Interface type of
+                                                    local SSDs (default is "scsi").
+                                                    Valid values: "scsi" (Small Computer
+                                                    System Interface), "nvme" (Non-Volatile
+                                                    Memory Express).'
+                                                  type: string
+                                                numLocalSsds:
+                                                  description: Number of attached
+                                                    SSDs, from 0 to 8 (default is
+                                                    0). If SSDs are not attached,
+                                                    the boot disk is used to store
+                                                    runtime logs and (https://hadoop.apache.org/docs/r1.2.1/hdfs_user_guide.html)
+                                                    data. If one or more SSDs are
+                                                    attached, this runtime bulk data
+                                                    is spread across them, and the
+                                                    boot disk contains only basic
+                                                    config and installed binaries.
+                                                  type: number
+                                              type: object
+                                            machineTypes:
+                                              description: Full machine-type names,
+                                                e.g. n1-standard-16.
+                                              items:
+                                                type: string
+                                              type: array
+                                            rank:
+                                              description: Preference of this instance
+                                                selection. Lower number means higher
+                                                preference. Dataproc will first try
+                                                to create a VM based on the machine-type
+                                                with priority rank and fallback to
+                                                next rank based on availability. Machine
+                                                types and instance selections with
+                                                the same priority have the same preference.
+                                              type: number
+                                          type: object
+                                        type: array
+                                      instanceSelectionResults:
+                                        description: Output only. A list of instance
+                                          selection results that were successfully
+                                          allocated. Structure is documented below.
+                                        items:
+                                          properties:
+                                            machineType:
+                                              description: The Compute Engine machine
+                                                type used for cluster instances.
+                                              type: string
+                                            vmCount:
+                                              description: Output only. Number of
+                                                VM provisioned with the corresponding
+                                                machine_type.
+                                              type: number
+                                          type: object
+                                        type: array
+                                    type: object
                                   instanceNames:
                                     description: Output only. The list of instance
-                                      names. Dataproc derives the names from cluster_name,
-                                      num_instances, and the instance group.
+                                      names.
                                     items:
                                       type: string
                                     type: array
@@ -4110,17 +5694,13 @@ spec:
                                       instance group contains preemptible instances.
                                     type: boolean
                                   machineType:
-                                    description: 'The Compute Engine machine type
-                                      used for cluster instances. A full URL, partial
-                                      URI, or short name are valid. Examples: * https://www.googleapis.com/compute/v1/projects/(https://docs.cloud.google.com/dataproc/docs/concepts/configuring-clusters/auto-zone#using_auto_zone_placement)
-                                      feature, you must use the short name of the
-                                      machine type resource, for example, n1-standard-2`.'
+                                    description: The Compute Engine machine type used
+                                      for cluster instances.
                                     type: string
                                   managedGroupConfig:
                                     description: Output only. The config for Compute
                                       Engine Instance Group Manager that manages this
-                                      group. This is only used for preemptible instance
-                                      groups.
+                                      group.
                                     items:
                                       properties:
                                         instanceGroupManagerName:
@@ -4146,21 +5726,16 @@ spec:
                                       type: object
                                     type: array
                                   minCpuPlatform:
-                                    description: Specifies the minimum cpu platform
-                                      for the Instance Group. See Minimum CPU platform.
+                                    description: The minimum CPU platform and architecture
+                                      for the cluster.
                                     type: string
                                   numInstances:
-                                    description: The number of VM instances in the
-                                      instance group. For master instance groups,
-                                      must be set to 1.
+                                    description: The number of worker instances in
+                                      the cluster.
                                     type: number
                                   preemptibility:
-                                    description: 'Specifies the preemptibility of
-                                      the instance group. The default value for master
-                                      and worker groups is NON_PREEMPTIBLE. This default
-                                      cannot be changed. The default value for secondary
-                                      instances is PREEMPTIBLE. Possible values: PREEMPTIBILITY_UNSPECIFIED,
-                                      NON_PREEMPTIBLE, PREEMPTIBLE'
+                                    description: Specifies the preemptibility of the
+                                      secondary worker group.
                                     type: string
                                 type: object
                             type: object

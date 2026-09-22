@@ -79,6 +79,9 @@ spec:
                     description: Resource ID segment making up resource name. It identifies
                       the resource within its parent collection as described in https://google.aip.dev/122.
                     type: string
+                  mutationsEnabled:
+                    description: Whether resource mutations should be enabled.
+                    type: boolean
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -122,6 +125,9 @@ spec:
                       Please refer to the field effective_labels for all of the labels present on the resource.
                     type: object
                     x-kubernetes-map-type: granular
+                  mutationsEnabled:
+                    description: Whether resource mutations should be enabled.
+                    type: boolean
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -234,6 +240,9 @@ spec:
                     description: Resource ID segment making up resource name. It identifies
                       the resource within its parent collection as described in https://google.aip.dev/122.
                     type: string
+                  mutationsEnabled:
+                    description: Whether resource mutations should be enabled.
+                    type: boolean
                   name:
                     description: |-
                       Identifier. Name of the resource.

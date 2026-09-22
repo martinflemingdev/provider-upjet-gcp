@@ -16,4 +16,5 @@ spec:
     labels:
       my_key: my_value
     location: global
+    mutationsEnabled: true
     webGroundingType: WEB_GROUNDING_FOR_ENTERPRISE

@@ -48,6 +48,30 @@ func (mg *ReasoningEngine) ResolveReferences( // ResolveReferences of this Reaso
 
 	}
 	if mg.Spec.ForProvider.Spec != nil {
+		if mg.Spec.ForProvider.Spec.BuildSpec != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccount),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccountRef,
+					Selector:     mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccountSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccount")
+			}
+			mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.Spec.BuildSpec.ServiceAccountRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.Spec != nil {
 		if mg.Spec.ForProvider.Spec.DeploymentSpec != nil {
 			if mg.Spec.ForProvider.Spec.DeploymentSpec.PscInterfaceConfig != nil {
 				for i6 := 0; i6 < len(mg.Spec.ForProvider.Spec.DeploymentSpec.PscInterfaceConfig.DNSPeeringConfigs); i6++ {
@@ -146,6 +170,30 @@ func (mg *ReasoningEngine) ResolveReferences( // ResolveReferences of this Reaso
 		mg.Spec.InitProvider.EncryptionSpec.KMSKeyName = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.EncryptionSpec.KMSKeyNameRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.Spec != nil {
+		if mg.Spec.InitProvider.Spec.BuildSpec != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccount),
+					Extract:      resource.ExtractParamPath("email", true),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccountRef,
+					Selector:     mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccountSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccount")
+			}
+			mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccount = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.Spec.BuildSpec.ServiceAccountRef = rsp.ResolvedReference
+
+		}
 	}
 	if mg.Spec.InitProvider.Spec != nil {
 		if mg.Spec.InitProvider.Spec.DeploymentSpec != nil {

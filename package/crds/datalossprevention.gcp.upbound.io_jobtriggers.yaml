@@ -329,9 +329,6 @@ spec:
                                     to.
                                   type: string
                               type: object
-                            publishFindingsToCloudDataCatalog:
-                              description: Publish findings of a DlpJob to Data Catalog.
-                              type: object
                             publishFindingsToDataplexCatalog:
                               description: Publish findings of a DlpJob as an aspect
                                 to Dataplex Universal Catalog.
@@ -1534,9 +1531,6 @@ spec:
                                     to.
                                   type: string
                               type: object
-                            publishFindingsToCloudDataCatalog:
-                              description: Publish findings of a DlpJob to Data Catalog.
-                              type: object
                             publishFindingsToDataplexCatalog:
                               description: Publish findings of a DlpJob as an aspect
                                 to Dataplex Universal Catalog.
@@ -2683,9 +2677,6 @@ spec:
                                   description: Cloud Pub/Sub topic to send notifications
                                     to.
                                   type: string
-                              type: object
-                            publishFindingsToCloudDataCatalog:
-                              description: Publish findings of a DlpJob to Data Catalog.
                               type: object
                             publishFindingsToDataplexCatalog:
                               description: Publish findings of a DlpJob as an aspect

@@ -7,4 +7,10 @@
 package v1beta1
 
 // Hub marks this type as a conversion hub.
+func (tr *AgentConnectivityTemplate) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AgentGateway) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Gateway) Hub() {}

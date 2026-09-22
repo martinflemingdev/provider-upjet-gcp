@@ -16,7 +16,6 @@ import (
 	v1beta1apigee "github.com/upbound/provider-gcp/v3/apis/namespaced/apigee/v1beta1"
 	v1beta1appengine "github.com/upbound/provider-gcp/v3/apis/namespaced/appengine/v1beta1"
 	v1beta1artifact "github.com/upbound/provider-gcp/v3/apis/namespaced/artifact/v1beta1"
-	v1beta1beyondcorp "github.com/upbound/provider-gcp/v3/apis/namespaced/beyondcorp/v1beta1"
 	v1beta1bigquery "github.com/upbound/provider-gcp/v3/apis/namespaced/bigquery/v1beta1"
 	v1beta1bigtable "github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta1"
 	v1beta2 "github.com/upbound/provider-gcp/v3/apis/namespaced/bigtable/v1beta2"
@@ -66,14 +65,12 @@ import (
 	v1beta1logging "github.com/upbound/provider-gcp/v3/apis/namespaced/logging/v1beta1"
 	v1beta1memcache "github.com/upbound/provider-gcp/v3/apis/namespaced/memcache/v1beta1"
 	v1beta1memorystore "github.com/upbound/provider-gcp/v3/apis/namespaced/memorystore/v1beta1"
-	v1beta1mlengine "github.com/upbound/provider-gcp/v3/apis/namespaced/mlengine/v1beta1"
 	v1beta1modelarmor "github.com/upbound/provider-gcp/v3/apis/namespaced/modelarmor/v1beta1"
 	v1beta1monitoring "github.com/upbound/provider-gcp/v3/apis/namespaced/monitoring/v1beta1"
 	v1beta1networkconnectivity "github.com/upbound/provider-gcp/v3/apis/namespaced/networkconnectivity/v1beta1"
 	v1beta1networkmanagement "github.com/upbound/provider-gcp/v3/apis/namespaced/networkmanagement/v1beta1"
 	v1beta1networksecurity "github.com/upbound/provider-gcp/v3/apis/namespaced/networksecurity/v1beta1"
 	v1beta1networkservices "github.com/upbound/provider-gcp/v3/apis/namespaced/networkservices/v1beta1"
-	v1beta1notebooks "github.com/upbound/provider-gcp/v3/apis/namespaced/notebooks/v1beta1"
 	v1beta1orgpolicy "github.com/upbound/provider-gcp/v3/apis/namespaced/orgpolicy/v1beta1"
 	v1beta1osconfig "github.com/upbound/provider-gcp/v3/apis/namespaced/osconfig/v1beta1"
 	v1beta1oslogin "github.com/upbound/provider-gcp/v3/apis/namespaced/oslogin/v1beta1"
@@ -105,7 +102,6 @@ func init() {
 		v1beta1apigee.SchemeBuilder.AddToScheme,
 		v1beta1appengine.SchemeBuilder.AddToScheme,
 		v1beta1artifact.SchemeBuilder.AddToScheme,
-		v1beta1beyondcorp.SchemeBuilder.AddToScheme,
 		v1beta1bigquery.SchemeBuilder.AddToScheme,
 		v1beta1bigtable.SchemeBuilder.AddToScheme,
 		v1beta2.SchemeBuilder.AddToScheme,
@@ -155,14 +151,12 @@ func init() {
 		v1beta1logging.SchemeBuilder.AddToScheme,
 		v1beta1memcache.SchemeBuilder.AddToScheme,
 		v1beta1memorystore.SchemeBuilder.AddToScheme,
-		v1beta1mlengine.SchemeBuilder.AddToScheme,
 		v1beta1modelarmor.SchemeBuilder.AddToScheme,
 		v1beta1monitoring.SchemeBuilder.AddToScheme,
 		v1beta1networkconnectivity.SchemeBuilder.AddToScheme,
 		v1beta1networkmanagement.SchemeBuilder.AddToScheme,
 		v1beta1networksecurity.SchemeBuilder.AddToScheme,
 		v1beta1networkservices.SchemeBuilder.AddToScheme,
-		v1beta1notebooks.SchemeBuilder.AddToScheme,
 		v1beta1orgpolicy.SchemeBuilder.AddToScheme,
 		v1beta1osconfig.SchemeBuilder.AddToScheme,
 		v1beta1oslogin.SchemeBuilder.AddToScheme,

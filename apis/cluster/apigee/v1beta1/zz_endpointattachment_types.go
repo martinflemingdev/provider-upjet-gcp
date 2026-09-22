@@ -73,8 +73,18 @@ type EndpointAttachmentParameters struct {
 
 	// The Apigee Organization associated with the Apigee instance,
 	// in the format organizations/{{org_name}}.
-	// +kubebuilder:validation:Required
-	OrgID *string `json:"orgId" tf:"org_id,omitempty"`
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/cluster/apigee/v1beta2.Organization
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	OrgID *string `json:"orgId,omitempty" tf:"org_id,omitempty"`
+
+	// Reference to a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDRef *v2.Reference `json:"orgIdRef,omitempty" tf:"-"`
+
+	// Selector for a Organization in apigee to populate orgId.
+	// +kubebuilder:validation:Optional
+	OrgIDSelector *v2.Selector `json:"orgIdSelector,omitempty" tf:"-"`
 
 	// The resource URL of the service attachment in the format:
 	// projects/*/regions/*/serviceAttachments/*.

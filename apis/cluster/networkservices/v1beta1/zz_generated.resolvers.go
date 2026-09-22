@@ -12,12 +12,223 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
+	common "github.com/upbound/provider-gcp/v3/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v3/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-func (mg *Gateway) ResolveReferences( // ResolveReferences of this Gateway.
+func (mg *AgentConnectivityTemplate) ResolveReferences( // ResolveReferences of this AgentConnectivityTemplate.
 	ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.EgressNetworkConfig != nil {
+		if mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dns.gcp.upbound.io", "v1beta2", "ManagedZone", "ManagedZoneList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.Domain),
+					Extract:      resource.ExtractParamPath("dns_name", false),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.DomainRef,
+					Selector:     mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.DomainSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.Domain")
+			}
+			mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.Domain = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.DomainRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.EgressNetworkConfig != nil {
+		if mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkRef,
+					Selector:     mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork")
+			}
+			mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.EgressNetworkConfig != nil {
+		if mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("dns.gcp.upbound.io", "v1beta2", "ManagedZone", "ManagedZoneList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.Domain),
+					Extract:      resource.ExtractParamPath("dns_name", false),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.DomainRef,
+					Selector:     mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.DomainSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.Domain")
+			}
+			mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.Domain = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.DomainRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.InitProvider.EgressNetworkConfig != nil {
+		if mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkRef,
+					Selector:     mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork")
+			}
+			mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.EgressNetworkConfig.DNSPeeringConfig.TargetNetworkRef = rsp.ResolvedReference
+
+		}
+	}
+
+	return nil
+}
+
+// ResolveReferences of this AgentGateway.
+func (mg *AgentGateway) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPIResolver(c, mg)
+
+	var rsp reference.ResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("networkservices.gcp.upbound.io", "v1beta1", "AgentConnectivityTemplate", "AgentConnectivityTemplateList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.AgentConnectivityTemplate),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.AgentConnectivityTemplateRef,
+			Selector:     mg.Spec.ForProvider.AgentConnectivityTemplateSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.AgentConnectivityTemplate")
+	}
+	mg.Spec.ForProvider.AgentConnectivityTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.AgentConnectivityTemplateRef = rsp.ResolvedReference
+
+	if mg.Spec.ForProvider.NetworkConfig != nil {
+		if mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork),
+					Extract:      common.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkRef,
+					Selector:     mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork")
+			}
+			mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkRef = rsp.ResolvedReference
+
+		}
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("networkservices.gcp.upbound.io", "v1beta1", "AgentConnectivityTemplate", "AgentConnectivityTemplateList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.AgentConnectivityTemplate),
+			Extract:      common.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.AgentConnectivityTemplateRef,
+			Selector:     mg.Spec.InitProvider.AgentConnectivityTemplateSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.AgentConnectivityTemplate")
+	}
+	mg.Spec.InitProvider.AgentConnectivityTemplate = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.AgentConnectivityTemplateRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.NetworkConfig != nil {
+		if mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig != nil {
+			{
+				m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta1", "Network", "NetworkList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork),
+					Extract:      common.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkRef,
+					Selector:     mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork")
+			}
+			mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetwork = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.NetworkConfig.DNSPeeringConfig.TargetNetworkRef = rsp.ResolvedReference
+
+		}
+	}
+
+	return nil
+}
+
+// ResolveReferences of this Gateway.
+func (mg *Gateway) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
 	var l xpresource.ManagedList
 	r := reference.NewAPIResolver(c, mg)

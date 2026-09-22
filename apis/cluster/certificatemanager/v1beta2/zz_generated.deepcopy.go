@@ -669,6 +669,16 @@ func (in *SelfManagedInitParameters) DeepCopyInto(out *SelfManagedInitParameters
 		*out = new(v2.SecretKeySelector)
 		**out = **in
 	}
+	if in.PemPrivateKeyWo != nil {
+		in, out := &in.PemPrivateKeyWo, &out.PemPrivateKeyWo
+		*out = new(string)
+		**out = **in
+	}
+	if in.PemPrivateKeyWoVersion != nil {
+		in, out := &in.PemPrivateKeyWoVersion, &out.PemPrivateKeyWoVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrivateKeyPemSecretRef != nil {
 		in, out := &in.PrivateKeyPemSecretRef, &out.PrivateKeyPemSecretRef
 		*out = new(v2.SecretKeySelector)
@@ -691,6 +701,16 @@ func (in *SelfManagedObservation) DeepCopyInto(out *SelfManagedObservation) {
 	*out = *in
 	if in.PemCertificate != nil {
 		in, out := &in.PemCertificate, &out.PemCertificate
+		*out = new(string)
+		**out = **in
+	}
+	if in.PemPrivateKeyWo != nil {
+		in, out := &in.PemPrivateKeyWo, &out.PemPrivateKeyWo
+		*out = new(string)
+		**out = **in
+	}
+	if in.PemPrivateKeyWoVersion != nil {
+		in, out := &in.PemPrivateKeyWoVersion, &out.PemPrivateKeyWoVersion
 		*out = new(string)
 		**out = **in
 	}
@@ -722,6 +742,16 @@ func (in *SelfManagedParameters) DeepCopyInto(out *SelfManagedParameters) {
 	if in.PemPrivateKeySecretRef != nil {
 		in, out := &in.PemPrivateKeySecretRef, &out.PemPrivateKeySecretRef
 		*out = new(v2.SecretKeySelector)
+		**out = **in
+	}
+	if in.PemPrivateKeyWo != nil {
+		in, out := &in.PemPrivateKeyWo, &out.PemPrivateKeyWo
+		*out = new(string)
+		**out = **in
+	}
+	if in.PemPrivateKeyWoVersion != nil {
+		in, out := &in.PemPrivateKeyWoVersion, &out.PemPrivateKeyWoVersion
+		*out = new(string)
 		**out = **in
 	}
 	if in.PrivateKeyPemSecretRef != nil {

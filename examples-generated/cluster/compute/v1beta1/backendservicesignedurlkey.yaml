@@ -47,8 +47,8 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: HTTPHealthCheck
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta1/backendservicesignedurlkey
@@ -58,7 +58,9 @@ metadata:
 spec:
   forProvider:
     checkIntervalSec: 1
-    requestPath: /
+    httpHealthCheck:
+      port: 80
+      requestPath: /
     timeoutSec: 1
 
 ---
@@ -97,7 +99,7 @@ spec:
     disk:
     - autoDelete: true
       boot: true
-      sourceImage: debian-cloud/debian-11
+      sourceImage: debian-cloud/debian-13
     machineType: e2-medium
     name: standard-webserver
     networkInterface:

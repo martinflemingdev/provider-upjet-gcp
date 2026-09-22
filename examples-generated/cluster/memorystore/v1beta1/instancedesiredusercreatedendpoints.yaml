@@ -71,7 +71,7 @@ spec:
             matchLabels:
               testing.upbound.io/example-name: forwarding_rule2_network2
           serviceAttachment: ${google_memorystore_instance.instance-user-conn.psc_attachment_details[1].service_attachment}
-    region: us-central1
+    region: us-west1
 
 ---
 
@@ -87,7 +87,7 @@ spec:
   forProvider:
     addressType: INTERNAL
     purpose: GCE_ENDPOINT
-    region: us-central1
+    region: us-west1
     subnetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: subnet_network1
@@ -106,7 +106,7 @@ spec:
   forProvider:
     addressType: INTERNAL
     purpose: GCE_ENDPOINT
-    region: us-central1
+    region: us-west1
     subnetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: subnet_network2
@@ -125,7 +125,7 @@ spec:
   forProvider:
     addressType: INTERNAL
     purpose: GCE_ENDPOINT
-    region: us-central1
+    region: us-west1
     subnetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: subnet_network1
@@ -144,7 +144,7 @@ spec:
   forProvider:
     addressType: INTERNAL
     purpose: GCE_ENDPOINT
-    region: us-central1
+    region: us-west1
     subnetworkSelector:
       matchLabels:
         testing.upbound.io/example-name: subnet_network2
@@ -168,7 +168,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network1
-    region: us-central1
+    region: us-west1
     targetSelector:
       matchLabels:
         testing.upbound.io/example-name: instance-user-conn
@@ -192,7 +192,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network2
-    region: us-central1
+    region: us-west1
     targetSelector:
       matchLabels:
         testing.upbound.io/example-name: instance-user-conn
@@ -216,7 +216,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network1
-    region: us-central1
+    region: us-west1
     targetSelector:
       matchLabels:
         testing.upbound.io/example-name: instance-user-conn
@@ -240,7 +240,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network2
-    region: us-central1
+    region: us-west1
     targetSelector:
       matchLabels:
         testing.upbound.io/example-name: instance-user-conn
@@ -289,7 +289,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network1
-    region: us-central1
+    region: us-west1
 
 ---
 
@@ -307,7 +307,7 @@ spec:
     networkSelector:
       matchLabels:
         testing.upbound.io/example-name: network2
-    region: us-central1
+    region: us-west1
 
 ---
 
@@ -322,5 +322,5 @@ metadata:
 spec:
   forProvider:
     deletionProtectionEnabled: false
-    location: us-central1
+    location: us-west1
     shardCount: 1

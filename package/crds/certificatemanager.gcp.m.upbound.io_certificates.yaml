@@ -295,6 +295,9 @@ spec:
                       Certificate data for a SelfManaged Certificate.
                       SelfManaged Certificates are uploaded by the user. Updating such
                       certificates before they expire remains the user's responsibility.
+                      The certificate data can be updated in place; changes to pem_certificate
+                      and pem_private_key are applied via the API's PATCH method instead of
+                      forcing recreation of the certificate.
                       Structure is documented below.
                     properties:
                       certificatePemSecretRef:
@@ -331,6 +334,16 @@ spec:
                         - key
                         - name
                         type: object
+                      pemPrivateKeyWo:
+                        description: |-
+                          The private key of the leaf certificate in PEM-encoded form.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      pemPrivateKeyWoVersion:
+                        description: Triggers update of pem_private_key_wo write-only.
+                          Increment this value when an update to pem_private_key_wo
+                          is needed. For more info see updating write-only arguments
+                        type: string
                       privateKeyPemSecretRef:
                         description: |-
                           The private key of the leaf certificate in PEM-encoded form.
@@ -592,6 +605,9 @@ spec:
                       Certificate data for a SelfManaged Certificate.
                       SelfManaged Certificates are uploaded by the user. Updating such
                       certificates before they expire remains the user's responsibility.
+                      The certificate data can be updated in place; changes to pem_certificate
+                      and pem_private_key are applied via the API's PATCH method instead of
+                      forcing recreation of the certificate.
                       Structure is documented below.
                     properties:
                       certificatePemSecretRef:
@@ -628,6 +644,16 @@ spec:
                         - key
                         - name
                         type: object
+                      pemPrivateKeyWo:
+                        description: |-
+                          The private key of the leaf certificate in PEM-encoded form.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      pemPrivateKeyWoVersion:
+                        description: Triggers update of pem_private_key_wo write-only.
+                          Increment this value when an update to pem_private_key_wo
+                          is needed. For more info see updating write-only arguments
+                        type: string
                       privateKeyPemSecretRef:
                         description: |-
                           The private key of the leaf certificate in PEM-encoded form.
@@ -850,12 +876,25 @@ spec:
                       Certificate data for a SelfManaged Certificate.
                       SelfManaged Certificates are uploaded by the user. Updating such
                       certificates before they expire remains the user's responsibility.
+                      The certificate data can be updated in place; changes to pem_certificate
+                      and pem_private_key are applied via the API's PATCH method instead of
+                      forcing recreation of the certificate.
                       Structure is documented below.
                     properties:
                       pemCertificate:
                         description: |-
                           The certificate chain in PEM-encoded form.
                           Leaf certificate comes first, followed by intermediate ones if any.
+                        type: string
+                      pemPrivateKeyWo:
+                        description: |-
+                          The private key of the leaf certificate in PEM-encoded form.
+                          Note: This property is write-only and will not be read from the API.
+                        type: string
+                      pemPrivateKeyWoVersion:
+                        description: Triggers update of pem_private_key_wo write-only.
+                          Increment this value when an update to pem_private_key_wo
+                          is needed. For more info see updating write-only arguments
                         type: string
                     type: object
                   terraformLabels:

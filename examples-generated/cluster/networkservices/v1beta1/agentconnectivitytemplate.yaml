@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: networkservices.gcp.upbound.io/v1beta1
+kind: AgentConnectivityTemplate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: networkservices/v1beta1/agentconnectivitytemplate
+  labels:
+    testing.upbound.io/example-name: default
+  name: default
+spec:
+  forProvider:
+    accessPath: CLIENT_TO_AGENT
+    description: A basic configuration for Agent Connectivity Template
+    labels:
+      env: test
+      tier: gold
+    location: us-central1

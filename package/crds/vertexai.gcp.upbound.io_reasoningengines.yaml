@@ -74,6 +74,473 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  contextSpec:
+                    description: |-
+                      Optional. Configuration for how Agent Engine sub-resources should manage context.
+                      Structure is documented below.
+                    properties:
+                      memoryBankConfig:
+                        description: |-
+                          Specification for a Memory Bank, which manages memories for the Agent Engine.
+                          Structure is documented below.
+                        properties:
+                          customizationConfigs:
+                            description: |-
+                              Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                consolidationConfig:
+                                  description: |-
+                                    Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+                                    Structure is documented below.
+                                  properties:
+                                    revisionsPerCandidateCount:
+                                      description: Number of revisions to consider
+                                        per candidate count.
+                                      type: number
+                                  type: object
+                                disableNaturalLanguageMemories:
+                                  description: Indicates whether natural language
+                                    memory generation should be disabled.
+                                  type: boolean
+                                enableThirdPersonMemories:
+                                  description: Optional. Generate memories in the
+                                    third person if set to true.
+                                  type: boolean
+                                generateMemoriesExamples:
+                                  description: |-
+                                    Provides examples of how to generate memories for a particular scope.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      conversationSource:
+                                        description: |-
+                                          A conversation source for the example.
+                                          Structure is documented below.
+                                        properties:
+                                          events:
+                                            description: |-
+                                              Represents the input conversation events for the example.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                content:
+                                                  description: |-
+                                                    Represents the content of the event.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    parts:
+                                                      description: |-
+                                                        A list of Part objects that make up a single message.
+                                                        Structure is documented below.
+                                                      items:
+                                                        properties:
+                                                          audioTranscription:
+                                                            description: |-
+                                                              Audio (input or output) transcription. This is only set when this Part contains audio data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              speakerLabel:
+                                                                description: A label
+                                                                  identifying the
+                                                                  speaker of this
+                                                                  audio segment (e.g.
+                                                                  spk_1, spk_2). Present
+                                                                  when diarization
+                                                                  is set.
+                                                                type: string
+                                                              text:
+                                                                description: The text
+                                                                  content of the part.
+                                                                type: string
+                                                              words:
+                                                                description: |-
+                                                                  Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+                                                                  Structure is documented below.
+                                                                items:
+                                                                  properties:
+                                                                    endOffset:
+                                                                      description: End
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    startOffset:
+                                                                      description: Start
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    word:
+                                                                      description: Transcript
+                                                                        of the word.
+                                                                      type: string
+                                                                  type: object
+                                                                type: array
+                                                            type: object
+                                                          codeExecutionResult:
+                                                            description: |-
+                                                              Result of executing the ExecutableCode.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              outcome:
+                                                                description: 'Outcome
+                                                                  of the code execution.
+                                                                  Possible values:
+                                                                  ["OUTCOME_UNSPECIFIED",
+                                                                  "OUTCOME_OK", "OUTCOME_FAILED",
+                                                                  "OUTCOME_DEADLINE_EXCEEDED"]'
+                                                                type: string
+                                                              output:
+                                                                description: Contains
+                                                                  stdout when code
+                                                                  execution is successful,
+                                                                  stderr or other
+                                                                  description otherwise.
+                                                                type: string
+                                                            type: object
+                                                          executableCode:
+                                                            description: |-
+                                                              Code generated by the model that is intended to be executed.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              code:
+                                                                description: The code
+                                                                  to be executed.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              language:
+                                                                description: 'Supported
+                                                                  programming languages
+                                                                  for the generated
+                                                                  code. Possible values:
+                                                                  ["LANGUAGE_UNSPECIFIED",
+                                                                  "PYTHON", "BASH"]'
+                                                                type: string
+                                                            type: object
+                                                          fileData:
+                                                            description: |-
+                                                              URI based data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              fileUri:
+                                                                description: The URI
+                                                                  of the file in Google
+                                                                  Cloud Storage.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          functionCall:
+                                                            description: |-
+                                                              A predicted function call returned from the model.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              args:
+                                                                description: The function
+                                                                  parameters and values
+                                                                  in JSON object format.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                            type: object
+                                                          functionResponse:
+                                                            description: |-
+                                                              The result of a function call.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                              response:
+                                                                description: The function
+                                                                  response in JSON
+                                                                  object format.
+                                                                type: string
+                                                            type: object
+                                                          inlineData:
+                                                            description: |-
+                                                              The inline data content of the part.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              data:
+                                                                description: Raw bytes,
+                                                                  which should be
+                                                                  base64-encoded.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          text:
+                                                            description: The text
+                                                              content of the part.
+                                                            type: string
+                                                          thought:
+                                                            description: Indicates
+                                                              whether the part represents
+                                                              the model's thought
+                                                              process or reasoning.
+                                                            type: boolean
+                                                          videoMetadata:
+                                                            description: |-
+                                                              Video metadata.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              endOffset:
+                                                                description: End offset
+                                                                  in time of the word
+                                                                  relative to the
+                                                                  start of the audio.
+                                                                type: string
+                                                              startOffset:
+                                                                description: Start
+                                                                  offset in time of
+                                                                  the word relative
+                                                                  to the start of
+                                                                  the audio.
+                                                                type: string
+                                                            type: object
+                                                        type: object
+                                                      type: array
+                                                    role:
+                                                      description: The producer of
+                                                        the content. Must be either
+                                                        'user' or 'model'. If not
+                                                        set, the service will default
+                                                        to 'user'.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                        type: object
+                                      generatedMemories:
+                                        description: |-
+                                          Represents the memories that are expected to be generated from the input conversation.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            fact:
+                                              description: Represents the fact to
+                                                generate a memory from.
+                                              type: string
+                                            topics:
+                                              description: |-
+                                                Represents the list of topics that the memory should be associated with.
+                                                Structure is documented below.
+                                              items:
+                                                properties:
+                                                  customMemoryTopicLabel:
+                                                    description: Represents the custom
+                                                      memory topic label.
+                                                    type: string
+                                                  managedMemoryTopic:
+                                                    description: 'Represents the managed
+                                                      memory topic. Possible values:
+                                                      ["USER_PERSONAL_INFO", "USER_PREFERENCES",
+                                                      "KEY_CONVERSATION_DETAILS",
+                                                      "EXPLICIT_INSTRUCTIONS"]'
+                                                    type: string
+                                                type: object
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                memoryTopics:
+                                  description: |-
+                                    Optional. List of topics that the memory should be associated with.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      customMemoryTopic:
+                                        description: |-
+                                          Optional. Custom memory topic.
+                                          Structure is documented below.
+                                        properties:
+                                          description:
+                                            description: The description of the ReasoningEngine.
+                                            type: string
+                                          label:
+                                            description: Label of custom memory topic.
+                                            type: string
+                                        type: object
+                                      managedMemoryTopic:
+                                        description: 'Represents the managed memory
+                                          topic. Possible values: ["USER_PERSONAL_INFO",
+                                          "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS",
+                                          "EXPLICIT_INSTRUCTIONS"]'
+                                        properties:
+                                          managedTopicEnum:
+                                            description: Managed topic enum (e.g.
+                                              USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          disableMemoryRevisions:
+                            description: If true, no memory revisions will be created
+                              for any requests to the Memory Bank.
+                            type: boolean
+                          generationConfig:
+                            description: |-
+                              Configuration for how to generate memories for the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              generationTriggerConfig:
+                                description: |-
+                                  Optional. Configuration for triggering memory generation.
+                                  Structure is documented below.
+                                properties:
+                                  generationRule:
+                                    description: |-
+                                      Optional. The active rule that determines when to flush the buffer. If not set,
+                                      then the stream will be force flushed immediately.
+                                      Structure is documented below.
+                                    properties:
+                                      eventCount:
+                                        description: Optional. Specifies to trigger
+                                          generation when the event count reaches
+                                          this limit.
+                                        type: number
+                                      fixedInterval:
+                                        description: |-
+                                          Optional. Specifies to trigger generation at a fixed interval. The duration
+                                          must have a minute-level granularity.
+                                        type: string
+                                      idleDuration:
+                                        description: |-
+                                          Optional. Specifies to trigger generation if the stream is inactive for the
+                                          specified duration after the most recent event. The duration must have a
+                                          minute-level granularity.
+                                        type: string
+                                      overlapEventCount:
+                                        description: Optional. Re-include the last
+                                          N already-processed events in the next window.
+                                        type: number
+                                    type: object
+                                type: object
+                              model:
+                                description: 'The model used to generate memories.
+                                  Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          similaritySearchConfig:
+                            description: |-
+                              Configuration for how to perform similarity search on memories.
+                              Structure is documented below.
+                            properties:
+                              embeddingModel:
+                                description: 'The model used to generate embeddings
+                                  to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          structuredMemoryConfigs:
+                            description: |-
+                              Optional. Structured memory configurations for Agent Engine sub-resources.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schemaConfigs:
+                                  description: |-
+                                    Optional. List of schema configs that this structured memory config applies to.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      id:
+                                        description: Required. Unique ID identifying
+                                          the memory schema.
+                                        type: string
+                                      memorySchema:
+                                        description: Optional. The memory schema defined
+                                          as an OpenAPI Schema Object JSON string.
+                                        type: string
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          ttlConfig:
+                            description: |-
+                              Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              defaultTtl:
+                                description: The default TTL duration of the memories
+                                  in the Memory Bank.
+                                type: string
+                              granularTtlConfig:
+                                description: |-
+                                  The granular TTL configuration of the memories in the Memory Bank.
+                                  Structure is documented below.
+                                properties:
+                                  createTtl:
+                                    description: The TTL duration for memories uploaded
+                                      via CreateMemory.
+                                    type: string
+                                  generateCreatedTtl:
+                                    description: The TTL duration for memories newly
+                                      generated via GenerateMemories.
+                                    type: string
+                                  generateUpdatedTtl:
+                                    description: The TTL duration for memories updated
+                                      via GenerateMemories.
+                                    type: string
+                                type: object
+                              memoryRevisionDefaultTtl:
+                                description: The default TTL duration of the memory
+                                  revisions in the Memory Bank.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   deletionPolicy:
                     description: |-
                       Optional. The deletion policy for the reasoning engine.
@@ -200,10 +667,107 @@ spec:
                         description: Optional. The OSS agent framework used to develop
                           the agent.
                         type: string
+                      buildSpec:
+                        description: |-
+                          Optional. Configuration for building container image.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              Optional. The service account that the Reasoning Engine artifact runs
+                              as. It should have "roles/storage.objectViewer" for reading the user
+                              project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                              extensions. If not specified, the Vertex AI Reasoning Engine service
+                              Agent in the project will be used.
+                            type: string
+                          serviceAccountRef:
+                            description: Reference to a ServiceAccount in cloudplatform
+                              to populate serviceAccount.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          serviceAccountSelector:
+                            description: Selector for a ServiceAccount in cloudplatform
+                              to populate serviceAccount.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          workerPool:
+                            description: Optional. The resource name of the Cloud
+                              Build WorkerPool to use for the build.
+                            type: string
+                        type: object
                       classMethods:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -216,12 +780,42 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
                           Structure is documented below.
                         properties:
+                          agentGatewayConfig:
+                            description: |-
+                              Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+                              Structure is documented below.
+                            properties:
+                              agentToAnywhereConfig:
+                                description: |-
+                                  Optional. Configuration for traffic originating from the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                              clientToAgentConfig:
+                                description: |-
+                                  Optional. Configuration for traffic targeting the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                            type: object
                           containerConcurrency:
                             description: |-
                               Optional. Concurrency for each container and agent server.
@@ -632,6 +1226,34 @@ spec:
                           Specification for deploying from source code.
                           Structure is documented below.
                         properties:
+                          agentConfigSource:
+                            description: |-
+                              Optional. Specification for the deploying from agent config.
+                              Structure is documented below.
+                            properties:
+                              adkConfig:
+                                description: |-
+                                  Required. Configuration for the Agent Development Kit (ADK).
+                                  Structure is documented below.
+                                properties:
+                                  jsonConfig:
+                                    description: Required. The value of the ADK config
+                                      in JSON format.
+                                    type: string
+                                type: object
+                              inlineSource:
+                                description: |-
+                                  Source code is provided directly in the request.
+                                  Structure is documented below.
+                                properties:
+                                  sourceArchive:
+                                    description: |-
+                                      Required. Input only.
+                                      The application source code archive, provided as a compressed
+                                      tarball (.tar.gz) file. A base64-encoded string.
+                                    type: string
+                                type: object
+                            type: object
                           developerConnectSource:
                             description: |-
                               Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
@@ -729,6 +1351,473 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  contextSpec:
+                    description: |-
+                      Optional. Configuration for how Agent Engine sub-resources should manage context.
+                      Structure is documented below.
+                    properties:
+                      memoryBankConfig:
+                        description: |-
+                          Specification for a Memory Bank, which manages memories for the Agent Engine.
+                          Structure is documented below.
+                        properties:
+                          customizationConfigs:
+                            description: |-
+                              Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                consolidationConfig:
+                                  description: |-
+                                    Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+                                    Structure is documented below.
+                                  properties:
+                                    revisionsPerCandidateCount:
+                                      description: Number of revisions to consider
+                                        per candidate count.
+                                      type: number
+                                  type: object
+                                disableNaturalLanguageMemories:
+                                  description: Indicates whether natural language
+                                    memory generation should be disabled.
+                                  type: boolean
+                                enableThirdPersonMemories:
+                                  description: Optional. Generate memories in the
+                                    third person if set to true.
+                                  type: boolean
+                                generateMemoriesExamples:
+                                  description: |-
+                                    Provides examples of how to generate memories for a particular scope.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      conversationSource:
+                                        description: |-
+                                          A conversation source for the example.
+                                          Structure is documented below.
+                                        properties:
+                                          events:
+                                            description: |-
+                                              Represents the input conversation events for the example.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                content:
+                                                  description: |-
+                                                    Represents the content of the event.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    parts:
+                                                      description: |-
+                                                        A list of Part objects that make up a single message.
+                                                        Structure is documented below.
+                                                      items:
+                                                        properties:
+                                                          audioTranscription:
+                                                            description: |-
+                                                              Audio (input or output) transcription. This is only set when this Part contains audio data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              speakerLabel:
+                                                                description: A label
+                                                                  identifying the
+                                                                  speaker of this
+                                                                  audio segment (e.g.
+                                                                  spk_1, spk_2). Present
+                                                                  when diarization
+                                                                  is set.
+                                                                type: string
+                                                              text:
+                                                                description: The text
+                                                                  content of the part.
+                                                                type: string
+                                                              words:
+                                                                description: |-
+                                                                  Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+                                                                  Structure is documented below.
+                                                                items:
+                                                                  properties:
+                                                                    endOffset:
+                                                                      description: End
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    startOffset:
+                                                                      description: Start
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    word:
+                                                                      description: Transcript
+                                                                        of the word.
+                                                                      type: string
+                                                                  type: object
+                                                                type: array
+                                                            type: object
+                                                          codeExecutionResult:
+                                                            description: |-
+                                                              Result of executing the ExecutableCode.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              outcome:
+                                                                description: 'Outcome
+                                                                  of the code execution.
+                                                                  Possible values:
+                                                                  ["OUTCOME_UNSPECIFIED",
+                                                                  "OUTCOME_OK", "OUTCOME_FAILED",
+                                                                  "OUTCOME_DEADLINE_EXCEEDED"]'
+                                                                type: string
+                                                              output:
+                                                                description: Contains
+                                                                  stdout when code
+                                                                  execution is successful,
+                                                                  stderr or other
+                                                                  description otherwise.
+                                                                type: string
+                                                            type: object
+                                                          executableCode:
+                                                            description: |-
+                                                              Code generated by the model that is intended to be executed.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              code:
+                                                                description: The code
+                                                                  to be executed.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              language:
+                                                                description: 'Supported
+                                                                  programming languages
+                                                                  for the generated
+                                                                  code. Possible values:
+                                                                  ["LANGUAGE_UNSPECIFIED",
+                                                                  "PYTHON", "BASH"]'
+                                                                type: string
+                                                            type: object
+                                                          fileData:
+                                                            description: |-
+                                                              URI based data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              fileUri:
+                                                                description: The URI
+                                                                  of the file in Google
+                                                                  Cloud Storage.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          functionCall:
+                                                            description: |-
+                                                              A predicted function call returned from the model.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              args:
+                                                                description: The function
+                                                                  parameters and values
+                                                                  in JSON object format.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                            type: object
+                                                          functionResponse:
+                                                            description: |-
+                                                              The result of a function call.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                              response:
+                                                                description: The function
+                                                                  response in JSON
+                                                                  object format.
+                                                                type: string
+                                                            type: object
+                                                          inlineData:
+                                                            description: |-
+                                                              The inline data content of the part.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              data:
+                                                                description: Raw bytes,
+                                                                  which should be
+                                                                  base64-encoded.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          text:
+                                                            description: The text
+                                                              content of the part.
+                                                            type: string
+                                                          thought:
+                                                            description: Indicates
+                                                              whether the part represents
+                                                              the model's thought
+                                                              process or reasoning.
+                                                            type: boolean
+                                                          videoMetadata:
+                                                            description: |-
+                                                              Video metadata.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              endOffset:
+                                                                description: End offset
+                                                                  in time of the word
+                                                                  relative to the
+                                                                  start of the audio.
+                                                                type: string
+                                                              startOffset:
+                                                                description: Start
+                                                                  offset in time of
+                                                                  the word relative
+                                                                  to the start of
+                                                                  the audio.
+                                                                type: string
+                                                            type: object
+                                                        type: object
+                                                      type: array
+                                                    role:
+                                                      description: The producer of
+                                                        the content. Must be either
+                                                        'user' or 'model'. If not
+                                                        set, the service will default
+                                                        to 'user'.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                        type: object
+                                      generatedMemories:
+                                        description: |-
+                                          Represents the memories that are expected to be generated from the input conversation.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            fact:
+                                              description: Represents the fact to
+                                                generate a memory from.
+                                              type: string
+                                            topics:
+                                              description: |-
+                                                Represents the list of topics that the memory should be associated with.
+                                                Structure is documented below.
+                                              items:
+                                                properties:
+                                                  customMemoryTopicLabel:
+                                                    description: Represents the custom
+                                                      memory topic label.
+                                                    type: string
+                                                  managedMemoryTopic:
+                                                    description: 'Represents the managed
+                                                      memory topic. Possible values:
+                                                      ["USER_PERSONAL_INFO", "USER_PREFERENCES",
+                                                      "KEY_CONVERSATION_DETAILS",
+                                                      "EXPLICIT_INSTRUCTIONS"]'
+                                                    type: string
+                                                type: object
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                memoryTopics:
+                                  description: |-
+                                    Optional. List of topics that the memory should be associated with.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      customMemoryTopic:
+                                        description: |-
+                                          Optional. Custom memory topic.
+                                          Structure is documented below.
+                                        properties:
+                                          description:
+                                            description: The description of the ReasoningEngine.
+                                            type: string
+                                          label:
+                                            description: Label of custom memory topic.
+                                            type: string
+                                        type: object
+                                      managedMemoryTopic:
+                                        description: 'Represents the managed memory
+                                          topic. Possible values: ["USER_PERSONAL_INFO",
+                                          "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS",
+                                          "EXPLICIT_INSTRUCTIONS"]'
+                                        properties:
+                                          managedTopicEnum:
+                                            description: Managed topic enum (e.g.
+                                              USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          disableMemoryRevisions:
+                            description: If true, no memory revisions will be created
+                              for any requests to the Memory Bank.
+                            type: boolean
+                          generationConfig:
+                            description: |-
+                              Configuration for how to generate memories for the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              generationTriggerConfig:
+                                description: |-
+                                  Optional. Configuration for triggering memory generation.
+                                  Structure is documented below.
+                                properties:
+                                  generationRule:
+                                    description: |-
+                                      Optional. The active rule that determines when to flush the buffer. If not set,
+                                      then the stream will be force flushed immediately.
+                                      Structure is documented below.
+                                    properties:
+                                      eventCount:
+                                        description: Optional. Specifies to trigger
+                                          generation when the event count reaches
+                                          this limit.
+                                        type: number
+                                      fixedInterval:
+                                        description: |-
+                                          Optional. Specifies to trigger generation at a fixed interval. The duration
+                                          must have a minute-level granularity.
+                                        type: string
+                                      idleDuration:
+                                        description: |-
+                                          Optional. Specifies to trigger generation if the stream is inactive for the
+                                          specified duration after the most recent event. The duration must have a
+                                          minute-level granularity.
+                                        type: string
+                                      overlapEventCount:
+                                        description: Optional. Re-include the last
+                                          N already-processed events in the next window.
+                                        type: number
+                                    type: object
+                                type: object
+                              model:
+                                description: 'The model used to generate memories.
+                                  Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          similaritySearchConfig:
+                            description: |-
+                              Configuration for how to perform similarity search on memories.
+                              Structure is documented below.
+                            properties:
+                              embeddingModel:
+                                description: 'The model used to generate embeddings
+                                  to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          structuredMemoryConfigs:
+                            description: |-
+                              Optional. Structured memory configurations for Agent Engine sub-resources.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schemaConfigs:
+                                  description: |-
+                                    Optional. List of schema configs that this structured memory config applies to.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      id:
+                                        description: Required. Unique ID identifying
+                                          the memory schema.
+                                        type: string
+                                      memorySchema:
+                                        description: Optional. The memory schema defined
+                                          as an OpenAPI Schema Object JSON string.
+                                        type: string
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          ttlConfig:
+                            description: |-
+                              Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              defaultTtl:
+                                description: The default TTL duration of the memories
+                                  in the Memory Bank.
+                                type: string
+                              granularTtlConfig:
+                                description: |-
+                                  The granular TTL configuration of the memories in the Memory Bank.
+                                  Structure is documented below.
+                                properties:
+                                  createTtl:
+                                    description: The TTL duration for memories uploaded
+                                      via CreateMemory.
+                                    type: string
+                                  generateCreatedTtl:
+                                    description: The TTL duration for memories newly
+                                      generated via GenerateMemories.
+                                    type: string
+                                  generateUpdatedTtl:
+                                    description: The TTL duration for memories updated
+                                      via GenerateMemories.
+                                    type: string
+                                type: object
+                              memoryRevisionDefaultTtl:
+                                description: The default TTL duration of the memory
+                                  revisions in the Memory Bank.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   deletionPolicy:
                     description: |-
                       Optional. The deletion policy for the reasoning engine.
@@ -855,10 +1944,107 @@ spec:
                         description: Optional. The OSS agent framework used to develop
                           the agent.
                         type: string
+                      buildSpec:
+                        description: |-
+                          Optional. Configuration for building container image.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              Optional. The service account that the Reasoning Engine artifact runs
+                              as. It should have "roles/storage.objectViewer" for reading the user
+                              project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                              extensions. If not specified, the Vertex AI Reasoning Engine service
+                              Agent in the project will be used.
+                            type: string
+                          serviceAccountRef:
+                            description: Reference to a ServiceAccount in cloudplatform
+                              to populate serviceAccount.
+                            properties:
+                              name:
+                                description: Name of the referenced object.
+                                type: string
+                              policy:
+                                description: Policies for referencing.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            required:
+                            - name
+                            type: object
+                          serviceAccountSelector:
+                            description: Selector for a ServiceAccount in cloudplatform
+                              to populate serviceAccount.
+                            properties:
+                              matchControllerRef:
+                                description: |-
+                                  MatchControllerRef ensures an object with the same controller reference
+                                  as the selecting object is selected.
+                                type: boolean
+                              matchLabels:
+                                additionalProperties:
+                                  type: string
+                                description: MatchLabels ensures an object with matching
+                                  labels is selected.
+                                type: object
+                              policy:
+                                description: Policies for selection.
+                                properties:
+                                  resolution:
+                                    default: Required
+                                    description: |-
+                                      Resolution specifies whether resolution of this reference is required.
+                                      The default is 'Required', which means the reconcile will fail if the
+                                      reference cannot be resolved. 'Optional' means this reference will be
+                                      a no-op if it cannot be resolved.
+                                    enum:
+                                    - Required
+                                    - Optional
+                                    type: string
+                                  resolve:
+                                    description: |-
+                                      Resolve specifies when this reference should be resolved. The default
+                                      is 'IfNotPresent', which will attempt to resolve the reference only when
+                                      the corresponding field is not present. Use 'Always' to resolve the
+                                      reference on every reconcile.
+                                    enum:
+                                    - Always
+                                    - IfNotPresent
+                                    type: string
+                                type: object
+                            type: object
+                          workerPool:
+                            description: Optional. The resource name of the Cloud
+                              Build WorkerPool to use for the build.
+                            type: string
+                        type: object
                       classMethods:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -871,12 +2057,42 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
                           Structure is documented below.
                         properties:
+                          agentGatewayConfig:
+                            description: |-
+                              Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+                              Structure is documented below.
+                            properties:
+                              agentToAnywhereConfig:
+                                description: |-
+                                  Optional. Configuration for traffic originating from the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                              clientToAgentConfig:
+                                description: |-
+                                  Optional. Configuration for traffic targeting the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                            type: object
                           containerConcurrency:
                             description: |-
                               Optional. Concurrency for each container and agent server.
@@ -1287,6 +2503,34 @@ spec:
                           Specification for deploying from source code.
                           Structure is documented below.
                         properties:
+                          agentConfigSource:
+                            description: |-
+                              Optional. Specification for the deploying from agent config.
+                              Structure is documented below.
+                            properties:
+                              adkConfig:
+                                description: |-
+                                  Required. Configuration for the Agent Development Kit (ADK).
+                                  Structure is documented below.
+                                properties:
+                                  jsonConfig:
+                                    description: Required. The value of the ADK config
+                                      in JSON format.
+                                    type: string
+                                type: object
+                              inlineSource:
+                                description: |-
+                                  Source code is provided directly in the request.
+                                  Structure is documented below.
+                                properties:
+                                  sourceArchive:
+                                    description: |-
+                                      Required. Input only.
+                                      The application source code archive, provided as a compressed
+                                      tarball (.tar.gz) file. A base64-encoded string.
+                                    type: string
+                                type: object
+                            type: object
                           developerConnectSource:
                             description: |-
                               Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
@@ -1471,6 +2715,473 @@ spec:
             properties:
               atProvider:
                 properties:
+                  contextSpec:
+                    description: |-
+                      Optional. Configuration for how Agent Engine sub-resources should manage context.
+                      Structure is documented below.
+                    properties:
+                      memoryBankConfig:
+                        description: |-
+                          Specification for a Memory Bank, which manages memories for the Agent Engine.
+                          Structure is documented below.
+                        properties:
+                          customizationConfigs:
+                            description: |-
+                              Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                consolidationConfig:
+                                  description: |-
+                                    Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+                                    Structure is documented below.
+                                  properties:
+                                    revisionsPerCandidateCount:
+                                      description: Number of revisions to consider
+                                        per candidate count.
+                                      type: number
+                                  type: object
+                                disableNaturalLanguageMemories:
+                                  description: Indicates whether natural language
+                                    memory generation should be disabled.
+                                  type: boolean
+                                enableThirdPersonMemories:
+                                  description: Optional. Generate memories in the
+                                    third person if set to true.
+                                  type: boolean
+                                generateMemoriesExamples:
+                                  description: |-
+                                    Provides examples of how to generate memories for a particular scope.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      conversationSource:
+                                        description: |-
+                                          A conversation source for the example.
+                                          Structure is documented below.
+                                        properties:
+                                          events:
+                                            description: |-
+                                              Represents the input conversation events for the example.
+                                              Structure is documented below.
+                                            items:
+                                              properties:
+                                                content:
+                                                  description: |-
+                                                    Represents the content of the event.
+                                                    Structure is documented below.
+                                                  properties:
+                                                    parts:
+                                                      description: |-
+                                                        A list of Part objects that make up a single message.
+                                                        Structure is documented below.
+                                                      items:
+                                                        properties:
+                                                          audioTranscription:
+                                                            description: |-
+                                                              Audio (input or output) transcription. This is only set when this Part contains audio data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              speakerLabel:
+                                                                description: A label
+                                                                  identifying the
+                                                                  speaker of this
+                                                                  audio segment (e.g.
+                                                                  spk_1, spk_2). Present
+                                                                  when diarization
+                                                                  is set.
+                                                                type: string
+                                                              text:
+                                                                description: The text
+                                                                  content of the part.
+                                                                type: string
+                                                              words:
+                                                                description: |-
+                                                                  Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+                                                                  Structure is documented below.
+                                                                items:
+                                                                  properties:
+                                                                    endOffset:
+                                                                      description: End
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    startOffset:
+                                                                      description: Start
+                                                                        offset in
+                                                                        time of the
+                                                                        word relative
+                                                                        to the start
+                                                                        of the audio.
+                                                                      type: string
+                                                                    word:
+                                                                      description: Transcript
+                                                                        of the word.
+                                                                      type: string
+                                                                  type: object
+                                                                type: array
+                                                            type: object
+                                                          codeExecutionResult:
+                                                            description: |-
+                                                              Result of executing the ExecutableCode.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              outcome:
+                                                                description: 'Outcome
+                                                                  of the code execution.
+                                                                  Possible values:
+                                                                  ["OUTCOME_UNSPECIFIED",
+                                                                  "OUTCOME_OK", "OUTCOME_FAILED",
+                                                                  "OUTCOME_DEADLINE_EXCEEDED"]'
+                                                                type: string
+                                                              output:
+                                                                description: Contains
+                                                                  stdout when code
+                                                                  execution is successful,
+                                                                  stderr or other
+                                                                  description otherwise.
+                                                                type: string
+                                                            type: object
+                                                          executableCode:
+                                                            description: |-
+                                                              Code generated by the model that is intended to be executed.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              code:
+                                                                description: The code
+                                                                  to be executed.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              language:
+                                                                description: 'Supported
+                                                                  programming languages
+                                                                  for the generated
+                                                                  code. Possible values:
+                                                                  ["LANGUAGE_UNSPECIFIED",
+                                                                  "PYTHON", "BASH"]'
+                                                                type: string
+                                                            type: object
+                                                          fileData:
+                                                            description: |-
+                                                              URI based data.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              fileUri:
+                                                                description: The URI
+                                                                  of the file in Google
+                                                                  Cloud Storage.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          functionCall:
+                                                            description: |-
+                                                              A predicted function call returned from the model.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              args:
+                                                                description: The function
+                                                                  parameters and values
+                                                                  in JSON object format.
+                                                                type: string
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                            type: object
+                                                          functionResponse:
+                                                            description: |-
+                                                              The result of a function call.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              id:
+                                                                description: Required.
+                                                                  Unique ID identifying
+                                                                  the memory schema.
+                                                                type: string
+                                                              name:
+                                                                description: |-
+                                                                  The name of the environment variable. Must be a valid C
+                                                                  identifier.
+                                                                type: string
+                                                              response:
+                                                                description: The function
+                                                                  response in JSON
+                                                                  object format.
+                                                                type: string
+                                                            type: object
+                                                          inlineData:
+                                                            description: |-
+                                                              The inline data content of the part.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              data:
+                                                                description: Raw bytes,
+                                                                  which should be
+                                                                  base64-encoded.
+                                                                type: string
+                                                              mimeType:
+                                                                description: The IANA
+                                                                  standard MIME type
+                                                                  of the source data.
+                                                                type: string
+                                                            type: object
+                                                          text:
+                                                            description: The text
+                                                              content of the part.
+                                                            type: string
+                                                          thought:
+                                                            description: Indicates
+                                                              whether the part represents
+                                                              the model's thought
+                                                              process or reasoning.
+                                                            type: boolean
+                                                          videoMetadata:
+                                                            description: |-
+                                                              Video metadata.
+                                                              Structure is documented below.
+                                                            properties:
+                                                              endOffset:
+                                                                description: End offset
+                                                                  in time of the word
+                                                                  relative to the
+                                                                  start of the audio.
+                                                                type: string
+                                                              startOffset:
+                                                                description: Start
+                                                                  offset in time of
+                                                                  the word relative
+                                                                  to the start of
+                                                                  the audio.
+                                                                type: string
+                                                            type: object
+                                                        type: object
+                                                      type: array
+                                                    role:
+                                                      description: The producer of
+                                                        the content. Must be either
+                                                        'user' or 'model'. If not
+                                                        set, the service will default
+                                                        to 'user'.
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                        type: object
+                                      generatedMemories:
+                                        description: |-
+                                          Represents the memories that are expected to be generated from the input conversation.
+                                          Structure is documented below.
+                                        items:
+                                          properties:
+                                            fact:
+                                              description: Represents the fact to
+                                                generate a memory from.
+                                              type: string
+                                            topics:
+                                              description: |-
+                                                Represents the list of topics that the memory should be associated with.
+                                                Structure is documented below.
+                                              items:
+                                                properties:
+                                                  customMemoryTopicLabel:
+                                                    description: Represents the custom
+                                                      memory topic label.
+                                                    type: string
+                                                  managedMemoryTopic:
+                                                    description: 'Represents the managed
+                                                      memory topic. Possible values:
+                                                      ["USER_PERSONAL_INFO", "USER_PREFERENCES",
+                                                      "KEY_CONVERSATION_DETAILS",
+                                                      "EXPLICIT_INSTRUCTIONS"]'
+                                                    type: string
+                                                type: object
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
+                                  type: array
+                                memoryTopics:
+                                  description: |-
+                                    Optional. List of topics that the memory should be associated with.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      customMemoryTopic:
+                                        description: |-
+                                          Optional. Custom memory topic.
+                                          Structure is documented below.
+                                        properties:
+                                          description:
+                                            description: The description of the ReasoningEngine.
+                                            type: string
+                                          label:
+                                            description: Label of custom memory topic.
+                                            type: string
+                                        type: object
+                                      managedMemoryTopic:
+                                        description: 'Represents the managed memory
+                                          topic. Possible values: ["USER_PERSONAL_INFO",
+                                          "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS",
+                                          "EXPLICIT_INSTRUCTIONS"]'
+                                        properties:
+                                          managedTopicEnum:
+                                            description: Managed topic enum (e.g.
+                                              USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          disableMemoryRevisions:
+                            description: If true, no memory revisions will be created
+                              for any requests to the Memory Bank.
+                            type: boolean
+                          generationConfig:
+                            description: |-
+                              Configuration for how to generate memories for the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              generationTriggerConfig:
+                                description: |-
+                                  Optional. Configuration for triggering memory generation.
+                                  Structure is documented below.
+                                properties:
+                                  generationRule:
+                                    description: |-
+                                      Optional. The active rule that determines when to flush the buffer. If not set,
+                                      then the stream will be force flushed immediately.
+                                      Structure is documented below.
+                                    properties:
+                                      eventCount:
+                                        description: Optional. Specifies to trigger
+                                          generation when the event count reaches
+                                          this limit.
+                                        type: number
+                                      fixedInterval:
+                                        description: |-
+                                          Optional. Specifies to trigger generation at a fixed interval. The duration
+                                          must have a minute-level granularity.
+                                        type: string
+                                      idleDuration:
+                                        description: |-
+                                          Optional. Specifies to trigger generation if the stream is inactive for the
+                                          specified duration after the most recent event. The duration must have a
+                                          minute-level granularity.
+                                        type: string
+                                      overlapEventCount:
+                                        description: Optional. Re-include the last
+                                          N already-processed events in the next window.
+                                        type: number
+                                    type: object
+                                type: object
+                              model:
+                                description: 'The model used to generate memories.
+                                  Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          similaritySearchConfig:
+                            description: |-
+                              Configuration for how to perform similarity search on memories.
+                              Structure is documented below.
+                            properties:
+                              embeddingModel:
+                                description: 'The model used to generate embeddings
+                                  to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.'
+                                type: string
+                            type: object
+                          structuredMemoryConfigs:
+                            description: |-
+                              Optional. Structured memory configurations for Agent Engine sub-resources.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                schemaConfigs:
+                                  description: |-
+                                    Optional. List of schema configs that this structured memory config applies to.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      id:
+                                        description: Required. Unique ID identifying
+                                          the memory schema.
+                                        type: string
+                                      memorySchema:
+                                        description: Optional. The memory schema defined
+                                          as an OpenAPI Schema Object JSON string.
+                                        type: string
+                                    type: object
+                                  type: array
+                                scopeKeys:
+                                  description: Optional. List of scope keys that this
+                                    structured memory config applies to.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          ttlConfig:
+                            description: |-
+                              Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+                              Structure is documented below.
+                            properties:
+                              defaultTtl:
+                                description: The default TTL duration of the memories
+                                  in the Memory Bank.
+                                type: string
+                              granularTtlConfig:
+                                description: |-
+                                  The granular TTL configuration of the memories in the Memory Bank.
+                                  Structure is documented below.
+                                properties:
+                                  createTtl:
+                                    description: The TTL duration for memories uploaded
+                                      via CreateMemory.
+                                    type: string
+                                  generateCreatedTtl:
+                                    description: The TTL duration for memories newly
+                                      generated via GenerateMemories.
+                                    type: string
+                                  generateUpdatedTtl:
+                                    description: The TTL duration for memories updated
+                                      via GenerateMemories.
+                                    type: string
+                                type: object
+                              memoryRevisionDefaultTtl:
+                                description: The default TTL duration of the memory
+                                  revisions in the Memory Bank.
+                                type: string
+                            type: object
+                        type: object
+                    type: object
                   createTime:
                     description: |-
                       The timestamp of when the Index was created in RFC3339 UTC "Zulu" format,
@@ -1542,10 +3253,31 @@ spec:
                         description: Optional. The OSS agent framework used to develop
                           the agent.
                         type: string
+                      buildSpec:
+                        description: |-
+                          Optional. Configuration for building container image.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              Optional. The service account that the Reasoning Engine artifact runs
+                              as. It should have "roles/storage.objectViewer" for reading the user
+                              project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+                              extensions. If not specified, the Vertex AI Reasoning Engine service
+                              Agent in the project will be used.
+                            type: string
+                          workerPool:
+                            description: Optional. The resource name of the Cloud
+                              Build WorkerPool to use for the build.
+                            type: string
+                        type: object
                       classMethods:
                         description: |-
                           Optional. Declarations for object class methods in OpenAPI
                           specification format.
+                          Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+                          Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+                          Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
                         type: string
                       containerSpec:
                         description: |-
@@ -1558,12 +3290,42 @@ spec:
                               us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
                               container image that is to be run on each worker replica.
                             type: string
+                          port:
+                            description: Optional. Specifies the port number on the
+                              container to which the request is sent.
+                            type: number
                         type: object
                       deploymentSpec:
                         description: |-
                           Optional. The specification of a Reasoning Engine deployment.
                           Structure is documented below.
                         properties:
+                          agentGatewayConfig:
+                            description: |-
+                              Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+                              Structure is documented below.
+                            properties:
+                              agentToAnywhereConfig:
+                                description: |-
+                                  Optional. Configuration for traffic originating from the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                              clientToAgentConfig:
+                                description: |-
+                                  Optional. Configuration for traffic targeting the Reasoning Engine.
+                                  Structure is documented below.
+                                properties:
+                                  agentGateway:
+                                    description: Required. The resource name of the
+                                      Agent Gateway to use for inbound traffic.
+                                    type: string
+                                type: object
+                            type: object
                           containerConcurrency:
                             description: |-
                               Optional. Concurrency for each container and agent server.
@@ -1751,6 +3513,34 @@ spec:
                           Specification for deploying from source code.
                           Structure is documented below.
                         properties:
+                          agentConfigSource:
+                            description: |-
+                              Optional. Specification for the deploying from agent config.
+                              Structure is documented below.
+                            properties:
+                              adkConfig:
+                                description: |-
+                                  Required. Configuration for the Agent Development Kit (ADK).
+                                  Structure is documented below.
+                                properties:
+                                  jsonConfig:
+                                    description: Required. The value of the ADK config
+                                      in JSON format.
+                                    type: string
+                                type: object
+                              inlineSource:
+                                description: |-
+                                  Source code is provided directly in the request.
+                                  Structure is documented below.
+                                properties:
+                                  sourceArchive:
+                                    description: |-
+                                      Required. Input only.
+                                      The application source code archive, provided as a compressed
+                                      tarball (.tar.gz) file. A base64-encoded string.
+                                    type: string
+                                type: object
+                            type: object
                           developerConnectSource:
                             description: |-
                               Specification for source code to be fetched from a Git repository managed through the Developer Connect service.

@@ -17,8 +17,8 @@ spec:
 
 ---
 
-apiVersion: compute.gcp.upbound.io/v1beta1
-kind: HTTPHealthCheck
+apiVersion: compute.gcp.upbound.io/v1beta2
+kind: HealthCheck
 metadata:
   annotations:
     meta.upbound.io/example-id: compute/v1beta2/backendservice
@@ -28,5 +28,7 @@ metadata:
 spec:
   forProvider:
     checkIntervalSec: 1
-    requestPath: /
+    httpHealthCheck:
+      port: 80
+      requestPath: /
     timeoutSec: 1

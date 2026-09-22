@@ -54,8 +54,7 @@ type EffectiveReplicationParameters struct {
 
 type FileSharesInitParameters struct {
 
-	// File share capacity in GiB. This must be at least 1024 GiB
-	// for the standard tier, or 2560 GiB for the premium tier.
+	// File share capacity in GiB. Acceptable instance capacities for each tier are as follows:
 	CapacityGb *float64 `json:"capacityGb,omitempty" tf:"capacity_gb,omitempty"`
 
 	// Nfs Export Options. There is a limit of 10 export options per file share.
@@ -78,8 +77,7 @@ type FileSharesInitParameters struct {
 
 type FileSharesObservation struct {
 
-	// File share capacity in GiB. This must be at least 1024 GiB
-	// for the standard tier, or 2560 GiB for the premium tier.
+	// File share capacity in GiB. Acceptable instance capacities for each tier are as follows:
 	CapacityGb *float64 `json:"capacityGb,omitempty" tf:"capacity_gb,omitempty"`
 
 	// Nfs Export Options. There is a limit of 10 export options per file share.
@@ -102,8 +100,7 @@ type FileSharesObservation struct {
 
 type FileSharesParameters struct {
 
-	// File share capacity in GiB. This must be at least 1024 GiB
-	// for the standard tier, or 2560 GiB for the premium tier.
+	// File share capacity in GiB. Acceptable instance capacities for each tier are as follows:
 	// +kubebuilder:validation:Optional
 	CapacityGb *float64 `json:"capacityGb" tf:"capacity_gb,omitempty"`
 

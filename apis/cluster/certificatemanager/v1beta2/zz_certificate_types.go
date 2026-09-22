@@ -75,6 +75,9 @@ type CertificateInitParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedInitParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
@@ -130,6 +133,9 @@ type CertificateObservation struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 
@@ -183,6 +189,9 @@ type CertificateParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelfManaged *SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
@@ -326,6 +335,13 @@ type SelfManagedInitParameters struct {
 	PemPrivateKeySecretRef *v2.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
 
 	// The private key of the leaf certificate in PEM-encoded form.
+	// Note: This property is write-only and will not be read from the API.
+	PemPrivateKeyWo *string `json:"pemPrivateKeyWo,omitempty" tf:"pem_private_key_wo,omitempty"`
+
+	// Triggers update of pem_private_key_wo write-only. Increment this value when an update to pem_private_key_wo is needed. For more info see updating write-only arguments
+	PemPrivateKeyWoVersion *string `json:"pemPrivateKeyWoVersion,omitempty" tf:"pem_private_key_wo_version,omitempty"`
+
+	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.
 	PrivateKeyPemSecretRef *v2.SecretKeySelector `json:"privateKeyPemSecretRef,omitempty" tf:"-"`
 }
@@ -335,6 +351,13 @@ type SelfManagedObservation struct {
 	// The certificate chain in PEM-encoded form.
 	// Leaf certificate comes first, followed by intermediate ones if any.
 	PemCertificate *string `json:"pemCertificate,omitempty" tf:"pem_certificate,omitempty"`
+
+	// The private key of the leaf certificate in PEM-encoded form.
+	// Note: This property is write-only and will not be read from the API.
+	PemPrivateKeyWo *string `json:"pemPrivateKeyWo,omitempty" tf:"pem_private_key_wo,omitempty"`
+
+	// Triggers update of pem_private_key_wo write-only. Increment this value when an update to pem_private_key_wo is needed. For more info see updating write-only arguments
+	PemPrivateKeyWoVersion *string `json:"pemPrivateKeyWoVersion,omitempty" tf:"pem_private_key_wo_version,omitempty"`
 }
 
 type SelfManagedParameters struct {
@@ -354,6 +377,15 @@ type SelfManagedParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	PemPrivateKeySecretRef *v2.SecretKeySelector `json:"pemPrivateKeySecretRef,omitempty" tf:"-"`
+
+	// The private key of the leaf certificate in PEM-encoded form.
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	PemPrivateKeyWo *string `json:"pemPrivateKeyWo,omitempty" tf:"pem_private_key_wo,omitempty"`
+
+	// Triggers update of pem_private_key_wo write-only. Increment this value when an update to pem_private_key_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	PemPrivateKeyWoVersion *string `json:"pemPrivateKeyWoVersion,omitempty" tf:"pem_private_key_wo_version,omitempty"`
 
 	// The private key of the leaf certificate in PEM-encoded form.
 	// Note: This property is sensitive and will not be displayed in the plan.

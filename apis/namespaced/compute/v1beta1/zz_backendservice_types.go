@@ -728,7 +728,7 @@ type BackendServiceInitParameters struct {
 	// external load balancing. A backend service created for one type of
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -945,7 +945,7 @@ type BackendServiceObservation struct {
 	// external load balancing. A backend service created for one type of
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
 
@@ -1176,7 +1176,7 @@ type BackendServiceParameters struct {
 	// external load balancing. A backend service created for one type of
 	// load balancing cannot be used with the other. For more information, refer to
 	// Choosing a load balancer.
-	// Default value is EXTERNAL.
+	// Default value is EXTERNAL_MANAGED.
 	// Possible values are: EXTERNAL, INTERNAL_SELF_MANAGED, INTERNAL_MANAGED, EXTERNAL_MANAGED.
 	// +kubebuilder:validation:Optional
 	LoadBalancingScheme *string `json:"loadBalancingScheme,omitempty" tf:"load_balancing_scheme,omitempty"`
@@ -1356,19 +1356,19 @@ type BaseEjectionTimeParameters struct {
 
 type CdnPolicyBypassCacheOnRequestHeadersInitParameters struct {
 
-	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	// The header name to match on for logging.
 	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 }
 
 type CdnPolicyBypassCacheOnRequestHeadersObservation struct {
 
-	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	// The header name to match on for logging.
 	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
 }
 
 type CdnPolicyBypassCacheOnRequestHeadersParameters struct {
 
-	// The header field name to match on when bypassing cache. Values are case-insensitive.
+	// The header name to match on for logging.
 	// +kubebuilder:validation:Optional
 	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 }
@@ -1809,11 +1809,26 @@ type IapInitParameters struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	Oauth2ClientIDSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientIdSecretRef,omitempty" tf:"-"`
+
+	// OAuth2 Client ID for IAP
+	// Note: This property is write-only and will not be read from the API.
+	Oauth2ClientIDWo *string `json:"oauth2ClientIdWo,omitempty" tf:"oauth2_client_id_wo,omitempty"`
+
+	// Triggers update of oauth2_client_id_wo write-only. Increment this value when an update to oauth2_client_id_wo is needed. For more info see updating write-only arguments
+	Oauth2ClientIDWoVersion *string `json:"oauth2ClientIdWoVersion,omitempty" tf:"oauth2_client_id_wo_version,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	Oauth2ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+
+	// OAuth2 Client Secret for IAP
+	// Note: This property is write-only and will not be read from the API.
+	Oauth2ClientSecretWo *string `json:"oauth2ClientSecretWo,omitempty" tf:"oauth2_client_secret_wo,omitempty"`
+
+	// Triggers update of oauth2_client_secret_wo write-only. Increment this value when an update to oauth2_client_secret_wo is needed. For more info see updating write-only arguments
+	Oauth2ClientSecretWoVersion *string `json:"oauth2ClientSecretWoVersion,omitempty" tf:"oauth2_client_secret_wo_version,omitempty"`
 }
 
 type IapObservation struct {
@@ -1822,7 +1837,18 @@ type IapObservation struct {
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	// Note: This property is write-only and will not be read from the API.
+	Oauth2ClientIDWo *string `json:"oauth2ClientIdWo,omitempty" tf:"oauth2_client_id_wo,omitempty"`
+
+	// Triggers update of oauth2_client_id_wo write-only. Increment this value when an update to oauth2_client_id_wo is needed. For more info see updating write-only arguments
+	Oauth2ClientIDWoVersion *string `json:"oauth2ClientIdWoVersion,omitempty" tf:"oauth2_client_id_wo_version,omitempty"`
+
+	// OAuth2 Client Secret for IAP
+	// Note: This property is write-only and will not be read from the API.
+	Oauth2ClientSecretWo *string `json:"oauth2ClientSecretWo,omitempty" tf:"oauth2_client_secret_wo,omitempty"`
+
+	// Triggers update of oauth2_client_secret_wo write-only. Increment this value when an update to oauth2_client_secret_wo is needed. For more info see updating write-only arguments
+	Oauth2ClientSecretWoVersion *string `json:"oauth2ClientSecretWoVersion,omitempty" tf:"oauth2_client_secret_wo_version,omitempty"`
 }
 
 type IapParameters struct {
@@ -1832,13 +1858,32 @@ type IapParameters struct {
 	Enabled *bool `json:"enabled" tf:"enabled,omitempty"`
 
 	// OAuth2 Client ID for IAP
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	Oauth2ClientID *string `json:"oauth2ClientId,omitempty" tf:"oauth2_client_id,omitempty"`
+	Oauth2ClientIDSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientIdSecretRef,omitempty" tf:"-"`
+
+	// OAuth2 Client ID for IAP
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	Oauth2ClientIDWo *string `json:"oauth2ClientIdWo,omitempty" tf:"oauth2_client_id_wo,omitempty"`
+
+	// Triggers update of oauth2_client_id_wo write-only. Increment this value when an update to oauth2_client_id_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	Oauth2ClientIDWoVersion *string `json:"oauth2ClientIdWoVersion,omitempty" tf:"oauth2_client_id_wo_version,omitempty"`
 
 	// OAuth2 Client Secret for IAP
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	Oauth2ClientSecretSecretRef *v2.LocalSecretKeySelector `json:"oauth2ClientSecretSecretRef,omitempty" tf:"-"`
+
+	// OAuth2 Client Secret for IAP
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	Oauth2ClientSecretWo *string `json:"oauth2ClientSecretWo,omitempty" tf:"oauth2_client_secret_wo,omitempty"`
+
+	// Triggers update of oauth2_client_secret_wo write-only. Increment this value when an update to oauth2_client_secret_wo is needed. For more info see updating write-only arguments
+	// +kubebuilder:validation:Optional
+	Oauth2ClientSecretWoVersion *string `json:"oauth2ClientSecretWoVersion,omitempty" tf:"oauth2_client_secret_wo_version,omitempty"`
 }
 
 type IntervalInitParameters struct {
@@ -1936,6 +1981,14 @@ type LogConfigInitParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
 
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []RequestHeadersInitParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []ResponseHeadersInitParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
+
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
 	// where 1.0 means all logged requests are reported and 0.0 means no logged requests are reported.
@@ -1958,6 +2011,14 @@ type LogConfigObservation struct {
 	// Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	RequestHeaders []RequestHeadersObservation `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	ResponseHeaders []ResponseHeadersObservation `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -1984,6 +2045,16 @@ type LogConfigParameters struct {
 	// Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
 	// +kubebuilder:validation:Optional
 	OptionalMode *string `json:"optionalMode,omitempty" tf:"optional_mode,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	RequestHeaders []RequestHeadersParameters `json:"requestHeaders,omitempty" tf:"request_headers,omitempty"`
+
+	// This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResponseHeaders []ResponseHeadersParameters `json:"responseHeaders,omitempty" tf:"response_headers,omitempty"`
 
 	// This field can only be specified if logging is enabled for this backend service. The value of
 	// the field must be in [0, 1]. This configures the sampling rate of requests to the load balancer
@@ -2248,6 +2319,44 @@ type PolicyParameters struct {
 	// Name of the cookie.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name" tf:"name,omitempty"`
+}
+
+type RequestHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type RequestHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type RequestHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
+}
+
+type ResponseHeadersInitParameters struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type ResponseHeadersObservation struct {
+
+	// The header name to match on for logging.
+	HeaderName *string `json:"headerName,omitempty" tf:"header_name,omitempty"`
+}
+
+type ResponseHeadersParameters struct {
+
+	// The header name to match on for logging.
+	// +kubebuilder:validation:Optional
+	HeaderName *string `json:"headerName" tf:"header_name,omitempty"`
 }
 
 type SecuritySettingsInitParameters struct {

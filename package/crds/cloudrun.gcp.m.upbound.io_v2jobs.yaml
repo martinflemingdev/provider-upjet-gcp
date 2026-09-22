@@ -129,6 +129,25 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  runExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  startExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   template:
                     description: |-
                       The template used to create executions for this Job.
@@ -144,6 +163,10 @@ spec:
                           This field follows Kubernetes annotations' namespacing, limits, and rules.
                         type: object
                         x-kubernetes-map-type: granular
+                      delayExecution:
+                        description: If true, the system will start the execution
+                          within the next 12 hours depending on available capacity.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -378,6 +401,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -875,8 +902,10 @@ spec:
                                         subnetwork with the same name with the network will be used.
                                       type: string
                                     tags:
-                                      description: Network tags applied to this Cloud
-                                        Run job.
+                                      description: |-
+                                        A map of resource manager tags.
+                                        Resource manager tag keys and values have the same definition as resource manager tags.
+                                        Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
                                       items:
                                         type: string
                                       type: array
@@ -968,6 +997,25 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  runExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  startExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   template:
                     description: |-
                       The template used to create executions for this Job.
@@ -983,6 +1031,10 @@ spec:
                           This field follows Kubernetes annotations' namespacing, limits, and rules.
                         type: object
                         x-kubernetes-map-type: granular
+                      delayExecution:
+                        description: If true, the system will start the execution
+                          within the next 12 hours depending on available capacity.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -1217,6 +1269,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -1714,8 +1770,10 @@ spec:
                                         subnetwork with the same name with the network will be used.
                                       type: string
                                     tags:
-                                      description: Network tags applied to this Cloud
-                                        Run job.
+                                      description: |-
+                                        A map of resource manager tags.
+                                        Resource manager tag keys and values have the same definition as resource manager tags.
+                                        Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
                                       items:
                                         type: string
                                       type: array
@@ -1995,6 +2053,25 @@ spec:
                       If reconciliation succeeded, the following fields will match: observedGeneration and generation, latest_succeeded_execution and latestCreatedExecution.
                       If reconciliation failed, observedGeneration and latest_succeeded_execution will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in terminalCondition and conditions
                     type: boolean
+                  runExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  startExecutionToken:
+                    description: |-
+                      A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+                      The sum of job name and token length must be fewer than 63 characters.
+                    type: string
+                  tags:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      A map of resource manager tags.
+                      Resource manager tag keys and values have the same definition as resource manager tags.
+                      Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+                    type: object
+                    x-kubernetes-map-type: granular
                   template:
                     description: |-
                       The template used to create executions for this Job.
@@ -2010,6 +2087,10 @@ spec:
                           This field follows Kubernetes annotations' namespacing, limits, and rules.
                         type: object
                         x-kubernetes-map-type: granular
+                      delayExecution:
+                        description: If true, the system will start the execution
+                          within the next 12 hours depending on available capacity.
+                        type: boolean
                       labels:
                         additionalProperties:
                           type: string
@@ -2158,6 +2239,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -2485,8 +2570,10 @@ spec:
                                         subnetwork with the same name with the network will be used.
                                       type: string
                                     tags:
-                                      description: Network tags applied to this Cloud
-                                        Run job.
+                                      description: |-
+                                        A map of resource manager tags.
+                                        Resource manager tag keys and values have the same definition as resource manager tags.
+                                        Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
                                       items:
                                         type: string
                                       type: array

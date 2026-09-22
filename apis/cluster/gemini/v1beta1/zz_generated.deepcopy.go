@@ -1162,6 +1162,11 @@ func (in *GeminiGCPEnablementSettingInitParameters) DeepCopyInto(out *GeminiGCPE
 			(*out)[key] = outVal
 		}
 	}
+	if in.MutationsEnabled != nil {
+		in, out := &in.MutationsEnabled, &out.MutationsEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
@@ -1281,6 +1286,11 @@ func (in *GeminiGCPEnablementSettingObservation) DeepCopyInto(out *GeminiGCPEnab
 		*out = new(string)
 		**out = **in
 	}
+	if in.MutationsEnabled != nil {
+		in, out := &in.MutationsEnabled, &out.MutationsEnabled
+		*out = new(bool)
+		**out = **in
+	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
@@ -1361,6 +1371,11 @@ func (in *GeminiGCPEnablementSettingParameters) DeepCopyInto(out *GeminiGCPEnabl
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
+		**out = **in
+	}
+	if in.MutationsEnabled != nil {
+		in, out := &in.MutationsEnabled, &out.MutationsEnabled
+		*out = new(bool)
 		**out = **in
 	}
 	if in.Project != nil {

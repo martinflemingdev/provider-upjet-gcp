@@ -9,6 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	agentconnectivitytemplate "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/agentconnectivitytemplate"
+	agentgateway "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/agentgateway"
 	gateway "github.com/upbound/provider-gcp/v3/internal/controller/cluster/networkservices/gateway"
 )
 
@@ -16,6 +18,8 @@ import (
 // the supplied manager.
 func Setup_networkservices(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		agentconnectivitytemplate.Setup,
+		agentgateway.Setup,
 		gateway.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -29,6 +33,8 @@ func Setup_networkservices(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated_networkservices(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		agentconnectivitytemplate.SetupGated,
+		agentgateway.SetupGated,
 		gateway.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -41,6 +47,8 @@ func SetupGated_networkservices(mgr ctrl.Manager, o controller.Options) error {
 // SetupWebhookWithManager_networkservices registers conversion webhooks for all resource kinds in the group.
 func SetupWebhookWithManager_networkservices(mgr ctrl.Manager) error {
 	for _, setup := range []func(ctrl.Manager) error{
+		agentconnectivitytemplate.SetupWebhookWithManager,
+		agentgateway.SetupWebhookWithManager,
 		gateway.SetupWebhookWithManager,
 	} {
 		if err := setup(mgr); err != nil {

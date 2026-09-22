@@ -13,6 +13,275 @@ import (
 	v2 "github.com/crossplane/crossplane/apis/v2/core/v2"
 )
 
+type AdkConfigInitParameters struct {
+
+	// Required. The value of the ADK config in JSON format.
+	JSONConfig *string `json:"jsonConfig,omitempty" tf:"json_config,omitempty"`
+}
+
+type AdkConfigObservation struct {
+
+	// Required. The value of the ADK config in JSON format.
+	JSONConfig *string `json:"jsonConfig,omitempty" tf:"json_config,omitempty"`
+}
+
+type AdkConfigParameters struct {
+
+	// Required. The value of the ADK config in JSON format.
+	// +kubebuilder:validation:Optional
+	JSONConfig *string `json:"jsonConfig" tf:"json_config,omitempty"`
+}
+
+type AgentConfigSourceInitParameters struct {
+
+	// Required. Configuration for the Agent Development Kit (ADK).
+	// Structure is documented below.
+	AdkConfig *AdkConfigInitParameters `json:"adkConfig,omitempty" tf:"adk_config,omitempty"`
+
+	// Source code is provided directly in the request.
+	// Structure is documented below.
+	InlineSource *InlineSourceInitParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+}
+
+type AgentConfigSourceObservation struct {
+
+	// Required. Configuration for the Agent Development Kit (ADK).
+	// Structure is documented below.
+	AdkConfig *AdkConfigObservation `json:"adkConfig,omitempty" tf:"adk_config,omitempty"`
+
+	// Source code is provided directly in the request.
+	// Structure is documented below.
+	InlineSource *InlineSourceObservation `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+}
+
+type AgentConfigSourceParameters struct {
+
+	// Required. Configuration for the Agent Development Kit (ADK).
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AdkConfig *AdkConfigParameters `json:"adkConfig,omitempty" tf:"adk_config,omitempty"`
+
+	// Source code is provided directly in the request.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InlineSource *InlineSourceParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+}
+
+type AgentGatewayConfigInitParameters struct {
+
+	// Optional. Configuration for traffic originating from the Reasoning Engine.
+	// Structure is documented below.
+	AgentToAnywhereConfig *AgentToAnywhereConfigInitParameters `json:"agentToAnywhereConfig,omitempty" tf:"agent_to_anywhere_config,omitempty"`
+
+	// Optional. Configuration for traffic targeting the Reasoning Engine.
+	// Structure is documented below.
+	ClientToAgentConfig *ClientToAgentConfigInitParameters `json:"clientToAgentConfig,omitempty" tf:"client_to_agent_config,omitempty"`
+}
+
+type AgentGatewayConfigObservation struct {
+
+	// Optional. Configuration for traffic originating from the Reasoning Engine.
+	// Structure is documented below.
+	AgentToAnywhereConfig *AgentToAnywhereConfigObservation `json:"agentToAnywhereConfig,omitempty" tf:"agent_to_anywhere_config,omitempty"`
+
+	// Optional. Configuration for traffic targeting the Reasoning Engine.
+	// Structure is documented below.
+	ClientToAgentConfig *ClientToAgentConfigObservation `json:"clientToAgentConfig,omitempty" tf:"client_to_agent_config,omitempty"`
+}
+
+type AgentGatewayConfigParameters struct {
+
+	// Optional. Configuration for traffic originating from the Reasoning Engine.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AgentToAnywhereConfig *AgentToAnywhereConfigParameters `json:"agentToAnywhereConfig,omitempty" tf:"agent_to_anywhere_config,omitempty"`
+
+	// Optional. Configuration for traffic targeting the Reasoning Engine.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ClientToAgentConfig *ClientToAgentConfigParameters `json:"clientToAgentConfig,omitempty" tf:"client_to_agent_config,omitempty"`
+}
+
+type AgentToAnywhereConfigInitParameters struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	AgentGateway *string `json:"agentGateway,omitempty" tf:"agent_gateway,omitempty"`
+}
+
+type AgentToAnywhereConfigObservation struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	AgentGateway *string `json:"agentGateway,omitempty" tf:"agent_gateway,omitempty"`
+}
+
+type AgentToAnywhereConfigParameters struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	// +kubebuilder:validation:Optional
+	AgentGateway *string `json:"agentGateway" tf:"agent_gateway,omitempty"`
+}
+
+type AudioTranscriptionInitParameters struct {
+
+	// A label identifying the speaker of this audio segment (e.g. spk_1, spk_2). Present when diarization is set.
+	SpeakerLabel *string `json:"speakerLabel,omitempty" tf:"speaker_label,omitempty"`
+
+	// The text content of the part.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+
+	// Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+	// Structure is documented below.
+	Words []WordsInitParameters `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type AudioTranscriptionObservation struct {
+
+	// A label identifying the speaker of this audio segment (e.g. spk_1, spk_2). Present when diarization is set.
+	SpeakerLabel *string `json:"speakerLabel,omitempty" tf:"speaker_label,omitempty"`
+
+	// The text content of the part.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+
+	// Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+	// Structure is documented below.
+	Words []WordsObservation `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type AudioTranscriptionParameters struct {
+
+	// A label identifying the speaker of this audio segment (e.g. spk_1, spk_2). Present when diarization is set.
+	// +kubebuilder:validation:Optional
+	SpeakerLabel *string `json:"speakerLabel,omitempty" tf:"speaker_label,omitempty"`
+
+	// The text content of the part.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text" tf:"text,omitempty"`
+
+	// Detailed word-level transcriptions and timing details. Present when word_timestamp is set.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Words []WordsParameters `json:"words,omitempty" tf:"words,omitempty"`
+}
+
+type BuildSpecInitParameters struct {
+
+	// Optional. The service account that the Reasoning Engine artifact runs
+	// as. It should have "roles/storage.objectViewer" for reading the user
+	// project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+	// extensions. If not specified, the Vertex AI Reasoning Engine service
+	// Agent in the project will be used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
+	// Optional. The resource name of the Cloud Build WorkerPool to use for the build.
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type BuildSpecObservation struct {
+
+	// Optional. The service account that the Reasoning Engine artifact runs
+	// as. It should have "roles/storage.objectViewer" for reading the user
+	// project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+	// extensions. If not specified, the Vertex AI Reasoning Engine service
+	// Agent in the project will be used.
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Optional. The resource name of the Cloud Build WorkerPool to use for the build.
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type BuildSpecParameters struct {
+
+	// Optional. The service account that the Reasoning Engine artifact runs
+	// as. It should have "roles/storage.objectViewer" for reading the user
+	// project's Cloud Storage and "roles/aiplatform.user" for using Vertex
+	// extensions. If not specified, the Vertex AI Reasoning Engine service
+	// Agent in the project will be used.
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v3/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +kubebuilder:validation:Optional
+	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
+
+	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountRef *v2.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
+
+	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
+	// +kubebuilder:validation:Optional
+	ServiceAccountSelector *v2.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
+
+	// Optional. The resource name of the Cloud Build WorkerPool to use for the build.
+	// +kubebuilder:validation:Optional
+	WorkerPool *string `json:"workerPool,omitempty" tf:"worker_pool,omitempty"`
+}
+
+type ClientToAgentConfigInitParameters struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	AgentGateway *string `json:"agentGateway,omitempty" tf:"agent_gateway,omitempty"`
+}
+
+type ClientToAgentConfigObservation struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	AgentGateway *string `json:"agentGateway,omitempty" tf:"agent_gateway,omitempty"`
+}
+
+type ClientToAgentConfigParameters struct {
+
+	// Required. The resource name of the Agent Gateway to use for inbound traffic.
+	// +kubebuilder:validation:Optional
+	AgentGateway *string `json:"agentGateway" tf:"agent_gateway,omitempty"`
+}
+
+type CodeExecutionResultInitParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Outcome of the code execution. Possible values: ["OUTCOME_UNSPECIFIED", "OUTCOME_OK", "OUTCOME_FAILED", "OUTCOME_DEADLINE_EXCEEDED"]
+	Outcome *string `json:"outcome,omitempty" tf:"outcome,omitempty"`
+
+	// Contains stdout when code execution is successful, stderr or other description otherwise.
+	Output *string `json:"output,omitempty" tf:"output,omitempty"`
+}
+
+type CodeExecutionResultObservation struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Outcome of the code execution. Possible values: ["OUTCOME_UNSPECIFIED", "OUTCOME_OK", "OUTCOME_FAILED", "OUTCOME_DEADLINE_EXCEEDED"]
+	Outcome *string `json:"outcome,omitempty" tf:"outcome,omitempty"`
+
+	// Contains stdout when code execution is successful, stderr or other description otherwise.
+	Output *string `json:"output,omitempty" tf:"output,omitempty"`
+}
+
+type CodeExecutionResultParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Outcome of the code execution. Possible values: ["OUTCOME_UNSPECIFIED", "OUTCOME_OK", "OUTCOME_FAILED", "OUTCOME_DEADLINE_EXCEEDED"]
+	// +kubebuilder:validation:Optional
+	Outcome *string `json:"outcome" tf:"outcome,omitempty"`
+
+	// Contains stdout when code execution is successful, stderr or other description otherwise.
+	// +kubebuilder:validation:Optional
+	Output *string `json:"output,omitempty" tf:"output,omitempty"`
+}
+
 type ConfigInitParameters struct {
 
 	// Directory, relative to the source root, in which to run the build.
@@ -52,12 +321,34 @@ type ConfigParameters struct {
 	Revision *string `json:"revision" tf:"revision,omitempty"`
 }
 
+type ConsolidationConfigInitParameters struct {
+
+	// Number of revisions to consider per candidate count.
+	RevisionsPerCandidateCount *float64 `json:"revisionsPerCandidateCount,omitempty" tf:"revisions_per_candidate_count,omitempty"`
+}
+
+type ConsolidationConfigObservation struct {
+
+	// Number of revisions to consider per candidate count.
+	RevisionsPerCandidateCount *float64 `json:"revisionsPerCandidateCount,omitempty" tf:"revisions_per_candidate_count,omitempty"`
+}
+
+type ConsolidationConfigParameters struct {
+
+	// Number of revisions to consider per candidate count.
+	// +kubebuilder:validation:Optional
+	RevisionsPerCandidateCount *float64 `json:"revisionsPerCandidateCount,omitempty" tf:"revisions_per_candidate_count,omitempty"`
+}
+
 type ContainerSpecInitParameters struct {
 
 	// The Artifact Registry Docker image URI (e.g.,
 	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
 	// container image that is to be run on each worker replica.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type ContainerSpecObservation struct {
@@ -66,6 +357,9 @@ type ContainerSpecObservation struct {
 	// us-central1-docker.pkg.dev/my-project/my-repo/my-image:tag) of the
 	// container image that is to be run on each worker replica.
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 }
 
 type ContainerSpecParameters struct {
@@ -75,6 +369,193 @@ type ContainerSpecParameters struct {
 	// container image that is to be run on each worker replica.
 	// +kubebuilder:validation:Optional
 	ImageURI *string `json:"imageUri" tf:"image_uri,omitempty"`
+
+	// Optional. Specifies the port number on the container to which the request is sent.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContentInitParameters struct {
+
+	// A list of Part objects that make up a single message.
+	// Structure is documented below.
+	Parts []PartsInitParameters `json:"parts,omitempty" tf:"parts,omitempty"`
+
+	// The producer of the content. Must be either 'user' or 'model'. If not set, the service will default to 'user'.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type ContentObservation struct {
+
+	// A list of Part objects that make up a single message.
+	// Structure is documented below.
+	Parts []PartsObservation `json:"parts,omitempty" tf:"parts,omitempty"`
+
+	// The producer of the content. Must be either 'user' or 'model'. If not set, the service will default to 'user'.
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type ContentParameters struct {
+
+	// A list of Part objects that make up a single message.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Parts []PartsParameters `json:"parts" tf:"parts,omitempty"`
+
+	// The producer of the content. Must be either 'user' or 'model'. If not set, the service will default to 'user'.
+	// +kubebuilder:validation:Optional
+	Role *string `json:"role,omitempty" tf:"role,omitempty"`
+}
+
+type ContextSpecInitParameters struct {
+
+	// Specification for a Memory Bank, which manages memories for the Agent Engine.
+	// Structure is documented below.
+	MemoryBankConfig *MemoryBankConfigInitParameters `json:"memoryBankConfig,omitempty" tf:"memory_bank_config,omitempty"`
+}
+
+type ContextSpecObservation struct {
+
+	// Specification for a Memory Bank, which manages memories for the Agent Engine.
+	// Structure is documented below.
+	MemoryBankConfig *MemoryBankConfigObservation `json:"memoryBankConfig,omitempty" tf:"memory_bank_config,omitempty"`
+}
+
+type ContextSpecParameters struct {
+
+	// Specification for a Memory Bank, which manages memories for the Agent Engine.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MemoryBankConfig *MemoryBankConfigParameters `json:"memoryBankConfig,omitempty" tf:"memory_bank_config,omitempty"`
+}
+
+type ConversationSourceInitParameters struct {
+
+	// Represents the input conversation events for the example.
+	// Structure is documented below.
+	Events []EventsInitParameters `json:"events,omitempty" tf:"events,omitempty"`
+}
+
+type ConversationSourceObservation struct {
+
+	// Represents the input conversation events for the example.
+	// Structure is documented below.
+	Events []EventsObservation `json:"events,omitempty" tf:"events,omitempty"`
+}
+
+type ConversationSourceParameters struct {
+
+	// Represents the input conversation events for the example.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Events []EventsParameters `json:"events,omitempty" tf:"events,omitempty"`
+}
+
+type CustomMemoryTopicInitParameters struct {
+
+	// The description of the ReasoningEngine.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Label of custom memory topic.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
+type CustomMemoryTopicObservation struct {
+
+	// The description of the ReasoningEngine.
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Label of custom memory topic.
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
+type CustomMemoryTopicParameters struct {
+
+	// The description of the ReasoningEngine.
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Label of custom memory topic.
+	// +kubebuilder:validation:Optional
+	Label *string `json:"label,omitempty" tf:"label,omitempty"`
+}
+
+type CustomizationConfigsInitParameters struct {
+
+	// Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+	// Structure is documented below.
+	ConsolidationConfig *ConsolidationConfigInitParameters `json:"consolidationConfig,omitempty" tf:"consolidation_config,omitempty"`
+
+	// Indicates whether natural language memory generation should be disabled.
+	DisableNaturalLanguageMemories *bool `json:"disableNaturalLanguageMemories,omitempty" tf:"disable_natural_language_memories,omitempty"`
+
+	// Optional. Generate memories in the third person if set to true.
+	EnableThirdPersonMemories *bool `json:"enableThirdPersonMemories,omitempty" tf:"enable_third_person_memories,omitempty"`
+
+	// Provides examples of how to generate memories for a particular scope.
+	// Structure is documented below.
+	GenerateMemoriesExamples []GenerateMemoriesExamplesInitParameters `json:"generateMemoriesExamples,omitempty" tf:"generate_memories_examples,omitempty"`
+
+	// Optional. List of topics that the memory should be associated with.
+	// Structure is documented below.
+	MemoryTopics []MemoryTopicsInitParameters `json:"memoryTopics,omitempty" tf:"memory_topics,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
+}
+
+type CustomizationConfigsObservation struct {
+
+	// Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+	// Structure is documented below.
+	ConsolidationConfig *ConsolidationConfigObservation `json:"consolidationConfig,omitempty" tf:"consolidation_config,omitempty"`
+
+	// Indicates whether natural language memory generation should be disabled.
+	DisableNaturalLanguageMemories *bool `json:"disableNaturalLanguageMemories,omitempty" tf:"disable_natural_language_memories,omitempty"`
+
+	// Optional. Generate memories in the third person if set to true.
+	EnableThirdPersonMemories *bool `json:"enableThirdPersonMemories,omitempty" tf:"enable_third_person_memories,omitempty"`
+
+	// Provides examples of how to generate memories for a particular scope.
+	// Structure is documented below.
+	GenerateMemoriesExamples []GenerateMemoriesExamplesObservation `json:"generateMemoriesExamples,omitempty" tf:"generate_memories_examples,omitempty"`
+
+	// Optional. List of topics that the memory should be associated with.
+	// Structure is documented below.
+	MemoryTopics []MemoryTopicsObservation `json:"memoryTopics,omitempty" tf:"memory_topics,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
+}
+
+type CustomizationConfigsParameters struct {
+
+	// Optional. Configuration for how many memory revisions Memory Bank considers when consolidating each memory candidate.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConsolidationConfig *ConsolidationConfigParameters `json:"consolidationConfig,omitempty" tf:"consolidation_config,omitempty"`
+
+	// Indicates whether natural language memory generation should be disabled.
+	// +kubebuilder:validation:Optional
+	DisableNaturalLanguageMemories *bool `json:"disableNaturalLanguageMemories,omitempty" tf:"disable_natural_language_memories,omitempty"`
+
+	// Optional. Generate memories in the third person if set to true.
+	// +kubebuilder:validation:Optional
+	EnableThirdPersonMemories *bool `json:"enableThirdPersonMemories,omitempty" tf:"enable_third_person_memories,omitempty"`
+
+	// Provides examples of how to generate memories for a particular scope.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GenerateMemoriesExamples []GenerateMemoriesExamplesParameters `json:"generateMemoriesExamples,omitempty" tf:"generate_memories_examples,omitempty"`
+
+	// Optional. List of topics that the memory should be associated with.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MemoryTopics []MemoryTopicsParameters `json:"memoryTopics,omitempty" tf:"memory_topics,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	// +kubebuilder:validation:Optional
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
 }
 
 type DNSPeeringConfigsInitParameters struct {
@@ -154,6 +635,10 @@ type DNSPeeringConfigsParameters struct {
 
 type DeploymentSpecInitParameters struct {
 
+	// Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+	// Structure is documented below.
+	AgentGatewayConfig *AgentGatewayConfigInitParameters `json:"agentGatewayConfig,omitempty" tf:"agent_gateway_config,omitempty"`
+
 	// Optional. Concurrency for each container and agent server.
 	// Recommended value: 2 * cpu + 1. Defaults to 9.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
@@ -199,6 +684,10 @@ type DeploymentSpecInitParameters struct {
 
 type DeploymentSpecObservation struct {
 
+	// Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+	// Structure is documented below.
+	AgentGatewayConfig *AgentGatewayConfigObservation `json:"agentGatewayConfig,omitempty" tf:"agent_gateway_config,omitempty"`
+
 	// Optional. Concurrency for each container and agent server.
 	// Recommended value: 2 * cpu + 1. Defaults to 9.
 	ContainerConcurrency *float64 `json:"containerConcurrency,omitempty" tf:"container_concurrency,omitempty"`
@@ -243,6 +732,11 @@ type DeploymentSpecObservation struct {
 }
 
 type DeploymentSpecParameters struct {
+
+	// Optional. Agent Gateway configuration for a Reasoning Engine deployment.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AgentGatewayConfig *AgentGatewayConfigParameters `json:"agentGatewayConfig,omitempty" tf:"agent_gateway_config,omitempty"`
 
 	// Optional. Concurrency for each container and agent server.
 	// Recommended value: 2 * cpu + 1. Defaults to 9.
@@ -369,6 +863,401 @@ type EnvParameters struct {
 	Value *string `json:"value" tf:"value,omitempty"`
 }
 
+type EventsInitParameters struct {
+
+	// Represents the content of the event.
+	// Structure is documented below.
+	Content *ContentInitParameters `json:"content,omitempty" tf:"content,omitempty"`
+}
+
+type EventsObservation struct {
+
+	// Represents the content of the event.
+	// Structure is documented below.
+	Content *ContentObservation `json:"content,omitempty" tf:"content,omitempty"`
+}
+
+type EventsParameters struct {
+
+	// Represents the content of the event.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Content *ContentParameters `json:"content" tf:"content,omitempty"`
+}
+
+type ExecutableCodeInitParameters struct {
+
+	// The code to be executed.
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Supported programming languages for the generated code. Possible values: ["LANGUAGE_UNSPECIFIED", "PYTHON", "BASH"]
+	Language *string `json:"language,omitempty" tf:"language,omitempty"`
+}
+
+type ExecutableCodeObservation struct {
+
+	// The code to be executed.
+	Code *string `json:"code,omitempty" tf:"code,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Supported programming languages for the generated code. Possible values: ["LANGUAGE_UNSPECIFIED", "PYTHON", "BASH"]
+	Language *string `json:"language,omitempty" tf:"language,omitempty"`
+}
+
+type ExecutableCodeParameters struct {
+
+	// The code to be executed.
+	// +kubebuilder:validation:Optional
+	Code *string `json:"code" tf:"code,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Supported programming languages for the generated code. Possible values: ["LANGUAGE_UNSPECIFIED", "PYTHON", "BASH"]
+	// +kubebuilder:validation:Optional
+	Language *string `json:"language" tf:"language,omitempty"`
+}
+
+type FileDataInitParameters struct {
+
+	// The URI of the file in Google Cloud Storage.
+	FileURI *string `json:"fileUri,omitempty" tf:"file_uri,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+}
+
+type FileDataObservation struct {
+
+	// The URI of the file in Google Cloud Storage.
+	FileURI *string `json:"fileUri,omitempty" tf:"file_uri,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+}
+
+type FileDataParameters struct {
+
+	// The URI of the file in Google Cloud Storage.
+	// +kubebuilder:validation:Optional
+	FileURI *string `json:"fileUri" tf:"file_uri,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	// +kubebuilder:validation:Optional
+	MimeType *string `json:"mimeType" tf:"mime_type,omitempty"`
+}
+
+type FunctionCallInitParameters struct {
+
+	// The function parameters and values in JSON object format.
+	Args *string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type FunctionCallObservation struct {
+
+	// The function parameters and values in JSON object format.
+	Args *string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type FunctionCallParameters struct {
+
+	// The function parameters and values in JSON object format.
+	// +kubebuilder:validation:Optional
+	Args *string `json:"args,omitempty" tf:"args,omitempty"`
+
+	// Required. Unique ID identifying the memory schema.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type FunctionResponseInitParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The function response in JSON object format.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
+type FunctionResponseObservation struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// The function response in JSON object format.
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
+type FunctionResponseParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// The name of the environment variable. Must be a valid C
+	// identifier.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// The function response in JSON object format.
+	// +kubebuilder:validation:Optional
+	Response *string `json:"response,omitempty" tf:"response,omitempty"`
+}
+
+type GenerateMemoriesExamplesInitParameters struct {
+
+	// A conversation source for the example.
+	// Structure is documented below.
+	ConversationSource *ConversationSourceInitParameters `json:"conversationSource,omitempty" tf:"conversation_source,omitempty"`
+
+	// Represents the memories that are expected to be generated from the input conversation.
+	// Structure is documented below.
+	GeneratedMemories []GeneratedMemoriesInitParameters `json:"generatedMemories,omitempty" tf:"generated_memories,omitempty"`
+}
+
+type GenerateMemoriesExamplesObservation struct {
+
+	// A conversation source for the example.
+	// Structure is documented below.
+	ConversationSource *ConversationSourceObservation `json:"conversationSource,omitempty" tf:"conversation_source,omitempty"`
+
+	// Represents the memories that are expected to be generated from the input conversation.
+	// Structure is documented below.
+	GeneratedMemories []GeneratedMemoriesObservation `json:"generatedMemories,omitempty" tf:"generated_memories,omitempty"`
+}
+
+type GenerateMemoriesExamplesParameters struct {
+
+	// A conversation source for the example.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ConversationSource *ConversationSourceParameters `json:"conversationSource,omitempty" tf:"conversation_source,omitempty"`
+
+	// Represents the memories that are expected to be generated from the input conversation.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GeneratedMemories []GeneratedMemoriesParameters `json:"generatedMemories,omitempty" tf:"generated_memories,omitempty"`
+}
+
+type GeneratedMemoriesInitParameters struct {
+
+	// Represents the fact to generate a memory from.
+	Fact *string `json:"fact,omitempty" tf:"fact,omitempty"`
+
+	// Represents the list of topics that the memory should be associated with.
+	// Structure is documented below.
+	Topics []TopicsInitParameters `json:"topics,omitempty" tf:"topics,omitempty"`
+}
+
+type GeneratedMemoriesObservation struct {
+
+	// Represents the fact to generate a memory from.
+	Fact *string `json:"fact,omitempty" tf:"fact,omitempty"`
+
+	// Represents the list of topics that the memory should be associated with.
+	// Structure is documented below.
+	Topics []TopicsObservation `json:"topics,omitempty" tf:"topics,omitempty"`
+}
+
+type GeneratedMemoriesParameters struct {
+
+	// Represents the fact to generate a memory from.
+	// +kubebuilder:validation:Optional
+	Fact *string `json:"fact" tf:"fact,omitempty"`
+
+	// Represents the list of topics that the memory should be associated with.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Topics []TopicsParameters `json:"topics,omitempty" tf:"topics,omitempty"`
+}
+
+type GenerationConfigInitParameters struct {
+
+	// Optional. Configuration for triggering memory generation.
+	// Structure is documented below.
+	GenerationTriggerConfig *GenerationTriggerConfigInitParameters `json:"generationTriggerConfig,omitempty" tf:"generation_trigger_config,omitempty"`
+
+	// The model used to generate memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	Model *string `json:"model,omitempty" tf:"model,omitempty"`
+}
+
+type GenerationConfigObservation struct {
+
+	// Optional. Configuration for triggering memory generation.
+	// Structure is documented below.
+	GenerationTriggerConfig *GenerationTriggerConfigObservation `json:"generationTriggerConfig,omitempty" tf:"generation_trigger_config,omitempty"`
+
+	// The model used to generate memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	Model *string `json:"model,omitempty" tf:"model,omitempty"`
+}
+
+type GenerationConfigParameters struct {
+
+	// Optional. Configuration for triggering memory generation.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GenerationTriggerConfig *GenerationTriggerConfigParameters `json:"generationTriggerConfig,omitempty" tf:"generation_trigger_config,omitempty"`
+
+	// The model used to generate memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	// +kubebuilder:validation:Optional
+	Model *string `json:"model" tf:"model,omitempty"`
+}
+
+type GenerationRuleInitParameters struct {
+
+	// Optional. Specifies to trigger generation when the event count reaches this limit.
+	EventCount *float64 `json:"eventCount,omitempty" tf:"event_count,omitempty"`
+
+	// Optional. Specifies to trigger generation at a fixed interval. The duration
+	// must have a minute-level granularity.
+	FixedInterval *string `json:"fixedInterval,omitempty" tf:"fixed_interval,omitempty"`
+
+	// Optional. Specifies to trigger generation if the stream is inactive for the
+	// specified duration after the most recent event. The duration must have a
+	// minute-level granularity.
+	IdleDuration *string `json:"idleDuration,omitempty" tf:"idle_duration,omitempty"`
+
+	// Optional. Re-include the last N already-processed events in the next window.
+	OverlapEventCount *float64 `json:"overlapEventCount,omitempty" tf:"overlap_event_count,omitempty"`
+}
+
+type GenerationRuleObservation struct {
+
+	// Optional. Specifies to trigger generation when the event count reaches this limit.
+	EventCount *float64 `json:"eventCount,omitempty" tf:"event_count,omitempty"`
+
+	// Optional. Specifies to trigger generation at a fixed interval. The duration
+	// must have a minute-level granularity.
+	FixedInterval *string `json:"fixedInterval,omitempty" tf:"fixed_interval,omitempty"`
+
+	// Optional. Specifies to trigger generation if the stream is inactive for the
+	// specified duration after the most recent event. The duration must have a
+	// minute-level granularity.
+	IdleDuration *string `json:"idleDuration,omitempty" tf:"idle_duration,omitempty"`
+
+	// Optional. Re-include the last N already-processed events in the next window.
+	OverlapEventCount *float64 `json:"overlapEventCount,omitempty" tf:"overlap_event_count,omitempty"`
+}
+
+type GenerationRuleParameters struct {
+
+	// Optional. Specifies to trigger generation when the event count reaches this limit.
+	// +kubebuilder:validation:Optional
+	EventCount *float64 `json:"eventCount,omitempty" tf:"event_count,omitempty"`
+
+	// Optional. Specifies to trigger generation at a fixed interval. The duration
+	// must have a minute-level granularity.
+	// +kubebuilder:validation:Optional
+	FixedInterval *string `json:"fixedInterval,omitempty" tf:"fixed_interval,omitempty"`
+
+	// Optional. Specifies to trigger generation if the stream is inactive for the
+	// specified duration after the most recent event. The duration must have a
+	// minute-level granularity.
+	// +kubebuilder:validation:Optional
+	IdleDuration *string `json:"idleDuration,omitempty" tf:"idle_duration,omitempty"`
+
+	// Optional. Re-include the last N already-processed events in the next window.
+	// +kubebuilder:validation:Optional
+	OverlapEventCount *float64 `json:"overlapEventCount,omitempty" tf:"overlap_event_count,omitempty"`
+}
+
+type GenerationTriggerConfigInitParameters struct {
+
+	// Optional. The active rule that determines when to flush the buffer. If not set,
+	// then the stream will be force flushed immediately.
+	// Structure is documented below.
+	GenerationRule *GenerationRuleInitParameters `json:"generationRule,omitempty" tf:"generation_rule,omitempty"`
+}
+
+type GenerationTriggerConfigObservation struct {
+
+	// Optional. The active rule that determines when to flush the buffer. If not set,
+	// then the stream will be force flushed immediately.
+	// Structure is documented below.
+	GenerationRule *GenerationRuleObservation `json:"generationRule,omitempty" tf:"generation_rule,omitempty"`
+}
+
+type GenerationTriggerConfigParameters struct {
+
+	// Optional. The active rule that determines when to flush the buffer. If not set,
+	// then the stream will be force flushed immediately.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GenerationRule *GenerationRuleParameters `json:"generationRule,omitempty" tf:"generation_rule,omitempty"`
+}
+
+type GranularTTLConfigInitParameters struct {
+
+	// The TTL duration for memories uploaded via CreateMemory.
+	CreateTTL *string `json:"createTtl,omitempty" tf:"create_ttl,omitempty"`
+
+	// The TTL duration for memories newly generated via GenerateMemories.
+	GenerateCreatedTTL *string `json:"generateCreatedTtl,omitempty" tf:"generate_created_ttl,omitempty"`
+
+	// The TTL duration for memories updated via GenerateMemories.
+	GenerateUpdatedTTL *string `json:"generateUpdatedTtl,omitempty" tf:"generate_updated_ttl,omitempty"`
+}
+
+type GranularTTLConfigObservation struct {
+
+	// The TTL duration for memories uploaded via CreateMemory.
+	CreateTTL *string `json:"createTtl,omitempty" tf:"create_ttl,omitempty"`
+
+	// The TTL duration for memories newly generated via GenerateMemories.
+	GenerateCreatedTTL *string `json:"generateCreatedTtl,omitempty" tf:"generate_created_ttl,omitempty"`
+
+	// The TTL duration for memories updated via GenerateMemories.
+	GenerateUpdatedTTL *string `json:"generateUpdatedTtl,omitempty" tf:"generate_updated_ttl,omitempty"`
+}
+
+type GranularTTLConfigParameters struct {
+
+	// The TTL duration for memories uploaded via CreateMemory.
+	// +kubebuilder:validation:Optional
+	CreateTTL *string `json:"createTtl,omitempty" tf:"create_ttl,omitempty"`
+
+	// The TTL duration for memories newly generated via GenerateMemories.
+	// +kubebuilder:validation:Optional
+	GenerateCreatedTTL *string `json:"generateCreatedTtl,omitempty" tf:"generate_created_ttl,omitempty"`
+
+	// The TTL duration for memories updated via GenerateMemories.
+	// +kubebuilder:validation:Optional
+	GenerateUpdatedTTL *string `json:"generateUpdatedTtl,omitempty" tf:"generate_updated_ttl,omitempty"`
+}
+
 type ImageSpecInitParameters struct {
 
 	// Build arguments to be used. They will be passed through --build-arg flags.
@@ -389,6 +1278,35 @@ type ImageSpecParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	BuildArgs map[string]*string `json:"buildArgs,omitempty" tf:"build_args,omitempty"`
+}
+
+type InlineDataInitParameters struct {
+
+	// Raw bytes, which should be base64-encoded.
+	Data *string `json:"data,omitempty" tf:"data,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+}
+
+type InlineDataObservation struct {
+
+	// Raw bytes, which should be base64-encoded.
+	Data *string `json:"data,omitempty" tf:"data,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	MimeType *string `json:"mimeType,omitempty" tf:"mime_type,omitempty"`
+}
+
+type InlineDataParameters struct {
+
+	// Raw bytes, which should be base64-encoded.
+	// +kubebuilder:validation:Optional
+	Data *string `json:"data" tf:"data,omitempty"`
+
+	// The IANA standard MIME type of the source data.
+	// +kubebuilder:validation:Optional
+	MimeType *string `json:"mimeType" tf:"mime_type,omitempty"`
 }
 
 type InlineSourceInitParameters struct {
@@ -413,7 +1331,142 @@ type InlineSourceParameters struct {
 	// The application source code archive, provided as a compressed
 	// tarball (.tar.gz) file. A base64-encoded string.
 	// +kubebuilder:validation:Optional
-	SourceArchive *string `json:"sourceArchive,omitempty" tf:"source_archive,omitempty"`
+	SourceArchive *string `json:"sourceArchive" tf:"source_archive,omitempty"`
+}
+
+type ManagedMemoryTopicInitParameters struct {
+
+	// Managed topic enum (e.g. USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+	ManagedTopicEnum *string `json:"managedTopicEnum,omitempty" tf:"managed_topic_enum,omitempty"`
+}
+
+type ManagedMemoryTopicObservation struct {
+
+	// Managed topic enum (e.g. USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+	ManagedTopicEnum *string `json:"managedTopicEnum,omitempty" tf:"managed_topic_enum,omitempty"`
+}
+
+type ManagedMemoryTopicParameters struct {
+
+	// Managed topic enum (e.g. USER_PREFERENCES, EXPLICIT_INSTRUCTIONS).
+	// +kubebuilder:validation:Optional
+	ManagedTopicEnum *string `json:"managedTopicEnum,omitempty" tf:"managed_topic_enum,omitempty"`
+}
+
+type MemoryBankConfigInitParameters struct {
+
+	// Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+	// Structure is documented below.
+	CustomizationConfigs []CustomizationConfigsInitParameters `json:"customizationConfigs,omitempty" tf:"customization_configs,omitempty"`
+
+	// If true, no memory revisions will be created for any requests to the Memory Bank.
+	DisableMemoryRevisions *bool `json:"disableMemoryRevisions,omitempty" tf:"disable_memory_revisions,omitempty"`
+
+	// Configuration for how to generate memories for the Memory Bank.
+	// Structure is documented below.
+	GenerationConfig *GenerationConfigInitParameters `json:"generationConfig,omitempty" tf:"generation_config,omitempty"`
+
+	// Configuration for how to perform similarity search on memories.
+	// Structure is documented below.
+	SimilaritySearchConfig *SimilaritySearchConfigInitParameters `json:"similaritySearchConfig,omitempty" tf:"similarity_search_config,omitempty"`
+
+	// Optional. Structured memory configurations for Agent Engine sub-resources.
+	// Structure is documented below.
+	StructuredMemoryConfigs []StructuredMemoryConfigsInitParameters `json:"structuredMemoryConfigs,omitempty" tf:"structured_memory_configs,omitempty"`
+
+	// Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+	// Structure is documented below.
+	TTLConfig *TTLConfigInitParameters `json:"ttlConfig,omitempty" tf:"ttl_config,omitempty"`
+}
+
+type MemoryBankConfigObservation struct {
+
+	// Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+	// Structure is documented below.
+	CustomizationConfigs []CustomizationConfigsObservation `json:"customizationConfigs,omitempty" tf:"customization_configs,omitempty"`
+
+	// If true, no memory revisions will be created for any requests to the Memory Bank.
+	DisableMemoryRevisions *bool `json:"disableMemoryRevisions,omitempty" tf:"disable_memory_revisions,omitempty"`
+
+	// Configuration for how to generate memories for the Memory Bank.
+	// Structure is documented below.
+	GenerationConfig *GenerationConfigObservation `json:"generationConfig,omitempty" tf:"generation_config,omitempty"`
+
+	// Configuration for how to perform similarity search on memories.
+	// Structure is documented below.
+	SimilaritySearchConfig *SimilaritySearchConfigObservation `json:"similaritySearchConfig,omitempty" tf:"similarity_search_config,omitempty"`
+
+	// Optional. Structured memory configurations for Agent Engine sub-resources.
+	// Structure is documented below.
+	StructuredMemoryConfigs []StructuredMemoryConfigsObservation `json:"structuredMemoryConfigs,omitempty" tf:"structured_memory_configs,omitempty"`
+
+	// Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+	// Structure is documented below.
+	TTLConfig *TTLConfigObservation `json:"ttlConfig,omitempty" tf:"ttl_config,omitempty"`
+}
+
+type MemoryBankConfigParameters struct {
+
+	// Optional. Customization configs for how Agent Engine sub-resources manage context at different scope levels.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomizationConfigs []CustomizationConfigsParameters `json:"customizationConfigs,omitempty" tf:"customization_configs,omitempty"`
+
+	// If true, no memory revisions will be created for any requests to the Memory Bank.
+	// +kubebuilder:validation:Optional
+	DisableMemoryRevisions *bool `json:"disableMemoryRevisions,omitempty" tf:"disable_memory_revisions,omitempty"`
+
+	// Configuration for how to generate memories for the Memory Bank.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GenerationConfig *GenerationConfigParameters `json:"generationConfig,omitempty" tf:"generation_config,omitempty"`
+
+	// Configuration for how to perform similarity search on memories.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SimilaritySearchConfig *SimilaritySearchConfigParameters `json:"similaritySearchConfig,omitempty" tf:"similarity_search_config,omitempty"`
+
+	// Optional. Structured memory configurations for Agent Engine sub-resources.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	StructuredMemoryConfigs []StructuredMemoryConfigsParameters `json:"structuredMemoryConfigs,omitempty" tf:"structured_memory_configs,omitempty"`
+
+	// Configuration for automatic TTL ("time-to-live") of the memories in the Memory Bank.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TTLConfig *TTLConfigParameters `json:"ttlConfig,omitempty" tf:"ttl_config,omitempty"`
+}
+
+type MemoryTopicsInitParameters struct {
+
+	// Optional. Custom memory topic.
+	// Structure is documented below.
+	CustomMemoryTopic *CustomMemoryTopicInitParameters `json:"customMemoryTopic,omitempty" tf:"custom_memory_topic,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	ManagedMemoryTopic *ManagedMemoryTopicInitParameters `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
+}
+
+type MemoryTopicsObservation struct {
+
+	// Optional. Custom memory topic.
+	// Structure is documented below.
+	CustomMemoryTopic *CustomMemoryTopicObservation `json:"customMemoryTopic,omitempty" tf:"custom_memory_topic,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	ManagedMemoryTopic *ManagedMemoryTopicObservation `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
+}
+
+type MemoryTopicsParameters struct {
+
+	// Optional. Custom memory topic.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CustomMemoryTopic *CustomMemoryTopicParameters `json:"customMemoryTopic,omitempty" tf:"custom_memory_topic,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	// +kubebuilder:validation:Optional
+	ManagedMemoryTopic *ManagedMemoryTopicParameters `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
 }
 
 type PackageSpecInitParameters struct {
@@ -469,6 +1522,139 @@ type PackageSpecParameters struct {
 	// Optional. The Cloud Storage URI of the requirements.txtfile
 	// +kubebuilder:validation:Optional
 	RequirementsGcsURI *string `json:"requirementsGcsUri,omitempty" tf:"requirements_gcs_uri,omitempty"`
+}
+
+type PartsInitParameters struct {
+
+	// Audio (input or output) transcription. This is only set when this Part contains audio data.
+	// Structure is documented below.
+	AudioTranscription *AudioTranscriptionInitParameters `json:"audioTranscription,omitempty" tf:"audio_transcription,omitempty"`
+
+	// Result of executing the ExecutableCode.
+	// Structure is documented below.
+	CodeExecutionResult *CodeExecutionResultInitParameters `json:"codeExecutionResult,omitempty" tf:"code_execution_result,omitempty"`
+
+	// Code generated by the model that is intended to be executed.
+	// Structure is documented below.
+	ExecutableCode *ExecutableCodeInitParameters `json:"executableCode,omitempty" tf:"executable_code,omitempty"`
+
+	// URI based data.
+	// Structure is documented below.
+	FileData *FileDataInitParameters `json:"fileData,omitempty" tf:"file_data,omitempty"`
+
+	// A predicted function call returned from the model.
+	// Structure is documented below.
+	FunctionCall *FunctionCallInitParameters `json:"functionCall,omitempty" tf:"function_call,omitempty"`
+
+	// The result of a function call.
+	// Structure is documented below.
+	FunctionResponse *FunctionResponseInitParameters `json:"functionResponse,omitempty" tf:"function_response,omitempty"`
+
+	// The inline data content of the part.
+	// Structure is documented below.
+	InlineData *InlineDataInitParameters `json:"inlineData,omitempty" tf:"inline_data,omitempty"`
+
+	// The text content of the part.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+
+	// Indicates whether the part represents the model's thought process or reasoning.
+	Thought *bool `json:"thought,omitempty" tf:"thought,omitempty"`
+
+	// Video metadata.
+	// Structure is documented below.
+	VideoMetadata *VideoMetadataInitParameters `json:"videoMetadata,omitempty" tf:"video_metadata,omitempty"`
+}
+
+type PartsObservation struct {
+
+	// Audio (input or output) transcription. This is only set when this Part contains audio data.
+	// Structure is documented below.
+	AudioTranscription *AudioTranscriptionObservation `json:"audioTranscription,omitempty" tf:"audio_transcription,omitempty"`
+
+	// Result of executing the ExecutableCode.
+	// Structure is documented below.
+	CodeExecutionResult *CodeExecutionResultObservation `json:"codeExecutionResult,omitempty" tf:"code_execution_result,omitempty"`
+
+	// Code generated by the model that is intended to be executed.
+	// Structure is documented below.
+	ExecutableCode *ExecutableCodeObservation `json:"executableCode,omitempty" tf:"executable_code,omitempty"`
+
+	// URI based data.
+	// Structure is documented below.
+	FileData *FileDataObservation `json:"fileData,omitempty" tf:"file_data,omitempty"`
+
+	// A predicted function call returned from the model.
+	// Structure is documented below.
+	FunctionCall *FunctionCallObservation `json:"functionCall,omitempty" tf:"function_call,omitempty"`
+
+	// The result of a function call.
+	// Structure is documented below.
+	FunctionResponse *FunctionResponseObservation `json:"functionResponse,omitempty" tf:"function_response,omitempty"`
+
+	// The inline data content of the part.
+	// Structure is documented below.
+	InlineData *InlineDataObservation `json:"inlineData,omitempty" tf:"inline_data,omitempty"`
+
+	// The text content of the part.
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+
+	// Indicates whether the part represents the model's thought process or reasoning.
+	Thought *bool `json:"thought,omitempty" tf:"thought,omitempty"`
+
+	// Video metadata.
+	// Structure is documented below.
+	VideoMetadata *VideoMetadataObservation `json:"videoMetadata,omitempty" tf:"video_metadata,omitempty"`
+}
+
+type PartsParameters struct {
+
+	// Audio (input or output) transcription. This is only set when this Part contains audio data.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AudioTranscription *AudioTranscriptionParameters `json:"audioTranscription,omitempty" tf:"audio_transcription,omitempty"`
+
+	// Result of executing the ExecutableCode.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	CodeExecutionResult *CodeExecutionResultParameters `json:"codeExecutionResult,omitempty" tf:"code_execution_result,omitempty"`
+
+	// Code generated by the model that is intended to be executed.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ExecutableCode *ExecutableCodeParameters `json:"executableCode,omitempty" tf:"executable_code,omitempty"`
+
+	// URI based data.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FileData *FileDataParameters `json:"fileData,omitempty" tf:"file_data,omitempty"`
+
+	// A predicted function call returned from the model.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FunctionCall *FunctionCallParameters `json:"functionCall,omitempty" tf:"function_call,omitempty"`
+
+	// The result of a function call.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	FunctionResponse *FunctionResponseParameters `json:"functionResponse,omitempty" tf:"function_response,omitempty"`
+
+	// The inline data content of the part.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InlineData *InlineDataParameters `json:"inlineData,omitempty" tf:"inline_data,omitempty"`
+
+	// The text content of the part.
+	// +kubebuilder:validation:Optional
+	Text *string `json:"text,omitempty" tf:"text,omitempty"`
+
+	// Indicates whether the part represents the model's thought process or reasoning.
+	// +kubebuilder:validation:Optional
+	Thought *bool `json:"thought,omitempty" tf:"thought,omitempty"`
+
+	// Video metadata.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	VideoMetadata *VideoMetadataParameters `json:"videoMetadata,omitempty" tf:"video_metadata,omitempty"`
 }
 
 type PscInterfaceConfigInitParameters struct {
@@ -654,6 +1840,10 @@ type ReasoningEngineEncryptionSpecParameters struct {
 
 type ReasoningEngineInitParameters struct {
 
+	// Optional. Configuration for how Agent Engine sub-resources should manage context.
+	// Structure is documented below.
+	ContextSpec *ContextSpecInitParameters `json:"contextSpec,omitempty" tf:"context_spec,omitempty"`
+
 	// Optional. The deletion policy for the reasoning engine.
 	// Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
 	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
@@ -688,6 +1878,10 @@ type ReasoningEngineInitParameters struct {
 }
 
 type ReasoningEngineObservation struct {
+
+	// Optional. Configuration for how Agent Engine sub-resources should manage context.
+	// Structure is documented below.
+	ContextSpec *ContextSpecObservation `json:"contextSpec,omitempty" tf:"context_spec,omitempty"`
 
 	// The timestamp of when the Index was created in RFC3339 UTC "Zulu" format,
 	// with nanosecond resolution and up to nine fractional digits.
@@ -748,6 +1942,11 @@ type ReasoningEngineObservation struct {
 
 type ReasoningEngineParameters struct {
 
+	// Optional. Configuration for how Agent Engine sub-resources should manage context.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ContextSpec *ContextSpecParameters `json:"contextSpec,omitempty" tf:"context_spec,omitempty"`
+
 	// Optional. The deletion policy for the reasoning engine.
 	// Setting this to FORCE allows the reasoning engine to be deleted regardless of child undeleted resources.
 	// +kubebuilder:validation:Optional
@@ -787,6 +1986,35 @@ type ReasoningEngineParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Spec *SpecParameters `json:"spec,omitempty" tf:"spec,omitempty"`
+}
+
+type SchemaConfigsInitParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. The memory schema defined as an OpenAPI Schema Object JSON string.
+	MemorySchema *string `json:"memorySchema,omitempty" tf:"memory_schema,omitempty"`
+}
+
+type SchemaConfigsObservation struct {
+
+	// Required. Unique ID identifying the memory schema.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// Optional. The memory schema defined as an OpenAPI Schema Object JSON string.
+	MemorySchema *string `json:"memorySchema,omitempty" tf:"memory_schema,omitempty"`
+}
+
+type SchemaConfigsParameters struct {
+
+	// Required. Unique ID identifying the memory schema.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id" tf:"id,omitempty"`
+
+	// Optional. The memory schema defined as an OpenAPI Schema Object JSON string.
+	// +kubebuilder:validation:Optional
+	MemorySchema *string `json:"memorySchema,omitempty" tf:"memory_schema,omitempty"`
 }
 
 type SecretEnvInitParameters struct {
@@ -883,7 +2111,30 @@ type SecretRefParameters struct {
 	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
+type SimilaritySearchConfigInitParameters struct {
+
+	// The model used to generate embeddings to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	EmbeddingModel *string `json:"embeddingModel,omitempty" tf:"embedding_model,omitempty"`
+}
+
+type SimilaritySearchConfigObservation struct {
+
+	// The model used to generate embeddings to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	EmbeddingModel *string `json:"embeddingModel,omitempty" tf:"embedding_model,omitempty"`
+}
+
+type SimilaritySearchConfigParameters struct {
+
+	// The model used to generate embeddings to lookup similar memories. Format: projects/{project}/locations/{location}/publishers/google/models/{model}.
+	// +kubebuilder:validation:Optional
+	EmbeddingModel *string `json:"embeddingModel" tf:"embedding_model,omitempty"`
+}
+
 type SourceCodeSpecInitParameters struct {
+
+	// Optional. Specification for the deploying from agent config.
+	// Structure is documented below.
+	AgentConfigSource *AgentConfigSourceInitParameters `json:"agentConfigSource,omitempty" tf:"agent_config_source,omitempty"`
 
 	// Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
 	// Structure is documented below.
@@ -895,14 +2146,43 @@ type SourceCodeSpecInitParameters struct {
 
 	// Source code is provided directly in the request.
 	// Structure is documented below.
-	InlineSource *InlineSourceInitParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+	InlineSource *SourceCodeSpecInlineSourceInitParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
 
 	// Specification for running a Python application from source.
 	// Structure is documented below.
 	PythonSpec *PythonSpecInitParameters `json:"pythonSpec,omitempty" tf:"python_spec,omitempty"`
 }
 
+type SourceCodeSpecInlineSourceInitParameters struct {
+
+	// Required. Input only.
+	// The application source code archive, provided as a compressed
+	// tarball (.tar.gz) file. A base64-encoded string.
+	SourceArchive *string `json:"sourceArchive,omitempty" tf:"source_archive,omitempty"`
+}
+
+type SourceCodeSpecInlineSourceObservation struct {
+
+	// Required. Input only.
+	// The application source code archive, provided as a compressed
+	// tarball (.tar.gz) file. A base64-encoded string.
+	SourceArchive *string `json:"sourceArchive,omitempty" tf:"source_archive,omitempty"`
+}
+
+type SourceCodeSpecInlineSourceParameters struct {
+
+	// Required. Input only.
+	// The application source code archive, provided as a compressed
+	// tarball (.tar.gz) file. A base64-encoded string.
+	// +kubebuilder:validation:Optional
+	SourceArchive *string `json:"sourceArchive,omitempty" tf:"source_archive,omitempty"`
+}
+
 type SourceCodeSpecObservation struct {
+
+	// Optional. Specification for the deploying from agent config.
+	// Structure is documented below.
+	AgentConfigSource *AgentConfigSourceObservation `json:"agentConfigSource,omitempty" tf:"agent_config_source,omitempty"`
 
 	// Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
 	// Structure is documented below.
@@ -914,7 +2194,7 @@ type SourceCodeSpecObservation struct {
 
 	// Source code is provided directly in the request.
 	// Structure is documented below.
-	InlineSource *InlineSourceObservation `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+	InlineSource *SourceCodeSpecInlineSourceObservation `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
 
 	// Specification for running a Python application from source.
 	// Structure is documented below.
@@ -922,6 +2202,11 @@ type SourceCodeSpecObservation struct {
 }
 
 type SourceCodeSpecParameters struct {
+
+	// Optional. Specification for the deploying from agent config.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AgentConfigSource *AgentConfigSourceParameters `json:"agentConfigSource,omitempty" tf:"agent_config_source,omitempty"`
 
 	// Specification for source code to be fetched from a Git repository managed through the Developer Connect service.
 	// Structure is documented below.
@@ -936,7 +2221,7 @@ type SourceCodeSpecParameters struct {
 	// Source code is provided directly in the request.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
-	InlineSource *InlineSourceParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
+	InlineSource *SourceCodeSpecInlineSourceParameters `json:"inlineSource,omitempty" tf:"inline_source,omitempty"`
 
 	// Specification for running a Python application from source.
 	// Structure is documented below.
@@ -949,8 +2234,15 @@ type SpecInitParameters struct {
 	// Optional. The OSS agent framework used to develop the agent.
 	AgentFramework *string `json:"agentFramework,omitempty" tf:"agent_framework,omitempty"`
 
+	// Optional. Configuration for building container image.
+	// Structure is documented below.
+	BuildSpec *BuildSpecInitParameters `json:"buildSpec,omitempty" tf:"build_spec,omitempty"`
+
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
 	// Deploy from a container image with a defined entrypoint and commands.
@@ -1000,8 +2292,15 @@ type SpecObservation struct {
 	// Optional. The OSS agent framework used to develop the agent.
 	AgentFramework *string `json:"agentFramework,omitempty" tf:"agent_framework,omitempty"`
 
+	// Optional. Configuration for building container image.
+	// Structure is documented below.
+	BuildSpec *BuildSpecObservation `json:"buildSpec,omitempty" tf:"build_spec,omitempty"`
+
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
 	// Deploy from a container image with a defined entrypoint and commands.
@@ -1047,8 +2346,16 @@ type SpecParameters struct {
 	// +kubebuilder:validation:Optional
 	AgentFramework *string `json:"agentFramework,omitempty" tf:"agent_framework,omitempty"`
 
+	// Optional. Configuration for building container image.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	BuildSpec *BuildSpecParameters `json:"buildSpec,omitempty" tf:"build_spec,omitempty"`
+
 	// Optional. Declarations for object class methods in OpenAPI
 	// specification format.
+	// Otherwise, client SDKs (like agent_engines.get()) will not be able to discover the methods, and calls to the engine (or A2A integrations) will fail.
+	// Depending on the template/framework used (agent_framework), the required class methods and their parameters differ:
+	// Warning: The configuration snippets below are illustrative, may not be exhaustive, and could stop working over time. For the most up-to-date method lists and schemas, please consult the respective SDK source code:
 	// +kubebuilder:validation:Optional
 	ClassMethods *string `json:"classMethods,omitempty" tf:"class_methods,omitempty"`
 
@@ -1098,6 +2405,177 @@ type SpecParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SourceCodeSpec *SourceCodeSpecParameters `json:"sourceCodeSpec,omitempty" tf:"source_code_spec,omitempty"`
+}
+
+type StructuredMemoryConfigsInitParameters struct {
+
+	// Optional. List of schema configs that this structured memory config applies to.
+	// Structure is documented below.
+	SchemaConfigs []SchemaConfigsInitParameters `json:"schemaConfigs,omitempty" tf:"schema_configs,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
+}
+
+type StructuredMemoryConfigsObservation struct {
+
+	// Optional. List of schema configs that this structured memory config applies to.
+	// Structure is documented below.
+	SchemaConfigs []SchemaConfigsObservation `json:"schemaConfigs,omitempty" tf:"schema_configs,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
+}
+
+type StructuredMemoryConfigsParameters struct {
+
+	// Optional. List of schema configs that this structured memory config applies to.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SchemaConfigs []SchemaConfigsParameters `json:"schemaConfigs,omitempty" tf:"schema_configs,omitempty"`
+
+	// Optional. List of scope keys that this structured memory config applies to.
+	// +kubebuilder:validation:Optional
+	ScopeKeys []*string `json:"scopeKeys,omitempty" tf:"scope_keys,omitempty"`
+}
+
+type TTLConfigInitParameters struct {
+
+	// The default TTL duration of the memories in the Memory Bank.
+	DefaultTTL *string `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// The granular TTL configuration of the memories in the Memory Bank.
+	// Structure is documented below.
+	GranularTTLConfig *GranularTTLConfigInitParameters `json:"granularTtlConfig,omitempty" tf:"granular_ttl_config,omitempty"`
+
+	// The default TTL duration of the memory revisions in the Memory Bank.
+	MemoryRevisionDefaultTTL *string `json:"memoryRevisionDefaultTtl,omitempty" tf:"memory_revision_default_ttl,omitempty"`
+}
+
+type TTLConfigObservation struct {
+
+	// The default TTL duration of the memories in the Memory Bank.
+	DefaultTTL *string `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// The granular TTL configuration of the memories in the Memory Bank.
+	// Structure is documented below.
+	GranularTTLConfig *GranularTTLConfigObservation `json:"granularTtlConfig,omitempty" tf:"granular_ttl_config,omitempty"`
+
+	// The default TTL duration of the memory revisions in the Memory Bank.
+	MemoryRevisionDefaultTTL *string `json:"memoryRevisionDefaultTtl,omitempty" tf:"memory_revision_default_ttl,omitempty"`
+}
+
+type TTLConfigParameters struct {
+
+	// The default TTL duration of the memories in the Memory Bank.
+	// +kubebuilder:validation:Optional
+	DefaultTTL *string `json:"defaultTtl,omitempty" tf:"default_ttl,omitempty"`
+
+	// The granular TTL configuration of the memories in the Memory Bank.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GranularTTLConfig *GranularTTLConfigParameters `json:"granularTtlConfig,omitempty" tf:"granular_ttl_config,omitempty"`
+
+	// The default TTL duration of the memory revisions in the Memory Bank.
+	// +kubebuilder:validation:Optional
+	MemoryRevisionDefaultTTL *string `json:"memoryRevisionDefaultTtl,omitempty" tf:"memory_revision_default_ttl,omitempty"`
+}
+
+type TopicsInitParameters struct {
+
+	// Represents the custom memory topic label.
+	CustomMemoryTopicLabel *string `json:"customMemoryTopicLabel,omitempty" tf:"custom_memory_topic_label,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	ManagedMemoryTopic *string `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
+}
+
+type TopicsObservation struct {
+
+	// Represents the custom memory topic label.
+	CustomMemoryTopicLabel *string `json:"customMemoryTopicLabel,omitempty" tf:"custom_memory_topic_label,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	ManagedMemoryTopic *string `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
+}
+
+type TopicsParameters struct {
+
+	// Represents the custom memory topic label.
+	// +kubebuilder:validation:Optional
+	CustomMemoryTopicLabel *string `json:"customMemoryTopicLabel,omitempty" tf:"custom_memory_topic_label,omitempty"`
+
+	// Represents the managed memory topic. Possible values: ["USER_PERSONAL_INFO", "USER_PREFERENCES", "KEY_CONVERSATION_DETAILS", "EXPLICIT_INSTRUCTIONS"]
+	// +kubebuilder:validation:Optional
+	ManagedMemoryTopic *string `json:"managedMemoryTopic,omitempty" tf:"managed_memory_topic,omitempty"`
+}
+
+type VideoMetadataInitParameters struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+}
+
+type VideoMetadataObservation struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+}
+
+type VideoMetadataParameters struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	// +kubebuilder:validation:Optional
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	// +kubebuilder:validation:Optional
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+}
+
+type WordsInitParameters struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+
+	// Transcript of the word.
+	Word *string `json:"word,omitempty" tf:"word,omitempty"`
+}
+
+type WordsObservation struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+
+	// Transcript of the word.
+	Word *string `json:"word,omitempty" tf:"word,omitempty"`
+}
+
+type WordsParameters struct {
+
+	// End offset in time of the word relative to the start of the audio.
+	// +kubebuilder:validation:Optional
+	EndOffset *string `json:"endOffset,omitempty" tf:"end_offset,omitempty"`
+
+	// Start offset in time of the word relative to the start of the audio.
+	// +kubebuilder:validation:Optional
+	StartOffset *string `json:"startOffset,omitempty" tf:"start_offset,omitempty"`
+
+	// Transcript of the word.
+	// +kubebuilder:validation:Optional
+	Word *string `json:"word" tf:"word,omitempty"`
 }
 
 // ReasoningEngineSpec defines the desired state of ReasoningEngine
