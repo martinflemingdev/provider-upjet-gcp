@@ -182,3 +182,23 @@ docker push martinflemingdev/provider-gcp-modelarmor-tf-v6.50.0:v1.0.0
 Beta
 docker push martinflemingdev/provider-gcp-beta-dataform-tf-v6.48.0:v1.0.0
   ```
+
+## Resources Configured
+
+### Dataform Repository
+
+**Resource:** `google_dataform_repository`  
+**Terraform Registry:** https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/dataform_repository
+
+#### Import
+
+Repository can be imported using any of these accepted formats:
+
+- `projects/{{project}}/locations/{{region}}/repositories/{{name}}`
+
+**Configuration Details:**
+
+- Added external name configuration using `TemplatedStringAsIdentifier` in `config/externalname.go`
+- Created configuration in both `config/cluster/dataform/config.go` and `config/namespaced/dataform/config.go`
+- Marked `default_branch` as required field
+- Registered the service in both cluster and namespaced provider configurations

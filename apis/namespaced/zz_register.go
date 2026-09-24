@@ -40,6 +40,7 @@ import (
 	v1beta1containerazure "github.com/upbound/provider-gcp/v3/apis/namespaced/containerazure/v1beta1"
 	v1beta1datacatalog "github.com/upbound/provider-gcp/v3/apis/namespaced/datacatalog/v1beta1"
 	v1beta1dataflow "github.com/upbound/provider-gcp/v3/apis/namespaced/dataflow/v1beta1"
+	v1beta1dataform "github.com/upbound/provider-gcp/v3/apis/namespaced/dataform/v1beta1"
 	v1beta1datafusion "github.com/upbound/provider-gcp/v3/apis/namespaced/datafusion/v1beta1"
 	v1beta1datalossprevention "github.com/upbound/provider-gcp/v3/apis/namespaced/datalossprevention/v1beta1"
 	v1beta1dataplex "github.com/upbound/provider-gcp/v3/apis/namespaced/dataplex/v1beta1"
@@ -126,6 +127,7 @@ func init() {
 		v1beta1containerazure.SchemeBuilder.AddToScheme,
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dataflow.SchemeBuilder.AddToScheme,
+		v1beta1dataform.SchemeBuilder.AddToScheme,
 		v1beta1datafusion.SchemeBuilder.AddToScheme,
 		v1beta1datalossprevention.SchemeBuilder.AddToScheme,
 		v1beta1dataplex.SchemeBuilder.AddToScheme,

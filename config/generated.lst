@@ -203,6 +203,7 @@
   "google_data_loss_prevention_job_trigger",
   "google_data_loss_prevention_stored_info_type",
   "google_dataflow_job",
+  "google_dataform_repository",
   "google_dataplex_aspect_type",
   "google_dataplex_asset",
   "google_dataplex_lake",

@@ -52,6 +52,7 @@ import (
 	v1beta1datacatalog "github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta1"
 	v1beta2datacatalog "github.com/upbound/provider-gcp/v3/apis/cluster/datacatalog/v1beta2"
 	v1beta1dataflow "github.com/upbound/provider-gcp/v3/apis/cluster/dataflow/v1beta1"
+	v1beta1dataform "github.com/upbound/provider-gcp/v3/apis/cluster/dataform/v1beta1"
 	v1beta2datafusion "github.com/upbound/provider-gcp/v3/apis/cluster/datafusion/v1beta2"
 	v1beta2datalossprevention "github.com/upbound/provider-gcp/v3/apis/cluster/datalossprevention/v1beta2"
 	v1beta1dataplex "github.com/upbound/provider-gcp/v3/apis/cluster/dataplex/v1beta1"
@@ -173,6 +174,7 @@ func init() {
 		v1beta1datacatalog.SchemeBuilder.AddToScheme,
 		v1beta2datacatalog.SchemeBuilder.AddToScheme,
 		v1beta1dataflow.SchemeBuilder.AddToScheme,
+		v1beta1dataform.SchemeBuilder.AddToScheme,
 		v1beta2datafusion.SchemeBuilder.AddToScheme,
 		v1beta2datalossprevention.SchemeBuilder.AddToScheme,
 		v1beta1dataplex.SchemeBuilder.AddToScheme,

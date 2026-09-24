@@ -224,6 +224,7 @@ import (
 	tagtemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/tagtemplate"
 	taxonomy "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datacatalog/taxonomy"
 	jobdataflow "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataflow/job"
+	repository "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/dataform/repository"
 	instancedatafusion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datafusion/instance"
 	deidentifytemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/deidentifytemplate"
 	inspecttemplate "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/datalossprevention/inspecttemplate"
@@ -375,7 +376,7 @@ import (
 	secretiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/secretmanager/secretiammember"
 	secretversion "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/secretmanager/secretversion"
 	connectionservicenetworking "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/servicenetworking/connection"
-	repository "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sourcerepo/repository"
+	repositorysourcerepo "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sourcerepo/repository"
 	repositoryiammember "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/sourcerepo/repositoryiammember"
 	backupschedule "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/backupschedule"
 	databasespanner "github.com/upbound/provider-gcp/v3/internal/controller/namespaced/spanner/database"
@@ -638,6 +639,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagtemplate.Setup,
 		taxonomy.Setup,
 		jobdataflow.Setup,
+		repository.Setup,
 		instancedatafusion.Setup,
 		deidentifytemplate.Setup,
 		inspecttemplate.Setup,
@@ -789,7 +791,7 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		secretiammember.Setup,
 		secretversion.Setup,
 		connectionservicenetworking.Setup,
-		repository.Setup,
+		repositorysourcerepo.Setup,
 		repositoryiammember.Setup,
 		backupschedule.Setup,
 		databasespanner.Setup,
@@ -1058,6 +1060,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagtemplate.SetupGated,
 		taxonomy.SetupGated,
 		jobdataflow.SetupGated,
+		repository.SetupGated,
 		instancedatafusion.SetupGated,
 		deidentifytemplate.SetupGated,
 		inspecttemplate.SetupGated,
@@ -1209,7 +1212,7 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		secretiammember.SetupGated,
 		secretversion.SetupGated,
 		connectionservicenetworking.SetupGated,
-		repository.SetupGated,
+		repositorysourcerepo.SetupGated,
 		repositoryiammember.SetupGated,
 		backupschedule.SetupGated,
 		databasespanner.SetupGated,
@@ -1477,6 +1480,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		tagtemplate.SetupWebhookWithManager,
 		taxonomy.SetupWebhookWithManager,
 		jobdataflow.SetupWebhookWithManager,
+		repository.SetupWebhookWithManager,
 		instancedatafusion.SetupWebhookWithManager,
 		deidentifytemplate.SetupWebhookWithManager,
 		inspecttemplate.SetupWebhookWithManager,
@@ -1628,7 +1632,7 @@ func SetupWebhookWithManager_monolith(mgr ctrl.Manager) error {
 		secretiammember.SetupWebhookWithManager,
 		secretversion.SetupWebhookWithManager,
 		connectionservicenetworking.SetupWebhookWithManager,
-		repository.SetupWebhookWithManager,
+		repositorysourcerepo.SetupWebhookWithManager,
 		repositoryiammember.SetupWebhookWithManager,
 		backupschedule.SetupWebhookWithManager,
 		databasespanner.SetupWebhookWithManager,

@@ -23,6 +23,7 @@ import (
 	"github.com/upbound/provider-gcp/v3/config/cluster/containerattached"
 	"github.com/upbound/provider-gcp/v3/config/cluster/containeraws"
 	"github.com/upbound/provider-gcp/v3/config/cluster/containerazure"
+	"github.com/upbound/provider-gcp/v3/config/cluster/dataform"
 	"github.com/upbound/provider-gcp/v3/config/cluster/dataflow"
 	"github.com/upbound/provider-gcp/v3/config/cluster/dataplex"
 	"github.com/upbound/provider-gcp/v3/config/cluster/dataproc"
@@ -76,6 +77,7 @@ func init() {
 	ProviderConfiguration.AddConfig(containerazure.Configure)
 	ProviderConfiguration.AddConfig(compute.Configure)
 	ProviderConfiguration.AddConfig(container.Configure)
+	ProviderConfiguration.AddConfig(dataform.Configure)
 	ProviderConfiguration.AddConfig(dataflow.Configure)
 	ProviderConfiguration.AddConfig(dataplex.Configure)
 	ProviderConfiguration.AddConfig(dataproc.Configure)

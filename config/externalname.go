@@ -972,6 +972,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	// This resource does not support import.
 	"google_dataflow_job": config.IdentifierFromProvider,
 
+	// dataform
+	// Imported by using the following projects/{{project}}/locations/{{region}}/repositories/{{name}}
+	"google_dataform_repository": config.TemplatedStringAsIdentifier("name", "projects/{{ .setup.configuration.project }}/locations/{{ .parameters.region }}/repositories/{{ .external_name }}"),
+
 	// datafusion
 	//
 	// projects/{{project}}/locations/{{region}}/instances/{{name}}
