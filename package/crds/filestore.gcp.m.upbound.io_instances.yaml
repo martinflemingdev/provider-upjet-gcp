@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Indicates whether the instance is protected against
                       deletion.
@@ -69,6 +74,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   fileShares:
                     description: |-
                       File system shares on the instance. For this version, only a
@@ -134,6 +178,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -389,6 +439,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Indicates whether the instance is protected against
                       deletion.
@@ -399,6 +454,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   fileShares:
                     description: |-
                       File system shares on the instance. For this version, only a
@@ -464,6 +558,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object
@@ -781,6 +881,11 @@ spec:
                   createTime:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtectionEnabled:
                     description: Indicates whether the instance is protected against
                       deletion.
@@ -791,6 +896,45 @@ spec:
                   description:
                     description: A description of the instance.
                     type: string
+                  desiredReplicaState:
+                    description: The desired_replica_state field controls the state
+                      of a replica.
+                    type: string
+                  directoryServices:
+                    description: |-
+                      Directory Services configuration.
+                      Should only be set if protocol is "NFS_V4_1".
+                      Structure is documented below.
+                    properties:
+                      ldap:
+                        description: |-
+                          Configuration for LDAP servers.
+                          Structure is documented below.
+                        properties:
+                          domain:
+                            description: The LDAP domain name in the format of my-domain.com.
+                            type: string
+                          groupsOu:
+                            description: |-
+                              The groups Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                          servers:
+                            description: |-
+                              The servers names are used for specifying the LDAP servers names.
+                              The LDAP servers names can come with two formats:
+                            items:
+                              type: string
+                            type: array
+                          usersOu:
+                            description: |-
+                              The users Organizational Unit (OU) is optional. This parameter is a hint
+                              to allow faster lookup in the LDAP namespace. In case that this parameter
+                              is not provided, Filestore instance will query the whole LDAP namespace.
+                            type: string
+                        type: object
+                    type: object
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -910,6 +1054,12 @@ spec:
                         description: |-
                           The resource name of the backup, in the format
                           projects/{projectId}/locations/{locationId}/backups/{backupId},
+                          that this file share has been restored from.
+                        type: string
+                      sourceBackupdrBackup:
+                        description: |-
+                          The resource name of the BackupDR backup, in the format
+                          projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
                           that this file share has been restored from.
                         type: string
                     type: object

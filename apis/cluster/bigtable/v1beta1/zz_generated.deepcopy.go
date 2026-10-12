@@ -361,6 +361,17 @@ func (in *AutomatedBackupPolicyInitParameters) DeepCopyInto(out *AutomatedBackup
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locations != nil {
+		in, out := &in.Locations, &out.Locations
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
 		*out = new(string)
@@ -386,6 +397,17 @@ func (in *AutomatedBackupPolicyObservation) DeepCopyInto(out *AutomatedBackupPol
 		*out = new(string)
 		**out = **in
 	}
+	if in.Locations != nil {
+		in, out := &in.Locations, &out.Locations
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
 		*out = new(string)
@@ -410,6 +432,17 @@ func (in *AutomatedBackupPolicyParameters) DeepCopyInto(out *AutomatedBackupPoli
 		in, out := &in.Frequency, &out.Frequency
 		*out = new(string)
 		**out = **in
+	}
+	if in.Locations != nil {
+		in, out := &in.Locations, &out.Locations
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
 	}
 	if in.RetentionPeriod != nil {
 		in, out := &in.RetentionPeriod, &out.RetentionPeriod
@@ -3501,6 +3534,11 @@ func (in *TableInitParameters) DeepCopyInto(out *TableInitParameters) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(string)
@@ -3591,6 +3629,11 @@ func (in *TableObservation) DeepCopyInto(out *TableObservation) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(string)
@@ -3658,6 +3701,11 @@ func (in *TableParameters) DeepCopyInto(out *TableParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

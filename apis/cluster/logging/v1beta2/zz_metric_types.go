@@ -334,6 +334,10 @@ type MetricInitParameters struct {
 	// Structure is documented below.
 	BucketOptions *BucketOptionsInitParameters `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -383,6 +387,10 @@ type MetricObservation struct {
 	// describes the bucket boundaries used to create a histogram of the extracted values.
 	// Structure is documented below.
 	BucketOptions *BucketOptionsObservation `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.
@@ -448,6 +456,11 @@ type MetricParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BucketOptions *BucketOptionsParameters `json:"bucketOptions,omitempty" tf:"bucket_options,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of this metric, which is used in documentation. The maximum length of the
 	// description is 8000 characters.

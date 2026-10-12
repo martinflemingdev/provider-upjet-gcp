@@ -1373,6 +1373,11 @@ spec:
                           False by default, making logging opt-in.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A textual description field.
                     type: string
@@ -1802,6 +1807,11 @@ spec:
                           False by default, making logging opt-in.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A textual description field.
                     type: string
@@ -2318,6 +2328,11 @@ spec:
                     description: |-
                       The time that this resource was created on the server.
                       This is in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A textual description field.

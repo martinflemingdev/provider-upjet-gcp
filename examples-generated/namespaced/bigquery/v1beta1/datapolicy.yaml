@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: bigquery.gcp.m.upbound.io/v1beta1
+kind: DataPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicy
+  labels:
+    testing.upbound.io/example-name: data_policy
+  name: data-policy
+  namespace: upbound-system
+spec:
+  forProvider:
+    dataPolicyType: COLUMN_LEVEL_SECURITY_POLICY
+    location: us-central1
+    policyTagSelector:
+      matchLabels:
+        testing.upbound.io/example-name: policy_tag
+
+---
+
+apiVersion: datacatalog.gcp.m.upbound.io/v1beta1
+kind: PolicyTag
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicy
+  labels:
+    testing.upbound.io/example-name: policy_tag
+  name: policy-tag
+  namespace: upbound-system
+spec:
+  forProvider:
+    description: A policy tag normally associated with low security items
+    displayName: Low security
+    taxonomySelector:
+      matchLabels:
+        testing.upbound.io/example-name: taxonomy
+
+---
+
+apiVersion: datacatalog.gcp.m.upbound.io/v1beta1
+kind: Taxonomy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicy
+  labels:
+    testing.upbound.io/example-name: taxonomy
+  name: taxonomy
+  namespace: upbound-system
+spec:
+  forProvider:
+    activatedPolicyTypes:
+    - FINE_GRAINED_ACCESS_CONTROL
+    description: A collection of policy tags
+    displayName: taxonomy
+    region: us-central1

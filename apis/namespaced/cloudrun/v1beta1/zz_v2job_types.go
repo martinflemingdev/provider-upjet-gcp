@@ -490,7 +490,9 @@ type NetworkInterfacesInitParameters struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -506,7 +508,9 @@ type NetworkInterfacesObservation struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -524,7 +528,9 @@ type NetworkInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run job.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -1097,12 +1103,16 @@ type V2JobInitParameters struct {
 	// Arbitrary version identifier for the API client.
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the job is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1119,6 +1129,20 @@ type V2JobInitParameters struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create executions for this Job.
 	// Structure is documented below.
@@ -1159,6 +1183,10 @@ type V2JobObservation struct {
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the job is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -1185,7 +1213,7 @@ type V2JobObservation struct {
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1221,6 +1249,20 @@ type V2JobObservation struct {
 	// If reconciliation succeeded, the following fields will match: observedGeneration and generation, latest_succeeded_execution and latestCreatedExecution.
 	// If reconciliation failed, observedGeneration and latest_succeeded_execution will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in terminalCondition and conditions
 	Reconciling *bool `json:"reconciling,omitempty" tf:"reconciling,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create executions for this Job.
 	// Structure is documented below.
@@ -1267,13 +1309,18 @@ type V2JobParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientVersion *string `json:"clientVersion,omitempty" tf:"client_version,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the job is allowed.
 	// +kubebuilder:validation:Optional
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Job.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1298,6 +1345,23 @@ type V2JobParameters struct {
 	// +kubebuilder:validation:Optional
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
 
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully completed.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	RunExecutionToken *string `json:"runExecutionToken,omitempty" tf:"run_execution_token,omitempty"`
+
+	// A unique string used as a suffix creating a new execution upon job create or update. The Job will become ready when the execution is successfully started.
+	// The sum of job name and token length must be fewer than 63 characters.
+	// +kubebuilder:validation:Optional
+	StartExecutionToken *string `json:"startExecutionToken,omitempty" tf:"start_execution_token,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The template used to create executions for this Job.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
@@ -1314,7 +1378,7 @@ type V2JobTemplateInitParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1342,7 +1406,7 @@ type V2JobTemplateObservation struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1371,7 +1435,7 @@ type V2JobTemplateParameters struct {
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter,
-	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or
+	// or break down billing charges by team, component, environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or
 	// https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 ExecutionTemplate.
@@ -1514,7 +1578,7 @@ type VolumesEmptyDirInitParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1525,7 +1589,7 @@ type VolumesEmptyDirObservation struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1536,7 +1600,7 @@ type VolumesEmptyDirParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	// +kubebuilder:validation:Optional
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 

@@ -3616,6 +3616,11 @@ spec:
                       must contain only letters (a-z, A-Z), numbers (0-9), or
                       underscores (_). The maximum length is 1,024 characters.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   domain:
                     description: |-
                       A domain to grant access to. Any users signed in with the

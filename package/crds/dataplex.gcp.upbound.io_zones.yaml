@@ -779,6 +779,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Optional. Description of the zone.
                     type: string
@@ -980,6 +985,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Optional. Description of the zone.
                     type: string
@@ -1207,6 +1217,11 @@ spec:
                     type: array
                   createTime:
                     description: Output only. The time when the zone was created.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Optional. Description of the zone.

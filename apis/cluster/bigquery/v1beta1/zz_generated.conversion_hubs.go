@@ -16,6 +16,18 @@ func (tr *AnalyticsHubListingIAMMember) Hub() {}
 func (tr *AnalyticsHubListingSubscription) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *DataPolicy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataPolicyIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataPolicyV2) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *DataPolicyV2IAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *DatasetIAMPolicy) Hub() {}
 
 // Hub marks this type as a conversion hub.

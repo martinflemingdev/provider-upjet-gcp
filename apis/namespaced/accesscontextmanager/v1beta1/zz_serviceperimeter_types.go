@@ -14,6 +14,99 @@ import (
 	v2 "github.com/crossplane/crossplane-runtime/v2/apis/common/v2"
 )
 
+type AddRequestHeaderInitParameters struct {
+
+	// HTTP header key.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// HTTP header value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type AddRequestHeaderObservation struct {
+
+	// HTTP header key.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// HTTP header value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type AddRequestHeaderParameters struct {
+
+	// HTTP header key.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// HTTP header value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type AllowedServicePatternsInitParameters struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	Modifiers []ModifiersInitParameters `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type AllowedServicePatternsModifiersInitParameters struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	AddRequestHeader *ModifiersAddRequestHeaderInitParameters `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
+type AllowedServicePatternsModifiersObservation struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	AddRequestHeader *ModifiersAddRequestHeaderObservation `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
+type AllowedServicePatternsModifiersParameters struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AddRequestHeader *ModifiersAddRequestHeaderParameters `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
+type AllowedServicePatternsObservation struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	Modifiers []ModifiersObservation `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type AllowedServicePatternsParameters struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Modifiers []ModifiersParameters `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
 type EgressFromInitParameters struct {
 
 	// Identities can be an individual user, service account, Google group,
@@ -105,6 +198,11 @@ type EgressFromSourcesInitParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *EgressFromSourcesPscEndpointInitParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -128,6 +226,11 @@ type EgressFromSourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *EgressFromSourcesPscEndpointObservation `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -154,6 +257,12 @@ type EgressFromSourcesParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscEndpoint *EgressFromSourcesPscEndpointParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -165,6 +274,28 @@ type EgressFromSourcesParameters struct {
 	// of allowing all Google Cloud resources only is not supported.
 	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type EgressFromSourcesPscEndpointInitParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type EgressFromSourcesPscEndpointObservation struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type EgressFromSourcesPscEndpointParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	// +kubebuilder:validation:Optional
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
 }
 
 type EgressPoliciesEgressFromInitParameters struct {
@@ -615,6 +746,11 @@ type IngressFromSourcesInitParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *SourcesPscEndpointInitParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -638,6 +774,11 @@ type IngressFromSourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *SourcesPscEndpointObservation `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -664,6 +805,12 @@ type IngressFromSourcesParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscEndpoint *SourcesPscEndpointParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -675,6 +822,28 @@ type IngressFromSourcesParameters struct {
 	// of allowing all Google Cloud resources only is not supported.
 	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type IngressFromSourcesPscEndpointInitParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type IngressFromSourcesPscEndpointObservation struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type IngressFromSourcesPscEndpointParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	// +kubebuilder:validation:Optional
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
 }
 
 type IngressPoliciesIngressFromInitParameters struct {
@@ -765,6 +934,11 @@ type IngressPoliciesIngressFromSourcesInitParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *IngressFromSourcesPscEndpointInitParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -788,6 +962,11 @@ type IngressPoliciesIngressFromSourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *IngressFromSourcesPscEndpointObservation `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -823,6 +1002,12 @@ type IngressPoliciesIngressFromSourcesParameters struct {
 	// Selector for a AccessLevel in accesscontextmanager to populate accessLevel.
 	// +kubebuilder:validation:Optional
 	AccessLevelSelector *v1.NamespacedSelector `json:"accessLevelSelector,omitempty" tf:"-"`
+
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscEndpoint *IngressFromSourcesPscEndpointParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -1178,6 +1363,57 @@ type MethodSelectorsParameters struct {
 	Permission *string `json:"permission,omitempty" tf:"permission,omitempty"`
 }
 
+type ModifiersAddRequestHeaderInitParameters struct {
+
+	// HTTP header key.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// HTTP header value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ModifiersAddRequestHeaderObservation struct {
+
+	// HTTP header key.
+	Key *string `json:"key,omitempty" tf:"key,omitempty"`
+
+	// HTTP header value.
+	Value *string `json:"value,omitempty" tf:"value,omitempty"`
+}
+
+type ModifiersAddRequestHeaderParameters struct {
+
+	// HTTP header key.
+	// +kubebuilder:validation:Optional
+	Key *string `json:"key" tf:"key,omitempty"`
+
+	// HTTP header value.
+	// +kubebuilder:validation:Optional
+	Value *string `json:"value" tf:"value,omitempty"`
+}
+
+type ModifiersInitParameters struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	AddRequestHeader *AddRequestHeaderInitParameters `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
+type ModifiersObservation struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	AddRequestHeader *AddRequestHeaderObservation `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
+type ModifiersParameters struct {
+
+	// Adds additional HTTP request headers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AddRequestHeader *AddRequestHeaderParameters `json:"addRequestHeader,omitempty" tf:"add_request_header,omitempty"`
+}
+
 type OperationsInitParameters struct {
 
 	// API methods or permissions to allow. Method or permission must belong to
@@ -1263,7 +1499,33 @@ type OperationsParameters struct {
 	ServiceName *string `json:"serviceName,omitempty" tf:"service_name,omitempty"`
 }
 
+type PscEndpointInitParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type PscEndpointObservation struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type PscEndpointParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	// +kubebuilder:validation:Optional
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
 type ServicePerimeterInitParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the ServicePerimeter and its use. Does not affect
 	// behavior.
@@ -1328,6 +1590,10 @@ type ServicePerimeterObservation struct {
 
 	// Time the AccessPolicy was created in UTC.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the ServicePerimeter and its use. Does not affect
 	// behavior.
@@ -1395,6 +1661,11 @@ type ServicePerimeterObservation struct {
 }
 
 type ServicePerimeterParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the ServicePerimeter and its use. Does not affect
 	// behavior.
@@ -1475,6 +1746,11 @@ type SourcesInitParameters struct {
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *PscEndpointInitParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -1498,6 +1774,11 @@ type SourcesObservation struct {
 	// Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
 	// If * is specified, then all IngressSources will be allowed.
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
+
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	PscEndpoint *PscEndpointObservation `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
 
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
@@ -1524,6 +1805,12 @@ type SourcesParameters struct {
 	// +kubebuilder:validation:Optional
 	AccessLevel *string `json:"accessLevel,omitempty" tf:"access_level,omitempty"`
 
+	// A Private Service Connect endpoint that is allowed to access the perimeter.
+	// The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscEndpoint *PscEndpointParameters `json:"pscEndpoint,omitempty" tf:"psc_endpoint,omitempty"`
+
 	// A Google Cloud resource that is allowed to ingress the perimeter.
 	// Requests from these resources will be allowed to access perimeter data.
 	// Currently only projects and VPCs are allowed.
@@ -1535,6 +1822,28 @@ type SourcesParameters struct {
 	// of allowing all Google Cloud resources only is not supported.
 	// +kubebuilder:validation:Optional
 	Resource *string `json:"resource,omitempty" tf:"resource,omitempty"`
+}
+
+type SourcesPscEndpointInitParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type SourcesPscEndpointObservation struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
+}
+
+type SourcesPscEndpointParameters struct {
+
+	// The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+	// Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+	// +kubebuilder:validation:Optional
+	ForwardingRule *string `json:"forwardingRule,omitempty" tf:"forwarding_rule,omitempty"`
 }
 
 type SpecInitParameters struct {
@@ -1974,6 +2283,11 @@ type StatusParameters struct {
 
 type StatusVPCAccessibleServicesInitParameters struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	AllowedServicePatterns []VPCAccessibleServicesAllowedServicePatternsInitParameters `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +listType=set
@@ -1982,10 +2296,19 @@ type StatusVPCAccessibleServicesInitParameters struct {
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
 }
 
 type StatusVPCAccessibleServicesObservation struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	AllowedServicePatterns []VPCAccessibleServicesAllowedServicePatternsObservation `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +listType=set
@@ -1994,10 +2317,20 @@ type StatusVPCAccessibleServicesObservation struct {
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
 }
 
 type StatusVPCAccessibleServicesParameters struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AllowedServicePatterns []VPCAccessibleServicesAllowedServicePatternsParameters `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +kubebuilder:validation:Optional
@@ -2008,10 +2341,62 @@ type StatusVPCAccessibleServicesParameters struct {
 	// list of APIs specified in 'allowedServices'.
 	// +kubebuilder:validation:Optional
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	// +kubebuilder:validation:Optional
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
+}
+
+type VPCAccessibleServicesAllowedServicePatternsInitParameters struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	Modifiers []AllowedServicePatternsModifiersInitParameters `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type VPCAccessibleServicesAllowedServicePatternsObservation struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	Modifiers []AllowedServicePatternsModifiersObservation `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type VPCAccessibleServicesAllowedServicePatternsParameters struct {
+
+	// Modifiers to apply to the requests that match the URL pattern.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Modifiers []AllowedServicePatternsModifiersParameters `json:"modifiers,omitempty" tf:"modifiers,omitempty"`
+
+	// URL pattern to allow.
+	// +kubebuilder:validation:Optional
+	Pattern *string `json:"pattern,omitempty" tf:"pattern,omitempty"`
+
+	// Supported service to allow.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 }
 
 type VPCAccessibleServicesInitParameters struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	AllowedServicePatterns []AllowedServicePatternsInitParameters `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +listType=set
@@ -2020,10 +2405,19 @@ type VPCAccessibleServicesInitParameters struct {
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
 }
 
 type VPCAccessibleServicesObservation struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	AllowedServicePatterns []AllowedServicePatternsObservation `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +listType=set
@@ -2032,10 +2426,20 @@ type VPCAccessibleServicesObservation struct {
 	// Whether to restrict API calls within the Service Perimeter to the
 	// list of APIs specified in 'allowedServices'.
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
 }
 
 type VPCAccessibleServicesParameters struct {
 
+	// Specifies which Google services are allowed to be accessed from
+	// VPC networks in the service perimeter.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	AllowedServicePatterns []AllowedServicePatternsParameters `json:"allowedServicePatterns,omitempty" tf:"allowed_service_patterns,omitempty"`
+
 	// The list of APIs usable within the Service Perimeter.
 	// Must be empty unless enableRestriction is True.
 	// +kubebuilder:validation:Optional
@@ -2046,6 +2450,11 @@ type VPCAccessibleServicesParameters struct {
 	// list of APIs specified in 'allowedServices'.
 	// +kubebuilder:validation:Optional
 	EnableRestriction *bool `json:"enableRestriction,omitempty" tf:"enable_restriction,omitempty"`
+
+	// Defines the enforcement scopes of service patterns.
+	// Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+	// +kubebuilder:validation:Optional
+	ServicePatternsEnforcementScopes []*string `json:"servicePatternsEnforcementScopes,omitempty" tf:"service_patterns_enforcement_scopes,omitempty"`
 }
 
 // ServicePerimeterSpec defines the desired state of ServicePerimeter

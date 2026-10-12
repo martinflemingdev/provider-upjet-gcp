@@ -1,0 +1,16 @@
+# SPDX-FileCopyrightText: 2025 The Crossplane Authors <https://crossplane.io>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+apiVersion: bigquery.gcp.upbound.io/v1beta1
+kind: DataPolicyV2
+metadata:
+  annotations:
+    meta.upbound.io/example-id: bigquery/v1beta1/datapolicyv2
+  labels:
+    testing.upbound.io/example-name: basic_data_policy
+  name: basic-data-policy
+spec:
+  forProvider:
+    dataPolicyType: RAW_DATA_ACCESS_POLICY
+    location: us-central1

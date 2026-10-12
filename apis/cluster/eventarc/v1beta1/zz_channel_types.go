@@ -18,6 +18,10 @@ type ChannelInitParameters struct {
 	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-defined labels for the channel.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
 	// Please refer to the field effective_labels for all of the labels present on the resource.
@@ -42,6 +46,10 @@ type ChannelObservation struct {
 
 	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// +mapType=granular
 	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
@@ -88,6 +96,11 @@ type ChannelParameters struct {
 	// Resource name of a KMS crypto key (managed by the user) used to encrypt/decrypt their event data. It must match the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
 	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined labels for the channel.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.

@@ -33,17 +33,7 @@ type BuildConfigInitParameters struct {
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
-
-	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
-	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
-
-	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
-	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The Cloud Storage bucket URI where the function source code is located.
 	SourceLocation *string `json:"sourceLocation,omitempty" tf:"source_location,omitempty"`
@@ -108,18 +98,8 @@ type BuildConfigParameters struct {
 	ImageURI *string `json:"imageUri,omitempty" tf:"image_uri,omitempty"`
 
 	// Service account to be used for building the container. The format of this field is projects/{projectId}/serviceAccounts/{serviceAccountEmail}.
-	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
-
-	// Reference to a ServiceAccount in cloudplatform to populate serviceAccount.
-	// +kubebuilder:validation:Optional
-	ServiceAccountRef *v1.NamespacedReference `json:"serviceAccountRef,omitempty" tf:"-"`
-
-	// Selector for a ServiceAccount in cloudplatform to populate serviceAccount.
-	// +kubebuilder:validation:Optional
-	ServiceAccountSelector *v1.NamespacedSelector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// The Cloud Storage bucket URI where the function source code is located.
 	// +kubebuilder:validation:Optional
@@ -229,6 +209,160 @@ type ContainersLivenessProbeParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TCPSocket *LivenessProbeTCPSocketParameters `json:"tcpSocket,omitempty" tf:"tcp_socket,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	// +kubebuilder:validation:Optional
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersReadinessProbeGRPCInitParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersReadinessProbeGRPCObservation struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersReadinessProbeGRPCParameters struct {
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// The name of the service to place in the gRPC HealthCheckRequest
+	// (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+	// If this is not specified, the default behavior is defined by gRPC.
+	// +kubebuilder:validation:Optional
+	Service *string `json:"service,omitempty" tf:"service,omitempty"`
+}
+
+type ContainersReadinessProbeHTTPGetInitParameters struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersReadinessProbeHTTPGetObservation struct {
+
+	// Path that is exported by the NFS server.
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersReadinessProbeHTTPGetParameters struct {
+
+	// Path that is exported by the NFS server.
+	// +kubebuilder:validation:Optional
+	Path *string `json:"path,omitempty" tf:"path,omitempty"`
+
+	// Port number to access on the container. Must be in the range 1 to 65535.
+	// If not specified, defaults to the exposed port of the container, which
+	// is the value of container.ports[0].containerPort.
+	// +kubebuilder:validation:Optional
+	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+}
+
+type ContainersReadinessProbeInitParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC *ContainersReadinessProbeGRPCInitParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet *ContainersReadinessProbeHTTPGetInitParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersReadinessProbeObservation struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	GRPC *ContainersReadinessProbeGRPCObservation `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	HTTPGet *ContainersReadinessProbeHTTPGetObservation `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
+
+	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
+	TimeoutSeconds *float64 `json:"timeoutSeconds,omitempty" tf:"timeout_seconds,omitempty"`
+}
+
+type ContainersReadinessProbeParameters struct {
+
+	// Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1.
+	// +kubebuilder:validation:Optional
+	FailureThreshold *float64 `json:"failureThreshold,omitempty" tf:"failure_threshold,omitempty"`
+
+	// GRPC specifies an action involving a GRPC port.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	GRPC *ContainersReadinessProbeGRPCParameters `json:"grpc,omitempty" tf:"grpc,omitempty"`
+
+	// HTTPGet specifies the http request to perform. Exactly one of HTTPGet or TCPSocket must be specified.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	HTTPGet *ContainersReadinessProbeHTTPGetParameters `json:"httpGet,omitempty" tf:"http_get,omitempty"`
+
+	// How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeoutSeconds
+	// +kubebuilder:validation:Optional
+	PeriodSeconds *float64 `json:"periodSeconds,omitempty" tf:"period_seconds,omitempty"`
+
+	// Minimum consecutive successes for the probe to be considered successful after having failed.
+	// Defaults to 2.
+	// +kubebuilder:validation:Optional
+	SuccessThreshold *float64 `json:"successThreshold,omitempty" tf:"success_threshold,omitempty"`
 
 	// Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than periodSeconds. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// +kubebuilder:validation:Optional
@@ -1014,7 +1148,7 @@ type TemplateVolumesEmptyDirInitParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1025,7 +1159,7 @@ type TemplateVolumesEmptyDirObservation struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
 	// Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers in a pod. This field's values are of the 'Quantity' k8s type: https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/. The default is nil which means that the limit is undefined. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir.
@@ -1036,7 +1170,7 @@ type TemplateVolumesEmptyDirParameters struct {
 
 	// The different types of medium supported for EmptyDir.
 	// Default value is MEMORY.
-	// Possible values are: MEMORY.
+	// Possible values are: MEMORY, DISK.
 	// +kubebuilder:validation:Optional
 	Medium *string `json:"medium,omitempty" tf:"medium,omitempty"`
 
@@ -1289,12 +1423,19 @@ type V2ServiceInitParameters struct {
 	// Disables public resolution of the default URI of this service.
 	DefaultURIDisabled *bool `json:"defaultUriDisabled,omitempty" tf:"default_uri_disabled,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the service is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Used to enable/disable IAP for the cloud-run service.
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
@@ -1304,7 +1445,7 @@ type V2ServiceInitParameters struct {
 	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Service.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1329,6 +1470,12 @@ type V2ServiceInitParameters struct {
 	// Scaling settings that apply to the whole service
 	// Structure is documented below.
 	Scaling *ScalingInitParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1384,6 +1531,10 @@ type V2ServiceObservation struct {
 	// The deletion time.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the service is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -1409,6 +1560,9 @@ type V2ServiceObservation struct {
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/services/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// Used to enable/disable IAP for the cloud-run service.
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
+
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
 	Ingress *string `json:"ingress,omitempty" tf:"ingress,omitempty"`
@@ -1417,7 +1571,7 @@ type V2ServiceObservation struct {
 	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Service.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1463,6 +1617,12 @@ type V2ServiceObservation struct {
 	// Scaling settings that apply to the whole service
 	// Structure is documented below.
 	Scaling *ScalingObservation `json:"scaling,omitempty" tf:"scaling,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1537,6 +1697,11 @@ type V2ServiceParameters struct {
 	// +kubebuilder:validation:Optional
 	DefaultURIDisabled *bool `json:"defaultUriDisabled,omitempty" tf:"default_uri_disabled,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the service is allowed.
 	// +kubebuilder:validation:Optional
@@ -1545,6 +1710,10 @@ type V2ServiceParameters struct {
 	// User-provided description of the Service. This field currently has a 512-character limit.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Used to enable/disable IAP for the cloud-run service.
+	// +kubebuilder:validation:Optional
+	IapEnabled *bool `json:"iapEnabled,omitempty" tf:"iap_enabled,omitempty"`
 
 	// Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active.
 	// Possible values are: INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY, INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER.
@@ -1556,7 +1725,7 @@ type V2ServiceParameters struct {
 	InvokerIAMDisabled *bool `json:"invokerIamDisabled,omitempty" tf:"invoker_iam_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component,
-	// environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// environment, state, etc. For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with  run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 Service.
 	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
@@ -1590,6 +1759,13 @@ type V2ServiceParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Scaling *ScalingParameters `json:"scaling,omitempty" tf:"scaling,omitempty"`
+
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The template used to create revisions for this Service.
 	// Structure is documented below.
@@ -1635,9 +1811,16 @@ type V2ServiceTemplateContainersInitParameters struct {
 	// Structure is documented below.
 	Ports *TemplateContainersPortsInitParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	ReadinessProbe *ContainersReadinessProbeInitParameters `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
+
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
 	Resources *TemplateContainersResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
@@ -1689,9 +1872,16 @@ type V2ServiceTemplateContainersObservation struct {
 	// Structure is documented below.
 	Ports *TemplateContainersPortsObservation `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	ReadinessProbe *ContainersReadinessProbeObservation `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
+
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
 	Resources *TemplateContainersResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
@@ -1747,10 +1937,19 @@ type V2ServiceTemplateContainersParameters struct {
 	// +kubebuilder:validation:Optional
 	Ports *TemplateContainersPortsParameters `json:"ports,omitempty" tf:"ports,omitempty"`
 
+	// Periodic probe of container readiness.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ReadinessProbe *ContainersReadinessProbeParameters `json:"readinessProbe,omitempty" tf:"readiness_probe,omitempty"`
+
 	// Compute Resource requirements by this container. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *TemplateContainersResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes
 	// Structure is documented below.
@@ -1794,7 +1993,7 @@ type V2ServiceTemplateInitParameters struct {
 	HealthCheckDisabled *bool `json:"healthCheckDisabled,omitempty" tf:"health_check_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	// +mapType=granular
@@ -1861,7 +2060,7 @@ type V2ServiceTemplateObservation struct {
 	HealthCheckDisabled *bool `json:"healthCheckDisabled,omitempty" tf:"health_check_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	// +mapType=granular
@@ -1934,7 +2133,7 @@ type V2ServiceTemplateParameters struct {
 	HealthCheckDisabled *bool `json:"healthCheckDisabled,omitempty" tf:"health_check_disabled,omitempty"`
 
 	// Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc.
-	// For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
+	// For more information, visit https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels.
 	// Cloud Run API v2 does not support labels with run.googleapis.com, cloud.googleapis.com, serving.knative.dev, or autoscaling.knative.dev namespaces, and they will be rejected.
 	// All system labels in v1 now have a corresponding field in v2 RevisionTemplate.
 	// +kubebuilder:validation:Optional
@@ -2173,7 +2372,9 @@ type VPCAccessNetworkInterfacesInitParameters struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -2189,7 +2390,9 @@ type VPCAccessNetworkInterfacesObservation struct {
 	// subnetwork with the same name with the network will be used.
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
@@ -2207,7 +2410,9 @@ type VPCAccessNetworkInterfacesParameters struct {
 	// +kubebuilder:validation:Optional
 	Subnetwork *string `json:"subnetwork,omitempty" tf:"subnetwork,omitempty"`
 
-	// Network tags applied to this Cloud Run service.
+	// A map of resource manager tags.
+	// Resource manager tag keys and values have the same definition as resource manager tags.
+	// Keys must be in the format tagKeys/{tag_key_id}, and values are in the format tagValues/{tag_value_id}.
 	// +kubebuilder:validation:Optional
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
@@ -2256,7 +2461,7 @@ type VolumesCloudSQLInstanceParameters struct {
 
 type VolumesGcsInitParameters struct {
 
-	// GCS Bucket name
+	// The Cloud Storage bucket name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
@@ -2278,7 +2483,7 @@ type VolumesGcsInitParameters struct {
 
 type VolumesGcsObservation struct {
 
-	// GCS Bucket name
+	// The Cloud Storage bucket name.
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`
 
 	// A list of flags to pass to the gcsfuse command for configuring this volume.
@@ -2291,7 +2496,7 @@ type VolumesGcsObservation struct {
 
 type VolumesGcsParameters struct {
 
-	// GCS Bucket name
+	// The Cloud Storage bucket name.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/storage/v1beta1.Bucket
 	// +kubebuilder:validation:Optional
 	Bucket *string `json:"bucket,omitempty" tf:"bucket,omitempty"`

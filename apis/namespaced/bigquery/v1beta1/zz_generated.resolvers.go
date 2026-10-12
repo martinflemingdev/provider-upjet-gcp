@@ -102,6 +102,30 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 	if mg.Spec.ForProvider.BigqueryDataset != nil {
 		for i4 := 0; i4 < len(mg.Spec.ForProvider.BigqueryDataset.SelectedResources); i4++ {
 			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineRef,
+					Selector:     mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine")
+			}
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].Routine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.ForProvider.BigqueryDataset.SelectedResources[i4].RoutineRef = rsp.ResolvedReference
+
+		}
+	}
+	if mg.Spec.ForProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.ForProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
 				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Table", "TableList")
 				if err != nil {
 					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -186,6 +210,30 @@ func (mg *AnalyticsHubListing) ResolveReferences(ctx context.Context, c client.R
 		mg.Spec.InitProvider.BigqueryDataset.Dataset = reference.ToPtrValue(rsp.ResolvedValue)
 		mg.Spec.InitProvider.BigqueryDataset.DatasetRef = rsp.ResolvedReference
 
+	}
+	if mg.Spec.InitProvider.BigqueryDataset != nil {
+		for i4 := 0; i4 < len(mg.Spec.InitProvider.BigqueryDataset.SelectedResources); i4++ {
+			{
+				m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+				if err != nil {
+					return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+				}
+				rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+					CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine),
+					Extract:      resource.ExtractResourceID(),
+					Namespace:    mg.GetNamespace(),
+					Reference:    mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineRef,
+					Selector:     mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineSelector,
+					To:           reference.To{List: l, Managed: m},
+				})
+			}
+			if err != nil {
+				return errors.Wrap(err, "mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine")
+			}
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].Routine = reference.ToPtrValue(rsp.ResolvedValue)
+			mg.Spec.InitProvider.BigqueryDataset.SelectedResources[i4].RoutineRef = rsp.ResolvedReference
+
+		}
 	}
 	if mg.Spec.InitProvider.BigqueryDataset != nil {
 		for i4 := 0; i4 < len(mg.Spec.InitProvider.BigqueryDataset.SelectedResources); i4++ {
@@ -662,6 +710,351 @@ func (mg *Connection) ResolveReferences(ctx context.Context, c client.Reader) er
 
 		}
 	}
+
+	return nil
+}
+
+// ResolveReferences of this DataPolicy.
+func (mg *DataPolicy) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.ForProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.ForProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.PolicyTagRef,
+			Selector:     mg.Spec.ForProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PolicyTag")
+	}
+	mg.Spec.ForProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PolicyTagRef = rsp.ResolvedReference
+
+	if mg.Spec.InitProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.InitProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.InitProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.PolicyTagRef,
+			Selector:     mg.Spec.InitProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PolicyTag")
+	}
+	mg.Spec.InitProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PolicyTagRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DataPolicyIAMMember.
+func (mg *DataPolicyIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "DataPolicy", "DataPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataPolicyID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DataPolicyIDRef,
+			Selector:     mg.Spec.ForProvider.DataPolicyIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataPolicyID")
+	}
+	mg.Spec.ForProvider.DataPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataPolicyIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "DataPolicy", "DataPolicyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataPolicyID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DataPolicyIDRef,
+			Selector:     mg.Spec.InitProvider.DataPolicyIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DataPolicyID")
+	}
+	mg.Spec.InitProvider.DataPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataPolicyIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this DataPolicyV2.
+func (mg *DataPolicyV2) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+
+	if mg.Spec.ForProvider.DataGovernanceTag != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagKey", "TagKeyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataGovernanceTag.Key),
+				Extract:      resource.ExtractParamPath("namespaced_name", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.DataGovernanceTag.KeyRef,
+				Selector:     mg.Spec.ForProvider.DataGovernanceTag.KeySelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DataGovernanceTag.Key")
+		}
+		mg.Spec.ForProvider.DataGovernanceTag.Key = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DataGovernanceTag.KeyRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.DataGovernanceTag != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagValue", "TagValueList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataGovernanceTag.Value),
+				Extract:      resource.ExtractParamPath("short_name", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.DataGovernanceTag.ValueRef,
+				Selector:     mg.Spec.ForProvider.DataGovernanceTag.ValueSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DataGovernanceTag.Value")
+		}
+		mg.Spec.ForProvider.DataGovernanceTag.Value = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DataGovernanceTag.ValueRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.ForProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.ForProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.ForProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.ForProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.ForProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.DataGovernanceTag != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagKey", "TagKeyList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataGovernanceTag.Key),
+				Extract:      resource.ExtractParamPath("namespaced_name", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.DataGovernanceTag.KeyRef,
+				Selector:     mg.Spec.InitProvider.DataGovernanceTag.KeySelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DataGovernanceTag.Key")
+		}
+		mg.Spec.InitProvider.DataGovernanceTag.Key = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DataGovernanceTag.KeyRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.DataGovernanceTag != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("tags.gcp.m.upbound.io", "v1beta1", "TagValue", "TagValueList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataGovernanceTag.Value),
+				Extract:      resource.ExtractParamPath("short_name", true),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.DataGovernanceTag.ValueRef,
+				Selector:     mg.Spec.InitProvider.DataGovernanceTag.ValueSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DataGovernanceTag.Value")
+		}
+		mg.Spec.InitProvider.DataGovernanceTag.Value = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DataGovernanceTag.ValueRef = rsp.ResolvedReference
+
+	}
+	if mg.Spec.InitProvider.DataMaskingPolicy != nil {
+		{
+			m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "Routine", "RoutineList")
+			if err != nil {
+				return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+			}
+			rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+				CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataMaskingPolicy.Routine),
+				Extract:      resource.ExtractResourceID(),
+				Namespace:    mg.GetNamespace(),
+				Reference:    mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef,
+				Selector:     mg.Spec.InitProvider.DataMaskingPolicy.RoutineSelector,
+				To:           reference.To{List: l, Managed: m},
+			})
+		}
+		if err != nil {
+			return errors.Wrap(err, "mg.Spec.InitProvider.DataMaskingPolicy.Routine")
+		}
+		mg.Spec.InitProvider.DataMaskingPolicy.Routine = reference.ToPtrValue(rsp.ResolvedValue)
+		mg.Spec.InitProvider.DataMaskingPolicy.RoutineRef = rsp.ResolvedReference
+
+	}
+
+	return nil
+}
+
+// ResolveReferences of this DataPolicyV2IAMMember.
+func (mg *DataPolicyV2IAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "DataPolicyV2", "DataPolicyV2List")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.DataPolicyID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DataPolicyIDRef,
+			Selector:     mg.Spec.ForProvider.DataPolicyIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.DataPolicyID")
+	}
+	mg.Spec.ForProvider.DataPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DataPolicyIDRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("bigquery.gcp.m.upbound.io", "v1beta1", "DataPolicyV2", "DataPolicyV2List")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.DataPolicyID),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DataPolicyIDRef,
+			Selector:     mg.Spec.InitProvider.DataPolicyIDSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.DataPolicyID")
+	}
+	mg.Spec.InitProvider.DataPolicyID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DataPolicyIDRef = rsp.ResolvedReference
 
 	return nil
 }

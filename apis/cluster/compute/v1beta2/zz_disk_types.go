@@ -146,6 +146,10 @@ type DiskInitParameters struct {
 	// This will set a custom name prefix for the snapshot that's created when the disk is deleted.
 	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -289,6 +293,10 @@ type DiskObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -498,6 +506,11 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	CreateSnapshotBeforeDestroyPrefix *string `json:"createSnapshotBeforeDestroyPrefix,omitempty" tf:"create_snapshot_before_destroy_prefix,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	// +kubebuilder:validation:Optional
@@ -705,7 +718,8 @@ type SourceImageEncryptionKeyInitParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceImageEncryptionKeyObservation struct {
@@ -720,10 +734,6 @@ type SourceImageEncryptionKeyObservation struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
-
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
 	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
@@ -748,8 +758,9 @@ type SourceImageEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyInitParameters struct {
@@ -767,7 +778,8 @@ type SourceSnapshotEncryptionKeyInitParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	// Note: This property is sensitive and will not be displayed in the plan.
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 type SourceSnapshotEncryptionKeyObservation struct {
@@ -782,10 +794,6 @@ type SourceSnapshotEncryptionKeyObservation struct {
 	// The service account used for the encryption request for the given KMS key.
 	// If absent, the Compute Engine Service Agent service account is used.
 	KMSKeyServiceAccount *string `json:"kmsKeyServiceAccount,omitempty" tf:"kms_key_service_account,omitempty"`
-
-	// Specifies a 256-bit customer-supplied encryption key, encoded in
-	// RFC 4648 base64 to either encrypt or decrypt this resource.
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
 
 	// (Output)
 	// The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
@@ -810,8 +818,9 @@ type SourceSnapshotEncryptionKeyParameters struct {
 
 	// Specifies a 256-bit customer-supplied encryption key, encoded in
 	// RFC 4648 base64 to either encrypt or decrypt this resource.
+	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
-	RawKey *string `json:"rawKey,omitempty" tf:"raw_key,omitempty"`
+	RawKeySecretRef *v1.SecretKeySelector `json:"rawKeySecretRef,omitempty" tf:"-"`
 }
 
 // DiskSpec defines the desired state of Disk

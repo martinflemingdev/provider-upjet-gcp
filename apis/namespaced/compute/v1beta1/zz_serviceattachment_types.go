@@ -28,6 +28,12 @@ type ConnectedEndpointsObservation struct {
 	Endpoint *string `json:"endpoint,omitempty" tf:"endpoint,omitempty"`
 
 	// (Output)
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// 'The nat IPs of the connected endpoint.'
+	NATIps []*string `json:"natIps,omitempty" tf:"nat_ips,omitempty"`
+
+	// (Output)
 	// The number of consumer Network Connectivity Center spokes that the connected Private Service Connect endpoint has propagated to.
 	PropagatedConnectionCount *float64 `json:"propagatedConnectionCount,omitempty" tf:"propagated_connection_count,omitempty"`
 
@@ -49,6 +55,10 @@ type ConsumerAcceptListsInitParameters struct {
 	// The number of consumer forwarding rules the consumer project can
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
+
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -75,6 +85,10 @@ type ConsumerAcceptListsObservation struct {
 	// create.
 	ConnectionLimit *float64 `json:"connectionLimit,omitempty" tf:"connection_limit,omitempty"`
 
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
+
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
 	NetworkURL *string `json:"networkUrl,omitempty" tf:"network_url,omitempty"`
@@ -90,6 +104,11 @@ type ConsumerAcceptListsParameters struct {
 	// create.
 	// +kubebuilder:validation:Optional
 	ConnectionLimit *float64 `json:"connectionLimit" tf:"connection_limit,omitempty"`
+
+	// The endpoint that is allowed to connect to this service attachment.
+	// Only one of project_id_or_num, network_url and endpoint_url may be set.
+	// +kubebuilder:validation:Optional
+	EndpointURL *string `json:"endpointUrl,omitempty" tf:"endpoint_url,omitempty"`
 
 	// The network that is allowed to connect to this service attachment.
 	// Only one of project_id_or_num and network_url may be set.
@@ -144,6 +163,10 @@ type ServiceAttachmentInitParameters struct {
 	// attachment.
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -192,6 +215,11 @@ type ServiceAttachmentInitParameters struct {
 	// Defaults to false.
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
+
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.ForwardingRule
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
@@ -225,6 +253,10 @@ type ServiceAttachmentObservation struct {
 	// An array of projects that are not allowed to connect to this service
 	// attachment.
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -282,6 +314,11 @@ type ServiceAttachmentObservation struct {
 	// Defaults to false.
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
 
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
+
 	// The URL of a service serving the endpoint identified by this service attachment.
 	TargetService *string `json:"targetService,omitempty" tf:"target_service,omitempty"`
 }
@@ -303,6 +340,11 @@ type ServiceAttachmentParameters struct {
 	// attachment.
 	// +kubebuilder:validation:Optional
 	ConsumerRejectLists []*string `json:"consumerRejectLists,omitempty" tf:"consumer_reject_lists,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
@@ -363,6 +405,12 @@ type ServiceAttachmentParameters struct {
 	// Defaults to false.
 	// +kubebuilder:validation:Optional
 	SendPropagatedConnectionLimitIfZero *bool `json:"sendPropagatedConnectionLimitIfZero,omitempty" tf:"send_propagated_connection_limit_if_zero,omitempty"`
+
+	// NOTE: This field is temporarily non-functional due to an underlying API issue.
+	// Any value provided here will be ignored until the API issue is resolved, expected around 2026-03.
+	// [If true, show NAT IPs of all connected endpoints.]
+	// +kubebuilder:validation:Optional
+	ShowNATIps *bool `json:"showNatIps,omitempty" tf:"show_nat_ips,omitempty"`
 
 	// The URL of a service serving the endpoint identified by this service attachment.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.ForwardingRule

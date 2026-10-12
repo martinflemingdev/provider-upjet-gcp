@@ -2742,6 +2742,10 @@ type RegionURLMapInitParameters struct {
 	// Structure is documented below.
 	DefaultURLRedirect *DefaultURLRedirectInitParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -2797,6 +2801,10 @@ type RegionURLMapObservation struct {
 	// defaultRouteAction must not be set.
 	// Structure is documented below.
 	DefaultURLRedirect *DefaultURLRedirectObservation `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
@@ -2880,6 +2888,11 @@ type RegionURLMapParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DefaultURLRedirect *DefaultURLRedirectParameters `json:"defaultUrlRedirect,omitempty" tf:"default_url_redirect,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.

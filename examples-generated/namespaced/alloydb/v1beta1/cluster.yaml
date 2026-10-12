@@ -14,10 +14,6 @@ metadata:
 spec:
   forProvider:
     deletionProtection: false
-    initialUser:
-      passwordSecretRef:
-        key: example-key
-        name: example-secret
     location: us-central1
     networkConfig:
       networkSelector:

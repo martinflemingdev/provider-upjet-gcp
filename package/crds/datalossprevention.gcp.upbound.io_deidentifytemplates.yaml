@@ -17311,6 +17311,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the template.
                     type: string
@@ -20749,6 +20754,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the template.
                     type: string
@@ -24270,6 +24280,11 @@ spec:
                             type: array
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A description of the template.
                     type: string

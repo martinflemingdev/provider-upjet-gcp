@@ -249,6 +249,11 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		*out = new(CrossClusterReplicationConfigInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtectionEnabled != nil {
 		in, out := &in.DeletionProtectionEnabled, &out.DeletionProtectionEnabled
 		*out = new(bool)
@@ -263,6 +268,22 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		in, out := &in.KMSKey, &out.KMSKey
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.MaintenancePolicy != nil {
 		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
@@ -321,6 +342,26 @@ func (in *ClusterInitParameters) DeepCopyInto(out *ClusterInitParameters) {
 		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(float64)
 		**out = **in
+	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPoolRef != nil {
+		in, out := &in.ServerCAPoolRef, &out.ServerCAPoolRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerCAPoolSelector != nil {
+		in, out := &in.ServerCAPoolSelector, &out.ServerCAPoolSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount
@@ -420,6 +461,11 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(CrossClusterReplicationConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtectionEnabled != nil {
 		in, out := &in.DeletionProtectionEnabled, &out.DeletionProtectionEnabled
 		*out = new(bool)
@@ -430,6 +476,22 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = make([]DiscoveryEndpointsObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.EffectiveLabels != nil {
+		in, out := &in.EffectiveLabels, &out.EffectiveLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 	if in.EffectiveMaintenanceVersion != nil {
@@ -451,6 +513,22 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		in, out := &in.KMSKey, &out.KMSKey
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.MaintenancePolicy != nil {
 		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
@@ -548,6 +626,16 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = new(float64)
 		**out = **in
 	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount
 		*out = new(float64)
@@ -568,6 +656,22 @@ func (in *ClusterObservation) DeepCopyInto(out *ClusterObservation) {
 		*out = make([]StateInfoObservation, len(*in))
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
+		}
+	}
+	if in.TerraformLabels != nil {
+		in, out := &in.TerraformLabels, &out.TerraformLabels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
 		}
 	}
 	if in.TransitEncryptionMode != nil {
@@ -615,6 +719,11 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		*out = new(CrossClusterReplicationConfigParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtectionEnabled != nil {
 		in, out := &in.DeletionProtectionEnabled, &out.DeletionProtectionEnabled
 		*out = new(bool)
@@ -629,6 +738,22 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.KMSKey, &out.KMSKey
 		*out = new(string)
 		**out = **in
+	}
+	if in.Labels != nil {
+		in, out := &in.Labels, &out.Labels
+		*out = make(map[string]*string, len(*in))
+		for key, val := range *in {
+			var outVal *string
+			if val == nil {
+				(*out)[key] = nil
+			} else {
+				inVal := (*in)[key]
+				in, out := &inVal, &outVal
+				*out = new(string)
+				**out = **in
+			}
+			(*out)[key] = outVal
+		}
 	}
 	if in.MaintenancePolicy != nil {
 		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
@@ -692,6 +817,26 @@ func (in *ClusterParameters) DeepCopyInto(out *ClusterParameters) {
 		in, out := &in.ReplicaCount, &out.ReplicaCount
 		*out = new(float64)
 		**out = **in
+	}
+	if in.ServerCAMode != nil {
+		in, out := &in.ServerCAMode, &out.ServerCAMode
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPool != nil {
+		in, out := &in.ServerCAPool, &out.ServerCAPool
+		*out = new(string)
+		**out = **in
+	}
+	if in.ServerCAPoolRef != nil {
+		in, out := &in.ServerCAPoolRef, &out.ServerCAPoolRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.ServerCAPoolSelector != nil {
+		in, out := &in.ServerCAPoolSelector, &out.ServerCAPoolSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ShardCount != nil {
 		in, out := &in.ShardCount, &out.ShardCount
@@ -1286,6 +1431,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(v1.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -1626,6 +1776,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -1885,6 +2040,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.CustomerManagedKeySelector, &out.CustomerManagedKeySelector
 		*out = new(v1.NamespacedSelector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

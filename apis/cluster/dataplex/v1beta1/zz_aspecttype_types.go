@@ -22,6 +22,10 @@ type AspectTypeInitParameters struct {
 	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
 	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Description of the AspectType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -60,6 +64,10 @@ type AspectTypeObservation struct {
 	//
 	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
 	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AspectType.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -116,6 +124,11 @@ type AspectTypeParameters struct {
 	// Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
 	// +kubebuilder:validation:Optional
 	DataClassification *string `json:"dataClassification,omitempty" tf:"data_classification,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Description of the AspectType.
 	// +kubebuilder:validation:Optional

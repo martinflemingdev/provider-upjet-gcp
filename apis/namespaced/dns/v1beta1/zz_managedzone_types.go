@@ -259,6 +259,10 @@ type ManagedZoneInitParameters struct {
 	// Structure is documented below.
 	DNSSECConfig *DNSSECConfigInitParameters `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -312,6 +316,10 @@ type ManagedZoneObservation struct {
 	// DNSSEC configuration
 	// Structure is documented below.
 	DNSSECConfig *DNSSECConfigObservation `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A textual description field.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -384,6 +392,11 @@ type ManagedZoneParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DNSSECConfig *DNSSECConfigParameters `json:"dnssecConfig,omitempty" tf:"dnssec_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A textual description field.
 	// +kubebuilder:validation:Optional

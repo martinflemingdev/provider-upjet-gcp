@@ -58,6 +58,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection
 		*out = new(bool)
@@ -200,6 +205,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 	}
 	if in.CreateTime != nil {
 		in, out := &in.CreateTime, &out.CreateTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -381,6 +391,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.AuthorizedNetworkSelector, &out.AuthorizedNetworkSelector
 		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DeletionProtection != nil {
 		in, out := &in.DeletionProtection, &out.DeletionProtection

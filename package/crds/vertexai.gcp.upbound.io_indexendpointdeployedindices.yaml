@@ -123,6 +123,11 @@ spec:
                           or equal to 1.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployedIndexAuthConfig:
                     description: |-
                       If set, the authentication is enabled for the private endpoint.
@@ -398,6 +403,11 @@ spec:
                           or equal to 1.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployedIndexAuthConfig:
                     description: |-
                       If set, the authentication is enabled for the private endpoint.
@@ -671,6 +681,11 @@ spec:
                           or equal to 1.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployedIndexAuthConfig:
                     description: |-
                       If set, the authentication is enabled for the private endpoint.

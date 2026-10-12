@@ -778,8 +778,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex
@@ -995,8 +996,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex
@@ -1296,8 +1298,9 @@ spec:
                     type: string
                   deletionPolicy:
                     description: |-
-                      The deletion policy for the GC policy.
-                      Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted in a replicated instance.
+                      The deletion policy for the GC policy. Setting ABANDON allows the resource
+                      to be abandoned rather than deleted. This is useful for GC policy as it cannot be deleted
+                      in a replicated instance.
                     type: string
                   gcRules:
                     description: Serialized JSON object to represent a more complex

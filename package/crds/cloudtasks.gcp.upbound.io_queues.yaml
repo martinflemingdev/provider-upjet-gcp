@@ -1573,6 +1573,11 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   desiredState:
                     description: The desired state of the queue. Use this to pause
                       and resume the queue.
@@ -2060,6 +2065,11 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   desiredState:
                     description: The desired state of the queue. Use this to pause
                       and resume the queue.
@@ -2625,6 +2635,11 @@ spec:
                           By default, the task is sent to the version which is the default version when the task is attempted.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   desiredState:
                     description: The desired state of the queue. Use this to pause
                       and resume the queue.

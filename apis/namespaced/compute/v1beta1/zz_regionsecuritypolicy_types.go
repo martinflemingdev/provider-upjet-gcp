@@ -589,6 +589,10 @@ type RegionSecurityPolicyInitParameters struct {
 	// Structure is documented below.
 	DdosProtectionConfig *DdosProtectionConfigInitParameters `json:"ddosProtectionConfig,omitempty" tf:"ddos_protection_config,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -619,6 +623,10 @@ type RegionSecurityPolicyObservation struct {
 	// Configuration for Google Cloud Armor DDOS Proctection Config.
 	// Structure is documented below.
 	DdosProtectionConfig *DdosProtectionConfigObservation `json:"ddosProtectionConfig,omitempty" tf:"ddos_protection_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -672,6 +680,11 @@ type RegionSecurityPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DdosProtectionConfig *DdosProtectionConfigParameters `json:"ddosProtectionConfig,omitempty" tf:"ddos_protection_config,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional

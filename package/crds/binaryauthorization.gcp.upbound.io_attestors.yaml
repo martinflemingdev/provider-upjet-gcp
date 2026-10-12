@@ -899,6 +899,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A descriptive comment. This field may be updated. The field may be
@@ -1077,6 +1082,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A descriptive comment. This field may be updated. The field may be
@@ -1275,6 +1285,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       A descriptive comment. This field may be updated. The field may be

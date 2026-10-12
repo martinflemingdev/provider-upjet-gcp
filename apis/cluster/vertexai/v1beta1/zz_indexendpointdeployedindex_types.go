@@ -183,6 +183,10 @@ type IndexEndpointDeployedIndexInitParameters struct {
 	// Structure is documented below.
 	DedicatedResources *IndexEndpointDeployedIndexDedicatedResourcesInitParameters `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If set, the authentication is enabled for the private endpoint.
 	// Structure is documented below.
 	DeployedIndexAuthConfig *DeployedIndexAuthConfigInitParameters `json:"deployedIndexAuthConfig,omitempty" tf:"deployed_index_auth_config,omitempty"`
@@ -233,6 +237,10 @@ type IndexEndpointDeployedIndexObservation struct {
 	// n1-standard-16 and n1-standard-32 are still available, but we recommend e2-standard-16 and e2-highmem-16 for cost efficiency.
 	// Structure is documented below.
 	DedicatedResources *IndexEndpointDeployedIndexDedicatedResourcesObservation `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If set, the authentication is enabled for the private endpoint.
 	// Structure is documented below.
@@ -295,6 +303,11 @@ type IndexEndpointDeployedIndexParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DedicatedResources *IndexEndpointDeployedIndexDedicatedResourcesParameters `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// If set, the authentication is enabled for the private endpoint.
 	// Structure is documented below.

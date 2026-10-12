@@ -87,25 +87,21 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           encryption:
                             description: Encryption algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           prf:
                             description: Pseudo-random functions.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                       phase2:
                         description: |-
@@ -117,21 +113,23 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           pfs:
                             description: Perfect forward secrecy groups.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -160,6 +158,21 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   peerExternalGateway:
                     description: URL of the peer side external VPN gateway to which
                       this VPN tunnel is connected.
@@ -375,12 +388,12 @@ spec:
                     description: |-
                       Shared secret used to set the secure session between the Cloud VPN
                       gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
                       Note: This property is write-only and will not be read from the API.
                     type: string
                   sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. For
-                      more info see updating write-only attributes
+                    description: Triggers update of shared_secret_wo write-only. Increment
+                      this value when an update to shared_secret_wo is needed. For
+                      more info see updating write-only arguments
                     type: string
                   targetVpnGateway:
                     description: |-
@@ -580,25 +593,21 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           encryption:
                             description: Encryption algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           prf:
                             description: Pseudo-random functions.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                       phase2:
                         description: |-
@@ -610,21 +619,23 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           pfs:
                             description: Perfect forward secrecy groups.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -653,6 +664,21 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   peerExternalGateway:
                     description: URL of the peer side external VPN gateway to which
                       this VPN tunnel is connected.
@@ -864,12 +890,12 @@ spec:
                     description: |-
                       Shared secret used to set the secure session between the Cloud VPN
                       gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
                       Note: This property is write-only and will not be read from the API.
                     type: string
                   sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. For
-                      more info see updating write-only attributes
+                    description: Triggers update of shared_secret_wo write-only. Increment
+                      this value when an update to shared_secret_wo is needed. For
+                      more info see updating write-only arguments
                     type: string
                   targetVpnGateway:
                     description: |-
@@ -1145,25 +1171,21 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           encryption:
                             description: Encryption algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           prf:
                             description: Pseudo-random functions.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                       phase2:
                         description: |-
@@ -1175,23 +1197,25 @@ spec:
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           integrity:
                             description: Integrity algorithms.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                           pfs:
                             description: Perfect forward secrecy groups.
                             items:
                               type: string
                             type: array
-                            x-kubernetes-list-type: set
                         type: object
                     type: object
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: An optional description of this resource.
@@ -1237,6 +1261,21 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  params:
+                    description: |-
+                      Additional params passed with the request, but not persisted as part of resource payload
+                      Structure is documented below.
+                    properties:
+                      resourceManagerTags:
+                        additionalProperties:
+                          type: string
+                        description: |-
+                          Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+                          same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+                          and values are in the format tagValues/456.
+                        type: object
+                        x-kubernetes-map-type: granular
+                    type: object
                   peerExternalGateway:
                     description: URL of the peer side external VPN gateway to which
                       this VPN tunnel is connected.
@@ -1288,12 +1327,12 @@ spec:
                     description: |-
                       Shared secret used to set the secure session between the Cloud VPN
                       gateway and the peer VPN gateway.
-                      Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
                       Note: This property is write-only and will not be read from the API.
                     type: string
                   sharedSecretWoVersion:
-                    description: Triggers update of shared_secret_wo write-only. For
-                      more info see updating write-only attributes
+                    description: Triggers update of shared_secret_wo write-only. Increment
+                      this value when an update to shared_secret_wo is needed. For
+                      more info see updating write-only arguments
                     type: string
                   targetVpnGateway:
                     description: |-

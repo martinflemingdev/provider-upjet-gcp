@@ -91,6 +91,11 @@ spec:
                           on each sync trigger based on FeatureView.SyncConfig.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   featureOnlineStore:
                     description: The name of the FeatureOnlineStore to use for the
                       featureview.
@@ -492,6 +497,11 @@ spec:
                           on each sync trigger based on FeatureView.SyncConfig.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   featureRegistrySource:
                     description: |-
                       Configures the features from a Feature Registry source that need to be loaded onto the FeatureOnlineStore.
@@ -890,6 +900,11 @@ spec:
                     description: The timestamp of when the featureOnlinestore was
                       created in RFC3339 UTC "Zulu" format, with nanosecond resolution
                       and up to nine fractional digits.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

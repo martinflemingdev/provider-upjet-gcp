@@ -1233,6 +1233,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the
@@ -1558,6 +1563,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the
@@ -1890,6 +1900,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the resource; provided by the

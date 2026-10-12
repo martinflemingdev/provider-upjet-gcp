@@ -44,6 +44,9 @@ type AdvancedOptionsConfigInitParameters struct {
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
 
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
+
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +listType=set
 	UserIPRequestHeaders []*string `json:"userIpRequestHeaders,omitempty" tf:"user_ip_request_headers,omitempty"`
@@ -60,6 +63,9 @@ type AdvancedOptionsConfigObservation struct {
 
 	// Log level to use. Defaults to NORMAL.
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
 
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +listType=set
@@ -80,6 +86,10 @@ type AdvancedOptionsConfigParameters struct {
 	// Log level to use. Defaults to NORMAL.
 	// +kubebuilder:validation:Optional
 	LogLevel *string `json:"logLevel,omitempty" tf:"log_level,omitempty"`
+
+	// The maximum request size chosen by the customer with Waf enabled. Values supported are "8KB", "16KB, "32KB", "48KB" and "64KB". Values are case insensitive.
+	// +kubebuilder:validation:Optional
+	RequestBodyInspectionSize *string `json:"requestBodyInspectionSize,omitempty" tf:"request_body_inspection_size,omitempty"`
 
 	// An optional list of case-insensitive request header names to use for resolving the callers client IP address.
 	// +kubebuilder:validation:Optional
@@ -972,6 +982,10 @@ type SecurityPolicyInitParameters struct {
 	// Structure is documented below.
 	AdvancedOptionsConfig *AdvancedOptionsConfigInitParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1005,6 +1019,10 @@ type SecurityPolicyObservation struct {
 	// Advanced Configuration Options.
 	// Structure is documented below.
 	AdvancedOptionsConfig *AdvancedOptionsConfigObservation `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this security policy. Max size is 2048.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1060,6 +1078,11 @@ type SecurityPolicyParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AdvancedOptionsConfig *AdvancedOptionsConfigParameters `json:"advancedOptionsConfig,omitempty" tf:"advanced_options_config,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this security policy. Max size is 2048.
 	// +kubebuilder:validation:Optional

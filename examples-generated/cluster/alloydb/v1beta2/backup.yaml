@@ -30,11 +30,6 @@ metadata:
 spec:
   forProvider:
     deletionProtection: false
-    initialUser:
-      passwordSecretRef:
-        key: example-key
-        name: example-secret
-        namespace: upbound-system
     location: us-central1
     networkConfig:
       networkSelector:

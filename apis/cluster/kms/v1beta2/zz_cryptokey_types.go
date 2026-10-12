@@ -19,6 +19,10 @@ type CryptoKeyInitParameters struct {
 	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 30 days.
 	DestroyScheduledDuration *string `json:"destroyScheduledDuration,omitempty" tf:"destroy_scheduled_duration,omitempty"`
@@ -58,6 +62,10 @@ type CryptoKeyObservation struct {
 	// The resource name of the backend environment associated with all CryptoKeyVersions within this CryptoKey.
 	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 30 days.
@@ -120,6 +128,11 @@ type CryptoKeyParameters struct {
 	// The resource name is in the format "projects//locations//ekmConnections/*" and only applies to "EXTERNAL_VPC" keys.
 	// +kubebuilder:validation:Optional
 	CryptoKeyBackend *string `json:"cryptoKeyBackend,omitempty" tf:"crypto_key_backend,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED.
 	// If not specified at creation time, the default duration is 30 days.

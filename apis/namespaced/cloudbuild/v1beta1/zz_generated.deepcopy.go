@@ -4051,6 +4051,11 @@ func (in *TriggerInitParameters) DeepCopyInto(out *TriggerInitParameters) {
 		*out = new(BuildInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4262,6 +4267,11 @@ func (in *TriggerObservation) DeepCopyInto(out *TriggerObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -4435,6 +4445,11 @@ func (in *TriggerParameters) DeepCopyInto(out *TriggerParameters) {
 		in, out := &in.Build, &out.Build
 		*out = new(BuildParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
@@ -5088,6 +5103,11 @@ func (in *WorkerPoolInitParameters) DeepCopyInto(out *WorkerPoolInitParameters) 
 			(*out)[key] = outVal
 		}
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName
 		*out = new(string)
@@ -5183,6 +5203,11 @@ func (in *WorkerPoolObservation) DeepCopyInto(out *WorkerPoolObservation) {
 	}
 	if in.DeleteTime != nil {
 		in, out := &in.DeleteTime, &out.DeleteTime
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -5282,6 +5307,11 @@ func (in *WorkerPoolParameters) DeepCopyInto(out *WorkerPoolParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DisplayName != nil {
 		in, out := &in.DisplayName, &out.DisplayName

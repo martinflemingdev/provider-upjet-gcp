@@ -402,7 +402,14 @@ type ScriptParameters struct {
 type StandardAppVersionInitParameters struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and 'app_engine_bundled_services` together.
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -414,6 +421,10 @@ type StandardAppVersionInitParameters struct {
 
 	// If set to true, the service will be deleted if it is the last version.
 	DeleteServiceOnDestroy *bool `json:"deleteServiceOnDestroy,omitempty" tf:"delete_service_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Code and application artifacts that make up this version.
 	// Structure is documented below.
@@ -490,7 +501,14 @@ type StandardAppVersionInitParameters struct {
 type StandardAppVersionObservation struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and 'app_engine_bundled_services` together.
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -502,6 +520,10 @@ type StandardAppVersionObservation struct {
 
 	// If set to true, the service will be deleted if it is the last version.
 	DeleteServiceOnDestroy *bool `json:"deleteServiceOnDestroy,omitempty" tf:"delete_service_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Code and application artifacts that make up this version.
 	// Structure is documented below.
@@ -577,8 +599,16 @@ type StandardAppVersionObservation struct {
 type StandardAppVersionParameters struct {
 
 	// Allows App Engine second generation runtimes to access the legacy bundled services.
+	// Cannot specify both app_engine_apis and 'app_engine_bundled_services` together.
 	// +kubebuilder:validation:Optional
 	AppEngineApis *bool `json:"appEngineApis,omitempty" tf:"app_engine_apis,omitempty"`
+
+	// A list of legacy bundled services to enable for this version on an App Engine second-generation runtime.
+	// Cannot specify both app_engine_apis and app_engine_bundled_services together.
+	// Each value may be one of: BUNDLED_SERVICE_TYPE_APP_IDENTITY_SERVICE, BUNDLED_SERVICE_TYPE_BLOBSTORE, BUNDLED_SERVICE_TYPE_CAPABILITY_SERVICE, BUNDLED_SERVICE_TYPE_DATASTORE_V3, BUNDLED_SERVICE_TYPE_IMAGES, BUNDLED_SERVICE_TYPE_MAIL, BUNDLED_SERVICE_TYPE_MEMCACHE, BUNDLED_SERVICE_TYPE_MODULES, BUNDLED_SERVICE_TYPE_SEARCH, BUNDLED_SERVICE_TYPE_TASKQUEUES, BUNDLED_SERVICE_TYPE_URLFETCH, BUNDLED_SERVICE_TYPE_USERS.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AppEngineBundledServices []*string `json:"appEngineBundledServices,omitempty" tf:"app_engine_bundled_services,omitempty"`
 
 	// Automatic scaling is based on request rate, response latencies, and other application metrics.
 	// Structure is documented below.
@@ -593,6 +623,11 @@ type StandardAppVersionParameters struct {
 	// If set to true, the service will be deleted if it is the last version.
 	// +kubebuilder:validation:Optional
 	DeleteServiceOnDestroy *bool `json:"deleteServiceOnDestroy,omitempty" tf:"delete_service_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Code and application artifacts that make up this version.
 	// Structure is documented below.

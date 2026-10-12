@@ -233,6 +233,10 @@ type RouterInitParameters struct {
 	// Structure is documented below.
 	BGP *BGPInitParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -243,6 +247,19 @@ type RouterInitParameters struct {
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
 	Md5AuthenticationKeys *Md5AuthenticationKeysInitParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
+	// A URI of an NCC Gateway spoke
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta2.Spoke
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
+
+	// Reference to a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewayRef *v1.Reference `json:"nccGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewaySelector *v1.Selector `json:"nccGatewaySelector,omitempty" tf:"-"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
@@ -275,6 +292,10 @@ type RouterObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -288,6 +309,9 @@ type RouterObservation struct {
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
 	Md5AuthenticationKeys *Md5AuthenticationKeysObservation `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
+	// A URI of an NCC Gateway spoke
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
 
 	// A reference to the network to which this router belongs.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
@@ -314,6 +338,11 @@ type RouterParameters struct {
 	// +kubebuilder:validation:Optional
 	BGP *BGPParameters `json:"bgp,omitempty" tf:"bgp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -327,6 +356,20 @@ type RouterParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Md5AuthenticationKeys *Md5AuthenticationKeysParameters `json:"md5AuthenticationKeys,omitempty" tf:"md5_authentication_keys,omitempty"`
+
+	// A URI of an NCC Gateway spoke
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/networkconnectivity/v1beta2.Spoke
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
+	// +kubebuilder:validation:Optional
+	NccGateway *string `json:"nccGateway,omitempty" tf:"ncc_gateway,omitempty"`
+
+	// Reference to a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewayRef *v1.Reference `json:"nccGatewayRef,omitempty" tf:"-"`
+
+	// Selector for a Spoke in networkconnectivity to populate nccGateway.
+	// +kubebuilder:validation:Optional
+	NccGatewaySelector *v1.Selector `json:"nccGatewaySelector,omitempty" tf:"-"`
 
 	// A reference to the network to which this router belongs.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network

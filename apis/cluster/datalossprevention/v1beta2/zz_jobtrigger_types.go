@@ -1724,6 +1724,10 @@ type JobNotificationEmailsParameters struct {
 
 type JobTriggerInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A description of the job trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -1757,6 +1761,10 @@ type JobTriggerObservation struct {
 
 	// The creation timestamp of an inspectTemplate. Set by the server.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the job trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1800,6 +1808,11 @@ type JobTriggerObservation struct {
 }
 
 type JobTriggerParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the job trigger.
 	// +kubebuilder:validation:Optional

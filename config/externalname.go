@@ -852,6 +852,14 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 
 	// bigquery
 	//
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}}
+	"google_bigquery_datapolicy_data_policy": config.TemplatedStringAsIdentifier("data_policy_id", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/dataPolicies/{{ .external_name }}"),
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}} roles/viewer user:jane@example.com
+	"google_bigquery_datapolicy_data_policy_iam_member": config.IdentifierFromProvider,
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}}
+	"google_bigquery_datapolicyv2_data_policy": config.TemplatedStringAsIdentifier("data_policy_id", "projects/{{ .parameters.project }}/locations/{{ .parameters.location }}/dataPolicies/{{ .external_name }}"),
+	// Imported with the following format: projects/{{project}}/locations/{{location}}/dataPolicies/{{data_policy_id}} roles/viewer user:jane@example.com
+	"google_bigquery_datapolicyv2_data_policy_iam_member": config.IdentifierFromProvider,
 	// Imported with the following format: projects/{{project}}/locations/{{location}}/connections/{{connection_id}}
 	// However, connection_id is documented to be optional. Thus, we are using config.IdentifierFromProvider
 	"google_bigquery_connection": config.IdentifierFromProvider,
@@ -1061,7 +1069,7 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_vertex_ai_feature_online_store_featureview_iam_member": config.IdentifierFromProvider,
 	// Imported by using the following projects/{{project}}/locations/{{region}}/featureOnlineStores/{{feature_online_store}} roles/viewer user:jane@example.com
 	"google_vertex_ai_feature_online_store_iam_member": config.IdentifierFromProvider,
-	
+
 	// documentai
 	//
 	// Imported by using the following projects/{{project}}/locations/{{location}}/processors/{{name}}

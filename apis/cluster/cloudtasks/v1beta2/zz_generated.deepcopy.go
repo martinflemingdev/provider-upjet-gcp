@@ -714,6 +714,11 @@ func (in *QueueInitParameters) DeepCopyInto(out *QueueInitParameters) {
 		*out = new(AppEngineRoutingOverrideInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DesiredState != nil {
 		in, out := &in.DesiredState, &out.DesiredState
 		*out = new(string)
@@ -806,6 +811,11 @@ func (in *QueueObservation) DeepCopyInto(out *QueueObservation) {
 		*out = new(AppEngineRoutingOverrideObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.DesiredState != nil {
 		in, out := &in.DesiredState, &out.DesiredState
 		*out = new(string)
@@ -870,6 +880,11 @@ func (in *QueueParameters) DeepCopyInto(out *QueueParameters) {
 		in, out := &in.AppEngineRoutingOverride, &out.AppEngineRoutingOverride
 		*out = new(AppEngineRoutingOverrideParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
 	}
 	if in.DesiredState != nil {
 		in, out := &in.DesiredState, &out.DesiredState

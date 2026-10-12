@@ -12,6 +12,69 @@ import (
 // Configure configures individual resources by adding custom
 // ResourceConfigurators.
 func Configure(p *config.Provider) {
+	// These resources gained Terraform deletion_policy in v7.33.0. Keep it
+	// observable without adding a second deletion control to the MR spec.
+	for _, resourceName := range []string{
+		"google_bigquery_connection",
+		"google_bigquery_data_transfer_config",
+		"google_bigquery_dataset",
+		"google_bigquery_dataset_access",
+		"google_bigquery_reservation",
+		"google_bigquery_reservation_assignment",
+		"google_bigquery_routine",
+		"google_bigquery_table",
+		"google_bigquery_datapolicy_data_policy",
+		"google_bigquery_datapolicyv2_data_policy",
+	} {
+		p.AddResourceConfigurator(resourceName, func(r *config.Resource) {
+			config.MoveToStatus(r.TerraformResource, "deletion_policy")
+		})
+	}
+
+	p.AddResourceConfigurator("google_bigquery_datapolicy_data_policy", func(r *config.Resource) {
+		r.Kind = "DataPolicy"
+		r.References["policy_tag"] = config.Reference{
+			TerraformName: "google_data_catalog_policy_tag",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
+		r.References["data_masking_policy.routine"] = config.Reference{
+			TerraformName: "google_bigquery_routine",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
+	})
+	p.AddResourceConfigurator("google_bigquery_datapolicy_data_policy_iam_member", func(r *config.Resource) {
+		r.Kind = "DataPolicyIAMMember"
+		// The IAM resource accepts the full policy ID and derives project and
+		// location from it, so references also work across projects/locations.
+		r.References["data_policy_id"] = config.Reference{
+			TerraformName: "google_bigquery_datapolicy_data_policy",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
+	})
+	p.AddResourceConfigurator("google_bigquery_datapolicyv2_data_policy", func(r *config.Resource) {
+		r.Kind = "DataPolicyV2"
+		// BigQuery expects a namespaced key (project-or-org/key) and a short
+		// value, rather than the numeric tagKeys/... and tagValues/... IDs.
+		r.References["data_governance_tag.key"] = config.Reference{
+			TerraformName: "google_tags_tag_key",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("namespaced_name",true)`,
+		}
+		r.References["data_governance_tag.value"] = config.Reference{
+			TerraformName: "google_tags_tag_value",
+			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("short_name",true)`,
+		}
+		r.References["data_masking_policy.routine"] = config.Reference{
+			TerraformName: "google_bigquery_routine",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
+	})
+	p.AddResourceConfigurator("google_bigquery_datapolicyv2_data_policy_iam_member", func(r *config.Resource) {
+		r.Kind = "DataPolicyV2IAMMember"
+		r.References["data_policy_id"] = config.Reference{
+			TerraformName: "google_bigquery_datapolicyv2_data_policy",
+			Extractor:     "github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()",
+		}
+	})
 	p.AddResourceConfigurator("google_bigquery_dataset", func(r *config.Resource) {
 		delete(r.References, "access.dataset.dataset.project_id")
 	})

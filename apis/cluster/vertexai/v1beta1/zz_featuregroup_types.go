@@ -70,6 +70,10 @@ type FeatureGroupInitParameters struct {
 	// Structure is documented below.
 	BigQuery *BigQueryInitParameters `json:"bigQuery,omitempty" tf:"big_query,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the FeatureGroup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -92,6 +96,10 @@ type FeatureGroupObservation struct {
 
 	// The timestamp of when the FeatureGroup was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the FeatureGroup.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -133,6 +141,11 @@ type FeatureGroupParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BigQuery *BigQueryParameters `json:"bigQuery,omitempty" tf:"big_query,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the FeatureGroup.
 	// +kubebuilder:validation:Optional

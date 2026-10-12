@@ -8554,6 +8554,11 @@ spec:
                           This field is required to ensure an empty block is not set. The normal default value is false.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -11397,6 +11402,11 @@ spec:
                           This field is required to ensure an empty block is not set. The normal default value is false.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when
@@ -14086,6 +14096,11 @@ spec:
                           This field is required to ensure an empty block is not set. The normal default value is false.
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional description of this resource. Provide this property when

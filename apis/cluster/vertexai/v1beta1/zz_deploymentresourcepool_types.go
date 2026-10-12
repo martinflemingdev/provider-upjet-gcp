@@ -103,6 +103,10 @@ type DeploymentResourcePoolInitParameters struct {
 	// Structure is documented below.
 	DedicatedResources *DedicatedResourcesInitParameters `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -116,6 +120,10 @@ type DeploymentResourcePoolObservation struct {
 	// The underlying dedicated resources that the deployment resource pool uses.
 	// Structure is documented below.
 	DedicatedResources *DedicatedResourcesObservation `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{region}}/deploymentResourcePools/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -134,6 +142,11 @@ type DeploymentResourcePoolParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	DedicatedResources *DedicatedResourcesParameters `json:"dedicatedResources,omitempty" tf:"dedicated_resources,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

@@ -50,6 +50,10 @@ import (
 	analyticshublistingiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublistingiammember"
 	analyticshublistingsubscription "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/analyticshublistingsubscription"
 	connection "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/connection"
+	datapolicy "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datapolicy"
+	datapolicyiammember "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datapolicyiammember"
+	datapolicyv2 "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datapolicyv2"
+	datapolicyv2iammember "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datapolicyv2iammember"
 	dataset "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/dataset"
 	datasetaccess "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datasetaccess"
 	datasetiambinding "github.com/upbound/provider-gcp/internal/controller/namespaced/bigquery/datasetiambinding"
@@ -462,6 +466,10 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshublistingiammember.Setup,
 		analyticshublistingsubscription.Setup,
 		connection.Setup,
+		datapolicy.Setup,
+		datapolicyiammember.Setup,
+		datapolicyv2.Setup,
+		datapolicyv2iammember.Setup,
 		dataset.Setup,
 		datasetaccess.Setup,
 		datasetiambinding.Setup,
@@ -880,6 +888,10 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		analyticshublistingiammember.SetupGated,
 		analyticshublistingsubscription.SetupGated,
 		connection.SetupGated,
+		datapolicy.SetupGated,
+		datapolicyiammember.SetupGated,
+		datapolicyv2.SetupGated,
+		datapolicyv2iammember.SetupGated,
 		dataset.SetupGated,
 		datasetaccess.SetupGated,
 		datasetiambinding.SetupGated,

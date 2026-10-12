@@ -1177,6 +1177,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the AccessLevel and its use. Does
                       not affect behavior.
@@ -1403,6 +1408,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the AccessLevel and its use. Does
                       not affect behavior.
@@ -1720,6 +1730,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the AccessLevel and its use. Does
                       not affect behavior.

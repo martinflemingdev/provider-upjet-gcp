@@ -83,6 +83,10 @@ type SnapshotInitParameters struct {
 	// resource, this field is visible only if it has a non-empty value.
 	ChainName *string `json:"chainName,omitempty" tf:"chain_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -91,6 +95,10 @@ type SnapshotInitParameters struct {
 	// Please refer to the field effective_labels for all of the labels present on the resource.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SnapshotParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -108,6 +116,10 @@ type SnapshotInitParameters struct {
 	// key and you do not need to provide a key to use the snapshot later.
 	// Structure is documented below.
 	SnapshotEncryptionKey *SnapshotEncryptionKeyInitParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
+
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
 
 	// A reference to the disk used to create this snapshot.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
@@ -128,6 +140,9 @@ type SnapshotInitParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
+	// A reference to the instant snapshot used to create this snapshot.
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
+
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
 
@@ -147,6 +162,10 @@ type SnapshotObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -176,6 +195,10 @@ type SnapshotObservation struct {
 	// snapshot using a customer-supplied encryption key.
 	Licenses []*string `json:"licenses,omitempty" tf:"licenses,omitempty"`
 
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *SnapshotParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -199,6 +222,10 @@ type SnapshotObservation struct {
 	// The unique identifier for the resource.
 	SnapshotID *float64 `json:"snapshotId,omitempty" tf:"snapshot_id,omitempty"`
 
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
+
 	// A reference to the disk used to create this snapshot.
 	SourceDisk *string `json:"sourceDisk,omitempty" tf:"source_disk,omitempty"`
 
@@ -207,6 +234,9 @@ type SnapshotObservation struct {
 	// key.
 	// Structure is documented below.
 	SourceDiskEncryptionKey *SnapshotSourceDiskEncryptionKeyObservation `json:"sourceDiskEncryptionKey,omitempty" tf:"source_disk_encryption_key,omitempty"`
+
+	// A reference to the instant snapshot used to create this snapshot.
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
 
 	// A size of the storage used by the snapshot. As snapshots share
 	// storage, this number is expected to change with snapshot
@@ -236,6 +266,11 @@ type SnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	ChainName *string `json:"chainName,omitempty" tf:"chain_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -246,6 +281,11 @@ type SnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *SnapshotParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -265,6 +305,11 @@ type SnapshotParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SnapshotEncryptionKey *SnapshotEncryptionKeyParameters `json:"snapshotEncryptionKey,omitempty" tf:"snapshot_encryption_key,omitempty"`
+
+	// Indicates the type of the snapshot.
+	// Possible values are: ARCHIVE, STANDARD.
+	// +kubebuilder:validation:Optional
+	SnapshotType *string `json:"snapshotType,omitempty" tf:"snapshot_type,omitempty"`
 
 	// A reference to the disk used to create this snapshot.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/namespaced/compute/v1beta1.Disk
@@ -287,6 +332,10 @@ type SnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	SourceDiskSelector *v1.NamespacedSelector `json:"sourceDiskSelector,omitempty" tf:"-"`
 
+	// A reference to the instant snapshot used to create this snapshot.
+	// +kubebuilder:validation:Optional
+	SourceInstantSnapshot *string `json:"sourceInstantSnapshot,omitempty" tf:"source_instant_snapshot,omitempty"`
+
 	// Cloud Storage bucket storage location of the snapshot (regional or multi-regional).
 	// +kubebuilder:validation:Optional
 	StorageLocations []*string `json:"storageLocations,omitempty" tf:"storage_locations,omitempty"`
@@ -294,6 +343,34 @@ type SnapshotParameters struct {
 	// A reference to the zone where the disk is hosted.
 	// +kubebuilder:validation:Optional
 	Zone *string `json:"zone,omitempty" tf:"zone,omitempty"`
+}
+
+type SnapshotParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SnapshotParamsObservation struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type SnapshotParamsParameters struct {
+
+	// Resource manager tags to be bound to the snapshot. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type SnapshotSourceDiskEncryptionKeyInitParameters struct {

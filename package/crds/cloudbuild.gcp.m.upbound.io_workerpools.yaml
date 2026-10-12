@@ -64,6 +64,11 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -230,6 +235,11 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: User-defined name of the WorkerPool.
                     type: string
@@ -448,6 +458,11 @@ spec:
                   deleteTime:
                     description: Output only. Time at which the request to delete
                       the WorkerPool was received.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   displayName:
                     description: User-defined name of the WorkerPool.

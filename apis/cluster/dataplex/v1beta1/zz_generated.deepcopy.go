@@ -48,6 +48,11 @@ func (in *AspectTypeInitParameters) DeepCopyInto(out *AspectTypeInitParameters) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -148,6 +153,11 @@ func (in *AspectTypeObservation) DeepCopyInto(out *AspectTypeObservation) {
 	}
 	if in.DataClassification != nil {
 		in, out := &in.DataClassification, &out.DataClassification
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -266,6 +276,11 @@ func (in *AspectTypeParameters) DeepCopyInto(out *AspectTypeParameters) {
 	*out = *in
 	if in.DataClassification != nil {
 		in, out := &in.DataClassification, &out.DataClassification
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

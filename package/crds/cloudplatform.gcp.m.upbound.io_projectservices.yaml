@@ -59,6 +59,11 @@ spec:
             properties:
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableDependentServices:
                     description: |-
                       If true, services that are enabled
@@ -69,7 +74,7 @@ spec:
                   disableOnDestroy:
                     description: |-
                       It should generally only
-                      be true or unset in configurations that manage the google_project resource itself.
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -175,6 +180,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableDependentServices:
                     description: |-
                       If true, services that are enabled
@@ -185,7 +195,7 @@ spec:
                   disableOnDestroy:
                     description: |-
                       It should generally only
-                      be true or unset in configurations that manage the google_project resource itself.
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -346,6 +356,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   disableDependentServices:
                     description: |-
                       If true, services that are enabled
@@ -356,7 +371,7 @@ spec:
                   disableOnDestroy:
                     description: |-
                       It should generally only
-                      be true or unset in configurations that manage the google_project resource itself.
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   id:
                     description: an identifier for the resource with format {{project}}/{{service}}

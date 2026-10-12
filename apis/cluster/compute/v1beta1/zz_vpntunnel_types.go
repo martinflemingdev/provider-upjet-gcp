@@ -51,38 +51,30 @@ type CipherSuiteParameters struct {
 type Phase1InitParameters struct {
 
 	// Diffie-Hellman groups.
-	// +listType=set
 	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
 
 	// Encryption algorithms.
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Pseudo-random functions.
-	// +listType=set
 	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
 }
 
 type Phase1Observation struct {
 
 	// Diffie-Hellman groups.
-	// +listType=set
 	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
 
 	// Encryption algorithms.
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Pseudo-random functions.
-	// +listType=set
 	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
 }
 
@@ -90,52 +82,42 @@ type Phase1Parameters struct {
 
 	// Diffie-Hellman groups.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Dh []*string `json:"dh,omitempty" tf:"dh,omitempty"`
 
 	// Encryption algorithms.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Pseudo-random functions.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Prf []*string `json:"prf,omitempty" tf:"prf,omitempty"`
 }
 
 type Phase2InitParameters struct {
 
 	// Encryption algorithms.
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Perfect forward secrecy groups.
-	// +listType=set
 	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
 }
 
 type Phase2Observation struct {
 
 	// Encryption algorithms.
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Perfect forward secrecy groups.
-	// +listType=set
 	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
 }
 
@@ -143,17 +125,14 @@ type Phase2Parameters struct {
 
 	// Encryption algorithms.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Encryption []*string `json:"encryption,omitempty" tf:"encryption,omitempty"`
 
 	// Integrity algorithms.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Integrity []*string `json:"integrity,omitempty" tf:"integrity,omitempty"`
 
 	// Perfect forward secrecy groups.
 	// +kubebuilder:validation:Optional
-	// +listType=set
 	Pfs []*string `json:"pfs,omitempty" tf:"pfs,omitempty"`
 }
 
@@ -162,6 +141,10 @@ type VPNTunnelInitParameters struct {
 	// User specified list of ciphers to use for the phase 1 and phase 2 of the IKE protocol.
 	// Structure is documented below.
 	CipherSuite *CipherSuiteInitParameters `json:"cipherSuite,omitempty" tf:"cipher_suite,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -183,6 +166,10 @@ type VPNTunnelInitParameters struct {
 	// Only IPv4 is supported.
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *VPNTunnelParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.ExternalVPNGateway
@@ -238,11 +225,10 @@ type VPNTunnelInitParameters struct {
 
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
 	// Note: This property is write-only and will not be read from the API.
 	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
 
-	// Triggers update of shared_secret_wo write-only. For more info see updating write-only attributes
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
@@ -286,6 +272,10 @@ type VPNTunnelObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -319,6 +309,10 @@ type VPNTunnelObservation struct {
 	// Only IPv4 is supported.
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *VPNTunnelParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	PeerExternalGateway *string `json:"peerExternalGateway,omitempty" tf:"peer_external_gateway,omitempty"`
@@ -360,11 +354,10 @@ type VPNTunnelObservation struct {
 
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
 	// Note: This property is write-only and will not be read from the API.
 	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
 
-	// Triggers update of shared_secret_wo write-only. For more info see updating write-only attributes
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
 	// URL of the Target VPN gateway with which this VPN tunnel is
@@ -395,6 +388,11 @@ type VPNTunnelParameters struct {
 	// +kubebuilder:validation:Optional
 	CipherSuite *CipherSuiteParameters `json:"cipherSuite,omitempty" tf:"cipher_suite,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -419,6 +417,11 @@ type VPNTunnelParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	LocalTrafficSelector []*string `json:"localTrafficSelector,omitempty" tf:"local_traffic_selector,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *VPNTunnelParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// URL of the peer side external VPN gateway to which this VPN tunnel is connected.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.ExternalVPNGateway
@@ -486,12 +489,11 @@ type VPNTunnelParameters struct {
 
 	// Shared secret used to set the secure session between the Cloud VPN
 	// gateway and the peer VPN gateway.
-	// Note: This property is write-only and will not be read from the API. For more info see updating write-only attributes
 	// Note: This property is write-only and will not be read from the API.
 	// +kubebuilder:validation:Optional
 	SharedSecretWo *string `json:"sharedSecretWo,omitempty" tf:"shared_secret_wo,omitempty"`
 
-	// Triggers update of shared_secret_wo write-only. For more info see updating write-only attributes
+	// Triggers update of shared_secret_wo write-only. Increment this value when an update to shared_secret_wo is needed. For more info see updating write-only arguments
 	// +kubebuilder:validation:Optional
 	SharedSecretWoVersion *string `json:"sharedSecretWoVersion,omitempty" tf:"shared_secret_wo_version,omitempty"`
 
@@ -528,6 +530,34 @@ type VPNTunnelParameters struct {
 	// Selector for a HaVPNGateway in compute to populate vpnGateway.
 	// +kubebuilder:validation:Optional
 	VPNGatewaySelector *v1.Selector `json:"vpnGatewaySelector,omitempty" tf:"-"`
+}
+
+type VPNTunnelParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type VPNTunnelParamsObservation struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type VPNTunnelParamsParameters struct {
+
+	// Resource manager tags to be bound to the Vpn Tunnel. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 // VPNTunnelSpec defines the desired state of VPNTunnel

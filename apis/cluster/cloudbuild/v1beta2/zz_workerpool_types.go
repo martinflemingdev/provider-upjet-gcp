@@ -137,6 +137,10 @@ type WorkerPoolInitParameters struct {
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -162,6 +166,10 @@ type WorkerPoolObservation struct {
 
 	// Output only. Time at which the request to delete the WorkerPool was received.
 	DeleteTime *string `json:"deleteTime,omitempty" tf:"delete_time,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -201,6 +209,11 @@ type WorkerPoolParameters struct {
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Annotations map[string]*string `json:"annotations,omitempty" tf:"annotations,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User-defined name of the WorkerPool.
 	// +kubebuilder:validation:Optional

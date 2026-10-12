@@ -460,6 +460,15 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
                       decimalTargetTypes:
                         description: Defines the list of possible SQL data types to
@@ -631,8 +640,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array
@@ -1212,6 +1224,15 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
                       decimalTargetTypes:
                         description: Defines the list of possible SQL data types to
@@ -1383,8 +1404,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array
@@ -1728,6 +1752,11 @@ spec:
                       The dataset ID to create the table in.
                       Changing this forces a new resource to be created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the table
                       is allowed..
@@ -2024,6 +2053,15 @@ spec:
                               that BigQuery will skip when reading the data. At least one of range or
                               skip_leading_rows must be set.
                             type: number
+                          sourceColumnMatch:
+                            description: |-
+                              Specifies how source columns are matched
+                              to the table schema. Valid values are POSITION (columns matched by position,
+                              assuming same ordering as the schema) or NAME (columns matched by name,
+                              reads the header row and reorders columns to align with schema field names).
+                              If not set, a default is chosen based on how the schema is provided: when
+                              autodetect is used, columns are matched by name; otherwise, by position.
+                            type: string
                         type: object
                       decimalTargetTypes:
                         description: Defines the list of possible SQL data types to
@@ -2200,8 +2238,11 @@ spec:
                     type: boolean
                   ignoreSchemaChanges:
                     description: |-
-                      A list of fields which should be ignored for each column in schema.
-                      NOTE: Right now only dataPolicies field is supported. We might support others in the future.
+                      A list of fields which would act non-authoritative for each column in schema.
+                      NOTE: Right now only dataPolicies field is supported(others might be supported in the future).
+                      If there is no policy in config for a column but there are in live state, the policy will persist.
+                      If the policy in config is updated, it will override the policy in the live state. Other fields
+                      like description for a column will keep behaving as they are(authoritatively).
                     items:
                       type: string
                     type: array

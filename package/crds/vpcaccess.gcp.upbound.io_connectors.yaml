@@ -773,6 +773,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   ipCidrRange:
                     description: 'The range of internal addresses that follows RFC
                       4632 notation. Example: 10.132.0.0/28.'
@@ -998,6 +1003,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   ipCidrRange:
                     description: 'The range of internal addresses that follows RFC
                       4632 notation. Example: 10.132.0.0/28.'
@@ -1300,6 +1310,11 @@ spec:
                     items:
                       type: string
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/connectors/{{name}}
                     type: string

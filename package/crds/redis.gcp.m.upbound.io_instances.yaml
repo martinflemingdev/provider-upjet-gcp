@@ -249,6 +249,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance
                       is allowed.
@@ -617,6 +622,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance
                       is allowed.
@@ -887,6 +897,11 @@ spec:
                     description: |-
                       Optional. The KMS key reference that you want to use to encrypt the data at rest for this Redis
                       instance. If this is provided, CMEK is enabled.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: When the field is set to false, deleting the instance

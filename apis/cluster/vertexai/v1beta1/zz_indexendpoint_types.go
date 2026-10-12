@@ -34,6 +34,10 @@ type IndexEndpointEncryptionSpecParameters struct {
 
 type IndexEndpointInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the Index.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -72,6 +76,10 @@ type IndexEndpointObservation struct {
 
 	// The timestamp of when the Index was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the Index.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -132,6 +140,11 @@ type IndexEndpointObservation struct {
 
 type IndexEndpointParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the Index.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -185,6 +198,10 @@ type IndexEndpointPrivateServiceConnectConfigInitParameters struct {
 
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsInitParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type IndexEndpointPrivateServiceConnectConfigObservation struct {
@@ -194,6 +211,10 @@ type IndexEndpointPrivateServiceConnectConfigObservation struct {
 
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsObservation `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
 }
 
 type IndexEndpointPrivateServiceConnectConfigParameters struct {
@@ -205,6 +226,40 @@ type IndexEndpointPrivateServiceConnectConfigParameters struct {
 	// A list of Projects from which the forwarding rule will target the service attachment.
 	// +kubebuilder:validation:Optional
 	ProjectAllowlist []*string `json:"projectAllowlist,omitempty" tf:"project_allowlist,omitempty"`
+
+	// List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	PscAutomationConfigs []IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsParameters `json:"pscAutomationConfigs,omitempty" tf:"psc_automation_configs,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsInitParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsObservation struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type IndexEndpointPrivateServiceConnectConfigPscAutomationConfigsParameters struct {
+
+	// The full name of the Google Compute Engine network. Format: projects/{project}/global/networks/{network}.
+	// +kubebuilder:validation:Optional
+	Network *string `json:"network" tf:"network,omitempty"`
+
+	// Project id used to create forwarding rule.
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
 }
 
 // IndexEndpointSpec defines the desired state of IndexEndpoint

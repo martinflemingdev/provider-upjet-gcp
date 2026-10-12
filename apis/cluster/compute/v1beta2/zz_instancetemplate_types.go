@@ -259,29 +259,29 @@ type InstanceTemplateAdvancedMachineFeaturesParameters struct {
 
 type InstanceTemplateConfidentialInstanceConfigInitParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceTemplateConfidentialInstanceConfigObservation struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
 
 type InstanceTemplateConfidentialInstanceConfigParameters struct {
 
-	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
+	// Defines the confidential computing technology the instance uses. SEV is an AMD feature. TDX is an Intel feature. One of the following values is required: SEV, SEV_SNP, TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type is set to SEV and min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM. If SEV_SNP, currently min_cpu_platform has to be set to "AMD Milan" or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	ConfidentialInstanceType *string `json:"confidentialInstanceType,omitempty" tf:"confidential_instance_type,omitempty"`
 
-	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
+	// Defines whether the instance should have confidential compute enabled with AMD SEV. If enabled, on_host_maintenance can be set to MIGRATE if min_cpu_platform is set to "AMD Milan" or "AMD Genoa". Otherwise, on_host_maintenance has to be set to TERMINATE or this will fail to create the VM.
 	// +kubebuilder:validation:Optional
 	EnableConfidentialCompute *bool `json:"enableConfidentialCompute,omitempty" tf:"enable_confidential_compute,omitempty"`
 }
@@ -398,6 +398,10 @@ type InstanceTemplateDiskInitParameters struct {
 	// documented below.
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyInitParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
 
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
+
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -495,6 +499,10 @@ type InstanceTemplateDiskObservation struct {
 	// key of the source snapshot. Structure
 	// documented below.
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyObservation `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
@@ -633,6 +641,11 @@ type InstanceTemplateDiskParameters struct {
 	// documented below.
 	// +kubebuilder:validation:Optional
 	SourceSnapshotEncryptionKey *DiskSourceSnapshotEncryptionKeyParameters `json:"sourceSnapshotEncryptionKey,omitempty" tf:"source_snapshot_encryption_key,omitempty"`
+
+	// The URL of the storage pool in which the new disk is created.
+	// For example:
+	// +kubebuilder:validation:Optional
+	StoragePool *string `json:"storagePool,omitempty" tf:"storage_pool,omitempty"`
 
 	// The type of GCE disk, can be either "SCRATCH" or
 	// "PERSISTENT".
@@ -776,6 +789,10 @@ type InstanceTemplateInitParameters struct {
 	// Tags to attach to the instance.
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigInitParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceAccessConfigInitParameters struct {
@@ -913,6 +930,9 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name or self_link of the network to attach this interface to.
@@ -920,6 +940,9 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// subnetwork for custom subnetted networks.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
 
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
@@ -933,7 +956,7 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
@@ -959,6 +982,9 @@ type InstanceTemplateNetworkInterfaceInitParameters struct {
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceObservation struct {
@@ -982,6 +1008,9 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
 	// The name of the instance template.
@@ -992,12 +1021,18 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 	// subnetwork for custom subnetted networks.
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
 
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
+
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
 	NetworkIP *string `json:"networkIp,omitempty" tf:"network_ip,omitempty"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
+
+	// Name of the parent network interface of a dynamic network interface.
+	ParentNicName *string `json:"parentNicName,omitempty" tf:"parent_nic_name,omitempty"`
 
 	// The networking queue count that's specified by users for the network interface. Both Rx and Tx queues will be set to this number. It will be empty if not specified.
 	QueueCount *float64 `json:"queueCount,omitempty" tf:"queue_count,omitempty"`
@@ -1013,6 +1048,9 @@ type InstanceTemplateNetworkInterfaceObservation struct {
 	// The ID of the project in which the subnetwork belongs.
 	// If it is not provided, the provider project is used.
 	SubnetworkProject *string `json:"subnetworkProject,omitempty" tf:"subnetwork_project,omitempty"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceTemplateNetworkInterfaceParameters struct {
@@ -1038,6 +1076,10 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	IPv6Address *string `json:"ipv6Address,omitempty" tf:"ipv6_address,omitempty"`
 
+	// Indicates whether igmp query is enabled on the network interface or not. If enabled, also indicates the version of IGMP supported.
+	// +kubebuilder:validation:Optional
+	IgmpQuery *string `json:"igmpQuery,omitempty" tf:"igmp_query,omitempty"`
+
 	// +kubebuilder:validation:Optional
 	InternalIPv6PrefixLength *float64 `json:"internalIpv6PrefixLength,omitempty" tf:"internal_ipv6_prefix_length,omitempty"`
 
@@ -1047,6 +1089,10 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/compute/v1beta1.Network
 	// +kubebuilder:validation:Optional
 	Network *string `json:"network,omitempty" tf:"network,omitempty"`
+
+	// The URL of the network attachment that this interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.
+	// +kubebuilder:validation:Optional
+	NetworkAttachment *string `json:"networkAttachment,omitempty" tf:"network_attachment,omitempty"`
 
 	// The private IP address to assign to the instance. If
 	// empty, the address will be automatically assigned.
@@ -1061,7 +1107,7 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// +kubebuilder:validation:Optional
 	NetworkSelector *v1.Selector `json:"networkSelector,omitempty" tf:"-"`
 
-	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.
+	// The type of vNIC to be used on this interface. Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.
 	// +kubebuilder:validation:Optional
 	NicType *string `json:"nicType,omitempty" tf:"nic_type,omitempty"`
 
@@ -1092,6 +1138,10 @@ type InstanceTemplateNetworkInterfaceParameters struct {
 	// Selector for a Subnetwork in compute to populate subnetwork.
 	// +kubebuilder:validation:Optional
 	SubnetworkSelector *v1.Selector `json:"subnetworkSelector,omitempty" tf:"-"`
+
+	// VLAN tag of a dynamic network interface, must be an integer in the range from 2 to 255 inclusively.
+	// +kubebuilder:validation:Optional
+	Vlan *float64 `json:"vlan,omitempty" tf:"vlan,omitempty"`
 }
 
 type InstanceTemplateNetworkPerformanceConfigInitParameters struct {
@@ -1249,6 +1299,10 @@ type InstanceTemplateObservation struct {
 	// The combination of labels configured directly on the resource and default labels configured on the provider.
 	// +mapType=granular
 	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigObservation `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateParameters struct {
@@ -1384,6 +1438,11 @@ type InstanceTemplateParameters struct {
 	// +kubebuilder:validation:Optional
 	// +listType=set
 	Tags []*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
+	// Workload Identity Config. More details about
+	// this configuration option are detailed below.
+	// +kubebuilder:validation:Optional
+	WorkloadIdentityConfig *InstanceTemplateWorkloadIdentityConfigParameters `json:"workloadIdentityConfig,omitempty" tf:"workload_identity_config,omitempty"`
 }
 
 type InstanceTemplateReservationAffinityInitParameters struct {
@@ -1460,7 +1519,7 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutInitParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -1487,10 +1546,13 @@ type InstanceTemplateSchedulingInitParameters struct {
 	// here.
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
 	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
@@ -1637,7 +1699,7 @@ type InstanceTemplateSchedulingObservation struct {
 	// Describe the type of termination action for SPOT VM. Can be STOP or DELETE.  Read more on here
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutObservation `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
 	// The duration of the instance. Instance will run and be terminated after then, the termination action could be defined in instance_termination_action. Structure is documented below.
@@ -1664,10 +1726,13 @@ type InstanceTemplateSchedulingObservation struct {
 	// here.
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
 	// Specifies the timestamp, when the instance will be terminated, in RFC3339 text format. If specified, the instance termination action will be performed at the termination time.
@@ -1709,7 +1774,7 @@ type InstanceTemplateSchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceTerminationAction *string `json:"instanceTerminationAction,omitempty" tf:"instance_termination_action,omitempty"`
 
-	// io/docs/providers/google/guides/provider_versions.html) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
+	// (../guides/provider_versions.html.markdown) Specifies the maximum amount of time a Local Ssd Vm should wait while recovery of the Local Ssd state is attempted. Its value should be in between 0 and 168 hours with hour granularity and the default value being 1 hour. Structure is documented below.
 	// +kubebuilder:validation:Optional
 	LocalSsdRecoveryTimeout []InstanceTemplateSchedulingLocalSsdRecoveryTimeoutParameters `json:"localSsdRecoveryTimeout,omitempty" tf:"local_ssd_recovery_timeout,omitempty"`
 
@@ -1743,10 +1808,13 @@ type InstanceTemplateSchedulingParameters struct {
 	// +kubebuilder:validation:Optional
 	Preemptible *bool `json:"preemptible,omitempty" tf:"preemptible,omitempty"`
 
-	// Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+	// Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
 	// preemptible should be true and automatic_restart should be
 	// false. For more info about
-	// SPOT, read here
+	// SPOT, read here.
+	// If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+	// FLEX_START, read here.
+	// If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
 	// +kubebuilder:validation:Optional
 	ProvisioningModel *string `json:"provisioningModel,omitempty" tf:"provisioning_model,omitempty"`
 
@@ -1853,6 +1921,35 @@ type InstanceTemplateShieldedInstanceConfigParameters struct {
 	// - Use a virtualized trusted platform module, which is a specialized computer chip you can use to encrypt objects like keys and certificates. Defaults to true.
 	// +kubebuilder:validation:Optional
 	EnableVtpm *bool `json:"enableVtpm,omitempty" tf:"enable_vtpm,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigInitParameters struct {
+
+	// Identity SPIFFE id.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigObservation struct {
+
+	// Identity SPIFFE id.
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
+}
+
+type InstanceTemplateWorkloadIdentityConfigParameters struct {
+
+	// Identity SPIFFE id.
+	// +kubebuilder:validation:Optional
+	Identity *string `json:"identity,omitempty" tf:"identity,omitempty"`
+
+	// Specifies whether identity certificates are enabled.
+	// +kubebuilder:validation:Optional
+	IdentityCertificateEnabled *bool `json:"identityCertificateEnabled,omitempty" tf:"identity_certificate_enabled,omitempty"`
 }
 
 // InstanceTemplateSpec defines the desired state of InstanceTemplate

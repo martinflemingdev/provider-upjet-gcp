@@ -194,8 +194,17 @@ type PacketMirroringInitParameters struct {
 	// Structure is documented below.
 	CollectorIlb *CollectorIlbInitParameters `json:"collectorIlb,omitempty" tf:"collector_ilb,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
@@ -269,8 +278,17 @@ type PacketMirroringObservation struct {
 	// Structure is documented below.
 	CollectorIlb *CollectorIlbObservation `json:"collectorIlb,omitempty" tf:"collector_ilb,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the rule.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.
@@ -313,9 +331,20 @@ type PacketMirroringParameters struct {
 	// +kubebuilder:validation:Optional
 	CollectorIlb *CollectorIlbParameters `json:"collectorIlb,omitempty" tf:"collector_ilb,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the rule.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+	// policy will not be enforced on the network. The default is TRUE.
+	// Possible values are: TRUE, FALSE.
+	// +kubebuilder:validation:Optional
+	Enable *string `json:"enable,omitempty" tf:"enable,omitempty"`
 
 	// A filter for mirrored traffic.  If unset, all traffic is mirrored.
 	// Structure is documented below.

@@ -73,6 +73,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the Index.
                     type: string
@@ -124,6 +129,21 @@ spec:
                         items:
                           type: string
                         type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
+                        type: array
                     type: object
                   project:
                     description: |-
@@ -153,6 +173,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the Index.
                     type: string
@@ -203,6 +228,21 @@ spec:
                           rule will target the service attachment.
                         items:
                           type: string
+                        type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   project:
@@ -316,6 +356,11 @@ spec:
                       UTC "Zulu" format, with nanosecond resolution and up to nine
                       fractional digits.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the Index.
                     type: string
@@ -377,6 +422,21 @@ spec:
                           rule will target the service attachment.
                         items:
                           type: string
+                        type: array
+                      pscAutomationConfigs:
+                        description: |-
+                          List of projects and networks where the PSC endpoints will be created. This field is used by Online Inference(Prediction) only.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            network:
+                              description: 'The full name of the Google Compute Engine
+                                network. Format: projects/{project}/global/networks/{network}.'
+                              type: string
+                            projectId:
+                              description: Project id used to create forwarding rule.
+                              type: string
+                          type: object
                         type: array
                     type: object
                   project:

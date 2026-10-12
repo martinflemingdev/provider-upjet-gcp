@@ -61,6 +61,42 @@ func (l *ConnectionList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this DataPolicyIAMMemberList.
+func (l *DataPolicyIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DataPolicyList.
+func (l *DataPolicyList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DataPolicyV2IAMMemberList.
+func (l *DataPolicyV2IAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this DataPolicyV2List.
+func (l *DataPolicyV2List) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this DataTransferConfigList.
 func (l *DataTransferConfigList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))

@@ -81,6 +81,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the FeatureGroup.
                     type: string
@@ -139,6 +144,11 @@ spec:
                           type: string
                         type: array
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the FeatureGroup.
                     type: string
@@ -246,6 +256,11 @@ spec:
                     description: The timestamp of when the FeatureGroup was created
                       in RFC3339 UTC "Zulu" format, with nanosecond resolution and
                       up to nine fractional digits.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: The description of the FeatureGroup.

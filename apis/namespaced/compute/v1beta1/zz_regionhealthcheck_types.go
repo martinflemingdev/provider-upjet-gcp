@@ -468,6 +468,10 @@ type RegionHealthCheckInitParameters struct {
 	// seconds.
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -553,6 +557,10 @@ type RegionHealthCheckObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -629,6 +637,11 @@ type RegionHealthCheckParameters struct {
 	// seconds.
 	// +kubebuilder:validation:Optional
 	CheckIntervalSec *float64 `json:"checkIntervalSec,omitempty" tf:"check_interval_sec,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.

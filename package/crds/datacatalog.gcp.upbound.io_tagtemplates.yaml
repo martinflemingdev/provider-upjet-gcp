@@ -559,6 +559,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The display name for this template.
                     type: string
@@ -619,7 +624,7 @@ spec:
                               description: |-
                                 Represents primitive types - string, bool etc.
                                 Exactly one of primitive_type or enum_type must be set
-                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
                               type: string
                           type: object
                       type: object
@@ -651,6 +656,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The display name for this template.
                     type: string
@@ -711,7 +721,7 @@ spec:
                               description: |-
                                 Represents primitive types - string, bool etc.
                                 Exactly one of primitive_type or enum_type must be set
-                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
                               type: string
                           type: object
                       type: object
@@ -823,6 +833,11 @@ spec:
             properties:
               atProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   displayName:
                     description: The display name for this template.
                     type: string
@@ -888,7 +903,7 @@ spec:
                               description: |-
                                 Represents primitive types - string, bool etc.
                                 Exactly one of primitive_type or enum_type must be set
-                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP.
+                                Possible values are: DOUBLE, STRING, BOOL, TIMESTAMP, RICHTEXT.
                               type: string
                           type: object
                       type: object

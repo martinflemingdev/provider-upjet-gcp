@@ -2217,6 +2217,10 @@ type TriggerInitParameters struct {
 	// Structure is documented below.
 	Build *BuildInitParameters `json:"build,omitempty" tf:"build,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -2240,7 +2244,6 @@ type TriggerInitParameters struct {
 	GitFileSource *GitFileSourceInitParameters `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	Github *GithubInitParameters `json:"github,omitempty" tf:"github,omitempty"`
 
@@ -2283,7 +2286,6 @@ type TriggerInitParameters struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	PubsubConfig *PubsubConfigInitParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
 
@@ -2312,7 +2314,6 @@ type TriggerInitParameters struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	SourceToBuild *SourceToBuildInitParameters `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
@@ -2327,13 +2328,11 @@ type TriggerInitParameters struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	TriggerTemplate *TriggerTemplateInitParameters `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	WebhookConfig *WebhookConfigInitParameters `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`
 }
@@ -2356,6 +2355,10 @@ type TriggerObservation struct {
 
 	// Time when the trigger was created.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human-readable description of the trigger.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -2380,7 +2383,6 @@ type TriggerObservation struct {
 	GitFileSource *GitFileSourceObservation `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	Github *GithubObservation `json:"github,omitempty" tf:"github,omitempty"`
 
@@ -2426,7 +2428,6 @@ type TriggerObservation struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	PubsubConfig *PubsubConfigObservation `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
 
@@ -2445,7 +2446,6 @@ type TriggerObservation struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	SourceToBuild *SourceToBuildObservation `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
 
@@ -2463,13 +2463,11 @@ type TriggerObservation struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	TriggerTemplate *TriggerTemplateObservation `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	WebhookConfig *WebhookConfigObservation `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`
 }
@@ -2492,6 +2490,11 @@ type TriggerParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Build *BuildParameters `json:"build,omitempty" tf:"build,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Human-readable description of the trigger.
 	// +kubebuilder:validation:Optional
@@ -2522,7 +2525,6 @@ type TriggerParameters struct {
 	GitFileSource *GitFileSourceParameters `json:"gitFileSource,omitempty" tf:"git_file_source,omitempty"`
 
 	// Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-	// One of trigger_template, github, pubsub_config or webhook_config must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Github *GithubParameters `json:"github,omitempty" tf:"github,omitempty"`
@@ -2572,7 +2574,6 @@ type TriggerParameters struct {
 
 	// PubsubConfig describes the configuration of a trigger that creates
 	// a build whenever a Pub/Sub message is published.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	PubsubConfig *PubsubConfigParameters `json:"pubsubConfig,omitempty" tf:"pubsub_config,omitempty"`
@@ -2604,7 +2605,6 @@ type TriggerParameters struct {
 	// This field is used only for those triggers that do not respond to SCM events.
 	// Triggers that respond to such events build source at whatever commit caused the event.
 	// This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SourceToBuild *SourceToBuildParameters `json:"sourceToBuild,omitempty" tf:"source_to_build,omitempty"`
@@ -2622,14 +2622,12 @@ type TriggerParameters struct {
 	// Branch and tag names in trigger templates are interpreted as regular
 	// expressions. Any branch or tag change that matches that regular
 	// expression will trigger a build.
-	// One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	TriggerTemplate *TriggerTemplateParameters `json:"triggerTemplate,omitempty" tf:"trigger_template,omitempty"`
 
 	// WebhookConfig describes the configuration of a trigger that creates
 	// a build whenever a webhook is sent to a trigger's webhook URL.
-	// One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	WebhookConfig *WebhookConfigParameters `json:"webhookConfig,omitempty" tf:"webhook_config,omitempty"`

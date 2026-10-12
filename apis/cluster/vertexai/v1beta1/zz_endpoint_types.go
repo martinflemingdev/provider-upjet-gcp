@@ -198,6 +198,10 @@ type EndpointInitParameters struct {
 	// If true, the endpoint will be exposed through a dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS will be isolated from other users' traffic and will have better performance and reliability. Note: Once you enabled dedicated endpoint, you won't be able to send request to the shared DNS {region}-aiplatform.googleapis.com. The limitation will be removed soon.
 	DedicatedEndpointEnabled *bool `json:"dedicatedEndpointEnabled,omitempty" tf:"dedicated_endpoint_enabled,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of the Endpoint.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -251,6 +255,10 @@ type EndpointObservation struct {
 
 	// If true, the endpoint will be exposed through a dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS will be isolated from other users' traffic and will have better performance and reliability. Note: Once you enabled dedicated endpoint, you won't be able to send request to the shared DNS {region}-aiplatform.googleapis.com. The limitation will be removed soon.
 	DedicatedEndpointEnabled *bool `json:"dedicatedEndpointEnabled,omitempty" tf:"dedicated_endpoint_enabled,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Output only. The models deployed in this Endpoint. To add or remove DeployedModels use EndpointService.DeployModel and EndpointService.UndeployModel respectively. Models can also be deployed and undeployed using the Cloud Console.
 	// Structure is documented below.
@@ -327,6 +335,11 @@ type EndpointParameters struct {
 	// If true, the endpoint will be exposed through a dedicated DNS [Endpoint.dedicated_endpoint_dns]. Your request to the dedicated DNS will be isolated from other users' traffic and will have better performance and reliability. Note: Once you enabled dedicated endpoint, you won't be able to send request to the shared DNS {region}-aiplatform.googleapis.com. The limitation will be removed soon.
 	// +kubebuilder:validation:Optional
 	DedicatedEndpointEnabled *bool `json:"dedicatedEndpointEnabled,omitempty" tf:"dedicated_endpoint_enabled,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of the Endpoint.
 	// +kubebuilder:validation:Optional

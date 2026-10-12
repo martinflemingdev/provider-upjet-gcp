@@ -4328,6 +4328,11 @@ spec:
                           Default time is ten minutes (600s).
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Human-readable description of the trigger.
                     type: string
@@ -4443,7 +4448,6 @@ spec:
                   github:
                     description: |-
                       Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-                      One of trigger_template, github, pubsub_config or webhook_config must be provided.
                       Structure is documented below.
                     properties:
                       enterpriseConfigResourceName:
@@ -4555,7 +4559,6 @@ spec:
                     description: |-
                       PubsubConfig describes the configuration of a trigger that creates
                       a build whenever a Pub/Sub message is published.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       serviceAccountEmail:
@@ -4782,7 +4785,6 @@ spec:
                       This field is used only for those triggers that do not respond to SCM events.
                       Triggers that respond to such events build source at whatever commit caused the event.
                       This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       bitbucketServerConfig:
@@ -4831,7 +4833,6 @@ spec:
                       Branch and tag names in trigger templates are interpreted as regular
                       expressions. Any branch or tag change that matches that regular
                       expression will trigger a build.
-                      One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       branchName:
@@ -4873,7 +4874,6 @@ spec:
                     description: |-
                       WebhookConfig describes the configuration of a trigger that creates
                       a build whenever a webhook is sent to a trigger's webhook URL.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       secret:
@@ -5555,6 +5555,11 @@ spec:
                           Default time is ten minutes (600s).
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Human-readable description of the trigger.
                     type: string
@@ -5670,7 +5675,6 @@ spec:
                   github:
                     description: |-
                       Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-                      One of trigger_template, github, pubsub_config or webhook_config must be provided.
                       Structure is documented below.
                     properties:
                       enterpriseConfigResourceName:
@@ -5782,7 +5786,6 @@ spec:
                     description: |-
                       PubsubConfig describes the configuration of a trigger that creates
                       a build whenever a Pub/Sub message is published.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       serviceAccountEmail:
@@ -6009,7 +6012,6 @@ spec:
                       This field is used only for those triggers that do not respond to SCM events.
                       Triggers that respond to such events build source at whatever commit caused the event.
                       This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       bitbucketServerConfig:
@@ -6058,7 +6060,6 @@ spec:
                       Branch and tag names in trigger templates are interpreted as regular
                       expressions. Any branch or tag change that matches that regular
                       expression will trigger a build.
-                      One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       branchName:
@@ -6100,7 +6101,6 @@ spec:
                     description: |-
                       WebhookConfig describes the configuration of a trigger that creates
                       a build whenever a webhook is sent to a trigger's webhook URL.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       secret:
@@ -6883,6 +6883,11 @@ spec:
                   createTime:
                     description: Time when the trigger was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Human-readable description of the trigger.
                     type: string
@@ -7003,7 +7008,6 @@ spec:
                   github:
                     description: |-
                       Describes the configuration of a trigger that creates a build whenever a GitHub event is received.
-                      One of trigger_template, github, pubsub_config or webhook_config must be provided.
                       Structure is documented below.
                     properties:
                       enterpriseConfigResourceName:
@@ -7118,7 +7122,6 @@ spec:
                     description: |-
                       PubsubConfig describes the configuration of a trigger that creates
                       a build whenever a Pub/Sub message is published.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       serviceAccountEmail:
@@ -7206,7 +7209,6 @@ spec:
                       This field is used only for those triggers that do not respond to SCM events.
                       Triggers that respond to such events build source at whatever commit caused the event.
                       This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       bitbucketServerConfig:
@@ -7258,7 +7260,6 @@ spec:
                       Branch and tag names in trigger templates are interpreted as regular
                       expressions. Any branch or tag change that matches that regular
                       expression will trigger a build.
-                      One of trigger_template, github, pubsub_config, webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       branchName:
@@ -7300,7 +7301,6 @@ spec:
                     description: |-
                       WebhookConfig describes the configuration of a trigger that creates
                       a build whenever a webhook is sent to a trigger's webhook URL.
-                      One of trigger_template, github, pubsub_config webhook_config or source_to_build must be provided.
                       Structure is documented below.
                     properties:
                       secret:

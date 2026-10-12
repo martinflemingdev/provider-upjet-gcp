@@ -1561,6 +1561,17 @@ func (in *StandardAppVersionInitParameters) DeepCopyInto(out *StandardAppVersion
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling
 		*out = new(AutomaticScalingInitParameters)
@@ -1574,6 +1585,11 @@ func (in *StandardAppVersionInitParameters) DeepCopyInto(out *StandardAppVersion
 	if in.DeleteServiceOnDestroy != nil {
 		in, out := &in.DeleteServiceOnDestroy, &out.DeleteServiceOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Deployment != nil {
@@ -1734,6 +1750,17 @@ func (in *StandardAppVersionObservation) DeepCopyInto(out *StandardAppVersionObs
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling
 		*out = new(AutomaticScalingObservation)
@@ -1747,6 +1774,11 @@ func (in *StandardAppVersionObservation) DeepCopyInto(out *StandardAppVersionObs
 	if in.DeleteServiceOnDestroy != nil {
 		in, out := &in.DeleteServiceOnDestroy, &out.DeleteServiceOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Deployment != nil {
@@ -1880,6 +1912,17 @@ func (in *StandardAppVersionParameters) DeepCopyInto(out *StandardAppVersionPara
 		*out = new(bool)
 		**out = **in
 	}
+	if in.AppEngineBundledServices != nil {
+		in, out := &in.AppEngineBundledServices, &out.AppEngineBundledServices
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.AutomaticScaling != nil {
 		in, out := &in.AutomaticScaling, &out.AutomaticScaling
 		*out = new(AutomaticScalingParameters)
@@ -1893,6 +1936,11 @@ func (in *StandardAppVersionParameters) DeepCopyInto(out *StandardAppVersionPara
 	if in.DeleteServiceOnDestroy != nil {
 		in, out := &in.DeleteServiceOnDestroy, &out.DeleteServiceOnDestroy
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Deployment != nil {

@@ -2203,6 +2203,11 @@ spec:
                       appending a hyphen and a random four-character string to the base instance
                       name.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the instance
@@ -2281,6 +2286,29 @@ spec:
                           (default), then updates are applied in accordance with the
                           group''s update policy type.'
                         type: string
+                      onFailedHealthCheck:
+                        description: ', Specifies the action that a MIG performs on
+                          an unhealthy VM. A VM is marked as unhealthy when the application
+                          running on that VM fails a health check. Valid options are:
+                          DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default),
+                          then MIG uses the same action configured for the  default_action_on_failure
+                          field. If DO_NOTHING, then MIG does not repair unhealthy
+                          VM. If REPAIR, then MIG automatically repairs an unhealthy
+                          VM by recreating it. For more information, see about repairing
+                          VMs in a MIG.'
+                        type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-
@@ -2321,6 +2349,16 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                    type: object
                   standbyPolicy:
                     description: The standby policy for stopped and suspended instances.
                       Structure is documented below. For more information, see the
@@ -2506,6 +2544,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.
@@ -2839,6 +2889,11 @@ spec:
                       appending a hyphen and a random four-character string to the base instance
                       name.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the instance
@@ -2917,6 +2972,29 @@ spec:
                           (default), then updates are applied in accordance with the
                           group''s update policy type.'
                         type: string
+                      onFailedHealthCheck:
+                        description: ', Specifies the action that a MIG performs on
+                          an unhealthy VM. A VM is marked as unhealthy when the application
+                          running on that VM fails a health check. Valid options are:
+                          DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default),
+                          then MIG uses the same action configured for the  default_action_on_failure
+                          field. If DO_NOTHING, then MIG does not repair unhealthy
+                          VM. If REPAIR, then MIG automatically repairs an unhealthy
+                          VM by recreating it. For more information, see about repairing
+                          VMs in a MIG.'
+                        type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-
@@ -2957,6 +3035,16 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                    type: object
                   standbyPolicy:
                     description: The standby policy for stopped and suspended instances.
                       Structure is documented below. For more information, see the
@@ -3142,6 +3230,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.
@@ -3498,6 +3598,11 @@ spec:
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       An optional textual description of the instance
@@ -3589,6 +3694,29 @@ spec:
                           (default), then updates are applied in accordance with the
                           group''s update policy type.'
                         type: string
+                      onFailedHealthCheck:
+                        description: ', Specifies the action that a MIG performs on
+                          an unhealthy VM. A VM is marked as unhealthy when the application
+                          running on that VM fails a health check. Valid options are:
+                          DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default),
+                          then MIG uses the same action configured for the  default_action_on_failure
+                          field. If DO_NOTHING, then MIG does not repair unhealthy
+                          VM. If REPAIR, then MIG automatically repairs an unhealthy
+                          VM by recreating it. For more information, see about repairing
+                          VMs in a MIG.'
+                        type: string
+                      onRepair:
+                        description: ', Configuration for VM repairs in the MIG. Structure
+                          is documented below.'
+                        properties:
+                          allowChangingZone:
+                            description: ', Specifies whether the MIG can change a
+                              VM''s zone during a repair. If "YES", MIG can select
+                              a different zone for the VM during a repair. Else if
+                              "NO", MIG cannot change a VM''s zone during a repair.
+                              The default value of allow_changing_zone is "NO".'
+                            type: string
+                        type: object
                     type: object
                   listManagedInstancesResults:
                     description: |-
@@ -3629,6 +3757,16 @@ spec:
                     description: The region where the managed instance group resides.
                       If not provided, the provider region is used.
                     type: string
+                  resourcePolicies:
+                    description: Resource policies for this managed instance group.
+                      Structure is documented below.
+                    properties:
+                      workloadPolicy:
+                        description: The URL of the workload policy that is specified
+                          for this managed instance group. It can be a full or partial
+                          URL.
+                        type: string
+                    type: object
                   selfLink:
                     description: The URL of the created resource.
                     type: string
@@ -3809,6 +3947,18 @@ spec:
                       when using one. If a value is required, such as to specify a creation-time target size for the MIG,
                       lifecycle. Defaults to 0.
                     type: number
+                  targetSizePolicy:
+                    description: The policy that specifies how the MIG creates its
+                      VMs to achieve the target size. Structure is documented below.
+                    items:
+                      properties:
+                        mode:
+                          description: 'The mode of target size policy based on which
+                            the MIG creates its VMs individually or all at once. Values:
+                            "BULK", "INDIVIDUAL".'
+                          type: string
+                      type: object
+                    type: array
                   targetStoppedSize:
                     description: The target number of stopped instances for this managed
                       instance group.

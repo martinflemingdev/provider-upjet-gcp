@@ -1161,6 +1161,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -1456,6 +1461,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.
@@ -1846,6 +1856,11 @@ spec:
                   deleteChatEngineOnDestroy:
                     description: Otherwise, the chat engine will persist.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of this agent. The maximum length
                       is 500 characters. If exceeded, the request is rejected.

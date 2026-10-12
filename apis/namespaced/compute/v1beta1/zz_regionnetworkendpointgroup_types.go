@@ -286,6 +286,10 @@ type RegionNetworkEndpointGroupInitParameters struct {
 	// Structure is documented below.
 	CloudRun *CloudRunInitParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -365,6 +369,10 @@ type RegionNetworkEndpointGroupObservation struct {
 	// Structure is documented below.
 	CloudRun *CloudRunObservation `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -425,6 +433,11 @@ type RegionNetworkEndpointGroupParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	CloudRun *CloudRunParameters `json:"cloudRun,omitempty" tf:"cloud_run,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource.

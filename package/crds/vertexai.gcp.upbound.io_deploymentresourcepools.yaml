@@ -141,6 +141,11 @@ spec:
                           traffic decreases, some of these extra replicas may be freed.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -232,6 +237,11 @@ spec:
                           traffic decreases, some of these extra replicas may be freed.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   project:
                     description: |-
                       The ID of the project in which the resource belongs.
@@ -401,6 +411,11 @@ spec:
                           traffic decreases, some of these extra replicas may be freed.
                         type: number
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format projects/{{project}}/locations/{{region}}/deploymentResourcePools/{{name}}
                     type: string

@@ -67,6 +67,11 @@ spec:
 
                       Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the AspectType.
                     type: string
@@ -195,6 +200,11 @@ spec:
                       while METADATA_AND_DATA indicates data derived content.
 
                       Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the AspectType.
@@ -372,6 +382,11 @@ spec:
                       while METADATA_AND_DATA indicates data derived content.
 
                       Possible values are: DATA_CLASSIFICATION_UNSPECIFIED, METADATA_AND_DATA.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the AspectType.

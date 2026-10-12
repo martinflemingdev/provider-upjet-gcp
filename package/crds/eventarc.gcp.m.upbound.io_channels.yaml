@@ -64,6 +64,11 @@ spec:
                       user) used to encrypt/decrypt their event data. It must match
                       the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   labels:
                     additionalProperties:
                       type: string
@@ -107,6 +112,11 @@ spec:
                     description: Resource name of a KMS crypto key (managed by the
                       user) used to encrypt/decrypt their event data. It must match
                       the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   labels:
                     additionalProperties:
@@ -203,6 +213,11 @@ spec:
                     description: Resource name of a KMS crypto key (managed by the
                       user) used to encrypt/decrypt their event data. It must match
                       the pattern projects/*/locations/*/keyRings/*/cryptoKeys/*.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   effectiveLabels:
                     additionalProperties:

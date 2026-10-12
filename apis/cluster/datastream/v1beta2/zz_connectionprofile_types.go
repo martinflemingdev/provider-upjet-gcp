@@ -30,6 +30,10 @@ type ConnectionProfileInitParameters struct {
 	// Create the connection profile without validating it.
 	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
 
@@ -83,6 +87,10 @@ type ConnectionProfileObservation struct {
 
 	// Create the connection profile without validating it.
 	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Display name.
 	DisplayName *string `json:"displayName,omitempty" tf:"display_name,omitempty"`
@@ -156,6 +164,11 @@ type ConnectionProfileParameters struct {
 	// Create the connection profile without validating it.
 	// +kubebuilder:validation:Optional
 	CreateWithoutValidation *bool `json:"createWithoutValidation,omitempty" tf:"create_without_validation,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Display name.
 	// +kubebuilder:validation:Optional
@@ -335,6 +348,12 @@ type HostAddressesParameters struct {
 
 type MongodbProfileInitParameters struct {
 
+	// A map of additional options for the MongoDB connection.
+	// Keys are case-sensitive and should match the official
+	// MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/
+	// +mapType=granular
+	AdditionalOptions map[string]*string `json:"additionalOptions,omitempty" tf:"additional_options,omitempty"`
+
 	// List of host addresses for a MongoDB cluster.
 	// Structure is documented below.
 	HostAddresses []HostAddressesInitParameters `json:"hostAddresses,omitempty" tf:"host_addresses,omitempty"`
@@ -370,6 +389,12 @@ type MongodbProfileInitParameters struct {
 
 type MongodbProfileObservation struct {
 
+	// A map of additional options for the MongoDB connection.
+	// Keys are case-sensitive and should match the official
+	// MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/
+	// +mapType=granular
+	AdditionalOptions map[string]*string `json:"additionalOptions,omitempty" tf:"additional_options,omitempty"`
+
 	// List of host addresses for a MongoDB cluster.
 	// Structure is documented below.
 	HostAddresses []HostAddressesObservation `json:"hostAddresses,omitempty" tf:"host_addresses,omitempty"`
@@ -399,6 +424,13 @@ type MongodbProfileObservation struct {
 }
 
 type MongodbProfileParameters struct {
+
+	// A map of additional options for the MongoDB connection.
+	// Keys are case-sensitive and should match the official
+	// MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	AdditionalOptions map[string]*string `json:"additionalOptions,omitempty" tf:"additional_options,omitempty"`
 
 	// List of host addresses for a MongoDB cluster.
 	// Structure is documented below.
@@ -687,6 +719,10 @@ type PostgresqlProfileInitParameters struct {
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// SSL configuration for the PostgreSQL connection.
+	// Structure is documented below.
+	SSLConfig *PostgresqlProfileSSLConfigInitParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
 	// A reference to a Secret Manager resource name storing the user's password.
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
 
@@ -713,6 +749,10 @@ type PostgresqlProfileObservation struct {
 
 	// Port for the PostgreSQL connection.
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
+
+	// SSL configuration for the PostgreSQL connection.
+	// Structure is documented below.
+	SSLConfig *PostgresqlProfileSSLConfigObservation `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
 
 	// A reference to a Secret Manager resource name storing the user's password.
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
@@ -759,6 +799,11 @@ type PostgresqlProfileParameters struct {
 	// +kubebuilder:validation:Optional
 	Port *float64 `json:"port,omitempty" tf:"port,omitempty"`
 
+	// SSL configuration for the PostgreSQL connection.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	SSLConfig *PostgresqlProfileSSLConfigParameters `json:"sslConfig,omitempty" tf:"ssl_config,omitempty"`
+
 	// A reference to a Secret Manager resource name storing the user's password.
 	// +kubebuilder:validation:Optional
 	SecretManagerStoredPassword *string `json:"secretManagerStoredPassword,omitempty" tf:"secret_manager_stored_password,omitempty"`
@@ -775,6 +820,47 @@ type PostgresqlProfileParameters struct {
 	// Selector for a User in sql to populate username.
 	// +kubebuilder:validation:Optional
 	UsernameSelector *v1.Selector `json:"usernameSelector,omitempty" tf:"-"`
+}
+
+type PostgresqlProfileSSLConfigInitParameters struct {
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and both the server identity and the client identity will be authenticated.
+	// Structure is documented below.
+	ServerAndClientVerification *ServerAndClientVerificationInitParameters `json:"serverAndClientVerification,omitempty" tf:"server_and_client_verification,omitempty"`
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and the server identity will be authenticated.
+	// Structure is documented below.
+	ServerVerification *ServerVerificationInitParameters `json:"serverVerification,omitempty" tf:"server_verification,omitempty"`
+}
+
+type PostgresqlProfileSSLConfigObservation struct {
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and both the server identity and the client identity will be authenticated.
+	// Structure is documented below.
+	ServerAndClientVerification *ServerAndClientVerificationParameters `json:"serverAndClientVerification,omitempty" tf:"server_and_client_verification,omitempty"`
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and the server identity will be authenticated.
+	// Structure is documented below.
+	ServerVerification *ServerVerificationParameters `json:"serverVerification,omitempty" tf:"server_verification,omitempty"`
+}
+
+type PostgresqlProfileSSLConfigParameters struct {
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and both the server identity and the client identity will be authenticated.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServerAndClientVerification *ServerAndClientVerificationParameters `json:"serverAndClientVerification,omitempty" tf:"server_and_client_verification,omitempty"`
+
+	// If this field is set, the communication will be encrypted with TLS encryption
+	// and the server identity will be authenticated.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ServerVerification *ServerVerificationParameters `json:"serverVerification,omitempty" tf:"server_verification,omitempty"`
 }
 
 type PrivateConnectivityInitParameters struct {
@@ -1009,6 +1095,74 @@ type SSLConfigParameters struct {
 	// Note: This property is sensitive and will not be displayed in the plan.
 	// +kubebuilder:validation:Optional
 	SecretManagerStoredClientKeySecretRef *v1.SecretKeySelector `json:"secretManagerStoredClientKeySecretRef,omitempty" tf:"-"`
+}
+
+type ServerAndClientVerificationInitParameters struct {
+
+	// PEM-encoded certificate of the CA that signed the source database
+	// server's certificate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	CACertificateSecretRef v1.SecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+
+	// PEM-encoded certificate that will be used by the replica to
+	// authenticate against the source database server. If this field
+	// is used then the 'clientKey' and the 'caCertificate' fields are
+	// mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	ClientCertificateSecretRef v1.SecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
+
+	// PEM-encoded private key associated with the Client Certificate.
+	// If this field is used then the 'client_certificate' and the
+	// 'ca_certificate' fields are mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	ClientKeySecretRef v1.SecretKeySelector `json:"clientKeySecretRef" tf:"-"`
+}
+
+type ServerAndClientVerificationObservation struct {
+}
+
+type ServerAndClientVerificationParameters struct {
+
+	// PEM-encoded certificate of the CA that signed the source database
+	// server's certificate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	CACertificateSecretRef v1.SecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+
+	// PEM-encoded certificate that will be used by the replica to
+	// authenticate against the source database server. If this field
+	// is used then the 'clientKey' and the 'caCertificate' fields are
+	// mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	ClientCertificateSecretRef v1.SecretKeySelector `json:"clientCertificateSecretRef" tf:"-"`
+
+	// PEM-encoded private key associated with the Client Certificate.
+	// If this field is used then the 'client_certificate' and the
+	// 'ca_certificate' fields are mandatory.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	ClientKeySecretRef v1.SecretKeySelector `json:"clientKeySecretRef" tf:"-"`
+}
+
+type ServerVerificationInitParameters struct {
+
+	// PEM-encoded certificate of the CA that signed the source database
+	// server's certificate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	CACertificateSecretRef v1.SecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
+}
+
+type ServerVerificationObservation struct {
+}
+
+type ServerVerificationParameters struct {
+
+	// PEM-encoded certificate of the CA that signed the source database
+	// server's certificate.
+	// Note: This property is sensitive and will not be displayed in the plan.
+	// +kubebuilder:validation:Optional
+	CACertificateSecretRef v1.SecretKeySelector `json:"caCertificateSecretRef" tf:"-"`
 }
 
 type SrvConnectionFormatInitParameters struct {

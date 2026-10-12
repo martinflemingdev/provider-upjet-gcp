@@ -113,6 +113,10 @@ type FeatureOnlineStoreFeatureviewInitParameters struct {
 	// Structure is documented below.
 	BigQuerySource *FeatureOnlineStoreFeatureviewBigQuerySourceInitParameters `json:"bigQuerySource,omitempty" tf:"big_query_source,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Configures the features from a Feature Registry source that need to be loaded onto the FeatureOnlineStore.
 	// Structure is documented below.
 	FeatureRegistrySource *FeatureRegistrySourceInitParameters `json:"featureRegistrySource,omitempty" tf:"feature_registry_source,omitempty"`
@@ -148,6 +152,10 @@ type FeatureOnlineStoreFeatureviewObservation struct {
 
 	// The timestamp of when the featureOnlinestore was created in RFC3339 UTC "Zulu" format, with nanosecond resolution and up to nine fractional digits.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -193,6 +201,11 @@ type FeatureOnlineStoreFeatureviewParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	BigQuerySource *FeatureOnlineStoreFeatureviewBigQuerySourceParameters `json:"bigQuerySource,omitempty" tf:"big_query_source,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The name of the FeatureOnlineStore to use for the featureview.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/apis/cluster/vertexai/v1beta1.FeatureOnlineStore

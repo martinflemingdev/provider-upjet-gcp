@@ -153,6 +153,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the resource.
                     type: string
@@ -373,6 +378,11 @@ spec:
                             type: string
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the resource.
                     type: string
@@ -477,6 +487,11 @@ spec:
                       Creation timestamp of a Certificate Map Entry. Timestamp in RFC3339 UTC "Zulu" format,
                       with nanosecond resolution and up to nine fractional digits.
                       Examples: "2014-10-02T15:01:23Z" and "2014-10-02T15:01:23.045123456Z".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: A human-readable description of the resource.

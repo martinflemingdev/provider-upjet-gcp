@@ -43,6 +43,10 @@ type AuthorizationAttemptInfoParameters struct {
 
 type CertificateInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -76,11 +80,18 @@ type CertificateInitParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedInitParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 }
 
 type CertificateObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -127,6 +138,9 @@ type CertificateObservation struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	SelfManaged *SelfManagedObservation `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`
 
@@ -137,6 +151,11 @@ type CertificateObservation struct {
 }
 
 type CertificateParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A human-readable description of the resource.
 	// +kubebuilder:validation:Optional
@@ -180,6 +199,9 @@ type CertificateParameters struct {
 	// Certificate data for a SelfManaged Certificate.
 	// SelfManaged Certificates are uploaded by the user. Updating such
 	// certificates before they expire remains the user's responsibility.
+	// The certificate data can be updated in place; changes to pem_certificate
+	// and pem_private_key are applied via the API's PATCH method instead of
+	// forcing recreation of the certificate.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SelfManaged *SelfManagedParameters `json:"selfManaged,omitempty" tf:"self_managed,omitempty"`

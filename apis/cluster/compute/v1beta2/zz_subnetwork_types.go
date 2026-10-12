@@ -78,6 +78,16 @@ type SecondaryIPRangeParameters struct {
 
 type SubnetworkInitParameters_2 struct {
 
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
 	// creation time.
@@ -157,6 +167,10 @@ type SubnetworkInitParameters_2 struct {
 	// The ID of the reserved internal range. Must be prefixed with networkconnectivity.googleapis.com
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
@@ -302,8 +316,18 @@ type SubnetworkLogConfigParameters struct {
 
 type SubnetworkObservation_2 struct {
 
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
@@ -394,6 +418,10 @@ type SubnetworkObservation_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
 
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
+
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.
 	// The value can be set to ACTIVE or BACKUP.
@@ -439,6 +467,18 @@ type SubnetworkObservation_2 struct {
 }
 
 type SubnetworkParameters_2 struct {
+
+	// Typically packets destined to IPs within the subnetwork range that do not match
+	// existing resources are dropped and prevented from leaving the VPC.
+	// Setting this field to true will allow these packets to match dynamic routes injected
+	// via BGP even if their destinations match existing subnet ranges.
+	// +kubebuilder:validation:Optional
+	AllowSubnetCidrRoutesOverlap *bool `json:"allowSubnetCidrRoutesOverlap,omitempty" tf:"allow_subnet_cidr_routes_overlap,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when
 	// you create the resource. This field can be set only at resource
@@ -537,6 +577,11 @@ type SubnetworkParameters_2 struct {
 	// E.g. networkconnectivity.googleapis.com/projects/{project}/locations/global/internalRanges/{rangeId}
 	// +kubebuilder:validation:Optional
 	ReservedInternalRange *string `json:"reservedInternalRange,omitempty" tf:"reserved_internal_range,omitempty"`
+
+	// 'Configures subnet mask resolution for this subnetwork.'
+	// Possible values are: ARP_ALL_RANGES, ARP_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE, ARP_BROADCAST_PRIMARY_RANGE_WITH_LEARNING.
+	// +kubebuilder:validation:Optional
+	ResolveSubnetMask *string `json:"resolveSubnetMask,omitempty" tf:"resolve_subnet_mask,omitempty"`
 
 	// The role of subnetwork.
 	// Currently, this field is only used when purpose is REGIONAL_MANAGED_PROXY.

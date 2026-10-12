@@ -3392,18 +3392,18 @@ spec:
                           the instance uses. SEV is an AMD feature. TDX is an Intel
                           feature. One of the following values is required: SEV, SEV_SNP,
                           TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type
-                          is set to SEV and min_cpu_platform is set to "AMD Milan".
-                          Otherwise, on_host_maintenance has to be set to TERMINATE
-                          or this will fail to create the VM. If SEV_SNP, currently
-                          min_cpu_platform has to be set to "AMD Milan" or this will
-                          fail to create the VM.'
+                          is set to SEV and min_cpu_platform is set to "AMD Milan"
+                          or "AMD Genoa". Otherwise, on_host_maintenance has to be
+                          set to TERMINATE or this will fail to create the VM. If
+                          SEV_SNP, currently min_cpu_platform has to be set to "AMD
+                          Milan" or this will fail to create the VM.'
                         type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
                           compute enabled with AMD SEV. If enabled, on_host_maintenance
                           can be set to MIGRATE if min_cpu_platform is set to "AMD
-                          Milan". Otherwise, on_host_maintenance has to be set to
-                          TERMINATE or this will fail to create the VM.
+                          Milan" or "AMD Genoa". Otherwise, on_host_maintenance has
+                          to be set to TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   description:
@@ -3823,6 +3823,11 @@ spec:
                               - namespace
                               type: object
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or
@@ -3943,6 +3948,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -3966,6 +3976,10 @@ spec:
                             The name or self_link of the network to attach this interface to.
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
+                          type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
                           type: string
                         networkIp:
                           description: |-
@@ -4050,7 +4064,7 @@ spec:
                           type: object
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.'
+                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -4150,6 +4164,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -4242,12 +4260,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:
@@ -4340,10 +4358,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -4475,6 +4496,18 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -4534,18 +4567,18 @@ spec:
                           the instance uses. SEV is an AMD feature. TDX is an Intel
                           feature. One of the following values is required: SEV, SEV_SNP,
                           TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type
-                          is set to SEV and min_cpu_platform is set to "AMD Milan".
-                          Otherwise, on_host_maintenance has to be set to TERMINATE
-                          or this will fail to create the VM. If SEV_SNP, currently
-                          min_cpu_platform has to be set to "AMD Milan" or this will
-                          fail to create the VM.'
+                          is set to SEV and min_cpu_platform is set to "AMD Milan"
+                          or "AMD Genoa". Otherwise, on_host_maintenance has to be
+                          set to TERMINATE or this will fail to create the VM. If
+                          SEV_SNP, currently min_cpu_platform has to be set to "AMD
+                          Milan" or this will fail to create the VM.'
                         type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
                           compute enabled with AMD SEV. If enabled, on_host_maintenance
                           can be set to MIGRATE if min_cpu_platform is set to "AMD
-                          Milan". Otherwise, on_host_maintenance has to be set to
-                          TERMINATE or this will fail to create the VM.
+                          Milan" or "AMD Genoa". Otherwise, on_host_maintenance has
+                          to be set to TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   description:
@@ -4965,6 +4998,11 @@ spec:
                               - namespace
                               type: object
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or
@@ -5085,6 +5123,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -5108,6 +5151,10 @@ spec:
                             The name or self_link of the network to attach this interface to.
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
+                          type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
                           type: string
                         networkIp:
                           description: |-
@@ -5192,7 +5239,7 @@ spec:
                           type: object
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.'
+                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.'
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -5292,6 +5339,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -5384,12 +5435,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:
@@ -5482,10 +5533,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -5617,6 +5671,18 @@ spec:
                       type: string
                     type: array
                     x-kubernetes-list-type: set
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -5763,18 +5829,18 @@ spec:
                           the instance uses. SEV is an AMD feature. TDX is an Intel
                           feature. One of the following values is required: SEV, SEV_SNP,
                           TDX. on_host_maintenance can be set to MIGRATE if confidential_instance_type
-                          is set to SEV and min_cpu_platform is set to "AMD Milan".
-                          Otherwise, on_host_maintenance has to be set to TERMINATE
-                          or this will fail to create the VM. If SEV_SNP, currently
-                          min_cpu_platform has to be set to "AMD Milan" or this will
-                          fail to create the VM.'
+                          is set to SEV and min_cpu_platform is set to "AMD Milan"
+                          or "AMD Genoa". Otherwise, on_host_maintenance has to be
+                          set to TERMINATE or this will fail to create the VM. If
+                          SEV_SNP, currently min_cpu_platform has to be set to "AMD
+                          Milan" or this will fail to create the VM.'
                         type: string
                       enableConfidentialCompute:
                         description: Defines whether the instance should have confidential
                           compute enabled with AMD SEV. If enabled, on_host_maintenance
                           can be set to MIGRATE if min_cpu_platform is set to "AMD
-                          Milan". Otherwise, on_host_maintenance has to be set to
-                          TERMINATE or this will fail to create the VM.
+                          Milan" or "AMD Genoa". Otherwise, on_host_maintenance has
+                          to be set to TERMINATE or this will fail to create the VM.
                         type: boolean
                     type: object
                   creationTimestamp:
@@ -5958,6 +6024,11 @@ spec:
                                 default service account is used.
                               type: string
                           type: object
+                        storagePool:
+                          description: |-
+                            The URL of the storage pool in which the new disk is created.
+                            For example:
+                          type: string
                         type:
                           description: |-
                             The type of GCE disk, can be either "SCRATCH" or
@@ -6092,6 +6163,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -6131,6 +6207,10 @@ spec:
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
                           type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
+                          type: string
                         networkIp:
                           description: |-
                             The private IP address to assign to the instance. If
@@ -6138,7 +6218,11 @@ spec:
                           type: string
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
-                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.'
+                            Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA, IDPF.'
+                          type: string
+                        parentNicName:
+                          description: Name of the parent network interface of a dynamic
+                            network interface.
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -6162,6 +6246,10 @@ spec:
                             The ID of the project in which the subnetwork belongs.
                             If it is not provided, the provider project is used.
                           type: string
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -6257,12 +6345,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:
@@ -6355,10 +6443,13 @@ spec:
                         type: boolean
                       provisioningModel:
                         description: |-
-                          Describe the type of preemptible VM. This field accepts the value STANDARD or SPOT. If the value is STANDARD, there will be no discount. If this   is set to SPOT,
+                          Describe the type of provisioning model for the instance. This field accepts the value STANDARD, SPOT, FLEX_START, or RESERVATION_BOUND. If the value is STANDARD, there will be no discount. If this is set to SPOT,
                           preemptible should be true and automatic_restart should be
                           false. For more info about
-                          SPOT, read here
+                          SPOT, read here.
+                          If this is set to FLEX_START, automatic_restart should be false and instance_termination_action should be set to DELETE. A max_run_duration must also be specified. For more info about
+                          FLEX_START, read here.
+                          If this is set to RESERVATION_BOUND, the instance is bound to a specific reservation and will only consume capacity from that reservation. A reservation_affinity block with type set to SPECIFIC_RESERVATION should also be configured.
                         type: string
                       terminationTime:
                         description: Specifies the timestamp, when the instance will
@@ -6432,6 +6523,18 @@ spec:
                       the resource and default labels configured on the provider.
                     type: object
                     x-kubernetes-map-type: granular
+                  workloadIdentityConfig:
+                    description: |-
+                      Workload Identity Config. More details about
+                      this configuration option are detailed below.
+                    properties:
+                      identity:
+                        description: Identity SPIFFE id.
+                        type: string
+                      identityCertificateEnabled:
+                        description: Specifies whether identity certificates are enabled.
+                        type: boolean
+                    type: object
                 type: object
               conditions:
                 description: Conditions of the resource.

@@ -387,6 +387,10 @@ type QueueInitParameters struct {
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideInitParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The desired state of the queue. Use this to pause and resume the queue.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
 
@@ -426,6 +430,10 @@ type QueueObservation struct {
 	// to App Engine tasks in this queue
 	// Structure is documented below.
 	AppEngineRoutingOverride *AppEngineRoutingOverrideObservation `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The desired state of the queue. Use this to pause and resume the queue.
 	DesiredState *string `json:"desiredState,omitempty" tf:"desired_state,omitempty"`
@@ -467,6 +475,11 @@ type QueueParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	AppEngineRoutingOverride *AppEngineRoutingOverrideParameters `json:"appEngineRoutingOverride,omitempty" tf:"app_engine_routing_override,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The desired state of the queue. Use this to pause and resume the queue.
 	// +kubebuilder:validation:Optional

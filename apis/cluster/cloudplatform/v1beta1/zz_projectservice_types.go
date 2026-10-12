@@ -15,6 +15,10 @@ import (
 
 type ProjectServiceInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be returned if any enabled
@@ -22,7 +26,7 @@ type ProjectServiceInitParameters struct {
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
 	// It should generally only
-	// be true or unset in configurations that manage the google_project resource itself.
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// The project ID. If not provided, the provider project
@@ -44,6 +48,10 @@ type ProjectServiceInitParameters struct {
 
 type ProjectServiceObservation struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be returned if any enabled
@@ -51,7 +59,7 @@ type ProjectServiceObservation struct {
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
 	// It should generally only
-	// be true or unset in configurations that manage the google_project resource itself.
+	// be true in configurations that manage the google_project resource itself.
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 
 	// an identifier for the resource with format {{project}}/{{service}}
@@ -67,6 +75,11 @@ type ProjectServiceObservation struct {
 
 type ProjectServiceParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// If true, services that are enabled
 	// and which depend on this service should also be disabled when this service is
 	// destroyed. If false or unset, an error will be returned if any enabled
@@ -75,7 +88,7 @@ type ProjectServiceParameters struct {
 	DisableDependentServices *bool `json:"disableDependentServices,omitempty" tf:"disable_dependent_services,omitempty"`
 
 	// It should generally only
-	// be true or unset in configurations that manage the google_project resource itself.
+	// be true in configurations that manage the google_project resource itself.
 	// +kubebuilder:validation:Optional
 	DisableOnDestroy *bool `json:"disableOnDestroy,omitempty" tf:"disable_on_destroy,omitempty"`
 

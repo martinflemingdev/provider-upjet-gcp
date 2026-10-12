@@ -1626,6 +1626,11 @@ spec:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableObjectRetention:
                     description: Enables object retention on a storage bucket.
                     type: boolean
@@ -1633,17 +1638,63 @@ spec:
                     description: The bucket's encryption configuration. Structure
                       is documented below.
                     properties:
+                      customerManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
+                      customerSuppliedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                       defaultKmsKeyName:
                         description: |-
-                          : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+                          The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
                           You must pay attention to whether the crypto key is available in the location that this bucket is created in.
                           See the docs for more details.
                         type: string
+                      googleManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -1832,6 +1883,14 @@ spec:
                                 value to the num_newer_versions field. It can be used
                                 alone or together with num_newer_versions.
                               type: boolean
+                            sizeAboveBytes:
+                              description: Objects having a size greater than this
+                                value in bytes will be matched.
+                              type: number
+                            sizeBelowBytes:
+                              description: Objects having a size smaller than this
+                                value in bytes will be matched.
+                              type: number
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported
@@ -2026,6 +2085,11 @@ spec:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   enableObjectRetention:
                     description: Enables object retention on a storage bucket.
                     type: boolean
@@ -2033,17 +2097,63 @@ spec:
                     description: The bucket's encryption configuration. Structure
                       is documented below.
                     properties:
+                      customerManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
+                      customerSuppliedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                       defaultKmsKeyName:
                         description: |-
-                          : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+                          The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
                           You must pay attention to whether the crypto key is available in the location that this bucket is created in.
                           See the docs for more details.
                         type: string
+                      googleManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -2232,6 +2342,14 @@ spec:
                                 value to the num_newer_versions field. It can be used
                                 alone or together with num_newer_versions.
                               type: boolean
+                            sizeAboveBytes:
+                              description: Objects having a size greater than this
+                                value in bytes will be matched.
+                              type: number
+                            sizeBelowBytes:
+                              description: Objects having a size smaller than this
+                                value in bytes will be matched.
+                              type: number
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported
@@ -2509,6 +2627,11 @@ spec:
                     description: Whether or not to automatically apply an eventBasedHold
                       to new objects added to the bucket.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   effectiveLabels:
                     additionalProperties:
                       type: string
@@ -2522,17 +2645,81 @@ spec:
                     description: The bucket's encryption configuration. Structure
                       is documented below.
                     properties:
+                      customerManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          effectiveTime:
+                            description: (Computed) Server-determined value that indicates
+                              the time from which the policy, or one with a greater
+                              retention, was effective. This value is in RFC 3339
+                              format.
+                            type: string
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
+                      customerSuppliedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          effectiveTime:
+                            description: (Computed) Server-determined value that indicates
+                              the time from which the policy, or one with a greater
+                              retention, was effective. This value is in RFC 3339
+                              format.
+                            type: string
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                       defaultKmsKeyName:
                         description: |-
-                          : The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
+                          The id of a Cloud KMS key that will be used to encrypt objects inserted into this bucket, if no encryption method is specified.
                           You must pay attention to whether the crypto key is available in the location that this bucket is created in.
                           See the docs for more details.
                         type: string
+                      googleManagedEncryptionEnforcementConfig:
+                        description: type is allowed. If set, then new objects created
+                          in this bucket must comply with enforcement config. Changing
+                          this has no effect on existing objects; it applies to new
+                          objects only, Structure is documented below documented below.
+                        properties:
+                          effectiveTime:
+                            description: (Computed) Server-determined value that indicates
+                              the time from which the policy, or one with a greater
+                              retention, was effective. This value is in RFC 3339
+                              format.
+                            type: string
+                          restrictionMode:
+                            description: Whether Google Managed Encryption (GMEK)
+                              is restricted for new objects within the bucket. If
+                              FullyRestricted, new objects can't be created using
+                              GMEK encryption. If NotRestricted or unset, creation
+                              of new objects with GMEK encryption is allowed.
+                            type: string
+                        type: object
                     type: object
                   forceDestroy:
-                    description: |-
-                      When deleting a bucket, this
-                      boolean option will delete all contained objects.
+                    description: When true, before deleting a bucket, delete all objects
+                      within the bucket, or Anywhere Caches caching data for that
+                      bucket. Otherwise, buckets with objects/caches will fail. This
+                      may result in the objects in the bucket getting destroyed but
+                      not the bucket itself if there is a cache in use with the bucket.
+                      Force deletion may take a long time to delete buckets with lots
+                      of objects or with any Anywhere Caches (80m+).
                     type: boolean
                   hierarchicalNamespace:
                     description: The bucket's hierarchical namespace policy, which
@@ -2723,6 +2910,14 @@ spec:
                                 value to the num_newer_versions field. It can be used
                                 alone or together with num_newer_versions.
                               type: boolean
+                            sizeAboveBytes:
+                              description: Objects having a size greater than this
+                                value in bytes will be matched.
+                              type: number
+                            sizeBelowBytes:
+                              description: Objects having a size smaller than this
+                                value in bytes will be matched.
+                              type: number
                             withState:
                               description: 'Match to live and/or archived objects.
                                 Unversioned buckets have only live objects. Supported

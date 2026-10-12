@@ -3083,6 +3083,11 @@ spec:
                       (For legacy support, if template.metadata.name is unset in state while
                       this field is set to false, the revision name will still autogenerate.)
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   location:
                     description: The location of the cloud run instance. eg us-central1
                     type: string
@@ -3633,6 +3638,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -4030,6 +4039,11 @@ spec:
                       (For legacy support, if template.metadata.name is unset in state while
                       this field is set to false, the revision name will still autogenerate.)
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   metadata:
                     description: |-
                       Metadata associated with this Service, including name, namespace, labels,
@@ -4577,6 +4591,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.
@@ -5050,6 +5068,11 @@ spec:
                       (For legacy support, if template.metadata.name is unset in state while
                       this field is set to false, the revision name will still autogenerate.)
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   id:
                     description: an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/services/{{name}}
                     type: string
@@ -5620,6 +5643,10 @@ spec:
                                       type: object
                                       x-kubernetes-map-type: granular
                                   type: object
+                                sandboxLauncher:
+                                  description: Indicates that this container can act
+                                    as a sandbox supervisor and launch sandboxes.
+                                  type: boolean
                                 startupProbe:
                                   description: |-
                                     Startup probe of application within the container.

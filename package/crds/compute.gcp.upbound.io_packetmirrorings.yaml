@@ -1186,8 +1186,19 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the rule.
+                    type: string
+                  enable:
+                    description: |-
+                      Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+                      policy will not be enforced on the network. The default is TRUE.
+                      Possible values are: TRUE, FALSE.
                     type: string
                   filter:
                     description: |-
@@ -1609,8 +1620,19 @@ spec:
                             type: object
                         type: object
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the rule.
+                    type: string
+                  enable:
+                    description: |-
+                      Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+                      policy will not be enforced on the network. The default is TRUE.
+                      Possible values are: TRUE, FALSE.
                     type: string
                   filter:
                     description: |-
@@ -2040,8 +2062,19 @@ spec:
                         description: The URL of the forwarding rule.
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: A human-readable description of the rule.
+                    type: string
+                  enable:
+                    description: |-
+                      Indicates whether or not this packet mirroring takes effect. If set to FALSE, this packet mirroring
+                      policy will not be enforced on the network. The default is TRUE.
+                      Possible values are: TRUE, FALSE.
                     type: string
                   filter:
                     description: |-

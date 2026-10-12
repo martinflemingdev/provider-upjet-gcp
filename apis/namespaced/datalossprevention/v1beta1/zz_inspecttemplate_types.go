@@ -43,9 +43,8 @@ type CustomInfoTypesInitParameters struct {
 	// Possible values are: EXCLUSION_TYPE_EXCLUDE.
 	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	InfoType *InfoTypeInitParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
@@ -81,9 +80,8 @@ type CustomInfoTypesObservation struct {
 	// Possible values are: EXCLUSION_TYPE_EXCLUDE.
 	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	InfoType *InfoTypeObservation `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
@@ -121,9 +119,8 @@ type CustomInfoTypesParameters struct {
 	// +kubebuilder:validation:Optional
 	ExclusionType *string `json:"exclusionType,omitempty" tf:"exclusion_type,omitempty"`
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InfoType *InfoTypeParameters `json:"infoType" tf:"info_type,omitempty"`
@@ -871,6 +868,12 @@ type InspectConfigInitParameters struct {
 	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
 	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
 
+	// Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+	// The system only returns a finding if its likelihood is above this threshold. If this field
+	// is not set, the system uses the InspectConfig min_likelihood.
+	// Structure is documented below.
+	MinLikelihoodPerInfoType []MinLikelihoodPerInfoTypeInitParameters `json:"minLikelihoodPerInfoType,omitempty" tf:"min_likelihood_per_info_type,omitempty"`
+
 	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
 	// other rules are executed in the order they are specified for each info type.
 	// Structure is documented below.
@@ -908,6 +911,12 @@ type InspectConfigObservation struct {
 	// Default value is POSSIBLE.
 	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
 	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
+
+	// Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+	// The system only returns a finding if its likelihood is above this threshold. If this field
+	// is not set, the system uses the InspectConfig min_likelihood.
+	// Structure is documented below.
+	MinLikelihoodPerInfoType []MinLikelihoodPerInfoTypeObservation `json:"minLikelihoodPerInfoType,omitempty" tf:"min_likelihood_per_info_type,omitempty"`
 
 	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
 	// other rules are executed in the order they are specified for each info type.
@@ -954,6 +963,13 @@ type InspectConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
 
+	// Minimum likelihood per infotype. For each infotype, a user can specify a minimum likelihood.
+	// The system only returns a finding if its likelihood is above this threshold. If this field
+	// is not set, the system uses the InspectConfig min_likelihood.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	MinLikelihoodPerInfoType []MinLikelihoodPerInfoTypeParameters `json:"minLikelihoodPerInfoType,omitempty" tf:"min_likelihood_per_info_type,omitempty"`
+
 	// Set of rules to apply to the findings for this InspectConfig. Exclusion rules, contained in the set are executed in the end,
 	// other rules are executed in the order they are specified for each info type.
 	// Structure is documented below.
@@ -962,6 +978,14 @@ type InspectConfigParameters struct {
 }
 
 type InspectTemplateInitParameters struct {
+
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -983,6 +1007,14 @@ type InspectTemplateInitParameters struct {
 }
 
 type InspectTemplateObservation struct {
+
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -1010,6 +1042,16 @@ type InspectTemplateObservation struct {
 }
 
 type InspectTemplateParameters struct {
+
+	// Enables the use of limited-availability built-in infoTypes
+	// in inspect_config. These infoTypes are supported only in specific regions and can cause scanning errors if used elsewhere.
+	// +kubebuilder:validation:Optional
+	AllowLimitedAvailabilityInfoTypes *bool `json:"allowLimitedAvailabilityInfoTypes,omitempty" tf:"allow_limited_availability_info_types,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// A description of the inspect template.
 	// +kubebuilder:validation:Optional
@@ -1193,9 +1235,8 @@ type MaxFindingsPerInfoTypeInfoTypeSensitivityScoreParameters struct {
 
 type MaxFindingsPerInfoTypeInitParameters struct {
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	InfoType *MaxFindingsPerInfoTypeInfoTypeInitParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
@@ -1205,9 +1246,8 @@ type MaxFindingsPerInfoTypeInitParameters struct {
 
 type MaxFindingsPerInfoTypeObservation struct {
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	InfoType *MaxFindingsPerInfoTypeInfoTypeObservation `json:"infoType,omitempty" tf:"info_type,omitempty"`
 
@@ -1217,9 +1257,8 @@ type MaxFindingsPerInfoTypeObservation struct {
 
 type MaxFindingsPerInfoTypeParameters struct {
 
-	// Type of information the findings limit applies to. Only one limit per infoType should be provided. If InfoTypeLimit does
-	// not have an infoType, the DLP API applies the limit against all infoTypes that are found but not
-	// specified in another InfoTypeLimit.
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	InfoType *MaxFindingsPerInfoTypeInfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
@@ -1227,6 +1266,76 @@ type MaxFindingsPerInfoTypeParameters struct {
 	// Max findings limit for the given infoType.
 	// +kubebuilder:validation:Optional
 	MaxFindings *float64 `json:"maxFindings" tf:"max_findings,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeInfoTypeInitParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeInfoTypeObservation struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeInfoTypeParameters struct {
+
+	// Resource name of the requested StoredInfoType, for example organizations/433245324/storedInfoTypes/432452342
+	// or projects/project-id/storedInfoTypes/432452342.
+	// +kubebuilder:validation:Optional
+	Name *string `json:"name" tf:"name,omitempty"`
+
+	// Version of the information type to use. By default, the version is set to stable
+	// +kubebuilder:validation:Optional
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeInitParameters struct {
+
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
+	// Structure is documented below.
+	InfoType *MinLikelihoodPerInfoTypeInfoTypeInitParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeObservation struct {
+
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
+	// Structure is documented below.
+	InfoType *MinLikelihoodPerInfoTypeInfoTypeObservation `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	MinLikelihood *string `json:"minLikelihood,omitempty" tf:"min_likelihood,omitempty"`
+}
+
+type MinLikelihoodPerInfoTypeParameters struct {
+
+	// Type of information the likeliness threshold applies to. Only one likelihood per info_type should be provided.
+	// If InfoTypeLikelihood does not have an info_type, the configuration fails.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	InfoType *MinLikelihoodPerInfoTypeInfoTypeParameters `json:"infoType,omitempty" tf:"info_type,omitempty"`
+
+	// Only returns findings equal or above this threshold. See https://cloud.google.com/dlp/docs/likelihood for more info.
+	// Possible values are: VERY_UNLIKELY, UNLIKELY, POSSIBLE, LIKELY, VERY_LIKELY.
+	// +kubebuilder:validation:Optional
+	MinLikelihood *string `json:"minLikelihood" tf:"min_likelihood,omitempty"`
 }
 
 type ProximityInitParameters struct {

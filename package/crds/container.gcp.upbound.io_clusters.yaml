@@ -8476,6 +8476,14 @@ spec:
                       The configuration for addons supported by GKE.
                       Structure is documented below.
                     properties:
+                      agentSandboxConfig:
+                        description: 'Configuration for the Agent Sandbox addon. Structure
+                          is documented below:'
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       cloudrunConfig:
                         description: . Structure is documented below.
                         properties:
@@ -8581,12 +8589,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -8607,6 +8621,15 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       parallelstoreCsiDriverConfig:
                         description: |-
                           The status of the Parallelstore CSI driver addon,
@@ -8614,6 +8637,14 @@ spec:
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
                           See Enable the Parallelstore CSI driver for more information.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      podSnapshotConfig:
+                        description: The status of the Pod Snapshot addon. It is disabled
+                          by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -8650,6 +8681,27 @@ spec:
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      slurmOperatorConfig:
+                        description: |-
+                          The status of the Slurm Operator addon,
+                          which creates slurm related CRDs and KCP pods to manage them.
+                          Defaults to disabled for Standard clusters; set enabled = true to enable.
+                          It can not be enabled for Autopilot clusters.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -8688,6 +8740,38 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        description: Whether to block non autopilot managed node pools
+                          in the cluster.
+                        type: boolean
+                      noSystemImpersonation:
+                        description: Whether to block impersonation of system accounts
+                          in the cluster.
+                        type: boolean
+                      noSystemMutation:
+                        description: Whether to block mutation of resources in system
+                          namespaces and non-namespaced system resources.
+                        type: boolean
+                      noUnsafeWebhooks:
+                        description: Whether to block unsafe webhooks in the cluster.
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -8881,7 +8965,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -8982,6 +9066,10 @@ spec:
                       kube-proxy implementation. Set to ADVANCED_DATAPATH to enable
                       Dataplane v2.
                     type: string
+                  dataplaneOptimizationMode:
+                    description: 'The dataplane optimization mode for the cluster.
+                      Possible values: SCALE_OPTIMIZED.'
+                    type: string
                   defaultMaxPodsPerNode:
                     description: |-
                       The default maximum number of pods
@@ -9002,10 +9090,22 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     type: boolean
                   description:
                     description: Description of the cluster.
+                    type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
                     type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
@@ -9161,6 +9261,13 @@ spec:
                           It is disabled by default. Set enabled=true to enable.
                         type: boolean
                     type: object
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      GKE node count (e.g. from GKE autoscaling). Setting this to
+                      true skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   inTransitEncryptionConfig:
                     description: Defines the config of in-transit encryption. Valid
                       values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
@@ -9192,6 +9299,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -9292,7 +9404,7 @@ spec:
                       enableComponents:
                         description: |-
                           The GKE components exposing logs. Supported values include:
-                          SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
+                          SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
                         items:
                           type: string
                         type: array
@@ -9312,6 +9424,18 @@ spec:
                         description: structure documented below.
                         properties:
                           startTime:
+                            type: string
+                        type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
                             type: string
                         type: object
                       maintenanceExclusion:
@@ -9345,12 +9469,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -9693,6 +9868,88 @@ spec:
                                 description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
                           writableCgroups:
                             description: 'Configuration for writable cgroups. This
                               allows containers to have a writable /sys/fs/cgroup
@@ -9764,6 +10021,11 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        description: The type of GPUDirect strategy to enable on the
+                          node. See the GKE network docs for information on available
+                          modes.
+                        type: string
                       guestAccelerator:
                         description: |-
                           List of the type and count of accelerator cards attached to the instance.
@@ -9808,8 +10070,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -9884,6 +10147,22 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          crashLoopBackOff:
+                            description: Contains configuration options to modify
+                              node-level parameters for container restart behavior.
+                              Structure is documented below.
+                            properties:
+                              maxContainerRestartPeriod:
+                                description: The maximum duration the backoff delay
+                                  can accrue to for container restarts. If not set,
+                                  defaults to the internal crashloopbackoff maximum.
+                                  The value must be a positive duration string no
+                                  more than "5m" and no less than "1s", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h". See Configurable
+                                  container restart delay for more details.
+                                type: string
+                            type: object
                           evictionMaxPodGracePeriodSeconds:
                             description: Defines the maximum allowed grace period
                               (in seconds) to use when terminating pods in response
@@ -10062,6 +10341,21 @@ spec:
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
                           singleProcessOomKill:
                             description: Defines whether to enable single process
                               OOM killer. If true, the processes in the container
@@ -10102,11 +10396,50 @@ spec:
                         description: Parameters that can be configured on Linux nodes.
                           Structure is documented below.
                         properties:
+                          accurateTimeConfig:
+                            description: Accurate time configuration for the node.
+                              Structure is documented below.
+                            properties:
+                              enablePtpKvmTimeSync:
+                                description: Whether to enable accurate time synchronization
+                                  with PTP-KVM.
+                                type: boolean
+                            type: object
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -10117,6 +10450,73 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
+                          swapConfig:
+                            description: Swap configuration for the node. Structure
+                              is documented below.
+                            properties:
+                              bootDiskProfile:
+                                description: Swap on the node's boot disk. Structure
+                                  is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                description: Provisions a new, separate local NVMe
+                                  SSD exclusively for swap. Structure is documented
+                                  below.
+                                properties:
+                                  diskCount:
+                                    description: The number of physical local NVMe
+                                      SSD disks to attach.
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                              encryptionConfig:
+                                description: If omitted, swap space is encrypted by
+                                  default. Structure is documented below.
+                                properties:
+                                  disabled:
+                                    description: |-
+                                      The status of the Istio addon, which makes it easy to set up Istio for services in a
+                                      cluster. It is disabled by default. Set disabled = false to enable.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                description: Swap on the local SSD shared with pod
+                                  ephemeral storage. Structure is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
                             type: object
                           sysctls:
                             additionalProperties:
@@ -10196,6 +10596,24 @@ spec:
                           pool to run on the specified node group. This is useful
                           for running workloads on sole tenant nodes.
                         type: string
+                      nodeImageConfig:
+                        description: The node image configuration to use for this
+                          node pool. Structure is documented below.
+                        items:
+                          properties:
+                            image:
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
+                              type: string
+                            imageProject:
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         description: |-
                           The set of Google API scopes to be made available
@@ -10252,6 +10670,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -10435,6 +10864,16 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
                         description: 'Windows node configuration, currently supporting
                           OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
@@ -10455,6 +10894,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  nodeCreationConfig:
+                    description: Configuration for node creation config. Structure
+                      is documented below.
+                    properties:
+                      nodeCreationMode:
+                        description: Sets the node creation mode. Available options
+                          include VIA_KUBELET and VIA_CONTROL_PLANE.
+                        type: string
+                    type: object
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -10473,15 +10921,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -10559,6 +11020,91 @@ spec:
                                     description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
                               writableCgroups:
                                 description: 'Configuration for writable cgroups.
                                   This allows containers to have a writable /sys/fs/cgroup
@@ -10848,6 +11394,19 @@ spec:
                           billing export. Defaults to true.
                         type: boolean
                     type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
+                    type: object
                   secretManagerConfig:
                     description: |-
                       Configuration for the
@@ -10859,11 +11418,35 @@ spec:
                         type: boolean
                       rotationConfig:
                         description: config for secret manager auto rotation. Structure
-                          is docuemented below
+                          is documented below
                         properties:
                           enabled:
                             description: Enable the roation in Secret Manager add-on
                               for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
+                    type: object
+                  secretSyncConfig:
+                    description: |-
+                      Configuration for the
+                      SecretSyncConfig feature.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Enable the Sync as K8s secret feature for this
+                          cluster.
+                        type: boolean
+                      rotationConfig:
+                        description: config for secret sync auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Sync as K8s secret
+                              feature for this cluster.
                             type: boolean
                           rotationInterval:
                             description: The interval between two consecutive rotations.
@@ -10895,6 +11478,15 @@ spec:
                           service will be allowed. It is enabled by default.
                         type: boolean
                     type: object
+                  skipNodePoolRefresh:
+                    description: Whether to skip refreshing the GKE cluster's inline
+                      node pool list during read operations. Setting this to true
+                      prevents the provider from querying GKE API for node pools,
+                      resolving long plan times on clusters with a large number of
+                      node pools. This flag cannot be set to true if you define inline
+                      node_pool blocks in your configuration; doing so will result
+                      in a validation error during plan.
+                    type: boolean
                   subnetwork:
                     description: |-
                       The name or self_link of the Google Compute Engine
@@ -11060,6 +11652,14 @@ spec:
                       The configuration for addons supported by GKE.
                       Structure is documented below.
                     properties:
+                      agentSandboxConfig:
+                        description: 'Configuration for the Agent Sandbox addon. Structure
+                          is documented below:'
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       cloudrunConfig:
                         description: . Structure is documented below.
                         properties:
@@ -11165,12 +11765,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -11191,6 +11797,15 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       parallelstoreCsiDriverConfig:
                         description: |-
                           The status of the Parallelstore CSI driver addon,
@@ -11198,6 +11813,14 @@ spec:
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
                           See Enable the Parallelstore CSI driver for more information.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      podSnapshotConfig:
+                        description: The status of the Pod Snapshot addon. It is disabled
+                          by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -11234,6 +11857,27 @@ spec:
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      slurmOperatorConfig:
+                        description: |-
+                          The status of the Slurm Operator addon,
+                          which creates slurm related CRDs and KCP pods to manage them.
+                          Defaults to disabled for Standard clusters; set enabled = true to enable.
+                          It can not be enabled for Autopilot clusters.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -11272,6 +11916,38 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        description: Whether to block non autopilot managed node pools
+                          in the cluster.
+                        type: boolean
+                      noSystemImpersonation:
+                        description: Whether to block impersonation of system accounts
+                          in the cluster.
+                        type: boolean
+                      noSystemMutation:
+                        description: Whether to block mutation of resources in system
+                          namespaces and non-namespaced system resources.
+                        type: boolean
+                      noUnsafeWebhooks:
+                        description: Whether to block unsafe webhooks in the cluster.
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -11465,7 +12141,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -11566,6 +12242,10 @@ spec:
                       kube-proxy implementation. Set to ADVANCED_DATAPATH to enable
                       Dataplane v2.
                     type: string
+                  dataplaneOptimizationMode:
+                    description: 'The dataplane optimization mode for the cluster.
+                      Possible values: SCALE_OPTIMIZED.'
+                    type: string
                   defaultMaxPodsPerNode:
                     description: |-
                       The default maximum number of pods
@@ -11586,10 +12266,22 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     type: boolean
                   description:
                     description: Description of the cluster.
+                    type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
                     type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
@@ -11745,6 +12437,13 @@ spec:
                           It is disabled by default. Set enabled=true to enable.
                         type: boolean
                     type: object
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      GKE node count (e.g. from GKE autoscaling). Setting this to
+                      true skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   inTransitEncryptionConfig:
                     description: Defines the config of in-transit encryption. Valid
                       values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
@@ -11776,6 +12475,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -11867,7 +12571,7 @@ spec:
                       enableComponents:
                         description: |-
                           The GKE components exposing logs. Supported values include:
-                          SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
+                          SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
                         items:
                           type: string
                         type: array
@@ -11887,6 +12591,18 @@ spec:
                         description: structure documented below.
                         properties:
                           startTime:
+                            type: string
+                        type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
                             type: string
                         type: object
                       maintenanceExclusion:
@@ -11920,12 +12636,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -12268,6 +13035,88 @@ spec:
                                 description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
                           writableCgroups:
                             description: 'Configuration for writable cgroups. This
                               allows containers to have a writable /sys/fs/cgroup
@@ -12339,6 +13188,11 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        description: The type of GPUDirect strategy to enable on the
+                          node. See the GKE network docs for information on available
+                          modes.
+                        type: string
                       guestAccelerator:
                         description: |-
                           List of the type and count of accelerator cards attached to the instance.
@@ -12383,8 +13237,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -12459,6 +13314,22 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          crashLoopBackOff:
+                            description: Contains configuration options to modify
+                              node-level parameters for container restart behavior.
+                              Structure is documented below.
+                            properties:
+                              maxContainerRestartPeriod:
+                                description: The maximum duration the backoff delay
+                                  can accrue to for container restarts. If not set,
+                                  defaults to the internal crashloopbackoff maximum.
+                                  The value must be a positive duration string no
+                                  more than "5m" and no less than "1s", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h". See Configurable
+                                  container restart delay for more details.
+                                type: string
+                            type: object
                           evictionMaxPodGracePeriodSeconds:
                             description: Defines the maximum allowed grace period
                               (in seconds) to use when terminating pods in response
@@ -12637,6 +13508,21 @@ spec:
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
                           singleProcessOomKill:
                             description: Defines whether to enable single process
                               OOM killer. If true, the processes in the container
@@ -12677,11 +13563,50 @@ spec:
                         description: Parameters that can be configured on Linux nodes.
                           Structure is documented below.
                         properties:
+                          accurateTimeConfig:
+                            description: Accurate time configuration for the node.
+                              Structure is documented below.
+                            properties:
+                              enablePtpKvmTimeSync:
+                                description: Whether to enable accurate time synchronization
+                                  with PTP-KVM.
+                                type: boolean
+                            type: object
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -12692,6 +13617,73 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
+                          swapConfig:
+                            description: Swap configuration for the node. Structure
+                              is documented below.
+                            properties:
+                              bootDiskProfile:
+                                description: Swap on the node's boot disk. Structure
+                                  is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                description: Provisions a new, separate local NVMe
+                                  SSD exclusively for swap. Structure is documented
+                                  below.
+                                properties:
+                                  diskCount:
+                                    description: The number of physical local NVMe
+                                      SSD disks to attach.
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                              encryptionConfig:
+                                description: If omitted, swap space is encrypted by
+                                  default. Structure is documented below.
+                                properties:
+                                  disabled:
+                                    description: |-
+                                      The status of the Istio addon, which makes it easy to set up Istio for services in a
+                                      cluster. It is disabled by default. Set disabled = false to enable.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                description: Swap on the local SSD shared with pod
+                                  ephemeral storage. Structure is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
                             type: object
                           sysctls:
                             additionalProperties:
@@ -12771,6 +13763,24 @@ spec:
                           pool to run on the specified node group. This is useful
                           for running workloads on sole tenant nodes.
                         type: string
+                      nodeImageConfig:
+                        description: The node image configuration to use for this
+                          node pool. Structure is documented below.
+                        items:
+                          properties:
+                            image:
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
+                              type: string
+                            imageProject:
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         description: |-
                           The set of Google API scopes to be made available
@@ -12827,6 +13837,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -13010,6 +14031,16 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
                         description: 'Windows node configuration, currently supporting
                           OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
@@ -13030,6 +14061,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  nodeCreationConfig:
+                    description: Configuration for node creation config. Structure
+                      is documented below.
+                    properties:
+                      nodeCreationMode:
+                        description: Sets the node creation mode. Available options
+                          include VIA_KUBELET and VIA_CONTROL_PLANE.
+                        type: string
+                    type: object
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -13048,15 +14088,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -13134,6 +14187,91 @@ spec:
                                     description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
                               writableCgroups:
                                 description: 'Configuration for writable cgroups.
                                   This allows containers to have a writable /sys/fs/cgroup
@@ -13423,6 +14561,19 @@ spec:
                           billing export. Defaults to true.
                         type: boolean
                     type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
+                    type: object
                   secretManagerConfig:
                     description: |-
                       Configuration for the
@@ -13434,11 +14585,35 @@ spec:
                         type: boolean
                       rotationConfig:
                         description: config for secret manager auto rotation. Structure
-                          is docuemented below
+                          is documented below
                         properties:
                           enabled:
                             description: Enable the roation in Secret Manager add-on
                               for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
+                    type: object
+                  secretSyncConfig:
+                    description: |-
+                      Configuration for the
+                      SecretSyncConfig feature.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Enable the Sync as K8s secret feature for this
+                          cluster.
+                        type: boolean
+                      rotationConfig:
+                        description: config for secret sync auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Sync as K8s secret
+                              feature for this cluster.
                             type: boolean
                           rotationInterval:
                             description: The interval between two consecutive rotations.
@@ -13470,6 +14645,15 @@ spec:
                           service will be allowed. It is enabled by default.
                         type: boolean
                     type: object
+                  skipNodePoolRefresh:
+                    description: Whether to skip refreshing the GKE cluster's inline
+                      node pool list during read operations. Setting this to true
+                      prevents the provider from querying GKE API for node pools,
+                      resolving long plan times on clusters with a large number of
+                      node pools. This flag cannot be set to true if you define inline
+                      node_pool blocks in your configuration; doing so will result
+                      in a validation error during plan.
+                    type: boolean
                   subnetwork:
                     description: |-
                       The name or self_link of the Google Compute Engine
@@ -13711,6 +14895,14 @@ spec:
                       The configuration for addons supported by GKE.
                       Structure is documented below.
                     properties:
+                      agentSandboxConfig:
+                        description: 'Configuration for the Agent Sandbox addon. Structure
+                          is documented below:'
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       cloudrunConfig:
                         description: . Structure is documented below.
                         properties:
@@ -13816,12 +15008,18 @@ spec:
                           which allows the usage of a Lustre instances as volumes.
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is disabled by default for Autopilot clusters; set enabled = true to enable.
-                          Lustre CSI Driver Config has optional subfield
-                          enable_legacy_lustre_port which allows the Lustre CSI driver to initialize LNet (the virtual networklayer for Lustre kernel module) using port 6988.
-                          This flag is required to workaround a port conflict with the gke-metadata-server on GKE nodes.
                           See Enable Lustre CSI driver for more information.
+                          Lustre CSI Driver Config has optional subfields:
                         properties:
+                          disableMultiNic:
+                            description: NIC support for the Lustre CSI driver. By
+                              default, GKE enables multi-NIC support, which allows
+                              the Lustre CSI driver to automatically detect and configure
+                              all suitable network interfaces on a node to maximize
+                              I/O performance for demanding workloads.
+                            type: boolean
                           enableLegacyLustrePort:
+                            description: metadata-server on GKE nodes.
                             type: boolean
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -13842,6 +15040,15 @@ spec:
                               cluster. It is disabled by default. Set disabled = false to enable.
                             type: boolean
                         type: object
+                      nodeReadinessConfig:
+                        description: |-
+                          The status of the Node Readiness Controller addon. It is disabled by default. Set enabled = true to enable.
+                          Structure is documented below.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       parallelstoreCsiDriverConfig:
                         description: |-
                           The status of the Parallelstore CSI driver addon,
@@ -13849,6 +15056,14 @@ spec:
                           It is disabled by default for Standard clusters; set enabled = true to enable.
                           It is enabled by default for Autopilot clusters with version 1.29 or later; set enabled = true to enable it explicitly.
                           See Enable the Parallelstore CSI driver for more information.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      podSnapshotConfig:
+                        description: The status of the Pod Snapshot addon. It is disabled
+                          by default. Set enabled = true to enable.
                         properties:
                           enabled:
                             description: Whether writable cgroups are enabled.
@@ -13885,6 +15100,27 @@ spec:
                               type: object
                           type: object
                         type: array
+                      sliceControllerConfig:
+                        description: |-
+                          .
+                          The status of the slice controller addon.
+                          It is disabled by default. Set enabled = true to enable.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
+                      slurmOperatorConfig:
+                        description: |-
+                          The status of the Slurm Operator addon,
+                          which creates slurm related CRDs and KCP pods to manage them.
+                          Defaults to disabled for Standard clusters; set enabled = true to enable.
+                          It can not be enabled for Autopilot clusters.
+                        properties:
+                          enabled:
+                            description: Whether writable cgroups are enabled.
+                            type: boolean
+                        type: object
                       statefulHaConfig:
                         description: |-
                           .
@@ -13923,6 +15159,38 @@ spec:
                           be in format gke-security-groups@yourdomain.com.
                         type: string
                     type: object
+                  autopilotClusterPolicyConfig:
+                    description: Per-cluster configuration of Autopilot cluster policies
+                      in GKE clusters. This field can only be configured in non Autopilot
+                      clusters. Structure is documented below.
+                    properties:
+                      noStandardNodePools:
+                        description: Whether to block non autopilot managed node pools
+                          in the cluster.
+                        type: boolean
+                      noSystemImpersonation:
+                        description: Whether to block impersonation of system accounts
+                          in the cluster.
+                        type: boolean
+                      noSystemMutation:
+                        description: Whether to block mutation of resources in system
+                          namespaces and non-namespaced system resources.
+                        type: boolean
+                      noUnsafeWebhooks:
+                        description: Whether to block unsafe webhooks in the cluster.
+                        type: boolean
+                    type: object
+                  autopilotPrivilegedAdmission:
+                    description: |-
+                      The customer
+                      allowlist Cloud Storage paths for the cluster. These paths are used with the
+                      --autopilot-privileged-admission flag to authorize privileged workloads in
+                      Autopilot clusters. See the Cluster API's
+                      PrivilegedAdmissionConfig
+                      documentation for more details.
+                    items:
+                      type: string
+                    type: array
                   binaryAuthorization:
                     description: |-
                       Configuration options for the Binary
@@ -14128,7 +15396,7 @@ spec:
                           Global constraints for machine resources in the
                           cluster. Configuring the cpu and memory types is required if node
                           auto-provisioning is enabled. These limits will apply to node pool autoscaling
-                          in addition to node auto-provisioning. Structure is documented below.
+                          in addition to node auto-provisioning. Limits can't be unset entirely, they can only be replaced. Structure is documented below.
                         items:
                           properties:
                             maximum:
@@ -14229,6 +15497,10 @@ spec:
                       kube-proxy implementation. Set to ADVANCED_DATAPATH to enable
                       Dataplane v2.
                     type: string
+                  dataplaneOptimizationMode:
+                    description: 'The dataplane optimization mode for the cluster.
+                      Possible values: SCALE_OPTIMIZED.'
+                    type: string
                   defaultMaxPodsPerNode:
                     description: |-
                       The default maximum number of pods
@@ -14249,10 +15521,22 @@ spec:
                           internal traffic
                         type: boolean
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to "DELETE".
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     type: boolean
                   description:
                     description: Description of the cluster.
+                    type: string
+                  desiredEmulatedVersion:
+                    description: The desired emulated version for the cluster. Used
+                      to complete a rollback-safe upgrade after a soak period. Must
+                      be in major.minor format (e.g., "1.31"). To complete the upgrade
+                      declaratively, set this field to the target minor version. Removing
+                      this field from your configuration will not trigger completion.
                     type: string
                   disableL4LbFirewallReconciliation:
                     description: Disable L4 load balancer VPC firewalls to enable
@@ -14288,6 +15572,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  emulatedVersion:
+                    description: The current emulated Kubernetes version running on
+                      the GKE cluster control plane.
+                    type: string
                   enableAutopilot:
                     description: |-
                       Enable Autopilot for this cluster. Defaults to false.
@@ -14439,6 +15727,13 @@ spec:
                           It is disabled by default. Set enabled=true to enable.
                         type: boolean
                     type: object
+                  ignoreNodeCountChanges:
+                    description: Whether to ignore external changes (drift) to the
+                      GKE node count (e.g. from GKE autoscaling). Setting this to
+                      true skips querying Compute Engine Instance Group Managers (IGMs)
+                      to determine the current node count on read, which can save
+                      API quota and speed up plans on large clusters.
+                    type: boolean
                   inTransitEncryptionConfig:
                     description: Defines the config of in-transit encryption. Valid
                       values are IN_TRANSIT_ENCRYPTION_DISABLED and IN_TRANSIT_ENCRYPTION_INTER_NODE_TRANSPARENT.
@@ -14470,6 +15765,11 @@ spec:
                               items:
                                 type: string
                               type: array
+                            status:
+                              description: |-
+                                Status of the subnetwork. Additional subnet with DRAINING status will not be selected during new node pool creation
+                                Accepted values are:
+                              type: string
                             subnetwork:
                               description: |-
                                 The name or self_link of the Google Compute Engine
@@ -14573,7 +15873,7 @@ spec:
                       enableComponents:
                         description: |-
                           The GKE components exposing logs. Supported values include:
-                          SYSTEM_COMPONENTS, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
+                          SYSTEM_COMPONENTS, KCP_VPA, APISERVER, CONTROLLER_MANAGER, SCHEDULER, and WORKLOADS.
                         items:
                           type: string
                         type: array
@@ -14599,6 +15899,26 @@ spec:
                               Duration will be in RFC3339 format "PTnHnMnS".
                             type: string
                           startTime:
+                            type: string
+                        type: object
+                      disruptionBudget:
+                        description: structure documented below
+                        properties:
+                          lastDisruptionTime:
+                            description: (Output) The last disruption time of the
+                              control plane.
+                            type: string
+                          lastMinorVersionDisruptionTime:
+                            description: (Output) The last minor version disruption
+                              time of the control plane.
+                            type: string
+                          minorVersionDisruptionInterval:
+                            description: The minimum duration between two minor version
+                              upgrades of the control plane.
+                            type: string
+                          patchVersionDisruptionInterval:
+                            description: The minimum duration between two patch version
+                              upgrades of the control plane.
                             type: string
                         type: object
                       maintenanceExclusion:
@@ -14632,12 +15952,63 @@ spec:
                               type: string
                           type: object
                         type: array
+                      recurringMaintenanceWindow:
+                        description: structure documented below
+                        properties:
+                          delayUntil:
+                            description: ':  Specifies the initial date when the recurring
+                              window can start.'
+                            properties:
+                              day:
+                                description: ': The day of the month (integer value
+                                  between 1 and 31).'
+                                type: number
+                              month:
+                                description: ': The month of the year (integer value
+                                  between 1 and 12).'
+                                type: number
+                              year:
+                                description: ': The year (integer value).'
+                                type: number
+                            type: object
+                          recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
+                            type: string
+                          windowDuration:
+                            description: ': The length of each maintenance window
+                              instance. Specified as a sequence of decimal numbers,
+                              each with an optional fraction and a unit suffix, such
+                              as "300s", "1.5m", and "2h45m". Valid time units are
+                              "ns", "us" (or "µs"), "ms", "s", "m", "h". The value
+                              must be a positive duration.'
+                            type: string
+                          windowStartTime:
+                            description: ': The time of day when each maintenance
+                              window instance begins.'
+                            properties:
+                              hours:
+                                description: ': The hour of the day (integer value
+                                  between 0 and 23).'
+                                type: number
+                              minutes:
+                                description: ': The minute of the hour (integer value
+                                  between 0 and 59).'
+                                type: number
+                              seconds:
+                                description: ': The second of the minute (integer
+                                  value between 0 and 59).'
+                                type: number
+                            type: object
+                        type: object
                       recurringWindow:
                         description: structure documented below
                         properties:
                           endTime:
                             type: string
                           recurrence:
+                            description: ': Defines when the window recurs, using
+                              the RFC5545 RRULE format.'
                             type: string
                           startTime:
                             type: string
@@ -14922,6 +16293,88 @@ spec:
                                 description: Whether writable cgroups are enabled.
                                 type: boolean
                             type: object
+                          registryHosts:
+                            description: 'Defines containerd registry host configuration.
+                              Each registry_hosts entry represents a hosts.toml file.
+                              See customize containerd configuration in GKE nodes
+                              for more detail. Example:'
+                            items:
+                              properties:
+                                hosts:
+                                  items:
+                                    properties:
+                                      ca:
+                                        items:
+                                          properties:
+                                            gcpSecretManagerSecretUri:
+                                              description: 'The Google Cloud Secret
+                                                Manager secret version URI for storing
+                                                the init script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                The service account on the nodepool
+                                                must have access to the secret version.
+                                                Conflicts with gcs_uri.'
+                                              type: string
+                                          type: object
+                                        type: array
+                                      capabilities:
+                                        items:
+                                          type: string
+                                        type: array
+                                      client:
+                                        items:
+                                          properties:
+                                            cert:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            key:
+                                              description: Key for taint.
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                          type: object
+                                        type: array
+                                      dialTimeout:
+                                        type: string
+                                      header:
+                                        items:
+                                          properties:
+                                            key:
+                                              description: Key for taint.
+                                              type: string
+                                            value:
+                                              description: Value for taint.
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                      host:
+                                        type: string
+                                      overridePath:
+                                        type: boolean
+                                    type: object
+                                  type: array
+                                server:
+                                  type: string
+                              type: object
+                            type: array
                           writableCgroups:
                             description: 'Configuration for writable cgroups. This
                               allows containers to have a writable /sys/fs/cgroup
@@ -15010,6 +16463,11 @@ spec:
                             description: Whether writable cgroups are enabled.
                             type: boolean
                         type: object
+                      gpudirectStrategy:
+                        description: The type of GPUDirect strategy to enable on the
+                          node. See the GKE network docs for information on available
+                          modes.
+                        type: string
                       guestAccelerator:
                         description: |-
                           List of the type and count of accelerator cards attached to the instance.
@@ -15054,8 +16512,9 @@ spec:
                                   type: number
                               type: object
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         type: array
@@ -15130,6 +16589,22 @@ spec:
                               Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                               is setting the empty string "", which will function identically to not setting this field.
                             type: string
+                          crashLoopBackOff:
+                            description: Contains configuration options to modify
+                              node-level parameters for container restart behavior.
+                              Structure is documented below.
+                            properties:
+                              maxContainerRestartPeriod:
+                                description: The maximum duration the backoff delay
+                                  can accrue to for container restarts. If not set,
+                                  defaults to the internal crashloopbackoff maximum.
+                                  The value must be a positive duration string no
+                                  more than "5m" and no less than "1s", such as "30s",
+                                  "1m30s", "2.5m". Valid time units are "ns", "us"
+                                  (or "µs"), "ms", "s", "m", "h". See Configurable
+                                  container restart delay for more details.
+                                type: string
+                            type: object
                           evictionMaxPodGracePeriodSeconds:
                             description: Defines the maximum allowed grace period
                               (in seconds) to use when terminating pods in response
@@ -15308,6 +16783,21 @@ spec:
                               allowed to run in a pod. The value must be greater than
                               or equal to 1024 and less than 4194304.
                             type: number
+                          shutdownGracePeriodCriticalPodsSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown for critical pods. This value
+                              must be less than or equal to shutdown_grace_period_seconds.
+                              This field can only be configured if the node pool uses
+                              Spot VMs or Preemptible VMs.
+                            type: number
+                          shutdownGracePeriodSeconds:
+                            description: The grace period (in seconds) to use during
+                              a graceful node shutdown. This is the time allocated
+                              for all pods (critical and non-critical) to terminate.
+                              The value must be between 10 and 10000. This field can
+                              only be configured if the node pool uses Spot VMs or
+                              Preemptible VMs.
+                            type: number
                           singleProcessOomKill:
                             description: Defines whether to enable single process
                               OOM killer. If true, the processes in the container
@@ -15348,11 +16838,50 @@ spec:
                         description: Parameters that can be configured on Linux nodes.
                           Structure is documented below.
                         properties:
+                          accurateTimeConfig:
+                            description: Accurate time configuration for the node.
+                              Structure is documented below.
+                            properties:
+                              enablePtpKvmTimeSync:
+                                description: Whether to enable accurate time synchronization
+                                  with PTP-KVM.
+                                type: boolean
+                            type: object
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          customNodeInit:
+                            description: Custom node init settings. Structure is documented
+                              below.
+                            properties:
+                              initScript:
+                                description: The init script configuration. Structure
+                                  is documented below.
+                                properties:
+                                  gcpSecretManagerSecretUri:
+                                    description: 'The Google Cloud Secret Manager
+                                      secret version URI for storing the init script.
+                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                      The service account on the nodepool must have
+                                      access to the secret version. Conflicts with
+                                      gcs_uri.'
+                                    type: string
+                                  gcsGeneration:
+                                    description: The generation of the init script
+                                      in Google Cloud Storage. If gcs_uri is used,
+                                      gcs_generation is required.
+                                    type: number
+                                  gcsUri:
+                                    description: 'The Google Cloud Storage URI for
+                                      storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                      The service account on the nodepool must have
+                                      read access to the object. Conflicts with gcp_secret_manager_secret_uri.
+                                      If gcs_uri is used, gcs_generation is required.'
+                                    type: string
+                                type: object
+                            type: object
                           hugepagesConfig:
                             description: Amounts for 2M and 1G hugepages. Structure
                               is documented below.
@@ -15363,6 +16892,73 @@ spec:
                               hugepageSize2M:
                                 description: Amount of 2M hugepages.
                                 type: number
+                            type: object
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
+                          swapConfig:
+                            description: Swap configuration for the node. Structure
+                              is documented below.
+                            properties:
+                              bootDiskProfile:
+                                description: Swap on the node's boot disk. Structure
+                                  is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
+                              dedicatedLocalSsdProfile:
+                                description: Provisions a new, separate local NVMe
+                                  SSD exclusively for swap. Structure is documented
+                                  below.
+                                properties:
+                                  diskCount:
+                                    description: The number of physical local NVMe
+                                      SSD disks to attach.
+                                    type: number
+                                type: object
+                              enabled:
+                                description: Whether writable cgroups are enabled.
+                                type: boolean
+                              encryptionConfig:
+                                description: If omitted, swap space is encrypted by
+                                  default. Structure is documented below.
+                                properties:
+                                  disabled:
+                                    description: |-
+                                      The status of the Istio addon, which makes it easy to set up Istio for services in a
+                                      cluster. It is disabled by default. Set disabled = false to enable.
+                                    type: boolean
+                                type: object
+                              ephemeralLocalSsdProfile:
+                                description: Swap on the local SSD shared with pod
+                                  ephemeral storage. Structure is documented below.
+                                properties:
+                                  swapSizeGib:
+                                    description: Specifies the size of the swap space
+                                      in gibibytes (GiB).
+                                    type: number
+                                  swapSizePercent:
+                                    description: Specifies the size of the swap space
+                                      as a percentage of the ephemeral local SSD capacity.
+                                    type: number
+                                type: object
                             type: object
                           sysctls:
                             additionalProperties:
@@ -15442,6 +17038,24 @@ spec:
                           pool to run on the specified node group. This is useful
                           for running workloads on sole tenant nodes.
                         type: string
+                      nodeImageConfig:
+                        description: The node image configuration to use for this
+                          node pool. Structure is documented below.
+                        items:
+                          properties:
+                            image:
+                              description: The Operating System image for the node
+                                pool. This is a private feature, please contact your
+                                Google account team for allowlisting this feature.
+                              type: string
+                            imageProject:
+                              description: The GCP project storing the Operating System
+                                image for the node pool. This is a private feature,
+                                please contact your Google account team for allowlisting
+                                this feature.
+                              type: string
+                          type: object
+                        type: array
                       oauthScopes:
                         description: |-
                           The set of Google API scopes to be made available
@@ -15498,6 +17112,17 @@ spec:
                           2. {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                         type: object
                         x-kubernetes-map-type: granular
+                      sandboxConfig:
+                        description: |-
+                          GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                          Structure is documented below.
+                        properties:
+                          type:
+                            description: |-
+                              Which sandbox to use for pods in the node pool.
+                              Accepted values are:
+                            type: string
+                        type: object
                       secondaryBootDisks:
                         description: Parameters for secondary boot disks to preload
                           container images and data on new nodes. Structure is documented
@@ -15605,6 +17230,16 @@ spec:
                               type: string
                           type: object
                         type: array
+                      taintConfig:
+                        description: Taint configuration for the node pool. Structure
+                          is documented below.
+                        properties:
+                          architectureTaintBehavior:
+                            description: Specifies the behavior for applying architecture
+                              taints to node pool nodes. Valid values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                              NONE, or ARM.
+                            type: string
+                        type: object
                       windowsNodeConfig:
                         description: 'Windows node configuration, currently supporting
                           OSVersion attribute. The value must be one of [OS_VERSION_UNSPECIFIED,
@@ -15625,6 +17260,15 @@ spec:
                             type: string
                         type: object
                     type: object
+                  nodeCreationConfig:
+                    description: Configuration for node creation config. Structure
+                      is documented below.
+                    properties:
+                      nodeCreationMode:
+                        description: Sets the node creation mode. Available options
+                          include VIA_KUBELET and VIA_CONTROL_PLANE.
+                        type: string
+                    type: object
                   nodeLocations:
                     description: |-
                       The list of zones in which the cluster's nodes
@@ -15637,8 +17281,7 @@ spec:
                     x-kubernetes-list-type: set
                   nodePool:
                     description: |-
-                      List of node pools associated with this cluster.
-                      See google_container_node_pool for schema.
+                      List of node pools associated with this cluster. Structure is documented below. See google_container_node_pool for exact schema.
                       Warning: node pools defined inside a cluster can't be changed (or added/removed) after
                       cluster creation without deleting and recreating the entire cluster. Unless you absolutely need the ability
                       to say "these are the only node pools associated with this cluster", use the
@@ -15658,6 +17301,14 @@ spec:
                             totalMinNodeCount:
                               type: number
                           type: object
+                        ignoreNodeCountChanges:
+                          description: Whether to ignore external changes (drift)
+                            to the GKE node count (e.g. from GKE autoscaling). Setting
+                            this to true skips querying Compute Engine Instance Group
+                            Managers (IGMs) to determine the current node count on
+                            read, which can save API quota and speed up plans on large
+                            clusters.
+                          type: boolean
                         initialNodeCount:
                           description: |-
                             The number of nodes to create in this
@@ -15670,6 +17321,26 @@ spec:
                         instanceGroupUrls:
                           items:
                             type: string
+                          type: array
+                        maintenancePolicy:
+                          description: |-
+                            The maintenance policy to use for the cluster. Structure is
+                            documented below.
+                          items:
+                            properties:
+                              exclusionUntilEndOfSupport:
+                                items:
+                                  properties:
+                                    enabled:
+                                      description: Whether writable cgroups are enabled.
+                                      type: boolean
+                                    endTime:
+                                      type: string
+                                    startTime:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
                           type: array
                         managedInstanceGroupUrls:
                           items:
@@ -15704,6 +17375,8 @@ spec:
                           type: string
                         networkConfig:
                           properties:
+                            acceleratorNetworkProfile:
+                              type: string
                             additionalNodeNetworkConfigs:
                               items:
                                 properties:
@@ -15771,8 +17444,8 @@ spec:
                               type: string
                           type: object
                         nodeConfig:
-                          description: Parameters used in creating the default node
-                            pool. Structure is documented below.
+                          description: The node configuration of the pool. Structure
+                            is documented below.
                           properties:
                             advancedMachineFeatures:
                               description: |-
@@ -15875,6 +17548,91 @@ spec:
                                       description: Whether writable cgroups are enabled.
                                       type: boolean
                                   type: object
+                                registryHosts:
+                                  description: 'Defines containerd registry host configuration.
+                                    Each registry_hosts entry represents a hosts.toml
+                                    file. See customize containerd configuration in
+                                    GKE nodes for more detail. Example:'
+                                  items:
+                                    properties:
+                                      hosts:
+                                        items:
+                                          properties:
+                                            ca:
+                                              items:
+                                                properties:
+                                                  gcpSecretManagerSecretUri:
+                                                    description: 'The Google Cloud
+                                                      Secret Manager secret version
+                                                      URI for storing the init script.
+                                                      Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                      The service account on the nodepool
+                                                      must have access to the secret
+                                                      version. Conflicts with gcs_uri.'
+                                                    type: string
+                                                type: object
+                                              type: array
+                                            capabilities:
+                                              items:
+                                                type: string
+                                              type: array
+                                            client:
+                                              items:
+                                                properties:
+                                                  cert:
+                                                    properties:
+                                                      gcpSecretManagerSecretUri:
+                                                        description: 'The Google Cloud
+                                                          Secret Manager secret version
+                                                          URI for storing the init
+                                                          script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                          The service account on the
+                                                          nodepool must have access
+                                                          to the secret version. Conflicts
+                                                          with gcs_uri.'
+                                                        type: string
+                                                    type: object
+                                                  key:
+                                                    description: Key for taint.
+                                                    properties:
+                                                      gcpSecretManagerSecretUri:
+                                                        description: 'The Google Cloud
+                                                          Secret Manager secret version
+                                                          URI for storing the init
+                                                          script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                          The service account on the
+                                                          nodepool must have access
+                                                          to the secret version. Conflicts
+                                                          with gcs_uri.'
+                                                        type: string
+                                                    type: object
+                                                type: object
+                                              type: array
+                                            dialTimeout:
+                                              type: string
+                                            header:
+                                              items:
+                                                properties:
+                                                  key:
+                                                    description: Key for taint.
+                                                    type: string
+                                                  value:
+                                                    description: Value for taint.
+                                                    items:
+                                                      type: string
+                                                    type: array
+                                                type: object
+                                              type: array
+                                            host:
+                                              type: string
+                                            overridePath:
+                                              type: boolean
+                                          type: object
+                                        type: array
+                                      server:
+                                        type: string
+                                    type: object
+                                  type: array
                                 writableCgroups:
                                   description: 'Configuration for writable cgroups.
                                     This allows containers to have a writable /sys/fs/cgroup
@@ -15962,6 +17720,11 @@ spec:
                                   description: Whether writable cgroups are enabled.
                                   type: boolean
                               type: object
+                            gpudirectStrategy:
+                              description: The type of GPUDirect strategy to enable
+                                on the node. See the GKE network docs for information
+                                on available modes.
+                              type: string
                             guestAccelerator:
                               description: |-
                                 List of the type and count of accelerator cards attached to the instance.
@@ -16006,8 +17769,9 @@ spec:
                                         type: number
                                     type: object
                                   type:
-                                    description: The accelerator type resource to
-                                      expose to this instance. E.g. nvidia-tesla-k80.
+                                    description: |-
+                                      Which sandbox to use for pods in the node pool.
+                                      Accepted values are:
                                     type: string
                                 type: object
                               type: array
@@ -16037,9 +17801,8 @@ spec:
                                 will delete and recreate all nodes in the node pool.
                               type: string
                             kubeletConfig:
-                              description: |-
-                                Kubelet configuration, currently supported attributes can be found here.
-                                Structure is documented below.
+                              description: Node kubelet configs. Structure is documented
+                                below.
                               properties:
                                 allowedUnsafeSysctls:
                                   description: Defines a comma-separated allowlist
@@ -16083,6 +17846,23 @@ spec:
                                     Prior to the 6.4.0 this field was marked as required. The workaround for the required field
                                     is setting the empty string "", which will function identically to not setting this field.
                                   type: string
+                                crashLoopBackOff:
+                                  description: Contains configuration options to modify
+                                    node-level parameters for container restart behavior.
+                                    Structure is documented below.
+                                  properties:
+                                    maxContainerRestartPeriod:
+                                      description: The maximum duration the backoff
+                                        delay can accrue to for container restarts.
+                                        If not set, defaults to the internal crashloopbackoff
+                                        maximum. The value must be a positive duration
+                                        string no more than "5m" and no less than
+                                        "1s", such as "30s", "1m30s", "2.5m". Valid
+                                        time units are "ns", "us" (or "µs"), "ms",
+                                        "s", "m", "h". See Configurable container
+                                        restart delay for more details.
+                                      type: string
+                                  type: object
                                 evictionMaxPodGracePeriodSeconds:
                                   description: Defines the maximum allowed grace period
                                     (in seconds) to use when terminating pods in response
@@ -16266,6 +18046,21 @@ spec:
                                     allowed to run in a pod. The value must be greater
                                     than or equal to 1024 and less than 4194304.
                                   type: number
+                                shutdownGracePeriodCriticalPodsSeconds:
+                                  description: The grace period (in seconds) to use
+                                    during a graceful node shutdown for critical pods.
+                                    This value must be less than or equal to shutdown_grace_period_seconds.
+                                    This field can only be configured if the node
+                                    pool uses Spot VMs or Preemptible VMs.
+                                  type: number
+                                shutdownGracePeriodSeconds:
+                                  description: The grace period (in seconds) to use
+                                    during a graceful node shutdown. This is the time
+                                    allocated for all pods (critical and non-critical)
+                                    to terminate. The value must be between 10 and
+                                    10000. This field can only be configured if the
+                                    node pool uses Spot VMs or Preemptible VMs.
+                                  type: number
                                 singleProcessOomKill:
                                   description: Defines whether to enable single process
                                     OOM killer. If true, the processes in the container
@@ -16306,14 +18101,55 @@ spec:
                             linuxNodeConfig:
                               description: Linux system configuration for the cluster's
                                 automatically provisioned node pools. Only cgroup_mode
-                                field is supported in node_pool_auto_config. Structure
-                                is documented below.
+                                and node_kernel_module_loading fields are supported
+                                in node_pool_auto_config. Structure is documented
+                                below.
                               properties:
+                                accurateTimeConfig:
+                                  description: Accurate time configuration for the
+                                    node. Structure is documented below.
+                                  properties:
+                                    enablePtpKvmTimeSync:
+                                      description: Whether to enable accurate time
+                                        synchronization with PTP-KVM.
+                                      type: boolean
+                                  type: object
                                 cgroupMode:
                                   description: |-
                                     Possible cgroup modes that can be used.
                                     Accepted values are:
                                   type: string
+                                customNodeInit:
+                                  description: Custom node init settings. Structure
+                                    is documented below.
+                                  properties:
+                                    initScript:
+                                      description: The init script configuration.
+                                        Structure is documented below.
+                                      properties:
+                                        gcpSecretManagerSecretUri:
+                                          description: 'The Google Cloud Secret Manager
+                                            secret version URI for storing the init
+                                            script. Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                            The service account on the nodepool must
+                                            have access to the secret version. Conflicts
+                                            with gcs_uri.'
+                                          type: string
+                                        gcsGeneration:
+                                          description: The generation of the init
+                                            script in Google Cloud Storage. If gcs_uri
+                                            is used, gcs_generation is required.
+                                          type: number
+                                        gcsUri:
+                                          description: 'The Google Cloud Storage URI
+                                            for storing the init script. Format: gs://BUCKET_NAME/OBJECT_NAME.
+                                            The service account on the nodepool must
+                                            have read access to the object. Conflicts
+                                            with gcp_secret_manager_secret_uri. If
+                                            gcs_uri is used, gcs_generation is required.'
+                                          type: string
+                                      type: object
+                                  type: object
                                 hugepagesConfig:
                                   description: Amounts for 2M and 1G hugepages. Structure
                                     is documented below.
@@ -16324,6 +18160,76 @@ spec:
                                     hugepageSize2M:
                                       description: Amount of 2M hugepages.
                                       type: number
+                                  type: object
+                                nodeKernelModuleLoading:
+                                  description: Settings for kernel module loading.
+                                    Structure is documented below.
+                                  properties:
+                                    policy:
+                                      description: 'The Topology Manager policy controls
+                                        resource alignment on the node and can be
+                                        set to one of the following: none (default),
+                                        best-effort, restricted, or single-numa-node.  If
+                                        unset (or set to the empty string ""), the
+                                        API will treat the field as if set to "none".'
+                                      type: string
+                                  type: object
+                                swapConfig:
+                                  description: Swap configuration for the node. Structure
+                                    is documented below.
+                                  properties:
+                                    bootDiskProfile:
+                                      description: Swap on the node's boot disk. Structure
+                                        is documented below.
+                                      properties:
+                                        swapSizeGib:
+                                          description: Specifies the size of the swap
+                                            space in gibibytes (GiB).
+                                          type: number
+                                        swapSizePercent:
+                                          description: Specifies the size of the swap
+                                            space as a percentage of the ephemeral
+                                            local SSD capacity.
+                                          type: number
+                                      type: object
+                                    dedicatedLocalSsdProfile:
+                                      description: Provisions a new, separate local
+                                        NVMe SSD exclusively for swap. Structure is
+                                        documented below.
+                                      properties:
+                                        diskCount:
+                                          description: The number of physical local
+                                            NVMe SSD disks to attach.
+                                          type: number
+                                      type: object
+                                    enabled:
+                                      description: Whether writable cgroups are enabled.
+                                      type: boolean
+                                    encryptionConfig:
+                                      description: If omitted, swap space is encrypted
+                                        by default. Structure is documented below.
+                                      properties:
+                                        disabled:
+                                          description: |-
+                                            The status of the Istio addon, which makes it easy to set up Istio for services in a
+                                            cluster. It is disabled by default. Set disabled = false to enable.
+                                          type: boolean
+                                      type: object
+                                    ephemeralLocalSsdProfile:
+                                      description: Swap on the local SSD shared with
+                                        pod ephemeral storage. Structure is documented
+                                        below.
+                                      properties:
+                                        swapSizeGib:
+                                          description: Specifies the size of the swap
+                                            space in gibibytes (GiB).
+                                          type: number
+                                        swapSizePercent:
+                                          description: Specifies the size of the swap
+                                            space as a percentage of the ephemeral
+                                            local SSD capacity.
+                                          type: number
+                                      type: object
                                   type: object
                                 sysctls:
                                   additionalProperties:
@@ -16404,6 +18310,25 @@ spec:
                                 of this pool to run on the specified node group. This
                                 is useful for running workloads on sole tenant nodes.
                               type: string
+                            nodeImageConfig:
+                              description: The node image configuration to use for
+                                this node pool. Structure is documented below.
+                              items:
+                                properties:
+                                  image:
+                                    description: The Operating System image for the
+                                      node pool. This is a private feature, please
+                                      contact your Google account team for allowlisting
+                                      this feature.
+                                    type: string
+                                  imageProject:
+                                    description: The GCP project storing the Operating
+                                      System image for the node pool. This is a private
+                                      feature, please contact your Google account
+                                      team for allowlisting this feature.
+                                    type: string
+                                type: object
+                              type: array
                             oauthScopes:
                               description: |-
                                 The set of Google API scopes to be made available
@@ -16460,6 +18385,17 @@ spec:
                                 {org_id}/{tag_key_name}={tag_value_name} 3. {project_id}/{tag_key_name}={tag_value_name}.
                               type: object
                               x-kubernetes-map-type: granular
+                            sandboxConfig:
+                              description: |-
+                                GKE Sandbox configuration. When enabling this feature you must specify image_type = "COS_CONTAINERD" and node_version = "1.12.7-gke.17" or later to use it.
+                                Structure is documented below.
+                              properties:
+                                type:
+                                  description: |-
+                                    Which sandbox to use for pods in the node pool.
+                                    Accepted values are:
+                                  type: string
+                              type: object
                             secondaryBootDisks:
                               description: Parameters for secondary boot disks to
                                 preload container images and data on new nodes. Structure
@@ -16571,6 +18507,17 @@ spec:
                                     type: string
                                 type: object
                               type: array
+                            taintConfig:
+                              description: Taint configuration for the node pool.
+                                Structure is documented below.
+                              properties:
+                                architectureTaintBehavior:
+                                  description: Specifies the behavior for applying
+                                    architecture taints to node pool nodes. Valid
+                                    values are ARCHITECTURE_TAINT_BEHAVIOR_UNSPECIFIED,
+                                    NONE, or ARM.
+                                  type: string
+                              type: object
                             windowsNodeConfig:
                               description: 'Windows node configuration, currently
                                 supporting OSVersion attribute. The value must be
@@ -16594,6 +18541,17 @@ spec:
                           type: object
                         nodeCount:
                           type: number
+                        nodeDrainConfig:
+                          items:
+                            properties:
+                              graceTerminationDuration:
+                                type: string
+                              pdbTimeoutDuration:
+                                type: string
+                              respectPdbDuringNodePoolDeletion:
+                                type: boolean
+                            type: object
+                          type: array
                         nodeLocations:
                           description: |-
                             The list of zones in which the cluster's nodes
@@ -16614,8 +18572,9 @@ spec:
                             tpuTopology:
                               type: string
                             type:
-                              description: The accelerator type resource to expose
-                                to this instance. E.g. nvidia-tesla-k80.
+                              description: |-
+                                Which sandbox to use for pods in the node pool.
+                                Accepted values are:
                               type: string
                           type: object
                         queuedProvisioning:
@@ -16695,15 +18654,28 @@ spec:
                     properties:
                       linuxNodeConfig:
                         description: Linux system configuration for the cluster's
-                          automatically provisioned node pools. Only cgroup_mode field
-                          is supported in node_pool_auto_config. Structure is documented
-                          below.
+                          automatically provisioned node pools. Only cgroup_mode and
+                          node_kernel_module_loading fields are supported in node_pool_auto_config.
+                          Structure is documented below.
                         properties:
                           cgroupMode:
                             description: |-
                               Possible cgroup modes that can be used.
                               Accepted values are:
                             type: string
+                          nodeKernelModuleLoading:
+                            description: Settings for kernel module loading. Structure
+                              is documented below.
+                            properties:
+                              policy:
+                                description: 'The Topology Manager policy controls
+                                  resource alignment on the node and can be set to
+                                  one of the following: none (default), best-effort,
+                                  restricted, or single-numa-node.  If unset (or set
+                                  to the empty string ""), the API will treat the
+                                  field as if set to "none".'
+                                type: string
+                            type: object
                         type: object
                       networkTags:
                         description: The network tag config for the cluster's automatically
@@ -16781,6 +18753,91 @@ spec:
                                     description: Whether writable cgroups are enabled.
                                     type: boolean
                                 type: object
+                              registryHosts:
+                                description: 'Defines containerd registry host configuration.
+                                  Each registry_hosts entry represents a hosts.toml
+                                  file. See customize containerd configuration in
+                                  GKE nodes for more detail. Example:'
+                                items:
+                                  properties:
+                                    hosts:
+                                      items:
+                                        properties:
+                                          ca:
+                                            items:
+                                              properties:
+                                                gcpSecretManagerSecretUri:
+                                                  description: 'The Google Cloud Secret
+                                                    Manager secret version URI for
+                                                    storing the init script. Format:
+                                                    projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                    The service account on the nodepool
+                                                    must have access to the secret
+                                                    version. Conflicts with gcs_uri.'
+                                                  type: string
+                                              type: object
+                                            type: array
+                                          capabilities:
+                                            items:
+                                              type: string
+                                            type: array
+                                          client:
+                                            items:
+                                              properties:
+                                                cert:
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                                key:
+                                                  description: Key for taint.
+                                                  properties:
+                                                    gcpSecretManagerSecretUri:
+                                                      description: 'The Google Cloud
+                                                        Secret Manager secret version
+                                                        URI for storing the init script.
+                                                        Format: projects/PROJECT_ID/secrets/SECRET_NAME/versions/VERSION.
+                                                        The service account on the
+                                                        nodepool must have access
+                                                        to the secret version. Conflicts
+                                                        with gcs_uri.'
+                                                      type: string
+                                                  type: object
+                                              type: object
+                                            type: array
+                                          dialTimeout:
+                                            type: string
+                                          header:
+                                            items:
+                                              properties:
+                                                key:
+                                                  description: Key for taint.
+                                                  type: string
+                                                value:
+                                                  description: Value for taint.
+                                                  items:
+                                                    type: string
+                                                  type: array
+                                              type: object
+                                            type: array
+                                          host:
+                                            type: string
+                                          overridePath:
+                                            type: boolean
+                                        type: object
+                                      type: array
+                                    server:
+                                      type: string
+                                  type: object
+                                type: array
                               writableCgroups:
                                 description: 'Configuration for writable cgroups.
                                   This allows containers to have a writable /sys/fs/cgroup
@@ -17008,6 +19065,19 @@ spec:
                           billing export. Defaults to true.
                         type: boolean
                     type: object
+                  rollbackSafeUpgrade:
+                    description: Configuration for rollback-safe (two-step) upgrades.
+                      Structure is documented below.
+                    properties:
+                      controlPlaneSoakDuration:
+                        description: 'A user-defined period that the cluster remains
+                          in the rollbackable state. A duration in seconds with up
+                          to nine fractional digits, ending with ''s''. Example: "604800s"
+                          for 7 days. Minimum is 6 hours, maximum is 7 days. If omitted,
+                          the two-step upgrade is skipped and a standard one-step
+                          upgrade is performed.'
+                        type: string
+                    type: object
                   secretManagerConfig:
                     description: |-
                       Configuration for the
@@ -17019,11 +19089,35 @@ spec:
                         type: boolean
                       rotationConfig:
                         description: config for secret manager auto rotation. Structure
-                          is docuemented below
+                          is documented below
                         properties:
                           enabled:
                             description: Enable the roation in Secret Manager add-on
                               for this cluster.
+                            type: boolean
+                          rotationInterval:
+                            description: The interval between two consecutive rotations.
+                              Default rotation interval is 2 minutes.
+                            type: string
+                        type: object
+                    type: object
+                  secretSyncConfig:
+                    description: |-
+                      Configuration for the
+                      SecretSyncConfig feature.
+                      Structure is documented below.
+                    properties:
+                      enabled:
+                        description: Enable the Sync as K8s secret feature for this
+                          cluster.
+                        type: boolean
+                      rotationConfig:
+                        description: config for secret sync auto rotation. Structure
+                          is docuemented below
+                        properties:
+                          enabled:
+                            description: Enable the roation in Sync as K8s secret
+                              feature for this cluster.
                             type: boolean
                           rotationInterval:
                             description: The interval between two consecutive rotations.
@@ -17065,6 +19159,15 @@ spec:
                       notation (e.g. 1.2.3.4/29). Service addresses are typically put in the last
                       /16 from the container CIDR.
                     type: string
+                  skipNodePoolRefresh:
+                    description: Whether to skip refreshing the GKE cluster's inline
+                      node pool list during read operations. Setting this to true
+                      prevents the provider from querying GKE API for node pools,
+                      resolving long plan times on clusters with a large number of
+                      node pools. This flag cannot be set to true if you define inline
+                      node_pool blocks in your configuration; doing so will result
+                      in a validation error during plan.
+                    type: boolean
                   subnetwork:
                     description: |-
                       The name or self_link of the Google Compute Engine
@@ -17099,6 +19202,11 @@ spec:
                         description: The Cloud KMS cryptoKey to use for Confidential
                           Hyperdisk on the control plane nodes.
                         type: string
+                      controlPlaneDiskEncryptionKeyVersions:
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
                       etcdApiCa:
                         description: The Certificate Authority Service caPool to use
                           for the etcd API CA in this cluster.

@@ -82,6 +82,11 @@ spec:
                       to the shared DNS {region}-aiplatform.googleapis.com. The limitation
                       will be removed soon.'
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the Endpoint.
                     type: string
@@ -303,6 +308,11 @@ spec:
                       to the shared DNS {region}-aiplatform.googleapis.com. The limitation
                       will be removed soon.'
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The description of the Endpoint.
                     type: string
@@ -610,6 +620,11 @@ spec:
                       to the shared DNS {region}-aiplatform.googleapis.com. The limitation
                       will be removed soon.'
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deployedModels:
                     description: |-
                       Output only. The models deployed in this Endpoint. To add or remove DeployedModels use EndpointService.DeployModel and EndpointService.UndeployModel respectively. Models can also be deployed and undeployed using the Cloud Console.

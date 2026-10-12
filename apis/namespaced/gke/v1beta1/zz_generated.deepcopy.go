@@ -73,6 +73,11 @@ func (in *BackupBackupPlanInitParameters) DeepCopyInto(out *BackupBackupPlanInit
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -171,6 +176,11 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 		*out = new(bool)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Description != nil {
 		in, out := &in.Description, &out.Description
 		*out = new(string)
@@ -226,6 +236,11 @@ func (in *BackupBackupPlanObservation) DeepCopyInto(out *BackupBackupPlanObserva
 	if in.Project != nil {
 		in, out := &in.Project, &out.Project
 		*out = new(string)
+		**out = **in
+	}
+	if in.ProtectedNamespaceCount != nil {
+		in, out := &in.ProtectedNamespaceCount, &out.ProtectedNamespaceCount
+		*out = new(float64)
 		**out = **in
 	}
 	if in.ProtectedPodCount != nil {
@@ -312,6 +327,11 @@ func (in *BackupBackupPlanParameters) DeepCopyInto(out *BackupBackupPlanParamete
 	if in.Deactivated != nil {
 		in, out := &in.Deactivated, &out.Deactivated
 		*out = new(bool)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
 		**out = **in
 	}
 	if in.Description != nil {

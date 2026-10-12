@@ -221,8 +221,16 @@ type ReservationInitParameters struct {
 	// Cannot be used with delete_after_duration.
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *ReservationParamsInitParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -289,6 +297,8 @@ type ReservationMaintenanceParameters struct {
 }
 
 type ReservationObservation struct {
+
+	// List of all reservation block names in the parent reservation.
 	BlockNames []*string `json:"blockNames,omitempty" tf:"block_names,omitempty"`
 
 	// Full or partial URL to a parent commitment. This field displays for
@@ -306,6 +316,10 @@ type ReservationObservation struct {
 	// Cannot be used with delete_after_duration.
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -317,6 +331,10 @@ type ReservationObservation struct {
 
 	// Full or partial URL to parent commitments. This field displays for reservations that are tied to multiple commitments.
 	LinkedCommitments []*string `json:"linkedCommitments,omitempty" tf:"linked_commitments,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	Params *ReservationParamsObservation `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -371,9 +389,19 @@ type ReservationParameters struct {
 	// +kubebuilder:validation:Optional
 	DeleteAtTime *string `json:"deleteAtTime,omitempty" tf:"delete_at_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// Additional params passed with the request, but not persisted as part of resource payload
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Params *ReservationParamsParameters `json:"params,omitempty" tf:"params,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -404,6 +432,34 @@ type ReservationParameters struct {
 	// The zone where the reservation is made.
 	// +kubebuilder:validation:Required
 	Zone *string `json:"zone" tf:"zone,omitempty"`
+}
+
+type ReservationParamsInitParameters struct {
+
+	// Resource manager tags to be bound to the reservation. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ReservationParamsObservation struct {
+
+	// Resource manager tags to be bound to the reservation. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
+}
+
+type ReservationParamsParameters struct {
+
+	// Resource manager tags to be bound to the reservation. Tag keys and values have the
+	// same definition as resource manager tags. Keys must be in the format tagKeys/{tag_key_id},
+	// and values are in the format tagValues/456.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	ResourceManagerTags map[string]*string `json:"resourceManagerTags,omitempty" tf:"resource_manager_tags,omitempty"`
 }
 
 type ReservationShareSettingsInitParameters struct {

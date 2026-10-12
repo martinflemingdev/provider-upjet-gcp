@@ -15,6 +15,10 @@ import (
 
 type NetworkPeeringInitParameters struct {
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Whether to export the custom routes to the peer network. Defaults to false.
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
 
@@ -49,6 +53,10 @@ type NetworkPeeringInitParameters struct {
 }
 
 type NetworkPeeringObservation struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether to export the custom routes to the peer network. Defaults to false.
 	ExportCustomRoutes *bool `json:"exportCustomRoutes,omitempty" tf:"export_custom_routes,omitempty"`
@@ -87,6 +95,11 @@ type NetworkPeeringObservation struct {
 }
 
 type NetworkPeeringParameters struct {
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Whether to export the custom routes to the peer network. Defaults to false.
 	// +kubebuilder:validation:Optional

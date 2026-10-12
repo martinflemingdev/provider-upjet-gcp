@@ -32,6 +32,25 @@ type InstanceFlexibilityPolicyParameters struct {
 	InstanceSelections []InstanceSelectionsParameters `json:"instanceSelections,omitempty" tf:"instance_selections,omitempty"`
 }
 
+type InstanceLifecyclePolicyOnRepairInitParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type InstanceLifecyclePolicyOnRepairObservation struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
+type InstanceLifecyclePolicyOnRepairParameters struct {
+
+	// , Specifies whether the MIG can change a VM's zone during a repair. If "YES", MIG can select a different zone for the VM during a repair. Else if "NO", MIG cannot change a VM's zone during a repair. The default value of allow_changing_zone is "NO".
+	// +kubebuilder:validation:Optional
+	AllowChangingZone *string `json:"allowChangingZone,omitempty" tf:"allow_changing_zone,omitempty"`
+}
+
 type InstanceSelectionsInitParameters struct {
 
 	// , A list of full machine-type names, e.g. "n1-standard-16".
@@ -180,6 +199,10 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// name.
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
 
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -222,6 +245,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// The region where the managed instance group resides. If not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Resource policies for this managed instance group. Structure is documented below.
+	ResourcePolicies *RegionInstanceGroupManagerResourcePoliciesInitParameters `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
 	StandbyPolicy *RegionInstanceGroupManagerStandbyPolicyInitParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
 
@@ -256,6 +282,9 @@ type RegionInstanceGroupManagerInitParameters struct {
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyInitParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
 
@@ -288,6 +317,12 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyInitParameters struct {
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *InstanceLifecyclePolicyOnRepairInitParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
@@ -297,6 +332,12 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyObservation struct {
 
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	OnRepair *InstanceLifecyclePolicyOnRepairObservation `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
@@ -308,6 +349,14 @@ type RegionInstanceGroupManagerInstanceLifecyclePolicyParameters struct {
 	// , Specifies whether to apply the group's latest configuration when repairing a VM. Valid options are: YES, NO. If YES and you updated the group's instance template or per-instance configurations after the VM was created, then these changes are applied when VM is repaired. If NO (default), then updates are applied in accordance with the group's update policy type.
 	// +kubebuilder:validation:Optional
 	ForceUpdateOnRepair *string `json:"forceUpdateOnRepair,omitempty" tf:"force_update_on_repair,omitempty"`
+
+	// , Specifies the action that a MIG performs on an unhealthy VM. A VM is marked as unhealthy when the application running on that VM fails a health check. Valid options are: DEFAULT_ACTION, DO_NOTHING, REPAIR. If DEFAULT_ACTION (default), then MIG uses the same action configured for the  default_action_on_failure field. If DO_NOTHING, then MIG does not repair unhealthy VM. If REPAIR, then MIG automatically repairs an unhealthy VM by recreating it. For more information, see about repairing VMs in a MIG.
+	// +kubebuilder:validation:Optional
+	OnFailedHealthCheck *string `json:"onFailedHealthCheck,omitempty" tf:"on_failed_health_check,omitempty"`
+
+	// , Configuration for VM repairs in the MIG. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	OnRepair *InstanceLifecyclePolicyOnRepairParameters `json:"onRepair,omitempty" tf:"on_repair,omitempty"`
 }
 
 type RegionInstanceGroupManagerNamedPortInitParameters struct {
@@ -360,6 +409,10 @@ type RegionInstanceGroupManagerObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the instance
 	// group manager.
@@ -415,6 +468,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// The region where the managed instance group resides. If not provided, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Resource policies for this managed instance group. Structure is documented below.
+	ResourcePolicies *RegionInstanceGroupManagerResourcePoliciesObservation `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The URL of the created resource.
 	SelfLink *string `json:"selfLink,omitempty" tf:"self_link,omitempty"`
 
@@ -443,6 +499,9 @@ type RegionInstanceGroupManagerObservation struct {
 	// when using one. If a value is required, such as to specify a creation-time target size for the MIG,
 	// lifecycle. Defaults to 0.
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
+
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyObservation `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
 
 	// The target number of stopped instances for this managed instance group.
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
@@ -490,6 +549,11 @@ type RegionInstanceGroupManagerParameters struct {
 	// name.
 	// +kubebuilder:validation:Optional
 	BaseInstanceName *string `json:"baseInstanceName,omitempty" tf:"base_instance_name,omitempty"`
+
+	// Defaults to "DELETE".
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the instance
 	// group manager.
@@ -543,6 +607,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
+	// Resource policies for this managed instance group. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	ResourcePolicies *RegionInstanceGroupManagerResourcePoliciesParameters `json:"resourcePolicies,omitempty" tf:"resource_policies,omitempty"`
+
 	// The standby policy for stopped and suspended instances. Structure is documented below. For more information, see the official documentation.
 	// +kubebuilder:validation:Optional
 	StandbyPolicy *RegionInstanceGroupManagerStandbyPolicyParameters `json:"standbyPolicy,omitempty" tf:"standby_policy,omitempty"`
@@ -583,6 +651,10 @@ type RegionInstanceGroupManagerParameters struct {
 	// +kubebuilder:validation:Optional
 	TargetSize *float64 `json:"targetSize,omitempty" tf:"target_size,omitempty"`
 
+	// The policy that specifies how the MIG creates its VMs to achieve the target size. Structure is documented below.
+	// +kubebuilder:validation:Optional
+	TargetSizePolicy []RegionInstanceGroupManagerTargetSizePolicyParameters `json:"targetSizePolicy,omitempty" tf:"target_size_policy,omitempty"`
+
 	// The target number of stopped instances for this managed instance group.
 	// +kubebuilder:validation:Optional
 	TargetStoppedSize *float64 `json:"targetStoppedSize,omitempty" tf:"target_stopped_size,omitempty"`
@@ -612,6 +684,25 @@ type RegionInstanceGroupManagerParameters struct {
 	// instances to be stable before returning. The possible values are STABLE and UPDATED
 	// +kubebuilder:validation:Optional
 	WaitForInstancesStatus *string `json:"waitForInstancesStatus,omitempty" tf:"wait_for_instances_status,omitempty"`
+}
+
+type RegionInstanceGroupManagerResourcePoliciesInitParameters struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
+}
+
+type RegionInstanceGroupManagerResourcePoliciesObservation struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
+}
+
+type RegionInstanceGroupManagerResourcePoliciesParameters struct {
+
+	// The URL of the workload policy that is specified for this managed instance group. It can be a full or partial URL.
+	// +kubebuilder:validation:Optional
+	WorkloadPolicy *string `json:"workloadPolicy,omitempty" tf:"workload_policy,omitempty"`
 }
 
 type RegionInstanceGroupManagerStandbyPolicyInitParameters struct {
@@ -764,6 +855,25 @@ type RegionInstanceGroupManagerStatusObservation struct {
 }
 
 type RegionInstanceGroupManagerStatusParameters struct {
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyInitParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyObservation struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+}
+
+type RegionInstanceGroupManagerTargetSizePolicyParameters struct {
+
+	// The mode of target size policy based on which the MIG creates its VMs individually or all at once. Values: "BULK", "INDIVIDUAL".
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode" tf:"mode,omitempty"`
 }
 
 type RegionInstanceGroupManagerUpdatePolicyInitParameters struct {

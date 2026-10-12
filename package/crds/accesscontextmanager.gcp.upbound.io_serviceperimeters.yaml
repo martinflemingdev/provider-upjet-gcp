@@ -3017,6 +3017,11 @@ spec:
                 type: string
               forProvider:
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       Description of the ServicePerimeter and its use. Does not affect
@@ -3208,6 +3213,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -3349,6 +3366,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -3457,6 +3486,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -3470,6 +3534,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   status:
@@ -3627,6 +3698,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -3844,6 +3927,18 @@ spec:
                                                 type: string
                                             type: object
                                         type: object
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -3952,6 +4047,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -3965,6 +4095,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   title:
@@ -3996,6 +4133,11 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       Description of the ServicePerimeter and its use. Does not affect
@@ -4187,6 +4329,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -4328,6 +4482,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -4436,6 +4602,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -4449,6 +4650,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   status:
@@ -4606,6 +4814,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -4823,6 +5043,18 @@ spec:
                                                 type: string
                                             type: object
                                         type: object
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -4931,6 +5163,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -4944,6 +5211,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   title:
@@ -5069,6 +5343,11 @@ spec:
                   createTime:
                     description: Time the AccessPolicy was created in UTC.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: |-
                       Description of the ServicePerimeter and its use. Does not affect
@@ -5184,6 +5463,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -5325,6 +5616,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -5433,6 +5736,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -5446,6 +5784,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   status:
@@ -5524,6 +5869,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -5665,6 +6022,18 @@ spec:
                                           Example accessPolicies/MY_POLICY/accessLevels/MY_LEVEL.
                                           If * is specified, then all IngressSources will be allowed.
                                         type: string
+                                      pscEndpoint:
+                                        description: |-
+                                          A Private Service Connect endpoint that is allowed to access the perimeter.
+                                          The Private Service Connect endpoint may be in any organization, not just the organization that the perimeter is defined in.
+                                          Structure is documented below.
+                                        properties:
+                                          forwardingRule:
+                                            description: |-
+                                              The full resource name of the global forwarding rule that identifies a Private Service Connect endpoint.
+                                              Forwarding rule format: //compute.googleapis.com/projects/{PROJECT_ID}/global/forwardingRules/{FORWARDING_RULE_ID}.
+                                            type: string
+                                        type: object
                                       resource:
                                         description: |-
                                           A Google Cloud resource that is allowed to ingress the perimeter.
@@ -5773,6 +6142,41 @@ spec:
                           Perimeter.
                           Structure is documented below.
                         properties:
+                          allowedServicePatterns:
+                            description: |-
+                              Specifies which Google services are allowed to be accessed from
+                              VPC networks in the service perimeter.
+                              Structure is documented below.
+                            items:
+                              properties:
+                                modifiers:
+                                  description: |-
+                                    Modifiers to apply to the requests that match the URL pattern.
+                                    Structure is documented below.
+                                  items:
+                                    properties:
+                                      addRequestHeader:
+                                        description: |-
+                                          Adds additional HTTP request headers.
+                                          Structure is documented below.
+                                        properties:
+                                          key:
+                                            description: HTTP header key.
+                                            type: string
+                                          value:
+                                            description: HTTP header value.
+                                            type: string
+                                        type: object
+                                    type: object
+                                  type: array
+                                pattern:
+                                  description: URL pattern to allow.
+                                  type: string
+                                service:
+                                  description: Supported service to allow.
+                                  type: string
+                              type: object
+                            type: array
                           allowedServices:
                             description: |-
                               The list of APIs usable within the Service Perimeter.
@@ -5786,6 +6190,13 @@ spec:
                               Whether to restrict API calls within the Service Perimeter to the
                               list of APIs specified in 'allowedServices'.
                             type: boolean
+                          servicePatternsEnforcementScopes:
+                            description: |-
+                              Defines the enforcement scopes of service patterns.
+                              Each value may be one of: GOOGLE_APIS_VIA_PRIVATE_PATH.
+                            items:
+                              type: string
+                            type: array
                         type: object
                     type: object
                   title:

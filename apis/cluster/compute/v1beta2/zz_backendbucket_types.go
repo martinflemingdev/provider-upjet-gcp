@@ -38,6 +38,10 @@ type BackendBucketInitParameters struct {
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -92,6 +96,10 @@ type BackendBucketObservation struct {
 
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.
@@ -153,6 +161,11 @@ type BackendBucketParameters struct {
 	// Headers that the HTTP/S load balancer should add to proxied responses.
 	// +kubebuilder:validation:Optional
 	CustomResponseHeaders []*string `json:"customResponseHeaders,omitempty" tf:"custom_response_headers,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional textual description of the resource; provided by the
 	// client when the resource is created.

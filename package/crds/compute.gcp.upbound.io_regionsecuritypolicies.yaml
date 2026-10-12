@@ -120,6 +120,11 @@ spec:
                           to help protect systems against DDoS attacks:'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -583,6 +588,11 @@ spec:
                           to help protect systems against DDoS attacks:'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.
@@ -1118,6 +1128,11 @@ spec:
                           to help protect systems against DDoS attacks:'
                         type: string
                     type: object
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource. Provide
                       this property when you create the resource.

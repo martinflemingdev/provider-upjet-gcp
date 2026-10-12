@@ -971,6 +971,10 @@ type EndpointConfigPrivateServiceConnectConfigParameters struct {
 
 type EndpointWithModelGardenDeploymentInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The deploy config to use for the deployment.
 	// Structure is documented below.
 	DeployConfig *DeployConfigInitParameters `json:"deployConfig,omitempty" tf:"deploy_config,omitempty"`
@@ -1002,6 +1006,10 @@ type EndpointWithModelGardenDeploymentInitParameters struct {
 }
 
 type EndpointWithModelGardenDeploymentObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The deploy config to use for the deployment.
 	// Structure is documented below.
@@ -1049,6 +1057,11 @@ type EndpointWithModelGardenDeploymentObservation struct {
 }
 
 type EndpointWithModelGardenDeploymentParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The deploy config to use for the deployment.
 	// Structure is documented below.

@@ -136,6 +136,11 @@ spec:
                       If true, the cleanup pipeline is prevented from deleting versions in this
                       repository.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -378,6 +383,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-
@@ -755,6 +764,11 @@ spec:
                       If true, the cleanup pipeline is prevented from deleting versions in this
                       repository.
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -988,6 +1002,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-
@@ -1423,6 +1441,11 @@ spec:
                   createTime:
                     description: The time when the repository was created.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: The user-provided description of the repository.
                     type: string
@@ -1600,6 +1623,10 @@ spec:
                               One of the publicly available Yum repositories supported by Artifact Registry.
                               Structure is documented below.
                             type: string
+                        type: object
+                      noCache:
+                        description: The repository will act as a non-caching proxy
+                          (connector mode).
                         type: object
                       npmRepository:
                         description: |-

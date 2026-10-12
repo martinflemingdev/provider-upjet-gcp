@@ -91,6 +91,9 @@ type ContainersInitParameters struct {
 	// Structure is documented below.
 	Resources *ResourcesInitParameters `json:"resources,omitempty" tf:"resources,omitempty"`
 
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
+
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
 	// succeeds. Container will not be added to service endpoints if the probe fails.
@@ -152,6 +155,9 @@ type ContainersObservation struct {
 	// Compute Resources required by this container. Used to set values such as max memory
 	// Structure is documented below.
 	Resources *ResourcesObservation `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -224,6 +230,10 @@ type ContainersParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	Resources *ResourcesParameters `json:"resources,omitempty" tf:"resources,omitempty"`
+
+	// Indicates that this container can act as a sandbox supervisor and launch sandboxes.
+	// +kubebuilder:validation:Optional
+	SandboxLauncher *bool `json:"sandboxLauncher,omitempty" tf:"sandbox_launcher,omitempty"`
 
 	// Startup probe of application within the container.
 	// All other probes are disabled if a startup probe is provided, until it
@@ -1210,6 +1220,10 @@ type ServiceInitParameters struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Metadata associated with this Service, including name, namespace, labels,
 	// and annotations.
 	// Structure is documented below.
@@ -1363,6 +1377,10 @@ type ServiceObservation struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// an identifier for the resource with format locations/{{location}}/namespaces/{{project}}/services/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -1409,6 +1427,11 @@ type ServiceParameters struct {
 	// this field is set to false, the revision name will still autogenerate.)
 	// +kubebuilder:validation:Optional
 	AutogenerateRevisionName *bool `json:"autogenerateRevisionName,omitempty" tf:"autogenerate_revision_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The location of the cloud run instance. eg us-central1
 	// +kubebuilder:validation:Required

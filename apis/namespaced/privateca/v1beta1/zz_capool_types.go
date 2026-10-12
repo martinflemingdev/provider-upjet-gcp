@@ -369,6 +369,10 @@ type CAOptionsParameters struct {
 
 type CAPoolInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Used when customer would like to encrypt data at rest. The customer-provided key will be used
 	// to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,
 	// customer data will remain unencrypted.
@@ -399,6 +403,10 @@ type CAPoolInitParameters struct {
 }
 
 type CAPoolObservation struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -446,6 +454,11 @@ type CAPoolObservation struct {
 }
 
 type CAPoolParameters struct {
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Used when customer would like to encrypt data at rest. The customer-provided key will be used
 	// to encrypt the Subject, SubjectAltNames and PEM-encoded certificate fields. When unspecified,

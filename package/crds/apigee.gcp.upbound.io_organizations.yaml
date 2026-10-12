@@ -987,6 +987,11 @@ spec:
                       Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
                       Only used for the data residency region "US" or "EU".
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: Description of the Apigee organization.
                     type: string
@@ -1236,6 +1241,11 @@ spec:
                     description: |-
                       Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
                       Only used for the data residency region "US" or "EU".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the Apigee organization.
@@ -1503,6 +1513,11 @@ spec:
                     description: |-
                       Cloud KMS key name used for encrypting control plane data that is stored in a multi region.
                       Only used for the data residency region "US" or "EU".
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   description:
                     description: Description of the Apigee organization.

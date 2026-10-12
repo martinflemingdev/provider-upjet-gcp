@@ -48,6 +48,11 @@ func (in *ChannelInitParameters) DeepCopyInto(out *ChannelInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
+		*out = new(string)
+		**out = **in
+	}
 	if in.Labels != nil {
 		in, out := &in.Labels, &out.Labels
 		*out = make(map[string]*string, len(*in))
@@ -133,6 +138,11 @@ func (in *ChannelObservation) DeepCopyInto(out *ChannelObservation) {
 	}
 	if in.CryptoKeyName != nil {
 		in, out := &in.CryptoKeyName, &out.CryptoKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}
@@ -241,6 +251,11 @@ func (in *ChannelParameters) DeepCopyInto(out *ChannelParameters) {
 	*out = *in
 	if in.CryptoKeyName != nil {
 		in, out := &in.CryptoKeyName, &out.CryptoKeyName
+		*out = new(string)
+		**out = **in
+	}
+	if in.DeletionPolicy != nil {
+		in, out := &in.DeletionPolicy, &out.DeletionPolicy
 		*out = new(string)
 		**out = **in
 	}

@@ -1764,6 +1764,11 @@ spec:
                       (except deletes), including the deactivated field itself. It also prevents any new Backups
                       from being created via this BackupPlan (including scheduled Backups).
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
@@ -2191,6 +2196,11 @@ spec:
                       (except deletes), including the deactivated field itself. It also prevents any new Backups
                       from being created via this BackupPlan (including scheduled Backups).
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
@@ -2541,6 +2551,11 @@ spec:
                       (except deletes), including the deactivated field itself. It also prevents any new Backups
                       from being created via this BackupPlan (including scheduled Backups).
                     type: boolean
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: User specified descriptive string for this BackupPlan.
                     type: string
@@ -2579,6 +2594,10 @@ spec:
                       The ID of the project in which the resource belongs.
                       If it is not provided, the provider project is used.
                     type: string
+                  protectedNamespaceCount:
+                    description: The number of Kubernetes Namespaces backed up in
+                      the last successful Backup created via this BackupPlan.
+                    type: number
                   protectedPodCount:
                     description: The number of Kubernetes Pods backed up in the last
                       successful Backup created via this BackupPlan.

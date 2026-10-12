@@ -88,6 +88,10 @@ type AgentInitParameters struct {
 	// Otherwise, the chat engine will persist.
 	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -174,6 +178,10 @@ type AgentObservation struct {
 
 	// Otherwise, the chat engine will persist.
 	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -282,6 +290,11 @@ type AgentParameters struct {
 	// Otherwise, the chat engine will persist.
 	// +kubebuilder:validation:Optional
 	DeleteChatEngineOnDestroy *bool `json:"deleteChatEngineOnDestroy,omitempty" tf:"delete_chat_engine_on_destroy,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// The description of this agent. The maximum length is 500 characters. If exceeded, the request is rejected.
 	// +kubebuilder:validation:Optional

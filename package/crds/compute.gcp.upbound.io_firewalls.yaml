@@ -1114,6 +1114,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deny:
                     description: |-
                       The list of DENY rules specified by this firewall. Each rule specifies
@@ -1409,6 +1414,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deny:
                     description: |-
                       The list of DENY rules specified by this firewall. Each rule specifies
@@ -1784,6 +1794,11 @@ spec:
                     type: array
                   creationTimestamp:
                     description: Creation timestamp in RFC3339 text format.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deny:
                     description: |-

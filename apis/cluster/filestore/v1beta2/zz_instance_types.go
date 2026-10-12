@@ -13,6 +13,28 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type DirectoryServicesInitParameters struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	Ldap *LdapInitParameters `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
+type DirectoryServicesObservation struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	Ldap *LdapObservation `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
+type DirectoryServicesParameters struct {
+
+	// Configuration for LDAP servers.
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	Ldap *LdapParameters `json:"ldap,omitempty" tf:"ldap,omitempty"`
+}
+
 type EffectiveReplicationInitParameters struct {
 }
 
@@ -47,6 +69,11 @@ type FileSharesInitParameters struct {
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FileSharesObservation struct {
@@ -66,6 +93,11 @@ type FileSharesObservation struct {
 	// projects/{projectId}/locations/{locationId}/backups/{backupId},
 	// that this file share has been restored from.
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FileSharesParameters struct {
@@ -89,6 +121,12 @@ type FileSharesParameters struct {
 	// that this file share has been restored from.
 	// +kubebuilder:validation:Optional
 	SourceBackup *string `json:"sourceBackup,omitempty" tf:"source_backup,omitempty"`
+
+	// The resource name of the BackupDR backup, in the format
+	// projects/{project_id}/locations/{location_id}/backupVaults/{backupvault_id}/dataSources/{datasource_id}/backups/{backup_id},
+	// that this file share has been restored from.
+	// +kubebuilder:validation:Optional
+	SourceBackupdrBackup *string `json:"sourceBackupdrBackup,omitempty" tf:"source_backupdr_backup,omitempty"`
 }
 
 type FixedIopsInitParameters struct {
@@ -172,6 +210,10 @@ type InitialReplicationReplicasParameters struct {
 
 type InstanceInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Indicates whether the instance is protected against deletion.
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
@@ -180,6 +222,14 @@ type InstanceInitParameters struct {
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired_replica_state field controls the state of a replica.
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	DirectoryServices *DirectoryServicesInitParameters `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
 
 	// File system shares on the instance. For this version, only a
 	// single file share is supported.
@@ -255,6 +305,10 @@ type InstanceObservation struct {
 	// Creation timestamp in RFC3339 text format.
 	CreateTime *string `json:"createTime,omitempty" tf:"create_time,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Indicates whether the instance is protected against deletion.
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
 
@@ -263,6 +317,14 @@ type InstanceObservation struct {
 
 	// A description of the instance.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired_replica_state field controls the state of a replica.
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	DirectoryServices *DirectoryServicesObservation `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
 
 	// for all of the labels present on the resource.
 	// +mapType=granular
@@ -348,6 +410,11 @@ type InstanceObservation struct {
 
 type InstanceParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Indicates whether the instance is protected against deletion.
 	// +kubebuilder:validation:Optional
 	DeletionProtectionEnabled *bool `json:"deletionProtectionEnabled,omitempty" tf:"deletion_protection_enabled,omitempty"`
@@ -359,6 +426,16 @@ type InstanceParameters struct {
 	// A description of the instance.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// The desired_replica_state field controls the state of a replica.
+	// +kubebuilder:validation:Optional
+	DesiredReplicaState *string `json:"desiredReplicaState,omitempty" tf:"desired_replica_state,omitempty"`
+
+	// Directory Services configuration.
+	// Should only be set if protocol is "NFS_V4_1".
+	// Structure is documented below.
+	// +kubebuilder:validation:Optional
+	DirectoryServices *DirectoryServicesParameters `json:"directoryServices,omitempty" tf:"directory_services,omitempty"`
 
 	// File system shares on the instance. For this version, only a
 	// single file share is supported.
@@ -473,6 +550,70 @@ type IopsPerTbParameters struct {
 	// capacity.
 	// +kubebuilder:validation:Optional
 	MaxIopsPerTb *float64 `json:"maxIopsPerTb,omitempty" tf:"max_iops_per_tb,omitempty"`
+}
+
+type LdapInitParameters struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	Servers []*string `json:"servers,omitempty" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
+}
+
+type LdapObservation struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	Servers []*string `json:"servers,omitempty" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
+}
+
+type LdapParameters struct {
+
+	// The LDAP domain name in the format of my-domain.com.
+	// +kubebuilder:validation:Optional
+	Domain *string `json:"domain" tf:"domain,omitempty"`
+
+	// The groups Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	// +kubebuilder:validation:Optional
+	GroupsOu *string `json:"groupsOu,omitempty" tf:"groups_ou,omitempty"`
+
+	// The servers names are used for specifying the LDAP servers names.
+	// The LDAP servers names can come with two formats:
+	// +kubebuilder:validation:Optional
+	Servers []*string `json:"servers" tf:"servers,omitempty"`
+
+	// The users Organizational Unit (OU) is optional. This parameter is a hint
+	// to allow faster lookup in the LDAP namespace. In case that this parameter
+	// is not provided, Filestore instance will query the whole LDAP namespace.
+	// +kubebuilder:validation:Optional
+	UsersOu *string `json:"usersOu,omitempty" tf:"users_ou,omitempty"`
 }
 
 type NFSExportOptionsInitParameters struct {

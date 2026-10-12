@@ -25,6 +25,10 @@ type WorkflowInitParameters struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Defaults to true.
 	// When the field is set to false, deleting the workflow is allowed.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -76,6 +80,7 @@ type WorkflowInitParameters struct {
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// A map of resource manager tags. Resource manager tag keys and values have the same definition
@@ -103,6 +108,10 @@ type WorkflowObservation struct {
 	// The KMS key used to encrypt workflow and execution data.
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the workflow is allowed.
@@ -155,6 +164,7 @@ type WorkflowObservation struct {
 	ServiceAccount *string `json:"serviceAccount,omitempty" tf:"service_account,omitempty"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 
 	// State of the workflow deployment.
@@ -192,6 +202,11 @@ type WorkflowParameters struct {
 	// Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}
 	// +kubebuilder:validation:Optional
 	CryptoKeyName *string `json:"cryptoKeyName,omitempty" tf:"crypto_key_name,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Defaults to true.
 	// When the field is set to false, deleting the workflow is allowed.
@@ -253,6 +268,7 @@ type WorkflowParameters struct {
 	ServiceAccountSelector *v1.Selector `json:"serviceAccountSelector,omitempty" tf:"-"`
 
 	// Workflow code to be executed. The size limit is 128KB.
+	// ~> Warning: This field is currently optional but will become REQUIRED in version 8.0.0 of the provider to align with API constraints.
 	// +kubebuilder:validation:Optional
 	SourceContents *string `json:"sourceContents,omitempty" tf:"source_contents,omitempty"`
 

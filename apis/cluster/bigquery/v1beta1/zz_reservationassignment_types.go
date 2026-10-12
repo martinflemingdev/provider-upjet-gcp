@@ -24,6 +24,9 @@ type ReservationAssignmentInitParameters struct {
 	// The location for the resource
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
 
+	// Optional. Represents the principal for this assignment. If not empty, jobs run by this principal will utilize the associated reservation. Otherwise, jobs will fall back to using the reservation assigned to the project, folder, or organization (in that order). If no reservation is assigned at any of these levels, on-demand capacity will be used. The supported formats are:
+	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
+
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
@@ -33,6 +36,10 @@ type ReservationAssignmentObservation struct {
 
 	// The resource which will use the reservation. E.g. projects/myproject, folders/123, organizations/456.
 	Assignee *string `json:"assignee,omitempty" tf:"assignee,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// an identifier for the resource with format projects/{{project}}/locations/{{location}}/reservations/{{reservation}}/assignments/{{name}}
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -45,6 +52,9 @@ type ReservationAssignmentObservation struct {
 
 	// Output only. The resource name of the assignment.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// Optional. Represents the principal for this assignment. If not empty, jobs run by this principal will utilize the associated reservation. Otherwise, jobs will fall back to using the reservation assigned to the project, folder, or organization (in that order). If no reservation is assigned at any of these levels, on-demand capacity will be used. The supported formats are:
+	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
@@ -71,6 +81,10 @@ type ReservationAssignmentParameters struct {
 	// The location for the resource
 	// +kubebuilder:validation:Optional
 	Location *string `json:"location,omitempty" tf:"location,omitempty"`
+
+	// Optional. Represents the principal for this assignment. If not empty, jobs run by this principal will utilize the associated reservation. Otherwise, jobs will fall back to using the reservation assigned to the project, folder, or organization (in that order). If no reservation is assigned at any of these levels, on-demand capacity will be used. The supported formats are:
+	// +kubebuilder:validation:Optional
+	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
 
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.

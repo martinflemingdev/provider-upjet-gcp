@@ -16,13 +16,17 @@ import (
 
 type RegionNetworkFirewallPolicyInitParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// Policy type is used to determine which resources (networks) the policy can be associated with.
 	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
 	// Different policy types may support some of the Firewall Rules features.
-	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -34,6 +38,10 @@ type RegionNetworkFirewallPolicyObservation struct {
 
 	// Creation timestamp in RFC3339 text format.
 	CreationTimestamp *string `json:"creationTimestamp,omitempty" tf:"creation_timestamp,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// An optional description of this resource. Provide this property when you create the resource.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -47,7 +55,7 @@ type RegionNetworkFirewallPolicyObservation struct {
 	// Policy type is used to determine which resources (networks) the policy can be associated with.
 	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
 	// Different policy types may support some of the Firewall Rules features.
-	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -72,6 +80,11 @@ type RegionNetworkFirewallPolicyObservation struct {
 
 type RegionNetworkFirewallPolicyParameters struct {
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// An optional description of this resource. Provide this property when you create the resource.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
@@ -79,7 +92,7 @@ type RegionNetworkFirewallPolicyParameters struct {
 	// Policy type is used to determine which resources (networks) the policy can be associated with.
 	// A policy can be associated with a network only if the network has the matching policyType in its network profile.
 	// Different policy types may support some of the Firewall Rules features.
-	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY.
+	// Possible values are: VPC_POLICY, RDMA_ROCE_POLICY, RDMA_FALCON_POLICY, ULL_POLICY.
 	// +kubebuilder:validation:Optional
 	PolicyType *string `json:"policyType,omitempty" tf:"policy_type,omitempty"`
 

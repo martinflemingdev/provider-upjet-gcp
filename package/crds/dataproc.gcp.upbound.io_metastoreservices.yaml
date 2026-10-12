@@ -1568,6 +1568,11 @@ spec:
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
                     type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   deletionProtection:
                     description: Indicates if the dataproc metastore should be protected
                       against accidental deletions.
@@ -2013,6 +2018,11 @@ spec:
                       The database type that the Metastore service stores its data.
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: Indicates if the dataproc metastore should be protected
@@ -2540,6 +2550,11 @@ spec:
                       The database type that the Metastore service stores its data.
                       Default value is MYSQL.
                       Possible values are: MYSQL, SPANNER.
+                    type: string
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
                     type: string
                   deletionProtection:
                     description: Indicates if the dataproc metastore should be protected

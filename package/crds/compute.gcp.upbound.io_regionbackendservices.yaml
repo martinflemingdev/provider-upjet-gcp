@@ -3119,6 +3119,53 @@ spec:
                       Time for which instance will be drained (not accept new
                       connections, but still work to finish started).
                     type: number
+                  connectionTrackingPolicy:
+                    description: |-
+                      Connection Tracking configuration for this BackendService.
+                      This is available only for Layer 4 Internal Load Balancing and
+                      Network Load Balancing.
+                      Structure is documented below.
+                    properties:
+                      connectionPersistenceOnUnhealthyBackends:
+                        description: |-
+                          Specifies connection persistence when backends are unhealthy.
+                          If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+                          unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+                          and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+                          or the Session Affinity is configured for 5-tuple. They do not persist
+                          for UDP.
+                          If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+                          connections on the unhealthy backend are never persisted on the unhealthy
+                          backend. They are always diverted to newly selected healthy backends
+                          (unless all backends are unhealthy).
+                          If set to ALWAYS_PERSIST, existing connections always persist on
+                          unhealthy backends regardless of protocol and session affinity. It is
+                          generally not recommended to use this mode overriding the default.
+                          Default value is DEFAULT_FOR_PROTOCOL.
+                          Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+                        type: string
+                      enableStrongAffinity:
+                        description: Enable Strong Session Affinity for Network Load
+                          Balancing. This option is not available publicly.
+                        type: boolean
+                      idleTimeoutSec:
+                        description: |-
+                          Specifies how long to keep a Connection Tracking entry while there is
+                          no matching traffic (in seconds).
+                          For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+                          For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+                        type: number
+                      trackingMode:
+                        description: |-
+                          Specifies the key used for connection tracking. There are two options:
+                          PER_CONNECTION: The Connection Tracking is performed as per the
+                          Connection Key (default Hash Method) for the specific protocol.
+                          PER_SESSION: The Connection Tracking is performed as per the
+                          configured Session Affinity. It matches the configured Session Affinity.
+                          Default value is PER_CONNECTION.
+                          Possible values are: PER_CONNECTION, PER_SESSION.
+                        type: string
+                    type: object
                   consistentHash:
                     description: |-
                       Consistent Hash-based load balancing can be used to provide soft session
@@ -3202,6 +3249,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -3595,6 +3647,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -3610,6 +3684,32 @@ spec:
                       This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
                       Changes to this field force recreation of the resource.
                     type: string
+                  networkPassThroughLbTrafficPolicy:
+                    description: |-
+                      Configures traffic steering properties of internal passthrough Network Load Balancers.
+                      Structure is documented below.
+                    properties:
+                      zonalAffinity:
+                        description: |-
+                          When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+                          Structure is documented below.
+                        properties:
+                          spillover:
+                            description: |-
+                              This field indicates whether zonal affinity is enabled or not.
+                              Default value is ZONAL_AFFINITY_DISABLED.
+                              Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+                            type: string
+                          spilloverRatio:
+                            description: |-
+                              The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+                              to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+                              distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+                              of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+                              threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+                            type: number
+                        type: object
+                    type: object
                   networkRef:
                     description: Reference to a Network in compute to populate network.
                     properties:
@@ -4300,6 +4400,53 @@ spec:
                       Time for which instance will be drained (not accept new
                       connections, but still work to finish started).
                     type: number
+                  connectionTrackingPolicy:
+                    description: |-
+                      Connection Tracking configuration for this BackendService.
+                      This is available only for Layer 4 Internal Load Balancing and
+                      Network Load Balancing.
+                      Structure is documented below.
+                    properties:
+                      connectionPersistenceOnUnhealthyBackends:
+                        description: |-
+                          Specifies connection persistence when backends are unhealthy.
+                          If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+                          unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+                          and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+                          or the Session Affinity is configured for 5-tuple. They do not persist
+                          for UDP.
+                          If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+                          connections on the unhealthy backend are never persisted on the unhealthy
+                          backend. They are always diverted to newly selected healthy backends
+                          (unless all backends are unhealthy).
+                          If set to ALWAYS_PERSIST, existing connections always persist on
+                          unhealthy backends regardless of protocol and session affinity. It is
+                          generally not recommended to use this mode overriding the default.
+                          Default value is DEFAULT_FOR_PROTOCOL.
+                          Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+                        type: string
+                      enableStrongAffinity:
+                        description: Enable Strong Session Affinity for Network Load
+                          Balancing. This option is not available publicly.
+                        type: boolean
+                      idleTimeoutSec:
+                        description: |-
+                          Specifies how long to keep a Connection Tracking entry while there is
+                          no matching traffic (in seconds).
+                          For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+                          For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+                        type: number
+                      trackingMode:
+                        description: |-
+                          Specifies the key used for connection tracking. There are two options:
+                          PER_CONNECTION: The Connection Tracking is performed as per the
+                          Connection Key (default Hash Method) for the specific protocol.
+                          PER_SESSION: The Connection Tracking is performed as per the
+                          configured Session Affinity. It matches the configured Session Affinity.
+                          Default value is PER_CONNECTION.
+                          Possible values are: PER_CONNECTION, PER_SESSION.
+                        type: string
+                    type: object
                   consistentHash:
                     description: |-
                       Consistent Hash-based load balancing can be used to provide soft session
@@ -4383,6 +4530,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -4776,6 +4928,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -4791,6 +4965,32 @@ spec:
                       This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
                       Changes to this field force recreation of the resource.
                     type: string
+                  networkPassThroughLbTrafficPolicy:
+                    description: |-
+                      Configures traffic steering properties of internal passthrough Network Load Balancers.
+                      Structure is documented below.
+                    properties:
+                      zonalAffinity:
+                        description: |-
+                          When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+                          Structure is documented below.
+                        properties:
+                          spillover:
+                            description: |-
+                              This field indicates whether zonal affinity is enabled or not.
+                              Default value is ZONAL_AFFINITY_DISABLED.
+                              Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+                            type: string
+                          spilloverRatio:
+                            description: |-
+                              The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+                              to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+                              distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+                              of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+                              threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+                            type: number
+                        type: object
+                    type: object
                   networkRef:
                     description: Reference to a Network in compute to populate network.
                     properties:
@@ -5477,6 +5677,53 @@ spec:
                       Time for which instance will be drained (not accept new
                       connections, but still work to finish started).
                     type: number
+                  connectionTrackingPolicy:
+                    description: |-
+                      Connection Tracking configuration for this BackendService.
+                      This is available only for Layer 4 Internal Load Balancing and
+                      Network Load Balancing.
+                      Structure is documented below.
+                    properties:
+                      connectionPersistenceOnUnhealthyBackends:
+                        description: |-
+                          Specifies connection persistence when backends are unhealthy.
+                          If set to DEFAULT_FOR_PROTOCOL, the existing connections persist on
+                          unhealthy backends only for connection-oriented protocols (TCP and SCTP)
+                          and only if the Tracking Mode is PER_CONNECTION (default tracking mode)
+                          or the Session Affinity is configured for 5-tuple. They do not persist
+                          for UDP.
+                          If set to NEVER_PERSIST, after a backend becomes unhealthy, the existing
+                          connections on the unhealthy backend are never persisted on the unhealthy
+                          backend. They are always diverted to newly selected healthy backends
+                          (unless all backends are unhealthy).
+                          If set to ALWAYS_PERSIST, existing connections always persist on
+                          unhealthy backends regardless of protocol and session affinity. It is
+                          generally not recommended to use this mode overriding the default.
+                          Default value is DEFAULT_FOR_PROTOCOL.
+                          Possible values are: DEFAULT_FOR_PROTOCOL, NEVER_PERSIST, ALWAYS_PERSIST.
+                        type: string
+                      enableStrongAffinity:
+                        description: Enable Strong Session Affinity for Network Load
+                          Balancing. This option is not available publicly.
+                        type: boolean
+                      idleTimeoutSec:
+                        description: |-
+                          Specifies how long to keep a Connection Tracking entry while there is
+                          no matching traffic (in seconds).
+                          For L4 ILB the minimum(default) is 10 minutes and maximum is 16 hours.
+                          For NLB the minimum(default) is 60 seconds and the maximum is 16 hours.
+                        type: number
+                      trackingMode:
+                        description: |-
+                          Specifies the key used for connection tracking. There are two options:
+                          PER_CONNECTION: The Connection Tracking is performed as per the
+                          Connection Key (default Hash Method) for the specific protocol.
+                          PER_SESSION: The Connection Tracking is performed as per the
+                          configured Session Affinity. It matches the configured Session Affinity.
+                          Default value is PER_CONNECTION.
+                          Possible values are: PER_CONNECTION, PER_SESSION.
+                        type: string
+                    type: object
                   consistentHash:
                     description: |-
                       Consistent Hash-based load balancing can be used to provide soft session
@@ -5563,6 +5810,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  deletionPolicy:
+                    description: |-
+                      Defaults to DELETE.
+                      When set to "DELETE", deleting the resource is allowed.
+                    type: string
                   description:
                     description: An optional description of this resource.
                     type: string
@@ -5718,6 +5970,28 @@ spec:
                           Supported values: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                           Possible values are: INCLUDE_ALL_OPTIONAL, EXCLUDE_ALL_OPTIONAL, CUSTOM.
                         type: string
+                      requestHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of request headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
+                      responseHeaders:
+                        description: |-
+                          This field can only be specified if logging is enabled for this backend service and if the BackendService protocol is one of HTTP, HTTPS, HTTP2 and GRPC. Contains a list of response headers to be logged.
+                          Structure is documented below.
+                        items:
+                          properties:
+                            headerName:
+                              description: The header name to match on for logging.
+                              type: string
+                          type: object
+                        type: array
                       sampleRate:
                         description: |-
                           This field can only be specified if logging is enabled for this backend service. The value of
@@ -5733,6 +6007,32 @@ spec:
                       This field can only be specified when the load balancing scheme is set to INTERNAL, or when the load balancing scheme is set to EXTERNAL and haPolicy fastIpMove is enabled.
                       Changes to this field force recreation of the resource.
                     type: string
+                  networkPassThroughLbTrafficPolicy:
+                    description: |-
+                      Configures traffic steering properties of internal passthrough Network Load Balancers.
+                      Structure is documented below.
+                    properties:
+                      zonalAffinity:
+                        description: |-
+                          When configured, new connections are load balanced across healthy backend endpoints in the local zone.
+                          Structure is documented below.
+                        properties:
+                          spillover:
+                            description: |-
+                              This field indicates whether zonal affinity is enabled or not.
+                              Default value is ZONAL_AFFINITY_DISABLED.
+                              Possible values are: ZONAL_AFFINITY_DISABLED, ZONAL_AFFINITY_SPILL_CROSS_ZONE, ZONAL_AFFINITY_STAY_WITHIN_ZONE.
+                            type: string
+                          spilloverRatio:
+                            description: |-
+                              The value of the field must be in [0, 1]. When the ratio of the count of healthy backend endpoints in a zone
+                              to the count of backend endpoints in that same zone is equal to or above this threshold, the load balancer
+                              distributes new connections to all healthy endpoints in the local zone only. When the ratio of the count
+                              of healthy backend endpoints in a zone to the count of backend endpoints in that same zone is below this
+                              threshold, the load balancer distributes all new connections to all healthy endpoints across all zones.
+                            type: number
+                        type: object
+                    type: object
                   outlierDetection:
                     description: |-
                       Settings controlling eviction of unhealthy hosts from the load balancing pool.

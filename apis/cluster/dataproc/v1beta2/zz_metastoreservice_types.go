@@ -413,6 +413,10 @@ type MetastoreServiceInitParameters struct {
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// Indicates if the dataproc metastore should be protected against accidental deletions.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
 
@@ -496,6 +500,10 @@ type MetastoreServiceObservation struct {
 	// Default value is MYSQL.
 	// Possible values are: MYSQL, SPANNER.
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Indicates if the dataproc metastore should be protected against accidental deletions.
 	DeletionProtection *bool `json:"deletionProtection,omitempty" tf:"deletion_protection,omitempty"`
@@ -608,6 +616,11 @@ type MetastoreServiceParameters struct {
 	// Possible values are: MYSQL, SPANNER.
 	// +kubebuilder:validation:Optional
 	DatabaseType *string `json:"databaseType,omitempty" tf:"database_type,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// Indicates if the dataproc metastore should be protected against accidental deletions.
 	// +kubebuilder:validation:Optional

@@ -43,6 +43,10 @@ type BackupBackupPlanInitParameters struct {
 	// from being created via this BackupPlan (including scheduled Backups).
 	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User specified descriptive string for this BackupPlan.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -80,6 +84,10 @@ type BackupBackupPlanObservation struct {
 	// from being created via this BackupPlan (including scheduled Backups).
 	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
 
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
+
 	// User specified descriptive string for this BackupPlan.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -110,6 +118,9 @@ type BackupBackupPlanObservation struct {
 	// The ID of the project in which the resource belongs.
 	// If it is not provided, the provider project is used.
 	Project *string `json:"project,omitempty" tf:"project,omitempty"`
+
+	// The number of Kubernetes Namespaces backed up in the last successful Backup created via this BackupPlan.
+	ProtectedNamespaceCount *float64 `json:"protectedNamespaceCount,omitempty" tf:"protected_namespace_count,omitempty"`
 
 	// The number of Kubernetes Pods backed up in the last successful Backup created via this BackupPlan.
 	ProtectedPodCount *float64 `json:"protectedPodCount,omitempty" tf:"protected_pod_count,omitempty"`
@@ -165,6 +176,11 @@ type BackupBackupPlanParameters struct {
 	// from being created via this BackupPlan (including scheduled Backups).
 	// +kubebuilder:validation:Optional
 	Deactivated *bool `json:"deactivated,omitempty" tf:"deactivated,omitempty"`
+
+	// Defaults to DELETE.
+	// When set to "DELETE", deleting the resource is allowed.
+	// +kubebuilder:validation:Optional
+	DeletionPolicy *string `json:"deletionPolicy,omitempty" tf:"deletion_policy,omitempty"`
 
 	// User specified descriptive string for this BackupPlan.
 	// +kubebuilder:validation:Optional
