@@ -226,7 +226,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomWriterIdentity),
-			Extract:      resource.ExtractParamPath("email", true),
+			Extract:      resource.ExtractParamPath("member", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.ForProvider.CustomWriterIdentitySelector,
@@ -239,6 +239,26 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 	mg.Spec.ForProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.CustomWriterIdentityRef = rsp.ResolvedReference
 	{
+		m, l, err = apisresolver.GetManagedResource("logging.gcp.upbound.io", "v1beta2", "ProjectBucketConfig", "ProjectBucketConfigList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Destination),
+			Extract:      common.ExtractLoggingBucketDestination(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.DestinationRef,
+			Selector:     mg.Spec.ForProvider.DestinationSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Destination")
+	}
+	mg.Spec.ForProvider.Destination = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.DestinationRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("cloudplatform.gcp.upbound.io", "v1beta1", "ServiceAccount", "ServiceAccountList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -246,7 +266,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 
 		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomWriterIdentity),
-			Extract:      resource.ExtractParamPath("email", true),
+			Extract:      resource.ExtractParamPath("member", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.InitProvider.CustomWriterIdentitySelector,
@@ -258,6 +278,26 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 	}
 	mg.Spec.InitProvider.CustomWriterIdentity = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.CustomWriterIdentityRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("logging.gcp.upbound.io", "v1beta2", "ProjectBucketConfig", "ProjectBucketConfigList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Destination),
+			Extract:      common.ExtractLoggingBucketDestination(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.DestinationRef,
+			Selector:     mg.Spec.InitProvider.DestinationSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Destination")
+	}
+	mg.Spec.InitProvider.Destination = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.DestinationRef = rsp.ResolvedReference
 
 	return nil
 }

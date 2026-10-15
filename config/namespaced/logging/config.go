@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	transport_tpg "github.com/hashicorp/terraform-provider-google/google/transport"
 
-	"github.com/upbound/provider-gcp/v3/config/cluster/common"
+	"github.com/upbound/provider-gcp/v2/config/namespaced/common"
 )
 
 // Configure configures individual resources by adding custom

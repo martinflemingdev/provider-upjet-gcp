@@ -104,7 +104,7 @@ type ProjectSinkInitParameters struct {
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("member",true)
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
 	// Reference to a ServiceAccount in cloudplatform to populate customWriterIdentity.
@@ -119,7 +119,17 @@ type ProjectSinkInitParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractLoggingBucketDestination()
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// Reference to a ProjectBucketConfig in logging to populate destination.
+	// +kubebuilder:validation:Optional
+	DestinationRef *v1.NamespacedReference `json:"destinationRef,omitempty" tf:"-"`
+
+	// Selector for a ProjectBucketConfig in logging to populate destination.
+	// +kubebuilder:validation:Optional
+	DestinationSelector *v1.NamespacedSelector `json:"destinationSelector,omitempty" tf:"-"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
 	Disabled *bool `json:"disabled,omitempty" tf:"disabled,omitempty"`
@@ -198,7 +208,7 @@ type ProjectSinkParameters struct {
 	// routing logs to a destination outside this sink's project. If not specified, a Logging service account
 	// will automatically be generated.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("member",true)
 	// +kubebuilder:validation:Optional
 	CustomWriterIdentity *string `json:"customWriterIdentity,omitempty" tf:"custom_writer_identity,omitempty"`
 
@@ -215,8 +225,18 @@ type ProjectSinkParameters struct {
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	// The destination of the sink (or, in other words, where logs are written to). Can be a Cloud Storage bucket, a PubSub topic, a BigQuery dataset, a Cloud Logging bucket, or a Google Cloud project. Examples:
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/logging/v1beta1.ProjectBucketConfig
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractLoggingBucketDestination()
 	// +kubebuilder:validation:Optional
 	Destination *string `json:"destination,omitempty" tf:"destination,omitempty"`
+
+	// Reference to a ProjectBucketConfig in logging to populate destination.
+	// +kubebuilder:validation:Optional
+	DestinationRef *v1.NamespacedReference `json:"destinationRef,omitempty" tf:"-"`
+
+	// Selector for a ProjectBucketConfig in logging to populate destination.
+	// +kubebuilder:validation:Optional
+	DestinationSelector *v1.NamespacedSelector `json:"destinationSelector,omitempty" tf:"-"`
 
 	// If set to True, then this sink is disabled and it does not export any log entries.
 	// +kubebuilder:validation:Optional
@@ -280,9 +300,8 @@ type ProjectSinkStatus struct {
 type ProjectSink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.destination) || (has(self.initProvider) && has(self.initProvider.destination))",message="spec.forProvider.destination is a required parameter"
-	Spec   ProjectSinkSpec   `json:"spec"`
-	Status ProjectSinkStatus `json:"status,omitempty"`
+	Spec              ProjectSinkSpec   `json:"spec"`
+	Status            ProjectSinkStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true

@@ -26,6 +26,8 @@ const (
 	ExtractResourceIDFuncPath = "github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractResourceID()"
 	ExtractProjectIDFuncPath  = "github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractProjectID()"
 	ExtractFolderIDFuncPath   = "github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractFolderID()"
+	// ExtractLoggingBucketDestinationFuncPath holds the logging bucket destination extractor name.
+	ExtractLoggingBucketDestinationFuncPath = SelfPackagePath + ".ExtractLoggingBucketDestination()"
 	// VersionV1Beta1 is used for resources that meet the v1beta1 criteria
 	// here: https://github.com/upbound/arch/pull/33
 	VersionV1Beta1 = "v1beta1"
@@ -101,5 +103,16 @@ func ExtractFolderID() reference.ExtractValueFn {
 			return ""
 		}
 		return strings.TrimPrefix(tr.GetID(), "folders/")
+	}
+}
+
+// ExtractLoggingBucketDestination formats an observed logging bucket ID as a sink destination.
+func ExtractLoggingBucketDestination() reference.ExtractValueFn {
+	return func(mr resource.Managed) string {
+		id := ExtractResourceID()(mr)
+		if id == "" {
+			return ""
+		}
+		return "logging.googleapis.com/" + id
 	}
 }

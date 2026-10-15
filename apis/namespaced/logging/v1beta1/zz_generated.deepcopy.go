@@ -3101,6 +3101,16 @@ func (in *ProjectSinkInitParameters) DeepCopyInto(out *ProjectSinkInitParameters
 		*out = new(string)
 		**out = **in
 	}
+	if in.DestinationRef != nil {
+		in, out := &in.DestinationRef, &out.DestinationRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DestinationSelector != nil {
+		in, out := &in.DestinationSelector, &out.DestinationSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Disabled != nil {
 		in, out := &in.Disabled, &out.Disabled
 		*out = new(bool)
@@ -3276,6 +3286,16 @@ func (in *ProjectSinkParameters) DeepCopyInto(out *ProjectSinkParameters) {
 		in, out := &in.Destination, &out.Destination
 		*out = new(string)
 		**out = **in
+	}
+	if in.DestinationRef != nil {
+		in, out := &in.DestinationRef, &out.DestinationRef
+		*out = new(v1.NamespacedReference)
+		(*in).DeepCopyInto(*out)
+	}
+	if in.DestinationSelector != nil {
+		in, out := &in.DestinationSelector, &out.DestinationSelector
+		*out = new(v1.NamespacedSelector)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Disabled != nil {
 		in, out := &in.Disabled, &out.Disabled
