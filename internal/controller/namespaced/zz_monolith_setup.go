@@ -29,7 +29,6 @@ import (
 	envreferences "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/envreferences"
 	instanceapigee "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instance"
 	instanceattachment "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/instanceattachment"
-	keystoresaliaseskeycertfile "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/keystoresaliaseskeycertfile"
 	nataddress "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/nataddress"
 	organization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/organization"
 	syncauthorization "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/apigee/syncauthorization"
@@ -398,7 +397,6 @@ import (
 	hmackey "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/hmackey"
 	managedfolder "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolder"
 	managedfolderiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/managedfolderiammember"
-	notification "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/notification"
 	objectaccesscontrol "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectaccesscontrol"
 	objectacl "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storage/objectacl"
 	agentpool "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/storagetransfer/agentpool"
@@ -439,7 +437,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envreferences.Setup,
 		instanceapigee.Setup,
 		instanceattachment.Setup,
-		keystoresaliaseskeycertfile.Setup,
 		nataddress.Setup,
 		organization.Setup,
 		syncauthorization.Setup,
@@ -808,7 +805,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		hmackey.Setup,
 		managedfolder.Setup,
 		managedfolderiammember.Setup,
-		notification.Setup,
 		objectaccesscontrol.Setup,
 		objectacl.Setup,
 		agentpool.Setup,
@@ -855,7 +851,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		envreferences.SetupGated,
 		instanceapigee.SetupGated,
 		instanceattachment.SetupGated,
-		keystoresaliaseskeycertfile.SetupGated,
 		nataddress.SetupGated,
 		organization.SetupGated,
 		syncauthorization.SetupGated,
@@ -1224,7 +1219,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		hmackey.SetupGated,
 		managedfolder.SetupGated,
 		managedfolderiammember.SetupGated,
-		notification.SetupGated,
 		objectaccesscontrol.SetupGated,
 		objectacl.SetupGated,
 		agentpool.SetupGated,
