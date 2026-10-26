@@ -82,9 +82,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -193,9 +192,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   project:
                     description: |-
@@ -387,9 +385,8 @@ spec:
                     type: boolean
                   disableOnDestroy:
                     description: |-
-                      Defaults to true. Most configurations should
-                      set this to false; it should generally only be true or unset in configurations
-                      that manage the google_project resource itself.
+                      It should generally only
+                      be true in configurations that manage the google_project resource itself.
                     type: boolean
                   id:
                     description: an identifier for the resource with format {{project}}/{{service}}

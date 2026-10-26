@@ -89,6 +89,13 @@ spec:
                   description:
                     description: An optional description of this resource.
                     type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
+                    type: string
                   ipVersion:
                     description: |-
                       The IP Version that will be used by this address. The default value is IPV4.
@@ -327,6 +334,13 @@ spec:
                     type: string
                   description:
                     description: An optional description of this resource.
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
                     type: string
                   ipVersion:
                     description: |-
@@ -649,6 +663,13 @@ spec:
                     x-kubernetes-map-type: granular
                   id:
                     description: an identifier for the resource with format projects/{{project}}/regions/{{region}}/addresses/{{name}}
+                    type: string
+                  ipCollection:
+                    description: |-
+                      Reference to the source of external IPv4 addresses, like a PublicDelegatedPrefix(PDP) for BYOIP.
+                      The PDP must support enhanced IPv4 allocations.
+                      Use one of the following formats to specify a PDP when reserving an external IPv4 address using BYOIP.
+                      Full resource URL, as in:
                     type: string
                   ipVersion:
                     description: |-

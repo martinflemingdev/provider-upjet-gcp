@@ -102,7 +102,7 @@ type FolderBucketConfigParameters struct {
 
 	// The parent resource that contains the logging bucket.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.Folder
-	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/namespaced/common.ExtractFolderID()
+	// +crossplane:generate:reference:extractor=github.com/upbound/provider-gcp/v2/config/cluster/common.ExtractFolderID()
 	// +kubebuilder:validation:Optional
 	Folder *string `json:"folder,omitempty" tf:"folder,omitempty"`
 

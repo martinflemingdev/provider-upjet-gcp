@@ -82,8 +82,8 @@ spec:
                       is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
                     type: string
                   tagValue:
-                    description: The TagValue of the TagBinding. Must be of the form
-                      tagValues/456.
+                    description: The TagValue of the TagBinding. Must be either in
+                      id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
                     type: string
                   tagValueRef:
                     description: Reference to a TagValue in tags to populate tagValue.
@@ -181,8 +181,8 @@ spec:
                       is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
                     type: string
                   tagValue:
-                    description: The TagValue of the TagBinding. Must be of the form
-                      tagValues/456.
+                    description: The TagValue of the TagBinding. Must be either in
+                      id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
                     type: string
                   tagValueRef:
                     description: Reference to a TagValue in tags to populate tagValue.
@@ -362,16 +362,17 @@ spec:
                     description: Location of the target resource.
                     type: string
                   name:
-                    description: 'The generated id for the TagBinding. This is a string
-                      of the form: tagBindings/{parent}/{tag-value-name}'
+                    description: The generated id for the TagBinding. This is a string
+                      of the form tagBindings/{full-resource-name}/{tag-value-name}
+                      or tagBindings/{full-resource-name}/{tag-key-name}
                     type: string
                   parent:
                     description: The full resource name of the resource the TagValue
                       is bound to. E.g. //cloudresourcemanager.googleapis.com/projects/123
                     type: string
                   tagValue:
-                    description: The TagValue of the TagBinding. Must be of the form
-                      tagValues/456.
+                    description: The TagValue of the TagBinding. Must be either in
+                      id format tagValues/{tag-value-id}, or namespaced format {parent-id}/{tag-key-short-name}/{tag-value-short-name}.
                     type: string
                 type: object
               conditions:

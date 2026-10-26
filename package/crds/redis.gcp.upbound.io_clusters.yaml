@@ -73,13 +73,6 @@ spec:
                 type: string
               forProvider:
                 properties:
-                  allowFewerZonesDeployment:
-                    description: |-
-                      Allows customers to specify if they are okay with deploying a multi-zone
-                      cluster in less than 3 zones. Once set, if there is a zonal outage during
-                      the cluster creation, the cluster will only be deployed in 2 zones, and
-                      stay within the 2 zones for its lifecycle.
-                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -242,6 +235,15 @@ spec:
                     description: The KMS key used to encrypt the at-rest data of the
                       cluster.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Resource labels to represent user provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: |-
                       Maintenance policy for a cluster
@@ -286,6 +288,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Backups that generated and managed by memorystore.
@@ -491,13 +498,6 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  allowFewerZonesDeployment:
-                    description: |-
-                      Allows customers to specify if they are okay with deploying a multi-zone
-                      cluster in less than 3 zones. Once set, if there is a zonal outage during
-                      the cluster creation, the cluster will only be deployed in 2 zones, and
-                      stay within the 2 zones for its lifecycle.
-                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -660,6 +660,15 @@ spec:
                     description: The KMS key used to encrypt the at-rest data of the
                       cluster.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Resource labels to represent user provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: |-
                       Maintenance policy for a cluster
@@ -704,6 +713,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Backups that generated and managed by memorystore.
@@ -987,13 +1001,6 @@ spec:
             properties:
               atProvider:
                 properties:
-                  allowFewerZonesDeployment:
-                    description: |-
-                      Allows customers to specify if they are okay with deploying a multi-zone
-                      cluster in less than 3 zones. Once set, if there is a zonal outage during
-                      the cluster creation, the cluster will only be deployed in 2 zones, and
-                      stay within the 2 zones for its lifecycle.
-                    type: boolean
                   authorizationMode:
                     description: |-
                       Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
@@ -1029,6 +1036,12 @@ spec:
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s".
                         type: string
                     type: object
+                  availableMaintenanceVersions:
+                    description: This field is used to determine the available maintenance
+                      versions for the self service update.
+                    items:
+                      type: string
+                    type: array
                   backupCollection:
                     description: |-
                       The backup collection full resource name.
@@ -1159,6 +1172,15 @@ spec:
                           type: object
                       type: object
                     type: array
+                  effectiveLabels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                    x-kubernetes-map-type: granular
+                  effectiveMaintenanceVersion:
+                    description: This field represents the actual maintenance version
+                      of the cluster.
+                    type: string
                   gcsSource:
                     description: |-
                       Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
@@ -1179,6 +1201,15 @@ spec:
                     description: The KMS key used to encrypt the at-rest data of the
                       cluster.
                     type: string
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      Resource labels to represent user provided metadata.
+                      Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+                      Please refer to the field effective_labels for all of the labels present on the resource.
+                    type: object
+                    x-kubernetes-map-type: granular
                   maintenancePolicy:
                     description: |-
                       Maintenance policy for a cluster
@@ -1275,6 +1306,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Backups that generated and managed by memorystore.
@@ -1467,6 +1503,14 @@ spec:
                           type: object
                       type: object
                     type: array
+                  terraformLabels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The combination of labels configured directly on the resource
+                      and default labels configured on the provider.
+                    type: object
+                    x-kubernetes-map-type: granular
                   transitEncryptionMode:
                     description: |-
                       Optional. The in-transit encryption for the Redis cluster.

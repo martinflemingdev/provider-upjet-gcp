@@ -391,6 +391,10 @@ var terraformPluginSDKExternalNameConfigs = map[string]config.ExternalName{
 	"google_data_catalog_taxonomy": config.IdentifierFromProvider,
 	// {{name}} projects/{project}/locations/{region}/taxonomies/{taxonomy}/policyTags/{policytag}
 	"google_data_catalog_policy_tag": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}} roles/viewer user:jane@example.com
+	"google_data_catalog_taxonomy_iam_member": config.IdentifierFromProvider,
+	// projects/{{project}}/locations/{{region}}/taxonomies/{{taxonomy}}/policyTags/{{policy_tag}} roles/viewer user:jane@example.com
+	"google_data_catalog_policy_tag_iam_member": config.IdentifierFromProvider,
 
 	// accesscontextmanager
 	//

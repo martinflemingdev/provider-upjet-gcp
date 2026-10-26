@@ -736,6 +736,17 @@ type TopicInitParameters struct {
 	// Settings for validating messages published against a schema.
 	// Structure is documented below.
 	SchemaSettings *SchemaSettingsInitParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 type TopicMessageTransformsInitParameters struct {
@@ -829,6 +840,17 @@ type TopicObservation struct {
 	// Structure is documented below.
 	SchemaSettings *SchemaSettingsObservation `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
 
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
 	// +mapType=granular
@@ -898,6 +920,18 @@ type TopicParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SchemaSettings *SchemaSettingsParameters `json:"schemaSettings,omitempty" tf:"schema_settings,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the topic. Tag keys and
+	// values have the same definition as resource manager tags. Keys must be in
+	// the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 }
 
 // TopicSpec defines the desired state of Topic

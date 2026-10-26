@@ -9,7 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	transport_tpg "github.com/hashicorp/terraform-provider-google/google/transport"
 
-	"github.com/upbound/provider-gcp/v3/config/cluster/common"
+	"github.com/upbound/provider-gcp/v2/config/cluster/common"
 )
 
 // Configure configures individual resources by adding custom
@@ -26,10 +26,10 @@ func Configure(p *config.Provider) {
 			TerraformName: "google_service_account",
 			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("member",true)`,
 		}
-		r.References["destination"] = config.Reference{
-			TerraformName: "google_logging_project_bucket_config",
-			Extractor:     common.ExtractLoggingBucketDestinationFuncPath,
-		}
+		// r.References["destination"] = config.Reference{
+		// 	TerraformName: "google_logging_project_bucket_config",
+		// 	Extractor:     common.ExtractLoggingBucketDestinationFuncPath,
+		// }
 	})
 
 	p.AddResourceConfigurator("google_logging_folder_bucket_config", func(r *config.Resource) {

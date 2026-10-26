@@ -1505,11 +1505,6 @@ func (in *ServiceConfigInitParameters) DeepCopyInto(out *ServiceConfigInitParame
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Service != nil {
-		in, out := &in.Service, &out.Service
-		*out = new(string)
-		**out = **in
-	}
 	if in.ServiceAccountEmail != nil {
 		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail
 		*out = new(string)
@@ -1744,11 +1739,6 @@ func (in *ServiceConfigParameters) DeepCopyInto(out *ServiceConfigParameters) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.Service != nil {
-		in, out := &in.Service, &out.Service
-		*out = new(string)
-		**out = **in
 	}
 	if in.ServiceAccountEmail != nil {
 		in, out := &in.ServiceAccountEmail, &out.ServiceAccountEmail

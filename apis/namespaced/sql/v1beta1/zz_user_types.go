@@ -94,6 +94,15 @@ type StatusParameters struct {
 
 type UserInitParameters struct {
 
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
+
 	// The deletion policy for the user.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
@@ -150,6 +159,15 @@ type UserInitParameters struct {
 
 type UserObservation struct {
 
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
+
 	// The deletion policy for the user.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful
 	// for Postgres, where users cannot be deleted from the API if they have been granted SQL roles.
@@ -159,6 +177,9 @@ type UserObservation struct {
 	// for BUILT_IN users in MySQL instances. Don't set this field for PostgreSQL and SQL Server instances.
 	// Can be an IP address. Changing this forces a new resource to be created.
 	Host *string `json:"host,omitempty" tf:"host,omitempty"`
+
+	// (read only) IAM email address for MySQL IAM database users.
+	IAMEmail *string `json:"iamEmail,omitempty" tf:"iam_email,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
@@ -194,6 +215,16 @@ type UserObservation struct {
 }
 
 type UserParameters struct {
+
+	// A list of database roles to be assigned to the user.
+	// This option is only available for MySQL 8+ and PostgreSQL instances. You
+	// can include predefined Cloud SQL roles, like cloudsqlsuperuser, or your
+	// own custom roles. Custom roles must be created in the database before
+	// you can assign them. You can create roles using the CREATE ROLE
+	// statement for both MySQL and PostgreSQL.
+	// Note: This property is write-only and will not be read from the API.
+	// +kubebuilder:validation:Optional
+	DatabaseRoles []*string `json:"databaseRoles,omitempty" tf:"database_roles,omitempty"`
 
 	// The deletion policy for the user.
 	// Setting ABANDON allows the resource to be abandoned rather than deleted. This is useful

@@ -180,6 +180,21 @@ spec:
                               type: string
                           type: object
                         type: array
+                      serviceAccountAuthConfig:
+                        description: |-
+                          Configuration for authentication using a service account.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              The email address of the service account used to authenticate the webhook call.
+                              Dialogflow uses this service account to exchange an access token and the access
+                              token is then sent in the Authorization header of the webhook request.
+                              The service account must have the roles/iam.serviceAccountTokenCreator role
+                              granted to the
+                              Dialogflow service agent.
+                            type: string
+                        type: object
                       serviceAgentAuth:
                         description: |-
                           Indicate the auth token type generated from the Diglogflow service
@@ -400,6 +415,21 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          serviceAccountAuthConfig:
+                            description: |-
+                              Configuration for authentication using a service account.
+                              Structure is documented below.
+                            properties:
+                              serviceAccount:
+                                description: |-
+                                  The email address of the service account used to authenticate the webhook call.
+                                  Dialogflow uses this service account to exchange an access token and the access
+                                  token is then sent in the Authorization header of the webhook request.
+                                  The service account must have the roles/iam.serviceAccountTokenCreator role
+                                  granted to the
+                                  Dialogflow service agent.
+                                type: string
+                            type: object
                           serviceAgentAuth:
                             description: |-
                               Indicate the auth token type generated from the Diglogflow service
@@ -559,6 +589,21 @@ spec:
                               type: string
                           type: object
                         type: array
+                      serviceAccountAuthConfig:
+                        description: |-
+                          Configuration for authentication using a service account.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              The email address of the service account used to authenticate the webhook call.
+                              Dialogflow uses this service account to exchange an access token and the access
+                              token is then sent in the Authorization header of the webhook request.
+                              The service account must have the roles/iam.serviceAccountTokenCreator role
+                              granted to the
+                              Dialogflow service agent.
+                            type: string
+                        type: object
                       serviceAgentAuth:
                         description: |-
                           Indicate the auth token type generated from the Diglogflow service
@@ -779,6 +824,21 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          serviceAccountAuthConfig:
+                            description: |-
+                              Configuration for authentication using a service account.
+                              Structure is documented below.
+                            properties:
+                              serviceAccount:
+                                description: |-
+                                  The email address of the service account used to authenticate the webhook call.
+                                  Dialogflow uses this service account to exchange an access token and the access
+                                  token is then sent in the Authorization header of the webhook request.
+                                  The service account must have the roles/iam.serviceAccountTokenCreator role
+                                  granted to the
+                                  Dialogflow service agent.
+                                type: string
+                            type: object
                           serviceAgentAuth:
                             description: |-
                               Indicate the auth token type generated from the Diglogflow service
@@ -993,6 +1053,21 @@ spec:
                               type: string
                           type: object
                         type: array
+                      serviceAccountAuthConfig:
+                        description: |-
+                          Configuration for authentication using a service account.
+                          Structure is documented below.
+                        properties:
+                          serviceAccount:
+                            description: |-
+                              The email address of the service account used to authenticate the webhook call.
+                              Dialogflow uses this service account to exchange an access token and the access
+                              token is then sent in the Authorization header of the webhook request.
+                              The service account must have the roles/iam.serviceAccountTokenCreator role
+                              granted to the
+                              Dialogflow service agent.
+                            type: string
+                        type: object
                       serviceAgentAuth:
                         description: |-
                           Indicate the auth token type generated from the Diglogflow service
@@ -1139,6 +1214,21 @@ spec:
                                   type: string
                               type: object
                             type: array
+                          serviceAccountAuthConfig:
+                            description: |-
+                              Configuration for authentication using a service account.
+                              Structure is documented below.
+                            properties:
+                              serviceAccount:
+                                description: |-
+                                  The email address of the service account used to authenticate the webhook call.
+                                  Dialogflow uses this service account to exchange an access token and the access
+                                  token is then sent in the Authorization header of the webhook request.
+                                  The service account must have the roles/iam.serviceAccountTokenCreator role
+                                  granted to the
+                                  Dialogflow service agent.
+                                type: string
+                            type: object
                           serviceAgentAuth:
                             description: |-
                               Indicate the auth token type generated from the Diglogflow service

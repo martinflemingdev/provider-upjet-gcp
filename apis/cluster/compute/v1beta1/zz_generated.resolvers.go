@@ -4281,6 +4281,26 @@ func (mg *RegionNetworkEndpoint) ResolveReferences(ctx context.Context, c client
 	var rsp reference.ResolutionResponse
 	var err error
 	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Instance),
+			Extract:      resource.ExtractParamPath("self_link", true),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.InstanceRef,
+			Selector:     mg.Spec.ForProvider.InstanceSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Instance")
+	}
+	mg.Spec.ForProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.InstanceRef = rsp.ResolvedReference
+	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
 		if err != nil {
 			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
@@ -4300,6 +4320,26 @@ func (mg *RegionNetworkEndpoint) ResolveReferences(ctx context.Context, c client
 	}
 	mg.Spec.ForProvider.RegionNetworkEndpointGroup = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.RegionNetworkEndpointGroupRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "Instance", "InstanceList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.ResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Instance),
+			Extract:      resource.ExtractParamPath("self_link", true),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.InstanceRef,
+			Selector:     mg.Spec.InitProvider.InstanceSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Instance")
+	}
+	mg.Spec.InitProvider.Instance = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.InstanceRef = rsp.ResolvedReference
 	{
 		m, l, err = apisresolver.GetManagedResource("compute.gcp.upbound.io", "v1beta2", "RegionNetworkEndpointGroup", "RegionNetworkEndpointGroupList")
 		if err != nil {

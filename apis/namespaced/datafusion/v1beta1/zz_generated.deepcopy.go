@@ -377,6 +377,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 			(*out)[key] = outVal
 		}
 	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance
 		*out = new(bool)
@@ -590,6 +595,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance
 		*out = new(bool)
@@ -775,6 +785,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.PatchRevision != nil {
+		in, out := &in.PatchRevision, &out.PatchRevision
+		*out = new(string)
+		**out = **in
 	}
 	if in.PrivateInstance != nil {
 		in, out := &in.PrivateInstance, &out.PrivateInstance

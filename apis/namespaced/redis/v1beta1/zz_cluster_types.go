@@ -86,12 +86,6 @@ type CACertsParameters struct {
 
 type ClusterInitParameters struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -116,9 +110,19 @@ type ClusterInitParameters struct {
 	// The KMS key used to encrypt the at-rest data of the cluster.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyInitParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -168,12 +172,6 @@ type ClusterInitParameters struct {
 
 type ClusterObservation struct {
 
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
-
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
 	// Possible values are: AUTH_MODE_UNSPECIFIED, AUTH_MODE_IAM_AUTH, AUTH_MODE_DISABLED.
@@ -182,6 +180,9 @@ type ClusterObservation struct {
 	// The automated backup config for a instance.
 	// Structure is documented below.
 	AutomatedBackupConfig *AutomatedBackupConfigObservation `json:"automatedBackupConfig,omitempty" tf:"automated_backup_config,omitempty"`
+
+	// This field is used to determine the available maintenance versions for the self service update.
+	AvailableMaintenanceVersions []*string `json:"availableMaintenanceVersions,omitempty" tf:"available_maintenance_versions,omitempty"`
 
 	// The backup collection full resource name.
 	// Example: projects/{project}/locations/{location}/backupCollections/{collection}
@@ -206,6 +207,12 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	DiscoveryEndpoints []DiscoveryEndpointsObservation `json:"discoveryEndpoints,omitempty" tf:"discovery_endpoints,omitempty"`
 
+	// +mapType=granular
+	EffectiveLabels map[string]*string `json:"effectiveLabels,omitempty" tf:"effective_labels,omitempty"`
+
+	// This field represents the actual maintenance version of the cluster.
+	EffectiveMaintenanceVersion *string `json:"effectiveMaintenanceVersion,omitempty" tf:"effective_maintenance_version,omitempty"`
+
 	// Backups stored in Cloud Storage buckets. The Cloud Storage buckets need to be the same region as the clusters.
 	// Structure is documented below.
 	GcsSource *GcsSourceObservation `json:"gcsSource,omitempty" tf:"gcs_source,omitempty"`
@@ -216,6 +223,12 @@ type ClusterObservation struct {
 	// The KMS key used to encrypt the at-rest data of the cluster.
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	MaintenancePolicy *MaintenancePolicyObservation `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
@@ -223,6 +236,10 @@ type ClusterObservation struct {
 	// Upcoming maintenance schedule.
 	// Structure is documented below.
 	MaintenanceSchedule []MaintenanceScheduleObservation `json:"maintenanceSchedule,omitempty" tf:"maintenance_schedule,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.
@@ -287,6 +304,11 @@ type ClusterObservation struct {
 	// Structure is documented below.
 	StateInfo []StateInfoObservation `json:"stateInfo,omitempty" tf:"state_info,omitempty"`
 
+	// The combination of labels configured directly on the resource
+	// and default labels configured on the provider.
+	// +mapType=granular
+	TerraformLabels map[string]*string `json:"terraformLabels,omitempty" tf:"terraform_labels,omitempty"`
+
 	// Optional. The in-transit encryption for the Redis cluster.
 	// If not provided, encryption is disabled for the cluster.
 	// Default value is TRANSIT_ENCRYPTION_MODE_DISABLED.
@@ -302,13 +324,6 @@ type ClusterObservation struct {
 }
 
 type ClusterParameters struct {
-
-	// Allows customers to specify if they are okay with deploying a multi-zone
-	// cluster in less than 3 zones. Once set, if there is a zonal outage during
-	// the cluster creation, the cluster will only be deployed in 2 zones, and
-	// stay within the 2 zones for its lifecycle.
-	// +kubebuilder:validation:Optional
-	AllowFewerZonesDeployment *bool `json:"allowFewerZonesDeployment,omitempty" tf:"allow_fewer_zones_deployment,omitempty"`
 
 	// Optional. The authorization mode of the Redis cluster. If not provided, auth feature is disabled for the cluster.
 	// Default value is AUTH_MODE_DISABLED.
@@ -340,10 +355,22 @@ type ClusterParameters struct {
 	// +kubebuilder:validation:Optional
 	KMSKey *string `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
 
+	// Resource labels to represent user provided metadata.
+	// Note: This field is non-authoritative, and will only manage the labels present in your configuration.
+	// Please refer to the field effective_labels for all of the labels present on the resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
+
 	// Maintenance policy for a cluster
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	MaintenancePolicy *MaintenancePolicyParameters `json:"maintenancePolicy,omitempty" tf:"maintenance_policy,omitempty"`
+
+	// This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+	// Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+	// +kubebuilder:validation:Optional
+	MaintenanceVersion *string `json:"maintenanceVersion,omitempty" tf:"maintenance_version,omitempty"`
 
 	// Backups that generated and managed by memorystore.
 	// Structure is documented below.

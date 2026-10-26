@@ -341,6 +341,9 @@ spec:
                       of Data Fusion instance.
                     type: object
                     x-kubernetes-map-type: granular
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
+                    type: string
                   privateInstance:
                     description: |-
                       Specifies whether the Data Fusion instance should be private. If set to
@@ -673,6 +676,9 @@ spec:
                       of Data Fusion instance.
                     type: object
                     x-kubernetes-map-type: granular
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
+                    type: string
                   privateInstance:
                     description: |-
                       Specifies whether the Data Fusion instance should be private. If set to
@@ -925,6 +931,9 @@ spec:
                     x-kubernetes-map-type: granular
                   p4ServiceAccount:
                     description: P4 service account for the customer project.
+                    type: string
+                  patchRevision:
+                    description: Current patch revision of the Data Fusion.
                     type: string
                   privateInstance:
                     description: |-

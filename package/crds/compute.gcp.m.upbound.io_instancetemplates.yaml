@@ -209,13 +209,18 @@ spec:
                             read-write mode.
                           type: string
                         provisionedIops:
-                          description: |-
-                            Indicates how many IOPS to provision for the disk. This
-                            sets the number of I/O operations per second that the disk can handle.
-                            Values must be between 10,000 and 120,000. For more details, see the
-                            Extreme persistent disk documentation.
+                          description: Indicates how many IOPS to provision for the
+                            disk. This sets the number of I/O operations per second
+                            that the disk can handle. For more details, see the Extreme
+                            persistent disk documentation or the Hyperdisk documentation
+                            depending on the selected disk_type.
                           type: number
                         provisionedThroughput:
+                          description: Indicates how much throughput to provision
+                            for the disk, in MB/s. This sets the amount of data that
+                            can be read or written from the disk per second. Values
+                            must greater than or equal to 1. For more details, see
+                            the Hyperdisk documentation.
                           type: number
                         resourceManagerTags:
                           additionalProperties:
@@ -642,6 +647,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -665,6 +675,10 @@ spec:
                             The name or self_link of the network to attach this interface to.
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
+                          type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
                           type: string
                         networkIp:
                           description: |-
@@ -861,6 +875,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -953,12 +971,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:
@@ -1356,13 +1374,18 @@ spec:
                             read-write mode.
                           type: string
                         provisionedIops:
-                          description: |-
-                            Indicates how many IOPS to provision for the disk. This
-                            sets the number of I/O operations per second that the disk can handle.
-                            Values must be between 10,000 and 120,000. For more details, see the
-                            Extreme persistent disk documentation.
+                          description: Indicates how many IOPS to provision for the
+                            disk. This sets the number of I/O operations per second
+                            that the disk can handle. For more details, see the Extreme
+                            persistent disk documentation or the Hyperdisk documentation
+                            depending on the selected disk_type.
                           type: number
                         provisionedThroughput:
+                          description: Indicates how much throughput to provision
+                            for the disk, in MB/s. This sets the amount of data that
+                            can be read or written from the disk per second. Values
+                            must greater than or equal to 1. For more details, see
+                            the Hyperdisk documentation.
                           type: number
                         resourceManagerTags:
                           additionalProperties:
@@ -1789,6 +1812,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -1812,6 +1840,10 @@ spec:
                             The name or self_link of the network to attach this interface to.
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
+                          type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
                           type: string
                         networkIp:
                           description: |-
@@ -2008,6 +2040,10 @@ spec:
                                   type: string
                               type: object
                           type: object
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -2100,12 +2136,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:
@@ -2565,13 +2601,18 @@ spec:
                             read-write mode.
                           type: string
                         provisionedIops:
-                          description: |-
-                            Indicates how many IOPS to provision for the disk. This
-                            sets the number of I/O operations per second that the disk can handle.
-                            Values must be between 10,000 and 120,000. For more details, see the
-                            Extreme persistent disk documentation.
+                          description: Indicates how many IOPS to provision for the
+                            disk. This sets the number of I/O operations per second
+                            that the disk can handle. For more details, see the Extreme
+                            persistent disk documentation or the Hyperdisk documentation
+                            depending on the selected disk_type.
                           type: number
                         provisionedThroughput:
+                          description: Indicates how much throughput to provision
+                            for the disk, in MB/s. This sets the amount of data that
+                            can be read or written from the disk per second. Values
+                            must greater than or equal to 1. For more details, see
+                            the Hyperdisk documentation.
                           type: number
                         resourceManagerTags:
                           additionalProperties:
@@ -2781,6 +2822,11 @@ spec:
                                 type: string
                             type: object
                           type: array
+                        igmpQuery:
+                          description: Indicates whether igmp query is enabled on
+                            the network interface or not. If enabled, also indicates
+                            the version of IGMP supported.
+                          type: string
                         internalIpv6PrefixLength:
                           type: number
                         ipv6AccessConfig:
@@ -2820,6 +2866,10 @@ spec:
                             Use network attribute for Legacy or Auto subnetted networks and
                             subnetwork for custom subnetted networks.
                           type: string
+                        networkAttachment:
+                          description: 'The URL of the network attachment that this
+                            interface should connect to in the following format: projects/{projectNumber}/regions/{region_name}/networkAttachments/{network_attachment_name}.'
+                          type: string
                         networkIp:
                           description: |-
                             The private IP address to assign to the instance. If
@@ -2828,6 +2878,10 @@ spec:
                         nicType:
                           description: 'The type of vNIC to be used on this interface.
                             Possible values: GVNIC, VIRTIO_NET, MRDMA, IRDMA.'
+                          type: string
+                        parentNicName:
+                          description: Name of the parent network interface of a dynamic
+                            network interface.
                           type: string
                         queueCount:
                           description: The networking queue count that's specified
@@ -2851,6 +2905,10 @@ spec:
                             The ID of the project in which the subnetwork belongs.
                             If it is not provided, the provider project is used.
                           type: string
+                        vlan:
+                          description: VLAN tag of a dynamic network interface, must
+                            be an integer in the range from 2 to 255 inclusively.
+                          type: number
                       type: object
                     type: array
                   networkPerformanceConfig:
@@ -2946,12 +3004,12 @@ spec:
                           VM. Can be STOP or DELETE.  Read more on here
                         type: string
                       localSsdRecoveryTimeout:
-                        description: io/docs/providers/google/guides/provider_versions.html)
-                          Specifies the maximum amount of time a Local Ssd Vm should
-                          wait while recovery of the Local Ssd state is attempted.
-                          Its value should be in between 0 and 168 hours with hour
-                          granularity and the default value being 1 hour. Structure
-                          is documented below.
+                        description: (../guides/provider_versions.html.markdown) Specifies
+                          the maximum amount of time a Local Ssd Vm should wait while
+                          recovery of the Local Ssd state is attempted. Its value
+                          should be in between 0 and 168 hours with hour granularity
+                          and the default value being 1 hour. Structure is documented
+                          below.
                         items:
                           properties:
                             nanos:

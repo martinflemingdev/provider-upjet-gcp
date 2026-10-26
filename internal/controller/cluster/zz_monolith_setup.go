@@ -222,9 +222,11 @@ import (
 	entry "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/entrygroup"
 	policytag "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/policytag"
+	policytagiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/policytagiammember"
 	tag "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/tag"
 	tagtemplate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/tagtemplate"
 	taxonomy "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/taxonomy"
+	taxonomyiammember "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datacatalog/taxonomyiammember"
 	jobdataflow "github.com/upbound/provider-gcp/v2/internal/controller/cluster/dataflow/job"
 	instancedatafusion "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datafusion/instance"
 	deidentifytemplate "github.com/upbound/provider-gcp/v2/internal/controller/cluster/datalossprevention/deidentifytemplate"
@@ -405,7 +407,6 @@ import (
 	tagbinding "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagbinding"
 	tagkey "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagkey"
 	tagvalue "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tags/tagvalue"
-	node "github.com/upbound/provider-gcp/v2/internal/controller/cluster/tpu/node"
 	datasetvertexai "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/dataset"
 	featurestore "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestore"
 	featurestoreentitytype "github.com/upbound/provider-gcp/v2/internal/controller/cluster/vertexai/featurestoreentitytype"
@@ -631,9 +632,11 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		entry.Setup,
 		entrygroup.Setup,
 		policytag.Setup,
+		policytagiammember.Setup,
 		tag.Setup,
 		tagtemplate.Setup,
 		taxonomy.Setup,
+		taxonomyiammember.Setup,
 		jobdataflow.Setup,
 		instancedatafusion.Setup,
 		deidentifytemplate.Setup,
@@ -814,7 +817,6 @@ func Setup_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.Setup,
 		tagkey.Setup,
 		tagvalue.Setup,
-		node.Setup,
 		datasetvertexai.Setup,
 		featurestore.Setup,
 		featurestoreentitytype.Setup,
@@ -1046,9 +1048,11 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		entry.SetupGated,
 		entrygroup.SetupGated,
 		policytag.SetupGated,
+		policytagiammember.SetupGated,
 		tag.SetupGated,
 		tagtemplate.SetupGated,
 		taxonomy.SetupGated,
+		taxonomyiammember.SetupGated,
 		jobdataflow.SetupGated,
 		instancedatafusion.SetupGated,
 		deidentifytemplate.SetupGated,
@@ -1229,7 +1233,6 @@ func SetupGated_monolith(mgr ctrl.Manager, o controller.Options) error {
 		tagbinding.SetupGated,
 		tagkey.SetupGated,
 		tagvalue.SetupGated,
-		node.SetupGated,
 		datasetvertexai.SetupGated,
 		featurestore.SetupGated,
 		featurestoreentitytype.SetupGated,

@@ -13,7 +13,13 @@ func (tr *EntryGroup) Hub() {}
 func (tr *PolicyTag) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *PolicyTagIAMMember) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Tag) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *Taxonomy) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TaxonomyIAMMember) Hub() {}

@@ -36,7 +36,7 @@ type HubInitParameters struct {
 	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
 
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-	// Possible values are: MESH, STAR.
+	// Possible values are: MESH, STAR, HYBRID_INSPECTION.
 	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -75,7 +75,7 @@ type HubObservation struct {
 	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
 
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-	// Possible values are: MESH, STAR.
+	// Possible values are: MESH, STAR, HYBRID_INSPECTION.
 	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
 
 	// The ID of the project in which the resource belongs.
@@ -128,7 +128,7 @@ type HubParameters struct {
 	PolicyMode *string `json:"policyMode,omitempty" tf:"policy_mode,omitempty"`
 
 	// Optional. The topology implemented in this hub. Currently, this field is only used when policyMode = PRESET. The available preset topologies are MESH and STAR. If presetTopology is unspecified and policyMode = PRESET, the presetTopology defaults to MESH. When policyMode = CUSTOM, the presetTopology is set to PRESET_TOPOLOGY_UNSPECIFIED.
-	// Possible values are: MESH, STAR.
+	// Possible values are: MESH, STAR, HYBRID_INSPECTION.
 	// +kubebuilder:validation:Optional
 	PresetTopology *string `json:"presetTopology,omitempty" tf:"preset_topology,omitempty"`
 

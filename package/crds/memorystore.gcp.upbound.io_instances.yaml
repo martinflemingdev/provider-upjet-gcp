@@ -314,8 +314,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -417,6 +415,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.
@@ -788,8 +791,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -886,6 +887,11 @@ spec:
                           type: object
                         type: array
                     type: object
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.
@@ -1132,6 +1138,12 @@ spec:
                           A duration in seconds with up to nine fractional digits, ending with 's'. Example: "3.5s". The default_value is "3024000s"
                         type: string
                     type: object
+                  availableMaintenanceVersions:
+                    description: This field is used to determine the available maintenance
+                      versions for the self service update.
+                    items:
+                      type: string
+                    type: array
                   backupCollection:
                     description: |-
                       The backup collection full resource name.
@@ -1250,8 +1262,6 @@ spec:
                       type: object
                     type: array
                   desiredPscAutoConnections:
-                    description: desired_psc_auto_connections is deprecated  Use desired_auto_created_endpoints
-                      instead.
                     items:
                       properties:
                         network:
@@ -1298,6 +1308,10 @@ spec:
                       type: string
                     type: object
                     x-kubernetes-map-type: granular
+                  effectiveMaintenanceVersion:
+                    description: This field represents the actual maintenance version
+                      of the cluster.
+                    type: string
                   endpoints:
                     description: |-
                       Endpoints for the instance.
@@ -1509,6 +1523,11 @@ spec:
                           type: string
                       type: object
                     type: array
+                  maintenanceVersion:
+                    description: |-
+                      This field can be used to trigger self service update to indicate the desired maintenance version. The input to this field can be determined by the available_maintenance_versions field.
+                      Note: This field can only be specified when updating an existing cluster to a newer version. Downgrades are currently not supported!
+                    type: string
                   managedBackupSource:
                     description: |-
                       Managed backup source for the instance.

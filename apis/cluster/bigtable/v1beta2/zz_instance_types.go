@@ -179,7 +179,7 @@ type InstanceInitParameters struct {
 	// is functionally identical to a "DEVELOPMENT" instance, but without the accompanying restrictions.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -217,7 +217,7 @@ type InstanceObservation struct {
 	// is functionally identical to a "DEVELOPMENT" instance, but without the accompanying restrictions.
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`
 
@@ -258,7 +258,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	InstanceType *string `json:"instanceType,omitempty" tf:"instance_type,omitempty"`
 
-	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+	// A set of key/value label pairs to assign to the resource. Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
 	// +kubebuilder:validation:Optional
 	// +mapType=granular
 	Labels map[string]*string `json:"labels,omitempty" tf:"labels,omitempty"`

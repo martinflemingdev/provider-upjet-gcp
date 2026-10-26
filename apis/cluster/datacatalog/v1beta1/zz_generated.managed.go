@@ -157,6 +157,56 @@ func (mg *PolicyTag) SetWriteConnectionSecretToReference(r *xpv1.SecretReference
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
+// GetCondition of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
 // GetCondition of this Tag.
 func (mg *Tag) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -304,5 +354,55 @@ func (mg *Taxonomy) SetProviderConfigReference(r *xpv1.Reference) {
 
 // SetWriteConnectionSecretToReference of this Taxonomy.
 func (mg *Taxonomy) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

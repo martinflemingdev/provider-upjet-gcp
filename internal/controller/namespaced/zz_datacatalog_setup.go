@@ -12,9 +12,11 @@ import (
 	entry "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entry"
 	entrygroup "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/entrygroup"
 	policytag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/policytag"
+	policytagiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/policytagiammember"
 	tag "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tag"
 	tagtemplate "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/tagtemplate"
 	taxonomy "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/taxonomy"
+	taxonomyiammember "github.com/upbound/provider-gcp/v2/internal/controller/namespaced/datacatalog/taxonomyiammember"
 )
 
 // Setup_datacatalog creates all controllers with the supplied logger and adds them to
@@ -24,9 +26,11 @@ func Setup_datacatalog(mgr ctrl.Manager, o controller.Options) error {
 		entry.Setup,
 		entrygroup.Setup,
 		policytag.Setup,
+		policytagiammember.Setup,
 		tag.Setup,
 		tagtemplate.Setup,
 		taxonomy.Setup,
+		taxonomyiammember.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -42,9 +46,11 @@ func SetupGated_datacatalog(mgr ctrl.Manager, o controller.Options) error {
 		entry.SetupGated,
 		entrygroup.SetupGated,
 		policytag.SetupGated,
+		policytagiammember.SetupGated,
 		tag.SetupGated,
 		tagtemplate.SetupGated,
 		taxonomy.SetupGated,
+		taxonomyiammember.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

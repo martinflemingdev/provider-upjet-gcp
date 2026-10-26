@@ -1873,6 +1873,11 @@ func (in *RegistryRepositoryObservation) DeepCopyInto(out *RegistryRepositoryObs
 		*out = new(string)
 		**out = **in
 	}
+	if in.RegistryURI != nil {
+		in, out := &in.RegistryURI, &out.RegistryURI
+		*out = new(string)
+		**out = **in
+	}
 	if in.RemoteRepositoryConfig != nil {
 		in, out := &in.RemoteRepositoryConfig, &out.RemoteRepositoryConfig
 		*out = new(RemoteRepositoryConfigObservation)

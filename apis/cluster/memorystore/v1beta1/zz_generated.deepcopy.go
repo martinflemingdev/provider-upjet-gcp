@@ -1299,6 +1299,11 @@ func (in *InstanceInitParameters) DeepCopyInto(out *InstanceInitParameters) {
 		*out = new(MaintenancePolicyInitParameters)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
+	}
 	if in.ManagedBackupSource != nil {
 		in, out := &in.ManagedBackupSource, &out.ManagedBackupSource
 		*out = new(ManagedBackupSourceInitParameters)
@@ -1401,6 +1406,17 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(AutomatedBackupConfigObservation)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.AvailableMaintenanceVersions != nil {
+		in, out := &in.AvailableMaintenanceVersions, &out.AvailableMaintenanceVersions
+		*out = make([]*string, len(*in))
+		for i := range *in {
+			if (*in)[i] != nil {
+				in, out := &(*in)[i], &(*out)[i]
+				*out = new(string)
+				**out = **in
+			}
+		}
+	}
 	if in.BackupCollection != nil {
 		in, out := &in.BackupCollection, &out.BackupCollection
 		*out = new(string)
@@ -1457,6 +1473,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 			}
 			(*out)[key] = outVal
 		}
+	}
+	if in.EffectiveMaintenanceVersion != nil {
+		in, out := &in.EffectiveMaintenanceVersion, &out.EffectiveMaintenanceVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.Endpoints != nil {
 		in, out := &in.Endpoints, &out.Endpoints
@@ -1533,6 +1554,11 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
+	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.ManagedBackupSource != nil {
 		in, out := &in.ManagedBackupSource, &out.ManagedBackupSource
@@ -1755,6 +1781,11 @@ func (in *InstanceParameters) DeepCopyInto(out *InstanceParameters) {
 		in, out := &in.MaintenancePolicy, &out.MaintenancePolicy
 		*out = new(MaintenancePolicyParameters)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.MaintenanceVersion != nil {
+		in, out := &in.MaintenanceVersion, &out.MaintenanceVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.ManagedBackupSource != nil {
 		in, out := &in.ManagedBackupSource, &out.ManagedBackupSource

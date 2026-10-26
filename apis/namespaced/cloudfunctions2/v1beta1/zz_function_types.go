@@ -385,7 +385,7 @@ type EventTriggerParameters struct {
 
 	// Required. The type of event to observe.
 	// +kubebuilder:validation:Optional
-	EventType *string `json:"eventType,omitempty" tf:"event_type,omitempty"`
+	EventType *string `json:"eventType" tf:"event_type,omitempty"`
 
 	// The name of a Pub/Sub topic in the same project that will be used
 	// as the transport topic for the event delivery.
@@ -842,9 +842,6 @@ type ServiceConfigInitParameters struct {
 	// Structure is documented below.
 	SecretVolumes []SecretVolumesInitParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
-	// Name of the service associated with a Function.
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
-
 	// The email of the service account for this function.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount
 	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("email",true)
@@ -919,6 +916,7 @@ type ServiceConfigObservation struct {
 	// Structure is documented below.
 	SecretVolumes []SecretVolumesObservation `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
 
+	// (Output)
 	// Name of the service associated with a Function.
 	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
@@ -996,10 +994,6 @@ type ServiceConfigParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	SecretVolumes []SecretVolumesParameters `json:"secretVolumes,omitempty" tf:"secret_volumes,omitempty"`
-
-	// Name of the service associated with a Function.
-	// +kubebuilder:validation:Optional
-	Service *string `json:"service,omitempty" tf:"service,omitempty"`
 
 	// The email of the service account for this function.
 	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/cloudplatform/v1beta1.ServiceAccount

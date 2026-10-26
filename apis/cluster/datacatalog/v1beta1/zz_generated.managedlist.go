@@ -25,6 +25,15 @@ func (l *EntryList) GetItems() []resource.Managed {
 	return items
 }
 
+// GetItems of this PolicyTagIAMMemberList.
+func (l *PolicyTagIAMMemberList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
 // GetItems of this PolicyTagList.
 func (l *PolicyTagList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
@@ -45,6 +54,15 @@ func (l *TagList) GetItems() []resource.Managed {
 
 // GetItems of this TagTemplateList.
 func (l *TagTemplateList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this TaxonomyIAMMemberList.
+func (l *TaxonomyIAMMemberList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

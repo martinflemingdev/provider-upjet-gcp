@@ -833,6 +833,17 @@ type SubscriptionInitParameters struct {
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyInitParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
 
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
+
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if
 	// the topic is in the same project as the subscription.
@@ -961,6 +972,17 @@ type SubscriptionObservation struct {
 	// RetryPolicy will be triggered on NACKs or acknowledgement deadline exceeded events for a given message
 	// Structure is documented below.
 	RetryPolicy *RetryPolicyObservation `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// The combination of labels configured directly on the resource
 	// and default labels configured on the provider.
@@ -1094,6 +1116,18 @@ type SubscriptionParameters struct {
 	// Structure is documented below.
 	// +kubebuilder:validation:Optional
 	RetryPolicy *RetryPolicyParameters `json:"retryPolicy,omitempty" tf:"retry_policy,omitempty"`
+
+	// Input only. Resource manager tags to be bound to the subscription. Tag
+	// keys and values have the same definition as resource manager tags. Keys
+	// must be in the format tagKeys/{tag_key_id}, and values are in the format
+	// tagValues/456. The field is ignored when empty. The field is immutable and
+	// causes resource replacement when mutated. This field is only set at create
+	// time and modifying this field after creation will trigger recreation. To
+	// apply tags to an existing resource, see the google_tags_tag_value
+	// resource.
+	// +kubebuilder:validation:Optional
+	// +mapType=granular
+	Tags map[string]*string `json:"tags,omitempty" tf:"tags,omitempty"`
 
 	// A reference to a Topic resource, of the form projects/{project}/topics/{{name}}
 	// (as in the id property of a google_pubsub_topic), or just a topic name if

@@ -12,7 +12,7 @@ import (
 	xpresource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
 	errors "github.com/pkg/errors"
-	common "github.com/upbound/provider-gcp/v2/config/namespaced/common"
+	common "github.com/upbound/provider-gcp/v2/config/cluster/common"
 	apisresolver "github.com/upbound/provider-gcp/v2/internal/apis"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -161,7 +161,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.BucketName),
-			Extract:      resource.ExtractResourceID(),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.BucketNameRef,
 			Selector:     mg.Spec.ForProvider.BucketNameSelector,
@@ -181,7 +181,7 @@ func (mg *Metric) ResolveReferences(ctx context.Context, c client.Reader) error 
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.BucketName),
-			Extract:      resource.ExtractResourceID(),
+			Extract:      resource.ExtractParamPath("name", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.BucketNameRef,
 			Selector:     mg.Spec.InitProvider.BucketNameSelector,
@@ -290,7 +290,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.CustomWriterIdentity),
-			Extract:      resource.ExtractParamPath("email", true),
+			Extract:      resource.ExtractParamPath("member", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.ForProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.ForProvider.CustomWriterIdentitySelector,
@@ -310,7 +310,7 @@ func (mg *ProjectSink) ResolveReferences(ctx context.Context, c client.Reader) e
 
 		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.CustomWriterIdentity),
-			Extract:      resource.ExtractParamPath("email", true),
+			Extract:      resource.ExtractParamPath("member", true),
 			Namespace:    mg.GetNamespace(),
 			Reference:    mg.Spec.InitProvider.CustomWriterIdentityRef,
 			Selector:     mg.Spec.InitProvider.CustomWriterIdentitySelector,

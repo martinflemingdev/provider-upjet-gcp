@@ -736,7 +736,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -855,7 +855,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
@@ -1063,7 +1063,7 @@ spec:
                     additionalProperties:
                       type: string
                     description: A set of key/value label pairs to assign to the resource.
-                      Label keys must follow the requirements at https://cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
+                      Label keys must follow the requirements at https://docs.cloud.google.com/resource-manager/docs/creating-managing-labels#requirements.
                     type: object
                     x-kubernetes-map-type: granular
                   project:
