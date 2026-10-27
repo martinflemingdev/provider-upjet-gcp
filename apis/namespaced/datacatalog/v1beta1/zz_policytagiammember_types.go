@@ -47,7 +47,17 @@ type PolicyTagIAMMemberInitParameters struct {
 
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.PolicyTag
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	PolicyTag *string `json:"policyTag,omitempty" tf:"policy_tag,omitempty"`
+
+	// Reference to a PolicyTag in datacatalog to populate policyTag.
+	// +kubebuilder:validation:Optional
+	PolicyTagRef *v1.NamespacedReference `json:"policyTagRef,omitempty" tf:"-"`
+
+	// Selector for a PolicyTag in datacatalog to populate policyTag.
+	// +kubebuilder:validation:Optional
+	PolicyTagSelector *v1.NamespacedSelector `json:"policyTagSelector,omitempty" tf:"-"`
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 }
@@ -74,8 +84,18 @@ type PolicyTagIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Member *string `json:"member,omitempty" tf:"member,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.PolicyTag
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	PolicyTag *string `json:"policyTag,omitempty" tf:"policy_tag,omitempty"`
+
+	// Reference to a PolicyTag in datacatalog to populate policyTag.
+	// +kubebuilder:validation:Optional
+	PolicyTagRef *v1.NamespacedReference `json:"policyTagRef,omitempty" tf:"-"`
+
+	// Selector for a PolicyTag in datacatalog to populate policyTag.
+	// +kubebuilder:validation:Optional
+	PolicyTagSelector *v1.NamespacedSelector `json:"policyTagSelector,omitempty" tf:"-"`
 
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
@@ -118,7 +138,6 @@ type PolicyTagIAMMember struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || (has(self.initProvider) && has(self.initProvider.member))",message="spec.forProvider.member is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.policyTag) || (has(self.initProvider) && has(self.initProvider.policyTag))",message="spec.forProvider.policyTag is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
 	Spec   PolicyTagIAMMemberSpec   `json:"spec"`
 	Status PolicyTagIAMMemberStatus `json:"status,omitempty"`

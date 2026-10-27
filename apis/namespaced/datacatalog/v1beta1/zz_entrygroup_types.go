@@ -122,6 +122,7 @@ type EntryGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.entryGroupId) || (has(self.initProvider) && has(self.initProvider.entryGroupId))",message="spec.forProvider.entryGroupId is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.region) || (has(self.initProvider) && has(self.initProvider.region))",message="spec.forProvider.region is a required parameter"
 	Spec   EntryGroupSpec   `json:"spec"`
 	Status EntryGroupStatus `json:"status,omitempty"`
 }

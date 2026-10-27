@@ -180,6 +180,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.entryGroupId)
                 || (has(self.initProvider) && has(self.initProvider.entryGroupId))'
+            - message: spec.forProvider.region is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.region)
+                || (has(self.initProvider) && has(self.initProvider.region))'
           status:
             description: EntryGroupStatus defines the observed state of EntryGroup.
             properties:

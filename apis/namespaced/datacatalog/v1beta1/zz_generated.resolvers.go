@@ -160,6 +160,58 @@ func (mg *PolicyTag) ResolveReferences(ctx context.Context, c client.Reader) err
 	return nil
 }
 
+// ResolveReferences of this PolicyTagIAMMember.
+func (mg *PolicyTagIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.PolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.PolicyTagRef,
+			Selector:     mg.Spec.ForProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.PolicyTag")
+	}
+	mg.Spec.ForProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.PolicyTagRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "PolicyTag", "PolicyTagList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.PolicyTag),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.PolicyTagRef,
+			Selector:     mg.Spec.InitProvider.PolicyTagSelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.PolicyTag")
+	}
+	mg.Spec.InitProvider.PolicyTag = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.PolicyTagRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Tag.
 func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	var m xpresource.Managed
@@ -248,6 +300,58 @@ func (mg *Tag) ResolveReferences(ctx context.Context, c client.Reader) error {
 	}
 	mg.Spec.InitProvider.Template = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.TemplateRef = rsp.ResolvedReference
+
+	return nil
+}
+
+// ResolveReferences of this TaxonomyIAMMember.
+func (mg *TaxonomyIAMMember) ResolveReferences(ctx context.Context, c client.Reader) error {
+	var m xpresource.Managed
+	var l xpresource.ManagedList
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.Taxonomy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.ForProvider.TaxonomyRef,
+			Selector:     mg.Spec.ForProvider.TaxonomySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.Taxonomy")
+	}
+	mg.Spec.ForProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.TaxonomyRef = rsp.ResolvedReference
+	{
+		m, l, err = apisresolver.GetManagedResource("datacatalog.gcp.m.upbound.io", "v1beta1", "Taxonomy", "TaxonomyList")
+		if err != nil {
+			return errors.Wrap(err, "failed to get the reference target managed resource and its list for reference resolution")
+		}
+
+		rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+			CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.Taxonomy),
+			Extract:      resource.ExtractResourceID(),
+			Namespace:    mg.GetNamespace(),
+			Reference:    mg.Spec.InitProvider.TaxonomyRef,
+			Selector:     mg.Spec.InitProvider.TaxonomySelector,
+			To:           reference.To{List: l, Managed: m},
+		})
+	}
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.Taxonomy")
+	}
+	mg.Spec.InitProvider.Taxonomy = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.TaxonomyRef = rsp.ResolvedReference
 
 	return nil
 }

@@ -53,7 +53,17 @@ type TaxonomyIAMMemberInitParameters struct {
 
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	Taxonomy *string `json:"taxonomy,omitempty" tf:"taxonomy,omitempty"`
+
+	// Reference to a Taxonomy in datacatalog to populate taxonomy.
+	// +kubebuilder:validation:Optional
+	TaxonomyRef *v1.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
+
+	// Selector for a Taxonomy in datacatalog to populate taxonomy.
+	// +kubebuilder:validation:Optional
+	TaxonomySelector *v1.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 type TaxonomyIAMMemberObservation struct {
@@ -91,8 +101,18 @@ type TaxonomyIAMMemberParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
+	// +crossplane:generate:reference:type=github.com/upbound/provider-gcp/v2/apis/namespaced/datacatalog/v1beta1.Taxonomy
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractResourceID()
 	// +kubebuilder:validation:Optional
 	Taxonomy *string `json:"taxonomy,omitempty" tf:"taxonomy,omitempty"`
+
+	// Reference to a Taxonomy in datacatalog to populate taxonomy.
+	// +kubebuilder:validation:Optional
+	TaxonomyRef *v1.NamespacedReference `json:"taxonomyRef,omitempty" tf:"-"`
+
+	// Selector for a Taxonomy in datacatalog to populate taxonomy.
+	// +kubebuilder:validation:Optional
+	TaxonomySelector *v1.NamespacedSelector `json:"taxonomySelector,omitempty" tf:"-"`
 }
 
 // TaxonomyIAMMemberSpec defines the desired state of TaxonomyIAMMember
@@ -133,7 +153,6 @@ type TaxonomyIAMMember struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.member) || (has(self.initProvider) && has(self.initProvider.member))",message="spec.forProvider.member is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.role) || (has(self.initProvider) && has(self.initProvider.role))",message="spec.forProvider.role is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.taxonomy) || (has(self.initProvider) && has(self.initProvider.taxonomy))",message="spec.forProvider.taxonomy is a required parameter"
 	Spec   TaxonomyIAMMemberSpec   `json:"spec"`
 	Status TaxonomyIAMMemberStatus `json:"status,omitempty"`
 }
